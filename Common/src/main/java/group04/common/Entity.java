@@ -24,9 +24,18 @@ public class Entity {
     private UUID ID = UUID.randomUUID();
     private int[][] map;
     private String currentAnimation;
+    private boolean animateable = false;
     private int value;
     private int spawnTimer;
     private int spawnTimerMax;    
+
+    public boolean isAnimateable() {
+        return animateable;
+    }
+
+    public void setAnimateable(boolean animateable) {
+        this.animateable = animateable;
+    }
 
     public int getSpawnTimer() {
         return spawnTimer;
