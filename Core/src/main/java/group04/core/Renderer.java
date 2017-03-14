@@ -43,6 +43,7 @@ public class Renderer {
         addBase();
         addWeapons();
         addEnvironment();
+        addCurrency();
         loaded = true;
     }
 
@@ -56,6 +57,61 @@ public class Renderer {
             drawHealthBars(gameData, world);
             drawForeground(gameData, world);
         }
+    }
+// Animation
+
+    public void makeAnimation(String animationName, Texture spriteSheet, int spriteSizeX, int spriteSizeY, int frameDuration) {
+        Array<TextureRegion> keyFrames = new Array<TextureRegion>();
+        int numberOfSprites = (int) (spriteSheet.getWidth() / spriteSizeX);
+        for (int i = 0; i < numberOfSprites; i++) {
+            TextureRegion sprite = new TextureRegion(spriteSheet);
+            sprite.setRegion(i * spriteSizeX, 0, spriteSizeX, spriteSizeY);
+            keyFrames.add(sprite);
+        }
+
+        animations.put(animationName, new Animation<TextureRegion>(frameDuration, keyFrames));
+    }
+
+    public void playAnimation(GameData gameData, World world) {
+        for (Entity entity : world.getEntities()) {
+            if (entity.isAnimateable()) {
+                try {
+                    animations.get(entity.getCurrentAnimation()).setPlayMode(Animation.PlayMode.LOOP);
+                } catch (NullPointerException e) {
+                    
+                }
+            }
+        }
+    }
+
+// Draw
+    private void drawSprites(GameData gameData, World world) {
+        batch.begin();
+        for (Entity entity : world.getEntities(EntityType.BASE)) {
+            drawSprite(gameData, world, entity, images.get(entity.getSprite()), false);
+        }
+
+        for (Entity entity : world.getEntities(EntityType.ENEMY)) {
+            drawSprite(gameData, world, entity, images.get(entity.getSprite()), true);
+        }
+
+        for (Entity entity : world.getEntities(EntityType.PLAYER)) {
+            drawSprite(gameData, world, entity, images.get(entity.getSprite()), true);
+        }
+
+        for (Entity entity : world.getEntities(EntityType.WEAPON)) {
+            drawSprite(gameData, world, entity, images.get(entity.getSprite()), true);
+        }
+        
+        for (Entity entity : world.getEntities(EntityType.CURRENCY)) {
+            drawSprite(gameData, world, entity, images.get(entity.getSprite()), true);
+        }
+
+        for (Entity entity : world.getEntities(EntityType.PROJECTILE)) {
+            drawSprite(gameData, world, entity, images.get(entity.getSprite()), false);
+        }
+
+        batch.end();
     }
 
     private void drawHealthBars(GameData gameData, World world) {
@@ -75,43 +131,6 @@ public class Renderer {
             }
         }
         sr.end();
-    }
-
-    public void makeAnimation(String animationName, Texture spriteSheet, int spriteSizeX, int spriteSizeY, int frameDuration) {
-        Array<TextureRegion> keyFrames = new Array<TextureRegion>();
-        int numberOfSprites = (int) (spriteSheet.getWidth() / spriteSizeX);
-        for (int i = 0; i < numberOfSprites; i++) {
-            TextureRegion sprite = new TextureRegion(spriteSheet);
-            sprite.setRegion(i * spriteSizeX, 0, spriteSizeX, spriteSizeY);
-            keyFrames.add(sprite);
-        }
-
-        animations.put(animationName, new Animation<TextureRegion>(frameDuration, keyFrames));
-    }
-
-    private void drawSprites(GameData gameData, World world) {
-        batch.begin();
-        for (Entity entity : world.getEntities(EntityType.BASE)) {
-            drawSprite(gameData, world, entity, images.get(entity.getSprite()), false);
-        }
-
-        for (Entity entity : world.getEntities(EntityType.ENEMY)) {
-            drawSprite(gameData, world, entity, images.get(entity.getSprite()), true);
-        }
-
-        for (Entity entity : world.getEntities(EntityType.PLAYER)) {
-            drawSprite(gameData, world, entity, images.get(entity.getSprite()), true);
-        }
-
-        for (Entity entity : world.getEntities(EntityType.WEAPON)) {
-            drawSprite(gameData, world, entity, images.get(entity.getSprite()), true);
-        }
-
-        for (Entity entity : world.getEntities(EntityType.PROJECTILE)) {
-            drawSprite(gameData, world, entity, images.get(entity.getSprite()), false);
-        }
-
-        batch.end();
     }
 
     private void drawSprite(GameData gameData, World world, Entity entity, Sprite sprite, boolean flip) {
@@ -198,6 +217,11 @@ public class Renderer {
 
         //Animations:
         makeAnimation("player_run", new Texture(Gdx.files.internal("player_run.png")), 75, 80, 2);
+    }
+    
+    public void addCurrency() {
+        Texture tex = new Texture(Gdx.files.internal("currency.png"));
+        images.put("currency", new Sprite(tex));
     }
 
     public void addWeapons() {

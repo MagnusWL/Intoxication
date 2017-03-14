@@ -24,7 +24,72 @@ public class Entity {
     private UUID ID = UUID.randomUUID();
     private int[][] map;
     private String currentAnimation;
+    private boolean animateable = false;
     private int value;
+    private int currency;
+    
+    //Wave Spawner
+    private int spawnTimer;
+    private int spawnTimerMax;    
+    private int mobsSpawned;
+    private int mobsSpawnedMax;
+    private int spawnDuration;
+
+    public int getCurrency() {
+        return currency;
+    }
+
+    public void setCurrency(int currency) {
+        this.currency = currency;
+    }
+    
+    public int getSpawnDuration() {
+        return spawnDuration;
+    }
+
+    public void setSpawnDuration(int spawnDuration) {
+        this.spawnDuration = spawnDuration;
+    }
+
+    public int getMobsSpawned() {
+        return mobsSpawned;
+    }
+
+    public void setMobsSpawned(int mobsSpawned) {
+        this.mobsSpawned = mobsSpawned;
+    }
+
+    public int getMobsSpawnedMax() {
+        return mobsSpawnedMax;
+    }
+
+    public void setMobsSpawnedMax(int mobsSpawnedMax) {
+        this.mobsSpawnedMax = mobsSpawnedMax;
+    }
+
+    public boolean isAnimateable() {
+        return animateable;
+    }
+
+    public void setAnimateable(boolean animateable) {
+        this.animateable = animateable;
+    }
+
+    public int getSpawnTimer() {
+        return spawnTimer;
+    }
+
+    public void setSpawnTimer(int spawnTimer) {
+        this.spawnTimer = spawnTimer;
+    }
+
+    public int getSpawnTimerMax() {
+        return spawnTimerMax;
+    }
+
+    public void setSpawnTimerMax(int spawnTimerMax) {
+        this.spawnTimerMax = spawnTimerMax;
+    }
 
     public String getCurrentAnimation() {
         return currentAnimation;
