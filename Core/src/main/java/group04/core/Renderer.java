@@ -10,6 +10,8 @@ import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Animation;
+import com.badlogic.gdx.graphics.g2d.BitmapFont;
+import com.badlogic.gdx.graphics.g2d.BitmapFontCache;
 import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
@@ -27,7 +29,8 @@ import java.util.Map;
  * @author Magnus
  */
 public class Renderer {
-
+    
+    private BitmapFont text;
     private SpriteBatch batch;
     private ShapeRenderer sr;
     private Map<String, Animation> animations = new HashMap<>();
@@ -35,6 +38,7 @@ public class Renderer {
     private boolean loaded = false;
 
     public Renderer() {
+        text = new BitmapFont();
         batch = new SpriteBatch();
         sr = new ShapeRenderer();
 
@@ -56,6 +60,7 @@ public class Renderer {
             drawSprites(gameData, world);
             drawHealthBars(gameData, world);
             drawForeground(gameData, world);
+            drawScore(gameData, world);
         }
     }
 // Animation
@@ -112,6 +117,15 @@ public class Renderer {
         }
 
         batch.end();
+    }
+    
+    private void drawScore(GameData gameData, World world) {
+        for(Entity player : world.getEntities(EntityType.PLAYER)) {
+            batch.begin();
+            text.draw(batch, "Score: " + Integer.toString(player.getCurrency()), 40, gameData.getDisplayHeight() - 30);
+            batch.end();
+                   
+        }
     }
 
     private void drawHealthBars(GameData gameData, World world) {
