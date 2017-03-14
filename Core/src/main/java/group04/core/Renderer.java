@@ -16,6 +16,7 @@ import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
+import com.badlogic.gdx.graphics.glutils.ShapeRenderer.ShapeType;
 import group04.common.Entity;
 import group04.common.EntityType;
 import group04.common.GameData;
@@ -29,7 +30,7 @@ import java.util.Map;
  * @author Magnus
  */
 public class Renderer {
-    
+
     private BitmapFont text;
     private SpriteBatch batch;
     private ShapeRenderer sr;
@@ -37,37 +38,50 @@ public class Renderer {
     private Map<String, Sprite> images = new HashMap<>();
     private boolean loaded = false;
 
-    public Renderer() {
+    public Renderer(GameData gameData) {
         text = new BitmapFont();
         batch = new SpriteBatch();
         sr = new ShapeRenderer();
+        loadPNGImages("Enemy", "Player", "gun", "bullet", "base", "sky", "grass", "back1", "back2", "back3", "back4");
+        loadPNGAnimation("player_run", 75, 80);
+        loadPNGAnimation("player_idle", 75, 80);
+        loadPNGAnimation("player_jump", 75, 80);
+        loadPNGAnimation("currency_gold", 44, 45);
+    }
 
-        addPlayer();
-        addEnemy("Enemy");
-        addBase();
-        addWeapons();
-        addEnvironment();
-        addCurrency();
-        loaded = true;
+    public void loadPNGAnimation(String animationName, int spriteSizeX, int spriteSizeY) {
+        makeAnimation(animationName, new Texture(Gdx.files.internal(animationName + ".png")), spriteSizeX, spriteSizeY);
+    }
+
+    public void loadPNGImages(String... imageNames) {
+        for (String imageName : imageNames) {
+            images.put(imageName, new Sprite(new Texture(Gdx.files.internal(imageName + ".png"))));
+        }
     }
 
     public void render(GameData gameData, World world) {
-        if (loaded) {
-            Gdx.gl.glClearColor(0, 0, 0, 1);
-            Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
+        sr.begin(ShapeType.Filled);
+        sr.setAutoShapeType(true);
+        clearBackground(gameData);
+        sr.end();
 
-            drawBackground(gameData, world);
-            drawSprites(gameData, world);
-            drawAnimations(gameData, world);
-            drawHealthBars(gameData, world);
-            drawForeground(gameData, world);
-            drawScore(gameData, world);
-        }
+        batch.begin();
+        drawBackground(gameData);
+        drawSprites(gameData, world);
+        drawAnimations(gameData, world);
+        batch.end();
+
+        sr.begin(ShapeType.Filled);
+        drawHealthBars(gameData, world);
+        sr.end();
+
+        batch.begin();
+        drawForeground(gameData);
+        drawScore(gameData, world);
+        batch.end();
     }
-// Animation
 
     public void makeAnimation(String animationName, Texture spriteSheet, int spriteSizeX, int spriteSizeY) {
-
         ArrayList<Sprite> keyFrames = new ArrayList<>();
         int numberOfSprites = (int) (spriteSheet.getWidth() / spriteSizeX);
         for (int i = 0; i < numberOfSprites; i++) {
@@ -75,34 +89,28 @@ public class Renderer {
             sprite.setRegion(i * spriteSizeX, 0, spriteSizeX, spriteSizeY);
             keyFrames.add(new Sprite(sprite));
         }
-        System.out.println(keyFrames.size());
         animations.put(animationName, keyFrames);
     }
 
     private void drawAnimations(GameData gameData, World world) {
-        batch.begin();
         for (Entity entity : world.getAllEntities()) {
             if (entity.isAnimateable()) {
                 playAnimation(gameData, world, animations.get(entity.getCurrentAnimation()), true, entity, 10);
             }
         }
-
-        batch.end();
     }
 
     private void playAnimation(GameData gameData, World world, ArrayList<Sprite> animation, boolean flip, Entity entity, double animationSpeed) {
-        drawSprite(gameData, world, entity, animation.get((int)entity.getCurrentFrame()), flip);
-            if (entity.getCurrentFrame() < (animation.size())-1) {
-                    entity.setCurrentFrame(entity.getCurrentFrame() + (1/animationSpeed));
-                } else {
-                    entity.setCurrentFrame(0);
-                }
-       
+        drawSprite(gameData, world, entity, animation.get((int) entity.getCurrentFrame()), flip);
+        if (entity.getCurrentFrame() < (animation.size()) - 1) {
+            entity.setCurrentFrame(entity.getCurrentFrame() + (1 / animationSpeed));
+        } else {
+            entity.setCurrentFrame(0);
+        }
+
     }
 
-// Draw
     private void drawSprites(GameData gameData, World world) {
-        batch.begin();
         for (Entity entity : world.getEntities(EntityType.BASE)) {
             drawSprite(gameData, world, entity, images.get(entity.getSprite()), false);
         }
@@ -111,36 +119,22 @@ public class Renderer {
             drawSprite(gameData, world, entity, images.get(entity.getSprite()), true);
         }
 
-//        for (Entity entity : world.getEntities(EntityType.PLAYER)) {
-//            drawSprite(gameData, world, entity, images.get(entity.getSprite()), true);
-//        }
-
         for (Entity entity : world.getEntities(EntityType.WEAPON)) {
             drawSprite(gameData, world, entity, images.get(entity.getSprite()), true);
         }
 
-//        for (Entity entity : world.getEntities(EntityType.CURRENCY)) {
-//            drawSprite(gameData, world, entity, images.get(entity.getSprite()), true);
-//        }
-
         for (Entity entity : world.getEntities(EntityType.PROJECTILE)) {
             drawSprite(gameData, world, entity, images.get(entity.getSprite()), false);
         }
-
-        batch.end();
     }
-    
+
     private void drawScore(GameData gameData, World world) {
-        for(Entity player : world.getEntities(EntityType.PLAYER)) {
-            batch.begin();
+        for (Entity player : world.getEntities(EntityType.PLAYER)) {
             text.draw(batch, "Drug money: " + Integer.toString(player.getCurrency()), 40, gameData.getDisplayHeight() - 30);
-            batch.end();     
         }
     }
 
     private void drawHealthBars(GameData gameData, World world) {
-        sr.setAutoShapeType(true);
-        sr.begin(ShapeRenderer.ShapeType.Filled);
         int healthOffset;
         int healthWidth;
 
@@ -154,7 +148,6 @@ public class Renderer {
                 sr.rect(entity.getX() - gameData.getCameraX(), entity.getY() - gameData.getCameraY() + healthOffset, ((float) entity.getLife() / (float) entity.getMaxLife()) * healthWidth, 5);
             }
         }
-        sr.end();
     }
 
     private void drawSprite(GameData gameData, World world, Entity entity, Sprite sprite, boolean flip) {
@@ -174,111 +167,26 @@ public class Renderer {
     float back3m = 0.5f;
     float back4m = 0.25f;
 
-    private void drawBackground(GameData gameData, World world) {
-        sr.begin(ShapeRenderer.ShapeType.Filled);
-        sr.setColor(new Color(0, 138f / 255f, 1f, 1));
+    private void clearBackground(GameData gameData) {
+        sr.setColor(new Color(0f, 138f / 255f, 1f, 1f));
         sr.rect(0, 0, gameData.getDisplayWidth(), gameData.getDisplayWidth());
-        sr.end();
-        batch.begin();
-        drawBackground(gameData, world, images.get("back4"), back4m);
-        drawBackground(gameData, world, images.get("back3"), back3m);
-        drawBackground(gameData, world, images.get("back2"), back2m);
-        batch.end();
     }
 
-    private void drawForeground(GameData gameData, World world) {
-        batch.begin();
-        drawBackground(gameData, world, images.get("back1"), back1m);
-        batch.end();
+    private void drawBackground(GameData gameData) {
+        drawBackground(gameData, images.get("back4"), back4m);
+        drawBackground(gameData, images.get("back3"), back3m);
+        drawBackground(gameData, images.get("back2"), back2m);
     }
 
-    private float playerX = 0;
+    private void drawForeground(GameData gameData) {
+        drawBackground(gameData, images.get("back1"), back1m);
+    }
 
-    private void drawBackground(GameData gameData, World world, Sprite sprite, float mov) {
-        for (Entity player : world.getEntities(EntityType.PLAYER)) {
-            playerX = player.getX();
-        }
-
+    private void drawBackground(GameData gameData, Sprite sprite, float mov) {
         int repeats = 2 + (int) (((gameData.getTileSize() * gameData.getMapWidth()) / sprite.getWidth()) * mov);
         for (int i = -1; i < repeats; i++) {
             sprite.setX(i * sprite.getWidth() - gameData.getCameraX() * mov);
             sprite.draw(batch);
         }
-
-    }
-
-    private void drawMap(GameData gameData, World world) {
-        batch.begin();
-        for (Entity map : world.getEntities(EntityType.MAP)) {
-            for (int i = 0; i < gameData.getMapWidth(); i++) {
-                for (int j = 0; j < gameData.getMapHeight(); j++) {
-                    if (map.getMap()[i][j] == 0) {
-                        images.get("sky").setX(gameData.getTileSize() * i - gameData.getCameraX());
-                        images.get("sky").setY(gameData.getTileSize() * j - gameData.getCameraY());
-                        images.get("sky").draw(batch);
-                    } else if (map.getMap()[i][j] == 1) {
-                        images.get("grass").setX(gameData.getTileSize() * i - gameData.getCameraX());
-                        images.get("grass").setY(gameData.getTileSize() * j - gameData.getCameraY());
-                        images.get("grass").draw(batch);
-                    }
-                }
-            }
-        }
-        batch.end();
-    }
-
-    // Animation and Image methods:
-    public void addEnemy(String enemyType) {
-        //Images:
-        Texture tex = new Texture(Gdx.files.internal(enemyType + ".png"));
-        images.put(enemyType, new Sprite(tex));
-    }
-
-    public void addPlayer() {
-        //Images:
-        Texture tex = new Texture(Gdx.files.internal("Player.png"));
-        images.put("Player", new Sprite(tex));
-
-        //Animations:
-        makeAnimation("player_run", new Texture(Gdx.files.internal("player_run.png")), 75, 80);
-        makeAnimation("player_idle", new Texture(Gdx.files.internal("player_idle.png")), 75, 80);
-        makeAnimation("player_jump", new Texture(Gdx.files.internal("player_jump.png")), 75, 80);
-    }
-
-    public void addCurrency() {
-        makeAnimation("currency_gold", new Texture(Gdx.files.internal("currency_gold.png")), 44, 45);
-    }
-
-    public void addWeapons() {
-        //Images:
-        //Guns:
-        Texture tex = new Texture(Gdx.files.internal("gun.png"));
-        images.put("gun", new Sprite(tex));
-
-        //Projectiles: 
-        tex = new Texture(Gdx.files.internal("bullet.png"));
-        images.put("bullet", new Sprite(tex));
-    }
-
-    public void addBase() {
-        //Images:
-        Texture tex = new Texture(Gdx.files.internal("base.png"));
-        images.put("base", new Sprite(tex));
-    }
-
-    public void addEnvironment() {
-        //Images: 
-        Texture tex = new Texture(Gdx.files.internal("sky.png"));
-        images.put("sky", new Sprite(tex));
-        tex = new Texture(Gdx.files.internal("grass.png"));
-        images.put("grass", new Sprite(tex));
-        tex = new Texture(Gdx.files.internal("back1.png"));
-        images.put("back1", new Sprite(tex));
-        tex = new Texture(Gdx.files.internal("back2.png"));
-        images.put("back2", new Sprite(tex));
-        tex = new Texture(Gdx.files.internal("back3.png"));
-        images.put("back3", new Sprite(tex));
-        tex = new Texture(Gdx.files.internal("back4.png"));
-        images.put("back4", new Sprite(tex));
     }
 }

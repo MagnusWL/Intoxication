@@ -33,7 +33,7 @@ public class EnemySystem implements IServiceProcessor, IServiceInitializer {
 
                 if (entity.getSpawnTimer() - entity.getSpawnTimerMax() > timePerMob * entity.getMobsSpawned()) {
                     entity.setMobsSpawned(entity.getMobsSpawned() + 1);
-                    createEnemy(gameData, world, (int) (gameData.getDisplayWidth() * 0.95), (int) (gameData.getDisplayHeight() * 0.15));
+                    createEnemy(gameData, world, (int) (gameData.getTileSize() * gameData.getMapWidth() * 0.95), (int) (gameData.getDisplayHeight() * 0.15));
                 }
 
                 if (entity.getSpawnTimer() > entity.getSpawnTimerMax() + entity.getSpawnDuration()) {

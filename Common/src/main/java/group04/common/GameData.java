@@ -17,6 +17,7 @@ public class GameData {
     private int mouseY;
     private final float gravityConstant = -1000f;
     private List<Event> events = new CopyOnWriteArrayList<>();
+    private List<String> images = new CopyOnWriteArrayList<>();
 
     public List<Event> getAllEvents() {
         return events;
