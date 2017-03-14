@@ -27,7 +27,7 @@ public class Entity {
     //Animation
     private String currentAnimation;
     private boolean animateable = false;
-    private int currentFrame;
+    private double currentFrame;
 
     
 
@@ -74,11 +74,11 @@ public class Entity {
         this.mobsSpawnedMax = mobsSpawnedMax;
     }
     
-   public int getCurrentFrame() {
+   public double getCurrentFrame() {
         return currentFrame;
     }
 
-    public void setCurrentFrame(int currentFrame) {
+    public void setCurrentFrame(double currentFrame) {
         this.currentFrame = currentFrame;
     }
     

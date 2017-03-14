@@ -83,28 +83,17 @@ public class Renderer {
         batch.begin();
         for (Entity entity : world.getAllEntities()) {
             if (entity.isAnimateable()) {
-                playAnimation(gameData, world, animations.get(entity.getCurrentAnimation()), true, entity);
+                playAnimation(gameData, world, animations.get(entity.getCurrentAnimation()), true, entity, 10);
             }
         }
 
         batch.end();
     }
 
-    private void playAnimation(GameData gameData, World world, ArrayList<Sprite> animation, boolean flip, Entity entity) {
-        drawSprite(gameData, world, entity, animation.get(entity.getCurrentFrame()), true);
-/*               if (flip) {
-                    if ((entity.getVelocity() < 0 && !animation.get(entity.getCurrentFrame()).isFlipX()) || (entity.getVelocity() > 0 && animation.get(entity.getCurrentFrame()).isFlipX())) {
-                        animation.get(entity.getCurrentFrame()).flip(true, false);
-                    }
-                }
-                System.out.println("test");
-                animation.get(entity.getCurrentFrame()).setX(entity.getX() - gameData.getCameraX());
-                animation.get(entity.getCurrentFrame()).setY(entity.getY() - gameData.getCameraY());
-                animation.get(entity.getCurrentFrame()).draw(batch);
-                */
-
-            if (entity.getCurrentFrame() != (animation.size()-1)) {
-                    entity.setCurrentFrame(entity.getCurrentFrame() + 1);
+    private void playAnimation(GameData gameData, World world, ArrayList<Sprite> animation, boolean flip, Entity entity, double animationSpeed) {
+        drawSprite(gameData, world, entity, animation.get((int)entity.getCurrentFrame()), flip);
+            if (entity.getCurrentFrame() < (animation.size())-1) {
+                    entity.setCurrentFrame(entity.getCurrentFrame() + (1/animationSpeed));
                 } else {
                     entity.setCurrentFrame(0);
                 }
