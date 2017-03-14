@@ -78,6 +78,9 @@ public class Game implements ApplicationListener {
 
     @Override
     public void render() {
+        gameData.getKeys().update();
+        gameData.setMouseX(Gdx.input.getX());
+        gameData.setMouseY(gameData.getDisplayHeight() - Gdx.input.getY());
         if (menu.getGameState() == 1) {
             update();
             render.render(gameData, world);
@@ -89,10 +92,7 @@ public class Game implements ApplicationListener {
     }
 
     private void update() {
-        gameData.getKeys().update();
         gameData.setDelta(Gdx.graphics.getDeltaTime());
-        gameData.setMouseX(Gdx.input.getX());
-        gameData.setMouseY(gameData.getDisplayHeight() - Gdx.input.getY());
 
         for (IServiceProcessor e : Lookup.getDefault().lookupAll(IServiceProcessor.class)) {
             e.process(gameData, world);
