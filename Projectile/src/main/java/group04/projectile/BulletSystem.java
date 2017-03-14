@@ -35,8 +35,8 @@ public class BulletSystem implements IServiceProcessor, IServiceInitializer {
         bullet.setVelocity((float) (350 * Math.cos(angle)));
         bullet.setVerticalVelocity((float) (350 * Math.sin(angle)));
         bullet.setSprite("bullet");
-        bullet.setX(entity.getX() + 15 + ((float) Math.cos(angle) * 15));
-        bullet.setY(entity.getY() + 15 + ((float) Math.sin(angle) * 15));
+        bullet.setX(entity.getX() + 35 + ((float) Math.cos(angle) * 50));
+        bullet.setY(entity.getY() + 35 + ((float) Math.sin(angle) * 50));
         bullet.setShapeX(new float[]{0, 2, 2, 0});
         bullet.setShapeY(new float[]{2, 2, 0, 0});
 

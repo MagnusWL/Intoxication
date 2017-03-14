@@ -57,8 +57,8 @@ public class Renderer {
             Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
 
             drawBackground(gameData, world);
-            drawAnimations(gameData, world);
             drawSprites(gameData, world);
+            drawAnimations(gameData, world);
             drawHealthBars(gameData, world);
             drawForeground(gameData, world);
             drawScore(gameData, world);
