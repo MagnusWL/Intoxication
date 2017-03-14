@@ -71,7 +71,6 @@
         <module>Weapon</module>
         <module>Projectile</module>
         <module>Map</module>
-        <module>Renderer</module>
         <module>Currency</module>
     </modules>
 

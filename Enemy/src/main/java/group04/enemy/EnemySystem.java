@@ -63,12 +63,11 @@ public class EnemySystem implements IServiceProcessor, IServiceInitializer {
     }
 
     @Override
-    public void start(GameData gameData, World world
-    ) {
-        for (int i = 0; i < 2; i++) {
-            Entity enemy = createEnemy(gameData, world);
-            world.addEntity(enemy);
-        }
+    public void start(GameData gameData, World world) {
+        Entity waveSpawner = new Entity();
+        waveSpawner.setEntityType(EntityType.WAVE_SPAWNER);
+        waveSpawner.setSpawnTimerMax(200);
+        world.addEntity(waveSpawner);
     }
 
     private Entity createEnemy(GameData gameData, World world) {

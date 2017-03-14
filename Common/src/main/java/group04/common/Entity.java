@@ -25,6 +25,24 @@ public class Entity {
     private int[][] map;
     private String currentAnimation;
     private int value;
+    private int spawnTimer;
+    private int spawnTimerMax;    
+
+    public int getSpawnTimer() {
+        return spawnTimer;
+    }
+
+    public void setSpawnTimer(int spawnTimer) {
+        this.spawnTimer = spawnTimer;
+    }
+
+    public int getSpawnTimerMax() {
+        return spawnTimerMax;
+    }
+
+    public void setSpawnTimerMax(int spawnTimerMax) {
+        this.spawnTimerMax = spawnTimerMax;
+    }
 
     public String getCurrentAnimation() {
         return currentAnimation;
