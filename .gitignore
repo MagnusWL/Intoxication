@@ -1,0 +1,17 @@
+/branding/target/
+/GDXLoader/target/
+/Common/target/
+/Renderer/target/
+/Camera/target/
+/Collision/target/
+/Gravity/target/
+/Player/target/
+/Enemy/target/
+/Movement/target/
+/Weapon/target/
+/Base/target/
+/Currency/target/
+/Projectile/target/
+/Map/target/
+/Core/target/
+/application/target/
