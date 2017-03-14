@@ -41,13 +41,16 @@ public class Game implements ApplicationListener {
     private GameData gameData;
     private OrthographicCamera cam;
     Renderer render;
+    MenuHandler menu;
     
+
     public Game() {
 
     }
 
     @Override
     public void create() {
+
         world = new World();
         gameData = new GameData();
         gameData.setDisplayWidth(Gdx.graphics.getWidth());
@@ -67,14 +70,22 @@ public class Game implements ApplicationListener {
         Gdx.input.setInputProcessor(
                 new InputController(gameData)
         );
-        
+
         render = new Renderer();
+        menu = new MenuHandler();
+
     }
 
     @Override
     public void render() {
-        update();
-        render.render(gameData, world);
+        if (menu.getGameState() == 1) {
+            update();
+            render.render(gameData, world);
+
+        } else if (menu.getGameState() == 0) {
+            menu.render(gameData);
+        }
+
     }
 
     private void update() {
