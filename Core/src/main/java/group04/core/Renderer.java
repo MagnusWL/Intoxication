@@ -51,8 +51,8 @@ public class Renderer {
             Gdx.gl.glClearColor(0, 0, 0, 1);
             Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
 
-            drawAnimations(gameData, world);
             drawBackground(gameData, world);
+            drawAnimations(gameData, world);
             drawSprites(gameData, world);
             drawHealthBars(gameData, world);
             drawForeground(gameData, world);
@@ -69,12 +69,13 @@ public class Renderer {
             sprite.setRegion(i * spriteSizeX, 0, spriteSizeX, spriteSizeY);
             keyFrames.add(new Sprite(sprite));
         }
+        System.out.println(keyFrames.size());
         animations.put(animationName, keyFrames);
     }
 
     private void drawAnimations(GameData gameData, World world) {
         batch.begin();
-        for (Entity entity : world.getEntities()) {
+        for (Entity entity : world.getAllEntities()) {
             if (entity.isAnimateable()) {
                 playAnimation(gameData, world, animations.get(entity.getCurrentAnimation()), true, entity);
             }
@@ -83,21 +84,25 @@ public class Renderer {
         batch.end();
     }
 
-    public void playAnimation(GameData gameData, World world, ArrayList<Sprite> animation, boolean flip, Entity entity) {
-        if (entity.isAnimateable()) {
-            try {
-                if (flip) {
+    private void playAnimation(GameData gameData, World world, ArrayList<Sprite> animation, boolean flip, Entity entity) {
+        drawSprite(gameData, world, entity, animation.get(entity.getCurrentFrame()), true);
+/*               if (flip) {
                     if ((entity.getVelocity() < 0 && !animation.get(entity.getCurrentFrame()).isFlipX()) || (entity.getVelocity() > 0 && animation.get(entity.getCurrentFrame()).isFlipX())) {
                         animation.get(entity.getCurrentFrame()).flip(true, false);
                     }
                 }
+                System.out.println("test");
                 animation.get(entity.getCurrentFrame()).setX(entity.getX() - gameData.getCameraX());
                 animation.get(entity.getCurrentFrame()).setY(entity.getY() - gameData.getCameraY());
                 animation.get(entity.getCurrentFrame()).draw(batch);
-            } catch (NullPointerException e) {
+                */
 
-            }
-        }
+            if (entity.getCurrentFrame() != (animation.size()-1)) {
+                    entity.setCurrentFrame(entity.getCurrentFrame() + 1);
+                } else {
+                    entity.setCurrentFrame(0);
+                }
+       
     }
 
 // Draw
@@ -111,14 +116,14 @@ public class Renderer {
             drawSprite(gameData, world, entity, images.get(entity.getSprite()), true);
         }
 
-        for (Entity entity : world.getEntities(EntityType.PLAYER)) {
-            drawSprite(gameData, world, entity, images.get(entity.getSprite()), true);
-        }
+//        for (Entity entity : world.getEntities(EntityType.PLAYER)) {
+//            drawSprite(gameData, world, entity, images.get(entity.getSprite()), true);
+//        }
 
         for (Entity entity : world.getEntities(EntityType.WEAPON)) {
             drawSprite(gameData, world, entity, images.get(entity.getSprite()), true);
         }
-        
+
         for (Entity entity : world.getEntities(EntityType.CURRENCY)) {
             drawSprite(gameData, world, entity, images.get(entity.getSprite()), true);
         }
@@ -233,8 +238,10 @@ public class Renderer {
 
         //Animations:
         makeAnimation("player_run", new Texture(Gdx.files.internal("player_run.png")), 75, 80);
+        makeAnimation("player_idle", new Texture(Gdx.files.internal("player_idle.png")), 75, 80);
+        makeAnimation("player_jump", new Texture(Gdx.files.internal("player_jump.png")), 75, 80);
     }
-    
+
     public void addCurrency() {
         Texture tex = new Texture(Gdx.files.internal("currency.png"));
         images.put("currency", new Sprite(tex));
