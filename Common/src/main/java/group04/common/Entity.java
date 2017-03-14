@@ -23,8 +23,15 @@ public class Entity {
     private boolean hasGravity;
     private UUID ID = UUID.randomUUID();
     private int[][] map;
+    
+    //Animation
     private String currentAnimation;
     private boolean animateable = false;
+    private int currentFrame;
+
+    
+
+
     private int value;
     
     //Wave Spawner
@@ -57,7 +64,15 @@ public class Entity {
     public void setMobsSpawnedMax(int mobsSpawnedMax) {
         this.mobsSpawnedMax = mobsSpawnedMax;
     }
+    
+   public int getCurrentFrame() {
+        return currentFrame;
+    }
 
+    public void setCurrentFrame(int currentFrame) {
+        this.currentFrame = currentFrame;
+    }
+    
     public boolean isAnimateable() {
         return animateable;
     }

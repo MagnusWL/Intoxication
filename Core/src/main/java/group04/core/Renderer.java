@@ -9,16 +9,15 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.Texture;
-import com.badlogic.gdx.graphics.g2d.Animation;
 import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
-import com.badlogic.gdx.utils.Array;
 import group04.common.Entity;
 import group04.common.EntityType;
 import group04.common.GameData;
 import group04.common.World;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -30,7 +29,7 @@ public class Renderer {
 
     private SpriteBatch batch;
     private ShapeRenderer sr;
-    private Map<String, Animation> animations = new HashMap<>();
+    private Map<String, ArrayList<Sprite>> animations = new HashMap<>();
     private Map<String, Sprite> images = new HashMap<>();
     private boolean loaded = false;
 
@@ -51,6 +50,7 @@ public class Renderer {
             Gdx.gl.glClearColor(0, 0, 0, 1);
             Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
 
+            drawAnimations(gameData, world);
             drawBackground(gameData, world);
             drawSprites(gameData, world);
             drawHealthBars(gameData, world);
@@ -59,26 +59,42 @@ public class Renderer {
     }
 // Animation
 
-    public void makeAnimation(String animationName, Texture spriteSheet, int spriteSizeX, int spriteSizeY, int frameDuration) {
-        Array<TextureRegion> keyFrames = new Array<TextureRegion>();
+    public void makeAnimation(String animationName, Texture spriteSheet, int spriteSizeX, int spriteSizeY) {
+
+        ArrayList<Sprite> keyFrames = new ArrayList<>();
         int numberOfSprites = (int) (spriteSheet.getWidth() / spriteSizeX);
         for (int i = 0; i < numberOfSprites; i++) {
             TextureRegion sprite = new TextureRegion(spriteSheet);
             sprite.setRegion(i * spriteSizeX, 0, spriteSizeX, spriteSizeY);
-            keyFrames.add(sprite);
+            keyFrames.add(new Sprite(sprite));
         }
-
-        animations.put(animationName, new Animation<TextureRegion>(frameDuration, keyFrames));
+        animations.put(animationName, keyFrames);
     }
 
-    public void playAnimation(GameData gameData, World world) {
+    private void drawAnimations(GameData gameData, World world) {
+        batch.begin();
         for (Entity entity : world.getEntities()) {
             if (entity.isAnimateable()) {
-                try {
-                    animations.get(entity.getCurrentAnimation()).setPlayMode(Animation.PlayMode.LOOP);
-                } catch (NullPointerException e) {
-                    
+                playAnimation(gameData, world, animations.get(entity.getCurrentAnimation()), true, entity);
+            }
+        }
+
+        batch.end();
+    }
+
+    public void playAnimation(GameData gameData, World world, ArrayList<Sprite> animation, boolean flip, Entity entity) {
+        if (entity.isAnimateable()) {
+            try {
+                if (flip) {
+                    if ((entity.getVelocity() < 0 && !animation.get(entity.getCurrentFrame()).isFlipX()) || (entity.getVelocity() > 0 && animation.get(entity.getCurrentFrame()).isFlipX())) {
+                        animation.get(entity.getCurrentFrame()).flip(true, false);
+                    }
                 }
+                animation.get(entity.getCurrentFrame()).setX(entity.getX() - gameData.getCameraX());
+                animation.get(entity.getCurrentFrame()).setY(entity.getY() - gameData.getCameraY());
+                animation.get(entity.getCurrentFrame()).draw(batch);
+            } catch (NullPointerException e) {
+
             }
         }
     }
@@ -211,7 +227,7 @@ public class Renderer {
         images.put("Player", new Sprite(tex));
 
         //Animations:
-        makeAnimation("player_run", new Texture(Gdx.files.internal("player_run.png")), 75, 80, 2);
+        makeAnimation("player_run", new Texture(Gdx.files.internal("player_run.png")), 75, 80);
     }
 
     public void addWeapons() {

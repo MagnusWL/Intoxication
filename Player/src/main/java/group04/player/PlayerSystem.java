@@ -20,6 +20,13 @@ public class PlayerSystem implements IServiceProcessor, IServiceInitializer {
 
     private Entity player;
 
+    private void checkAnimation(Entity entity)
+    {
+        if(!entity.getCurrentAnimation().equals(entity.getCurrentAnimation()))
+                {
+                    entity.setCurrentFrame(0);
+                }
+    }
     @Override
     public void process(GameData gameData, World world) {
         for (Entity entity : world.getEntities(EntityType.PLAYER)) {
@@ -27,20 +34,28 @@ public class PlayerSystem implements IServiceProcessor, IServiceInitializer {
             if (gameData.getKeys().isDown(GameKeys.A)) {
                 //left
                 entity.setVelocity(-entity.getMovementSpeed());
+                checkAnimation(entity);
+                entity.setCurrentAnimation("player_run.png");
             }
             if (gameData.getKeys().isDown(GameKeys.D)) {
                 //right
                 entity.setVelocity(entity.getMovementSpeed());
+                checkAnimation(entity);
+                entity.setCurrentAnimation("player_run.png");
             }
 
             if (gameData.getKeys().isDown(GameKeys.SPACE)) {
                 if (entity.isGrounded()) {
                     entity.setVerticalVelocity(entity.getJumpSpeed());
+                checkAnimation(entity);
+                entity.setCurrentAnimation("player_jump.png");
                 }
             }
 
             if (!gameData.getKeys().isDown(GameKeys.A) && !gameData.getKeys().isDown(GameKeys.D)) {
-                entity.setVelocity(0);
+                entity.setVelocity(0);      
+                checkAnimation(entity);
+                entity.setCurrentAnimation("player_idle.png");
             }
 
             for (Event e : gameData.getAllEvents()) {
@@ -65,6 +80,7 @@ public class PlayerSystem implements IServiceProcessor, IServiceInitializer {
     private Entity createPlayer(GameData gameData, World world) {
         Entity playerCharacter = new Entity();
 
+        playerCharacter.setAnimateable(true);
         playerCharacter.setEntityType(EntityType.PLAYER);
         playerCharacter.setX((int) (gameData.getDisplayWidth() * 0.5));
         playerCharacter.setY((int) (gameData.getDisplayHeight() * 0.15));
