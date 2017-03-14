@@ -86,7 +86,7 @@ public class Game implements ApplicationListener {
             render.render(gameData, world);
 
         } else if (menu.getGameState() == 0) {
-            menu.render(gameData);
+            menu.renderMenu(gameData);
         }
 
     }

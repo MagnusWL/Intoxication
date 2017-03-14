@@ -38,7 +38,11 @@ public class MenuHandler {
         addEnvironment();
     }
 
-    public void render(GameData gameData) {
+    public void renderOptions(GameData gameData) {
+        
+    }
+    
+    public void renderMenu(GameData gameData) {
         /* sr.begin(ShapeType.Filled);
         Gdx.gl.glClearColor(0, 0, 0, 1);
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
@@ -54,6 +58,13 @@ public class MenuHandler {
                 && gameData.getMouseY() > images.get("start").getY()
                 && gameData.getMouseY() < (images.get("start").getY() + images.get("start").getHeight())) {
             setGameState(1);
+        }
+                if (gameData.getKeys().isDown(GameKeys.MOUSE0) && 
+                gameData.getMouseX() > images.get("exit").getX()
+                && gameData.getMouseX() < (images.get("exit").getX() + images.get("exit").getWidth())
+                && gameData.getMouseY() > images.get("exit").getY()
+                && gameData.getMouseY() < (images.get("exit").getY() + images.get("exit").getHeight())) {
+                    System.exit(0);
         }
         
     }
