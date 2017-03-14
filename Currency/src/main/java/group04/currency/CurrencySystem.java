@@ -27,31 +27,26 @@ public class CurrencySystem implements IServiceInitializer, IServiceProcessor {
     private List<Entity> currencies;
 
     private Entity createCurrency(World world, Event e) {
-        Entity currency = new Entity();
-        Entity enemy = world.getEntity(e.getEntityID());
+        Entity currency = world.getEntity(e.getEntityID());
         currency.setEntityType(CURRENCY);
-        currency.setX(enemy.getX());
-        currency.setY(enemy.getY());
         currency.setSprite("currency");
         currencies.add(currency);
         
         currency.setShapeX(new float[]{
-            5,
-            5,
-            20,
-            20});
+            1,
+            1,
+            10,
+            10});
         currency.setShapeY(new float[]{
-            0,
-            100,
-            100,
-            0});
+            1,
+            10,
+            10,
+            1});
         
         return currency;
     }
 
-    private void addCurrencyEvent(GameData gd, World world, Event e) {
-        world.addEntity(createCurrency(world, e));
-    }
+    
 
     @Override
     public void start(GameData gd, World world) {
@@ -69,7 +64,7 @@ public class CurrencySystem implements IServiceInitializer, IServiceProcessor {
     public void process(GameData gd, World world) {
         for (Event e : gd.getEvents()) {
             if (e.getType() == EventType.DROP_CURRENCY) {
-                addCurrencyEvent(gd, world, e);
+                createCurrency(world, e);
             }
 
         }
