@@ -27,24 +27,22 @@ public class EnemySystem implements IServiceProcessor, IServiceInitializer {
     public void process(GameData gameData, World world) {
         for (Entity entity : world.getEntities(EntityType.WAVE_SPAWNER)) {
             entity.setSpawnTimer(entity.getSpawnTimer() + 1);
-            
-            if(entity.getSpawnTimer() > entity.getSpawnTimerMax())
-            {
+
+            if (entity.getSpawnTimer() > entity.getSpawnTimerMax()) {
                 int timePerMob = entity.getSpawnDuration() / entity.getMobsSpawnedMax();
-                
-                if(entity.getSpawnTimer() - entity.getSpawnTimerMax() > timePerMob * entity.getMobsSpawned())
-                {
+
+                if (entity.getSpawnTimer() - entity.getSpawnTimerMax() > timePerMob * entity.getMobsSpawned()) {
                     entity.setMobsSpawned(entity.getMobsSpawned() + 1);
                     createEnemy(gameData, world, (int) (gameData.getDisplayWidth() * 0.95), (int) (gameData.getDisplayHeight() * 0.15));
                 }
 
-                if(entity.getSpawnTimer() > entity.getSpawnTimerMax() + entity.getSpawnDuration())
-                {    
+                if (entity.getSpawnTimer() > entity.getSpawnTimerMax() + entity.getSpawnDuration()) {
                     entity.setSpawnTimer(0);
+                    entity.setMobsSpawned(0);
                 }
             }
         }
-        
+
         for (Entity entity : world.getEntities(EntityType.ENEMY)) {
             float distancePlayer = Float.MAX_VALUE;
             float distanceBase = Float.MAX_VALUE;
@@ -74,9 +72,16 @@ public class EnemySystem implements IServiceProcessor, IServiceInitializer {
                     if (entity.getLife() <= 0) {
                         world.removeWeapon(entity.getID());
                         world.removeEntity(entity);
+                        
+                        Entity loot = new Entity();
+                        world.addEntity(loot);
+                        gameData.addEvent(new Event(EventType.DROP_CURRENCY, loot.getID()));
+                        loot.setX(entity.getX());
+                        loot.setY(entity.getY());
                     }
 
                     gameData.removeEvent(e);
+                    
                 }
             }
         }
@@ -86,9 +91,9 @@ public class EnemySystem implements IServiceProcessor, IServiceInitializer {
     public void start(GameData gameData, World world) {
         Entity waveSpawner = new Entity();
         waveSpawner.setEntityType(EntityType.WAVE_SPAWNER);
-        waveSpawner.setSpawnTimerMax(400);
+        waveSpawner.setSpawnTimerMax(600);
         waveSpawner.setMobsSpawnedMax(5);
-        waveSpawner.setSpawnDuration(200);
+        waveSpawner.setSpawnDuration(300);
         world.addEntity(waveSpawner);
     }
 
@@ -105,7 +110,7 @@ public class EnemySystem implements IServiceProcessor, IServiceInitializer {
         enemyCharacter.setMovementSpeed(85);
         enemyCharacter.setSprite("Enemy");
         enemyCharacter.setShapeX(new float[]{5, 25, 25, 5});
-        enemyCharacter.setShapeY(new float[]{25, 25, 2, 2});        
+        enemyCharacter.setShapeY(new float[]{25, 25, 2, 2});
         gameData.addEvent(new Event(EventType.PICKUP_WEAPON, enemyCharacter.getID()));
 
         enemies.add(enemyCharacter);
