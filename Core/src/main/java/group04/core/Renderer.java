@@ -58,25 +58,7 @@ public class Renderer {
             drawForeground(gameData, world);
         }
     }
-
-    private void drawHealthBars(GameData gameData, World world) {
-        sr.setAutoShapeType(true);
-        sr.begin(ShapeRenderer.ShapeType.Filled);
-        int healthOffset;
-        int healthWidth;
-
-        for (Entity entity : world.getAllEntities()) {
-            if (entity.getMaxLife() != 0) {
-                healthOffset = (int) images.get(entity.getSprite()).getHeight() + 5;
-                healthWidth = (int) images.get(entity.getSprite()).getWidth();
-                sr.setColor(1f, 0f, 0, 1f);
-                sr.rect(entity.getX() - gameData.getCameraX(), entity.getY() - gameData.getCameraY() + healthOffset, healthWidth, 5);
-                sr.setColor(0.0f, 1f, 0, 1f);
-                sr.rect(entity.getX() - gameData.getCameraX(), entity.getY() - gameData.getCameraY() + healthOffset, ((float) entity.getLife() / (float) entity.getMaxLife()) * healthWidth, 5);
-            }
-        }
-        sr.end();
-    }
+// Animation
 
     public void makeAnimation(String animationName, Texture spriteSheet, int spriteSizeX, int spriteSizeY, int frameDuration) {
         Array<TextureRegion> keyFrames = new Array<TextureRegion>();
@@ -90,6 +72,19 @@ public class Renderer {
         animations.put(animationName, new Animation<TextureRegion>(frameDuration, keyFrames));
     }
 
+    public void playAnimation(GameData gameData, World world) {
+        for (Entity entity : world.getEntities()) {
+            if (entity.isAnimateable()) {
+                try {
+                    animations.get(entity.getCurrentAnimation()).setPlayMode(Animation.PlayMode.LOOP);
+                } catch (NullPointerException e) {
+                    
+                }
+            }
+        }
+    }
+
+// Draw
     private void drawSprites(GameData gameData, World world) {
         batch.begin();
         for (Entity entity : world.getEntities(EntityType.BASE)) {
@@ -117,6 +112,25 @@ public class Renderer {
         }
 
         batch.end();
+    }
+
+    private void drawHealthBars(GameData gameData, World world) {
+        sr.setAutoShapeType(true);
+        sr.begin(ShapeRenderer.ShapeType.Filled);
+        int healthOffset;
+        int healthWidth;
+
+        for (Entity entity : world.getAllEntities()) {
+            if (entity.getMaxLife() != 0) {
+                healthOffset = (int) images.get(entity.getSprite()).getHeight() + 5;
+                healthWidth = (int) images.get(entity.getSprite()).getWidth();
+                sr.setColor(1f, 0f, 0, 1f);
+                sr.rect(entity.getX() - gameData.getCameraX(), entity.getY() - gameData.getCameraY() + healthOffset, healthWidth, 5);
+                sr.setColor(0.0f, 1f, 0, 1f);
+                sr.rect(entity.getX() - gameData.getCameraX(), entity.getY() - gameData.getCameraY() + healthOffset, ((float) entity.getLife() / (float) entity.getMaxLife()) * healthWidth, 5);
+            }
+        }
+        sr.end();
     }
 
     private void drawSprite(GameData gameData, World world, Entity entity, Sprite sprite, boolean flip) {
