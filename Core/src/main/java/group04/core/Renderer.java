@@ -119,9 +119,9 @@ public class Renderer {
             drawSprite(gameData, world, entity, images.get(entity.getSprite()), true);
         }
 
-        for (Entity entity : world.getEntities(EntityType.CURRENCY)) {
-            drawSprite(gameData, world, entity, images.get(entity.getSprite()), true);
-        }
+//        for (Entity entity : world.getEntities(EntityType.CURRENCY)) {
+//            drawSprite(gameData, world, entity, images.get(entity.getSprite()), true);
+//        }
 
         for (Entity entity : world.getEntities(EntityType.PROJECTILE)) {
             drawSprite(gameData, world, entity, images.get(entity.getSprite()), false);
@@ -134,8 +134,7 @@ public class Renderer {
         for(Entity player : world.getEntities(EntityType.PLAYER)) {
             batch.begin();
             text.draw(batch, "Drug money: " + Integer.toString(player.getCurrency()), 40, gameData.getDisplayHeight() - 30);
-            batch.end();
-                   
+            batch.end();     
         }
     }
 
@@ -247,8 +246,7 @@ public class Renderer {
     }
 
     public void addCurrency() {
-        Texture tex = new Texture(Gdx.files.internal("currency.png"));
-        images.put("currency", new Sprite(tex));
+        makeAnimation("currency_gold", new Texture(Gdx.files.internal("currency_gold.png")), 44, 45);
     }
 
     public void addWeapons() {
