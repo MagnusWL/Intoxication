@@ -23,8 +23,15 @@ public class Entity {
     private boolean hasGravity;
     private UUID ID = UUID.randomUUID();
     private int[][] map;
+    
+    //Animation
     private String currentAnimation;
     private boolean animateable = false;
+    private double currentFrame;
+
+    
+
+
     private int value;
     private int currency;
     
@@ -66,7 +73,15 @@ public class Entity {
     public void setMobsSpawnedMax(int mobsSpawnedMax) {
         this.mobsSpawnedMax = mobsSpawnedMax;
     }
+    
+   public double getCurrentFrame() {
+        return currentFrame;
+    }
 
+    public void setCurrentFrame(double currentFrame) {
+        this.currentFrame = currentFrame;
+    }
+    
     public boolean isAnimateable() {
         return animateable;
     }

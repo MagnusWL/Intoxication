@@ -20,6 +20,12 @@ public class PlayerSystem implements IServiceProcessor, IServiceInitializer {
 
     private Entity player;
 
+    private void checkAnimation(Entity entity, String newAnimation) {
+        if (!newAnimation.equals(entity.getCurrentAnimation())) {
+            entity.setCurrentFrame(0);
+        }
+    }
+
     @Override
     public void process(GameData gameData, World world) {
         for (Entity entity : world.getEntities(EntityType.PLAYER)) {
@@ -27,22 +33,34 @@ public class PlayerSystem implements IServiceProcessor, IServiceInitializer {
             if (gameData.getKeys().isDown(GameKeys.A)) {
                 //left
                 entity.setVelocity(-entity.getMovementSpeed());
+                checkAnimation(entity, "player_run");
+                entity.setCurrentAnimation("player_run");
             }
             if (gameData.getKeys().isDown(GameKeys.D)) {
                 //right
                 entity.setVelocity(entity.getMovementSpeed());
+                checkAnimation(entity, "player_run");
+                entity.setCurrentAnimation("player_run");
             }
 
             if (gameData.getKeys().isDown(GameKeys.SPACE)) {
                 if (entity.isGrounded()) {
-                    entity.setVerticalVelocity(entity.getJumpSpeed());
+                    {
+                        entity.setVerticalVelocity(entity.getJumpSpeed());
+                    }
                 }
             }
 
             if (!gameData.getKeys().isDown(GameKeys.A) && !gameData.getKeys().isDown(GameKeys.D)) {
                 entity.setVelocity(0);
+                checkAnimation(entity, "player_idle");
+                entity.setCurrentAnimation("player_idle");
             }
 
+            if (!entity.isGrounded()) {
+                checkAnimation(entity, "player_jump");
+                entity.setCurrentAnimation("player_jump");
+            }
             for (Event e : gameData.getAllEvents()) {
                 if (e.getType() == EventType.ENTITY_HIT && e.getEntityID().equals(entity.getID())) {
                     entity.setLife(entity.getLife() - 1);
@@ -65,6 +83,8 @@ public class PlayerSystem implements IServiceProcessor, IServiceInitializer {
     private Entity createPlayer(GameData gameData, World world) {
         Entity playerCharacter = new Entity();
 
+        playerCharacter.setCurrentAnimation("player_idle");
+        playerCharacter.setAnimateable(true);
         playerCharacter.setEntityType(EntityType.PLAYER);
         playerCharacter.setX((int) (gameData.getDisplayWidth() * 0.5));
         playerCharacter.setY((int) (gameData.getDisplayHeight() * 0.15));
@@ -74,8 +94,8 @@ public class PlayerSystem implements IServiceProcessor, IServiceInitializer {
         playerCharacter.setJumpSpeed(400);
         playerCharacter.setMovementSpeed(150);
         playerCharacter.setSprite("Player");
-        playerCharacter.setShapeX(new float[]{5, 25, 25, 5});
-        playerCharacter.setShapeY(new float[]{25, 25, 2, 2});
+        playerCharacter.setShapeX(new float[]{17, 34, 52, 66});
+        playerCharacter.setShapeY(new float[]{0, 73, 73, 0});
         gameData.addEvent(new Event(EventType.PICKUP_WEAPON, playerCharacter.getID()));
 
         return playerCharacter;
