@@ -26,8 +26,37 @@ public class Entity {
     private String currentAnimation;
     private boolean animateable = false;
     private int value;
+    
+    //Wave Spawner
     private int spawnTimer;
     private int spawnTimerMax;    
+    private int mobsSpawned;
+    private int mobsSpawnedMax;
+    private int spawnDuration;
+
+    public int getSpawnDuration() {
+        return spawnDuration;
+    }
+
+    public void setSpawnDuration(int spawnDuration) {
+        this.spawnDuration = spawnDuration;
+    }
+
+    public int getMobsSpawned() {
+        return mobsSpawned;
+    }
+
+    public void setMobsSpawned(int mobsSpawned) {
+        this.mobsSpawned = mobsSpawned;
+    }
+
+    public int getMobsSpawnedMax() {
+        return mobsSpawnedMax;
+    }
+
+    public void setMobsSpawnedMax(int mobsSpawnedMax) {
+        this.mobsSpawnedMax = mobsSpawnedMax;
+    }
 
     public boolean isAnimateable() {
         return animateable;
