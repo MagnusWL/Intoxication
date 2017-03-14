@@ -43,6 +43,7 @@ public class Renderer {
         addBase();
         addWeapons();
         addEnvironment();
+        addCurrency();
         loaded = true;
     }
 
@@ -99,6 +100,10 @@ public class Renderer {
         }
 
         for (Entity entity : world.getEntities(EntityType.WEAPON)) {
+            drawSprite(gameData, world, entity, images.get(entity.getSprite()), true);
+        }
+        
+        for (Entity entity : world.getEntities(EntityType.CURRENCY)) {
             drawSprite(gameData, world, entity, images.get(entity.getSprite()), true);
         }
 
@@ -212,6 +217,11 @@ public class Renderer {
 
         //Animations:
         makeAnimation("player_run", new Texture(Gdx.files.internal("player_run.png")), 75, 80, 2);
+    }
+    
+    public void addCurrency() {
+        Texture tex = new Texture(Gdx.files.internal("currency.png"));
+        images.put("currency", new Sprite(tex));
     }
 
     public void addWeapons() {

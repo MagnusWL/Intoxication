@@ -14,10 +14,6 @@ import group04.common.events.Event;
 import group04.common.events.EventType;
 import java.util.ArrayList;
 
-/**
- *
- * @author Michael-PC
- */
 @ServiceProviders(value = {
     @ServiceProvider(service = IServiceInitializer.class),
     @ServiceProvider(service = IServiceProcessor.class)})
@@ -45,26 +41,38 @@ public class CurrencySystem implements IServiceInitializer, IServiceProcessor {
         
         return currency;
     }
-
     
+    private void pickupCurrency(GameData gameData, Event e, World world) {
+        world.removeEntity(world.getEntity(e.getEntityID()));
+        
+        for (Entity player : world.getEntities(EntityType.PLAYER)) {
+            player.setCurrency(player.getCurrency() + 10);
+        }
+    }
 
     @Override
-    public void start(GameData gd, World world) {
+    public void start(GameData gameData, World world) {
         currencies = new ArrayList<>();
     }
 
     @Override
-    public void stop(GameData gd, World world) {
+    public void stop(GameData gameData, World world) {
         for (Entity c : currencies) {
             world.removeEntity(c);
         }
     }
 
     @Override
-    public void process(GameData gd, World world) {
-        for (Event e : gd.getEvents()) {
+    public void process(GameData gameData, World world) {
+        for (Event e : gameData.getEvents()) {
             if (e.getType() == EventType.DROP_CURRENCY) {
                 createCurrency(world, e);
+                gameData.removeEvent(e);
+            }
+            
+            if (e.getType() == EventType.PICKUP_CURRENCY) {
+                pickupCurrency(gameData, e, world);
+                gameData.removeEvent(e);
             }
 
         }
