@@ -144,7 +144,7 @@ public class Renderer {
     private void drawScore(GameData gameData, World world) {
         for(Entity player : world.getEntities(EntityType.PLAYER)) {
             batch.begin();
-            text.draw(batch, "Score: " + Integer.toString(player.getCurrency()), 40, gameData.getDisplayHeight() - 30);
+            text.draw(batch, "Drug money: " + Integer.toString(player.getCurrency()), 40, gameData.getDisplayHeight() - 30);
             batch.end();
                    
         }
