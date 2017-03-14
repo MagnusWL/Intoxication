@@ -26,6 +26,7 @@ public class Entity {
     private String currentAnimation;
     private boolean animateable = false;
     private int value;
+    private int currency;
     
     //Wave Spawner
     private int spawnTimer;
@@ -34,6 +35,14 @@ public class Entity {
     private int mobsSpawnedMax;
     private int spawnDuration;
 
+    public int getCurrency() {
+        return currency;
+    }
+
+    public void setCurrency(int currency) {
+        this.currency = currency;
+    }
+    
     public int getSpawnDuration() {
         return spawnDuration;
     }

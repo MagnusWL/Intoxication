@@ -20,6 +20,16 @@ public class Processor implements IServiceProcessor {
     @Override
     public void process(GameData gameData, World world) {
         for (ICollisionService e : Lookup.getDefault().lookupAll(ICollisionService.class)) {
+
+            for (Entity player : world.getEntities(EntityType.PLAYER)) {
+                for (Entity loot : world.getEntities(EntityType.CURRENCY)) {
+                    if (e.isEntitiesColliding(world, gameData, player, loot)) {
+                        gameData.addEvent(new Event(EventType.PICKUP_CURRENCY, loot.getID()));
+                    }
+                }
+
+            }
+
             for (Entity entity : world.getEntities(EntityType.PLAYER, EntityType.ENEMY, EntityType.PROJECTILE)) {
                 steps = (int) (Math.ceil(Math.abs(entity.getVelocity())) + Math.ceil(Math.abs(entity.getVerticalVelocity())));
                 if (steps > 20) {
@@ -36,30 +46,30 @@ public class Processor implements IServiceProcessor {
                         }
                     }
 
-                        //Y
-                        if (!e.isColliding(world, gameData, entity, 0, entity.getVerticalVelocity() * gameData.getDelta() * (1.0f / steps))) {
-                            entity.setY(entity.getY() + entity.getVerticalVelocity() * gameData.getDelta() * (1.0f / steps));
-                        } else {
-                            entity.setVerticalVelocity(0);
+                    //Y
+                    if (!e.isColliding(world, gameData, entity, 0, entity.getVerticalVelocity() * gameData.getDelta() * (1.0f / steps))) {
+                        entity.setY(entity.getY() + entity.getVerticalVelocity() * gameData.getDelta() * (1.0f / steps));
+                    } else {
+                        entity.setVerticalVelocity(0);
 
-                            if (entity.getEntityType() == EntityType.PROJECTILE) {
-                                world.removeEntity(entity);
-                            }
-                        }
-                    }
-
-                    if (entity.getEntityType() == EntityType.PROJECTILE) {
-                        for (Entity entityHit : world.getEntities(EntityType.PLAYER, EntityType.ENEMY, EntityType.BASE)) {
-                            if (e.isEntitiesColliding(world, gameData, entity, entityHit)) {
-                                gameData.addEvent(new Event(EventType.ENTITY_HIT, entityHit.getID()));
-                                world.removeEntity(entity);
-                                break;
-                            }
+                        if (entity.getEntityType() == EntityType.PROJECTILE) {
+                            world.removeEntity(entity);
                         }
                     }
                 }
 
-                break;
+                if (entity.getEntityType() == EntityType.PROJECTILE) {
+                    for (Entity entityHit : world.getEntities(EntityType.PLAYER, EntityType.ENEMY, EntityType.BASE)) {
+                        if (e.isEntitiesColliding(world, gameData, entity, entityHit)) {
+                            gameData.addEvent(new Event(EventType.ENTITY_HIT, entityHit.getID()));
+                            world.removeEntity(entity);
+                            break;
+                        }
+                    }
+                }
             }
+
+            break;
         }
     }
+}
