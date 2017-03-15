@@ -11,16 +11,6 @@ import java.util.concurrent.ConcurrentHashMap;
 public class World {
 
     private final Map<String, Entity> entityMap = new ConcurrentHashMap<>();
-//    private Map<String, Entity> weapons = new ConcurrentHashMap<>();
-//   
-//
-//    public Map<String, Entity> getWeapons() {
-//        return weapons;
-//    }
-//
-//    public void setWeapons(HashMap<String, Entity> weapons) {
-//        this.weapons = weapons;
-//    }
 
     public List<Entity> getEntities(EntityType... entityTypes) {
         List<Entity> r = new ArrayList<>();
@@ -29,14 +19,6 @@ public class World {
                 r.add(e);
         return r;
     }
-    
-//    public void removeWeapon(String id)
-//    {
-//        if(weapons.get(id) != null) 
-//            entityMap.remove(weapons.get(id).getID());
-//    
-//        weapons.remove(id);
-//    }
     
     public Entity getEntity(String id)
     {
