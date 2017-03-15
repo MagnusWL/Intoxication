@@ -16,8 +16,6 @@ public class Entity {
     private float jumpSpeed;
     private float velocity;
     private float verticalVelocity;
-    private float attackCooldown;
-    private float timeSinceAttack;
     private int life;
     private int maxLife;
     private boolean hasGravity;
@@ -26,6 +24,10 @@ public class Entity {
     // Weapons
     private String weaponCarrier;
     private String weaponOwned;
+    private int damage;
+    private WeaponType weaponType;
+    private float attackCooldown;
+    private float timeSinceAttack;
 
     //Animation
     private String currentAnimation;
@@ -50,6 +52,14 @@ public class Entity {
         this.weaponOwned = weaponOwned;
     }
 
+    public int getDamage() {
+        return damage;
+    }
+
+    public void setDamage(int damage) {
+        this.damage = damage;
+    }
+    
     public String getWeaponCarrier() {
         return weaponCarrier;
     }
@@ -232,6 +242,14 @@ public class Entity {
 
     public void setEntityType(EntityType entityType) {
         this.entityType = entityType;
+    }
+
+    public WeaponType getWeaponType() {
+        return weaponType;
+    }
+
+    public void setWeaponType(WeaponType weaponType) {
+        this.weaponType = weaponType;
     }
 
     public int[][] getMap() {
