@@ -45,6 +45,7 @@ public class WeaponSystem implements IServiceProcessor, IServiceInitializer {
             
             if (carrier.getEntityType() == EntityType.PLAYER && gameData.getKeys().isDown(GameKeys.MOUSE0) && gun.getTimeSinceAttack() > gun.getAttackCooldown()) {
                 gameData.addEvent(new Event(EventType.PLAYER_SHOOT, gun.getID()));
+                System.out.println("ShootTest");
                 gun.setTimeSinceAttack(0);
             }
             
