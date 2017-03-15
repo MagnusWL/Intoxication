@@ -5,17 +5,17 @@ import com.badlogic.gdx.InputAdapter;
 import group04.common.GameData;
 import group04.common.GameKeys;
 
-public class InputController extends InputAdapter
-{
+public class InputController extends InputAdapter {
 
     private final GameData gameData;
 
     public InputController(GameData gameData) {
         this.gameData = gameData;
     }
-    
+
     @Override
     public boolean touchDown(int screenX, int screenY, int pointer, int button) {
+//        System.out.println("CALLED" + System.currentTimeMillis());
         gameData.getKeys().setKey(GameKeys.MOUSE0, true);
 //        System.out.println("BEFORE DOWN");
 //        if (Gdx.input.isButtonPressed(Input.Buttons.LEFT)) {
@@ -24,9 +24,10 @@ public class InputController extends InputAdapter
 //        }
         return true;
     }
-    
+
     @Override
     public boolean touchUp(int screenX, int screenY, int pointer, int button) {
+//        System.out.println("FINISHED" + System.currentTimeMillis());
         gameData.getKeys().setKey(GameKeys.MOUSE0, false);
 //        System.out.println("BEFORE UP");
 //        if (!Gdx.input.isButtonPressed(Input.Buttons.LEFT)) {
@@ -62,7 +63,7 @@ public class InputController extends InputAdapter
         if (k == Input.Keys.SHIFT_LEFT || k == Input.Keys.SHIFT_RIGHT) {
             gameData.getKeys().setKey(GameKeys.SHIFT, true);
         }
-        
+
         return true;
     }
 
@@ -92,7 +93,7 @@ public class InputController extends InputAdapter
         if (k == Input.Keys.SHIFT_LEFT || k == Input.Keys.SHIFT_RIGHT) {
             gameData.getKeys().setKey(GameKeys.SHIFT, false);
         }
-       
+
         return true;
     }
 

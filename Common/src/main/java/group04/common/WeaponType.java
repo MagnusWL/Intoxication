@@ -3,12 +3,12 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package group04.common.events;
+package group04.common;
 
 /**
  *
- * @author lars
+ * @author Michael-PC
  */
-public enum EventType {
-    PLAYER_SHOOT, ENTITY_HIT, ENEMY_SHOOT, PICKUP_WEAPON, DROP_CURRENCY, PICKUP_CURRENCY, PLAYER_SWING;
+public enum WeaponType {
+    MELEE, GUN, ROCKET
 }
