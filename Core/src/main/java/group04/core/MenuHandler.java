@@ -38,10 +38,27 @@ public class MenuHandler {
         addEnvironment();
     }
 
-    public void renderOptions(GameData gameData) {
-        
+    public void renderExit(GameData gameData) {
+        drawExitMenuSprites(gameData.getDisplayWidth(), gameData.getDisplayHeight());
+        if (gameData.getKeys().isDown(GameKeys.MOUSE0)
+                && gameData.getMouseX() > images.get("yesexit").getX()
+                && gameData.getMouseX() < (images.get("yesexit").getX() + images.get("yesexit").getWidth())
+                && gameData.getMouseY() > images.get("yesexit").getY()
+                && gameData.getMouseY() < (images.get("yesexit").getY() + images.get("yesexit").getHeight())) {
+                System.exit(0);
+        } else if (gameData.getKeys().isDown(GameKeys.MOUSE0)
+                && gameData.getMouseX() > images.get("noexit").getX()
+                && gameData.getMouseX() < (images.get("noexit").getX() + images.get("noexit").getWidth())
+                && gameData.getMouseY() > images.get("noexit").getY()
+                && gameData.getMouseY() < (images.get("noexit").getY() + images.get("noexit").getHeight())) {
+                setGameState(0);
+        }
     }
-    
+
+    public void renderOptions(GameData gameData) {
+        drawOptionMenuSprites(gameData.getDisplayWidth(), gameData.getDisplayHeight());
+    }
+
     public void renderMenu(GameData gameData) {
         /* sr.begin(ShapeType.Filled);
         Gdx.gl.glClearColor(0, 0, 0, 1);
@@ -50,26 +67,52 @@ public class MenuHandler {
         sr.rect(100, 100, 300, 50);
         sr.rect(gameData.getDisplayHeight(), gameData.getDisplayWidth(), 300, 50);
         sr.end();*/
-        drawSprites(gameData.getDisplayWidth(), gameData.getDisplayHeight());
+        drawMainMenuSprites(gameData.getDisplayWidth(), gameData.getDisplayHeight());
 
-        if (gameData.getKeys().isDown(GameKeys.MOUSE0) && 
-                gameData.getMouseX() > images.get("start").getX()
+        if (gameData.getKeys().isDown(GameKeys.MOUSE0)
+                && gameData.getMouseX() > images.get("start").getX()
                 && gameData.getMouseX() < (images.get("start").getX() + images.get("start").getWidth())
                 && gameData.getMouseY() > images.get("start").getY()
                 && gameData.getMouseY() < (images.get("start").getY() + images.get("start").getHeight())) {
             setGameState(1);
         }
-                if (gameData.getKeys().isDown(GameKeys.MOUSE0) && 
-                gameData.getMouseX() > images.get("exit").getX()
+        if (gameData.getKeys().isDown(GameKeys.MOUSE0)
+                && gameData.getMouseX() > images.get("exit").getX()
                 && gameData.getMouseX() < (images.get("exit").getX() + images.get("exit").getWidth())
                 && gameData.getMouseY() > images.get("exit").getY()
                 && gameData.getMouseY() < (images.get("exit").getY() + images.get("exit").getHeight())) {
-                    System.exit(0);
+            setGameState(3);
         }
-        
+        if (gameData.getKeys().isDown(GameKeys.MOUSE0)
+                && gameData.getMouseX() > images.get("options").getX()
+                && gameData.getMouseX() < (images.get("options").getX() + images.get("options").getWidth())
+                && gameData.getMouseY() > images.get("options").getY()
+                && gameData.getMouseY() < (images.get("options").getY() + images.get("options").getHeight())) {
+            setGameState(2);
+        }
+
     }
 
-    private void drawSprites(int width, int height) {
+    private void drawExitMenuSprites(int width, int height) {
+        batch.begin();
+        drawSprite(images.get("menu"), 0, 0);
+        drawSprite(images.get("exitquestion"), (int) ((width / 2) - (images.get("exitquestion").getWidth() / 2)),
+                (int) ((height / 2) - (images.get("exitquestion").getHeight() / 2) + 250));
+        drawSprite(images.get("yesexit"), (int) (((width / 2) - (images.get("yesexit").getWidth() / 2)) - 50),
+                (int) ((height / 2) - (images.get("yesexit").getHeight() / 2)+150));
+        drawSprite(images.get("noexit"), (int) (((width / 2) - (images.get("noexit").getWidth() / 2)) + 50),
+                (int) ((height / 2) - (images.get("noexit").getHeight() / 2)+150));
+        batch.end();
+    }
+
+    private void drawOptionMenuSprites(int width, int height) {
+        batch.begin();
+        drawSprite(images.get("menu"), 0, 0);
+        // TODO draw options
+        batch.end();
+    }
+
+    private void drawMainMenuSprites(int width, int height) {
         batch.begin();
         drawSprite(images.get("menu"), 0, 0);
         // Start button
@@ -105,9 +148,16 @@ public class MenuHandler {
         images.put("menu", new Sprite(tex));
         tex = new Texture(Gdx.files.internal("start.png"));
         images.put("start", new Sprite(tex));
-        tex = new Texture(Gdx.files.internal("exit.png"));
-        images.put("exit", new Sprite(tex));
         tex = new Texture(Gdx.files.internal("options.png"));
         images.put("options", new Sprite(tex));
+        tex = new Texture(Gdx.files.internal("exit.png"));
+        images.put("exit", new Sprite(tex));
+        tex = new Texture(Gdx.files.internal("exitquestion.png"));
+        images.put("exitquestion", new Sprite(tex));
+        tex = new Texture(Gdx.files.internal("yesexit.png"));
+        images.put("yesexit", new Sprite(tex));
+        tex = new Texture(Gdx.files.internal("noexit.png"));
+        images.put("noexit", new Sprite(tex));
+        
     }
 }

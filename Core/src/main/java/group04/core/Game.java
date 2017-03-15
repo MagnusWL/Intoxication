@@ -42,7 +42,6 @@ public class Game implements ApplicationListener {
     private OrthographicCamera cam;
     Renderer render;
     MenuHandler menu;
-    
 
     public Game() {
 
@@ -87,6 +86,10 @@ public class Game implements ApplicationListener {
 
         } else if (menu.getGameState() == 0) {
             menu.renderMenu(gameData);
+        } else if (menu.getGameState() == 2) {
+            menu.renderOptions(gameData);
+        } else if (menu.getGameState() == 3) {
+            menu.renderExit(gameData);
         }
 
     }
