@@ -23,7 +23,7 @@ import group04.common.services.IServiceProcessor;
     @ServiceProvider(service = IServiceInitializer.class)})
 
 public class WeaponSystem implements IServiceProcessor, IServiceInitializer {
-
+    
     @Override
     public void process(GameData gameData, World world) {
         for (Event e : gameData.getAllEvents()) {
@@ -32,48 +32,51 @@ public class WeaponSystem implements IServiceProcessor, IServiceInitializer {
                 gameData.removeEvent(e);
             }
         }
-
-        for (String key : world.getWeapons().keySet()) {
-
-            Entity carrier = world.getEntity(key);
-            Entity gun = world.getWeapons().get(key);
-            gun.setX(
+        
+        for (Entity weapon : world.getEntities(EntityType.WEAPON)) {
+            Entity carrier = world.getEntity(weapon.getWeaponCarrier());
+            weapon.setX(
                     carrier.getX());
-            gun.setY(carrier.getY());
-            gun.setVelocity(carrier.getVelocity());
-            gun.setTimeSinceAttack(gun.getTimeSinceAttack() + 10 * gameData.getDelta());
+            weapon.setY(carrier.getY());
+            weapon.setVelocity(carrier.getVelocity());
+            weapon.setTimeSinceAttack(weapon.getTimeSinceAttack() + 10 * gameData.getDelta());
             
-            if (carrier.getEntityType() == EntityType.PLAYER && gameData.getKeys().isDown(GameKeys.MOUSE0) && gun.getTimeSinceAttack() > gun.getAttackCooldown()) {
-                gameData.addEvent(new Event(EventType.PLAYER_SHOOT, gun.getID()));
-                gun.setTimeSinceAttack(0);
+            if (carrier.getEntityType() == EntityType.PLAYER && gameData.getKeys().isDown(GameKeys.MOUSE0) && weapon.getTimeSinceAttack() > weapon.getAttackCooldown()) {
+                gameData.addEvent(new Event(EventType.PLAYER_SHOOT, weapon.getID()));
+                System.out.println("ShootTest");
+                weapon.setTimeSinceAttack(0);
             }
             
-            if (carrier.getEntityType() == EntityType.ENEMY && gun.getTimeSinceAttack() > gun.getAttackCooldown()) {
-                gameData.addEvent(new Event(EventType.ENEMY_SHOOT, gun.getID()));
-                gun.setTimeSinceAttack(0);
+            if (carrier.getEntityType() == EntityType.ENEMY && weapon.getTimeSinceAttack() > weapon.getAttackCooldown()) {
+                gameData.addEvent(new Event(EventType.ENEMY_SHOOT, weapon.getID()));
+                weapon.setTimeSinceAttack(0);
             }
+            
         }
-    }
 
+    }
+    
     public void createGun(GameData gameData, World world, Entity e) {
         Entity weapon = new Entity();
         weapon.setEntityType(EntityType.WEAPON);
         weapon.setSprite("gun");
         weapon.setAttackCooldown(5);
         weapon.setTimeSinceAttack(0);
-        world.getWeapons().put(e.getID(), weapon);
+        weapon.setWeaponCarrier(e.getID());
         world.addEntity(weapon);
+        world.getEntity(e.getID()).setWeaponOwned(weapon.getID());
     }
-
+    
     @Override
     public void start(GameData gameData, World world) {
-
+        
     }
-
+    
     @Override
     public void stop(GameData gameData, World world) {
-        for (Entity e : world.getWeapons().values()) {
-            world.removeEntity(e);
+
+        for (Entity weapon : world.getEntities(EntityType.WEAPON)) {
+            world.removeEntity(weapon);
         }
     }
 }

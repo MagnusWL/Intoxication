@@ -62,6 +62,7 @@ public class InputController extends InputAdapter
         if (k == Input.Keys.SHIFT_LEFT || k == Input.Keys.SHIFT_RIGHT) {
             gameData.getKeys().setKey(GameKeys.SHIFT, true);
         }
+        
         return true;
     }
 
@@ -91,6 +92,7 @@ public class InputController extends InputAdapter
         if (k == Input.Keys.SHIFT_LEFT || k == Input.Keys.SHIFT_RIGHT) {
             gameData.getKeys().setKey(GameKeys.SHIFT, false);
         }
+       
         return true;
     }
 

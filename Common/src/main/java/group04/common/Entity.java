@@ -23,24 +23,40 @@ public class Entity {
     private boolean hasGravity;
     private UUID ID = UUID.randomUUID();
     private int[][] map;
-    
+    // Weapons
+    private String weaponCarrier;
+    private String weaponOwned;
+
     //Animation
     private String currentAnimation;
     private boolean animateable = false;
     private double currentFrame;
 
-    
-
-
     private int value;
     private int currency;
-    
+
     //Wave Spawner
     private int spawnTimer;
-    private int spawnTimerMax;    
+    private int spawnTimerMax;
     private int mobsSpawned;
     private int mobsSpawnedMax;
     private int spawnDuration;
+
+    public String getWeaponOwned() {
+        return weaponOwned;
+    }
+
+    public void setWeaponOwned(String weaponOwned) {
+        this.weaponOwned = weaponOwned;
+    }
+
+    public String getWeaponCarrier() {
+        return weaponCarrier;
+    }
+
+    public void setWeaponCarrier(String weaponCarrier) {
+        this.weaponCarrier = weaponCarrier;
+    }
 
     public int getCurrency() {
         return currency;
@@ -49,7 +65,7 @@ public class Entity {
     public void setCurrency(int currency) {
         this.currency = currency;
     }
-    
+
     public int getSpawnDuration() {
         return spawnDuration;
     }
@@ -73,15 +89,15 @@ public class Entity {
     public void setMobsSpawnedMax(int mobsSpawnedMax) {
         this.mobsSpawnedMax = mobsSpawnedMax;
     }
-    
-   public double getCurrentFrame() {
+
+    public double getCurrentFrame() {
         return currentFrame;
     }
 
     public void setCurrentFrame(double currentFrame) {
         this.currentFrame = currentFrame;
     }
-    
+
     public boolean isAnimateable() {
         return animateable;
     }
