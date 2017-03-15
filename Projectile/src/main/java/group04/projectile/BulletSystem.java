@@ -58,6 +58,7 @@ public class BulletSystem implements IServiceProcessor, IServiceInitializer {
                 Entity enemy = world.getEntity(e.getEntityID());
                 float distancePlayer = Float.MAX_VALUE;
                 float distanceBase = Float.MAX_VALUE;
+
                 for (Entity player : world.getEntities(EntityType.PLAYER)) {
                     distancePlayer = Math.abs(player.getX() - enemy.getX());
                 }
@@ -65,14 +66,14 @@ public class BulletSystem implements IServiceProcessor, IServiceInitializer {
                     distanceBase = Math.abs(base.getX() - enemy.getX());
                 }
 
-                if (distancePlayer > distanceBase) {
-                    shootDecision(enemy, EntityType.BASE, world, gameData);
-                    gameData.removeEvent(e);
-                } else {
-                    shootDecision(enemy, EntityType.PLAYER, world, gameData);
-                    gameData.removeEvent(e);
+                if (distancePlayer < 500 || distanceBase < 500) {
+                    if (distancePlayer > distanceBase) {
+                        shootDecision(enemy, EntityType.BASE, world, gameData);
+                    } else {
+                        shootDecision(enemy, EntityType.PLAYER, world, gameData);
+                    }
                 }
-
+                gameData.removeEvent(e);
             }
         }
     }
@@ -90,6 +91,7 @@ public class BulletSystem implements IServiceProcessor, IServiceInitializer {
     }
 
     private void shootDecision(Entity enemy, EntityType entity, World world, GameData gameData) {
+
         for (Entity target : world.getEntities(entity)) {
             if (entity == EntityType.PLAYER) {
                 float angle = (float) Math.atan2((target.getY() + 15) - (enemy.getY() + 15), (target.getX() + 15) - (enemy.getX() + 15));
@@ -98,7 +100,6 @@ public class BulletSystem implements IServiceProcessor, IServiceInitializer {
                 float angle = (float) Math.atan2(target.getY() + 50 - (enemy.getY() + 15), (target.getX() + 50) - (enemy.getX() + 15));
                 world.addEntity(createBullet(enemy, gameData, world, angle));
             }
-
         }
     }
 }
