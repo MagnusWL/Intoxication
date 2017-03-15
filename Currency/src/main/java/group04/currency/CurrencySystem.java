@@ -33,12 +33,12 @@ public class CurrencySystem implements IServiceInitializer, IServiceProcessor {
         currency.setShapeX(new float[]{
             1,
             1,
-            10,
-            10});
+            39,
+            39});
         currency.setShapeY(new float[]{
             1,
-            10,
-            10,
+            39,
+            39,
             1});
         
         return currency;

@@ -37,8 +37,8 @@ public class BulletSystem implements IServiceProcessor, IServiceInitializer {
         bullet.setSprite("bullet");
         bullet.setX(entity.getX() + 35 + ((float) Math.cos(angle) * 50));
         bullet.setY(entity.getY() + 35 + ((float) Math.sin(angle) * 50));
-        bullet.setShapeX(new float[]{0, 2, 2, 0});
-        bullet.setShapeY(new float[]{2, 2, 0, 0});
+        bullet.setShapeX(new float[]{0, 5, 5, 0});
+        bullet.setShapeY(new float[]{5, 5, 0, 0});
 
         bullets.add(bullet);
         return bullet;

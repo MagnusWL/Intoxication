@@ -70,7 +70,7 @@ public class Game implements ApplicationListener {
                 new InputController(gameData)
         );
 
-        render = new Renderer();
+        render = new Renderer(gameData);
         menu = new MenuHandler();
 
     }

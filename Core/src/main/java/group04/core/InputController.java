@@ -1,9 +1,7 @@
 package group04.core;
 
-import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
 import com.badlogic.gdx.InputAdapter;
-import com.badlogic.gdx.InputProcessor;
 import group04.common.GameData;
 import group04.common.GameKeys;
 
@@ -64,6 +62,7 @@ public class InputController extends InputAdapter
         if (k == Input.Keys.SHIFT_LEFT || k == Input.Keys.SHIFT_RIGHT) {
             gameData.getKeys().setKey(GameKeys.SHIFT, true);
         }
+        
         return true;
     }
 
@@ -93,6 +92,7 @@ public class InputController extends InputAdapter
         if (k == Input.Keys.SHIFT_LEFT || k == Input.Keys.SHIFT_RIGHT) {
             gameData.getKeys().setKey(GameKeys.SHIFT, false);
         }
+       
         return true;
     }
 

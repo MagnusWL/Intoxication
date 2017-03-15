@@ -6,18 +6,12 @@
 package group04.core;
 
 import com.badlogic.gdx.Gdx;
-import com.badlogic.gdx.graphics.Color;
-import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
-import com.badlogic.gdx.graphics.glutils.ShapeRenderer.ShapeType;
-import group04.common.Entity;
-import group04.common.EntityType;
 import group04.common.GameData;
 import group04.common.GameKeys;
-import group04.common.World;
 import java.util.HashMap;
 import java.util.Map;
 

@@ -17,6 +17,9 @@ public class GameData {
     private int mouseY;
     private final float gravityConstant = -1000f;
     private List<Event> events = new CopyOnWriteArrayList<>();
+    private List<String> images = new CopyOnWriteArrayList<>();    
+    private int mapHeight;
+    private final GameKeys keys = new GameKeys();
 
     public List<Event> getAllEvents() {
         return events;
@@ -83,8 +86,6 @@ public class GameData {
     public void setTileSize(int tileSize) {
         this.tileSize = tileSize;
     }
-    private int mapHeight;
-    private final GameKeys keys = new GameKeys();
 
     public GameKeys getKeys() {
         return keys;
