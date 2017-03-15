@@ -65,8 +65,10 @@ public class BulletSystem implements IServiceProcessor, IServiceInitializer {
                 for (Entity base : world.getEntities(EntityType.BASE)) {
                     distanceBase = Math.abs(base.getX() - enemy.getX());
                 }
-
-                if (distancePlayer < 500 || distanceBase < 500) {
+                
+                
+                if (enemy.getX() + 30 > gameData.getCameraX() && enemy.getX() + 30 < gameData.getCameraX() + gameData.getDisplayWidth()) {
+                
                     if (distancePlayer > distanceBase) {
                         shootDecision(enemy, EntityType.BASE, world, gameData);
                     } else {

@@ -78,6 +78,7 @@ public class Renderer {
         batch.begin();
         drawForeground(gameData);
         drawScore(gameData, world);
+        drawWaveCount(gameData, world);
         batch.end();
     }
 
@@ -131,6 +132,12 @@ public class Renderer {
     private void drawScore(GameData gameData, World world) {
         for (Entity player : world.getEntities(EntityType.PLAYER)) {
             text.draw(batch, "Drug money: " + Integer.toString(player.getCurrency()), 40, gameData.getDisplayHeight() - 30);
+        }
+    }
+    
+    private void drawWaveCount(GameData gameData, World world) {
+        for (Entity wave : world.getEntities(EntityType.WAVE_SPAWNER)) {
+            text.draw(batch, "Next wave: " + Integer.toString((wave.getSpawnTimerMax() - wave.getSpawnTimer()) / 60) + " seconds", 40, gameData.getDisplayHeight() - 50);
         }
     }
 
