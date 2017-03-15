@@ -56,13 +56,13 @@ public class BaseSystem implements IServiceProcessor, IServiceInitializer {
         base.setShapeX(new float[]{
             20,
             20,
-            80,
-            80});
+            200,
+            200});
         base.setShapeY(new float[]{
-            0,
-            100,
-            100,
-            0});
+            35,
+            180,
+            180,
+            35});
 
         return base;
     }

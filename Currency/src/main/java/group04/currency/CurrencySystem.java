@@ -25,18 +25,20 @@ public class CurrencySystem implements IServiceInitializer, IServiceProcessor {
     private Entity createCurrency(World world, Event e) {
         Entity currency = world.getEntity(e.getEntityID());
         currency.setEntityType(CURRENCY);
-        currency.setSprite("currency");
+        
+        currency.setAnimateable(true);
+        currency.setCurrentAnimation("currency_gold");
         currencies.add(currency);
         
         currency.setShapeX(new float[]{
             1,
             1,
-            10,
-            10});
+            39,
+            39});
         currency.setShapeY(new float[]{
             1,
-            10,
-            10,
+            39,
+            39,
             1});
         
         return currency;

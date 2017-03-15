@@ -94,8 +94,8 @@ public class PlayerSystem implements IServiceProcessor, IServiceInitializer {
         playerCharacter.setJumpSpeed(400);
         playerCharacter.setMovementSpeed(150);
         playerCharacter.setSprite("Player");
-        playerCharacter.setShapeX(new float[]{5, 25, 25, 5});
-        playerCharacter.setShapeY(new float[]{25, 25, 2, 2});
+        playerCharacter.setShapeX(new float[]{17, 34, 52, 66});
+        playerCharacter.setShapeY(new float[]{0, 73, 73, 0});
         gameData.addEvent(new Event(EventType.PICKUP_WEAPON, playerCharacter.getID()));
 
         return playerCharacter;
