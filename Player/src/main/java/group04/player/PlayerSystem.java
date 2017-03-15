@@ -30,6 +30,8 @@ public class PlayerSystem implements IServiceProcessor, IServiceInitializer {
     public void process(GameData gameData, World world) {
         for (Entity entity : world.getEntities(EntityType.PLAYER)) {
 
+            
+            System.out.println(gameData.getKeys().isDown(GameKeys.MOUSE0));
             if (gameData.getKeys().isDown(GameKeys.A)) {
                 //left
                 entity.setVelocity(-entity.getMovementSpeed());
@@ -61,11 +63,12 @@ public class PlayerSystem implements IServiceProcessor, IServiceInitializer {
                 checkAnimation(entity, "player_jump");
                 entity.setCurrentAnimation("player_jump");
             }
+            
             for (Event e : gameData.getAllEvents()) {
                 if (e.getType() == EventType.ENTITY_HIT && e.getEntityID().equals(entity.getID())) {
                     entity.setLife(entity.getLife() - 1);
                     if (entity.getLife() <= 0) {
-                        world.removeWeapon(entity.getID());
+                        world.removeEntity(world.getEntity(entity.getWeaponOwned()));
                         world.removeEntity(entity);
                     }
                     gameData.removeEvent(e);
