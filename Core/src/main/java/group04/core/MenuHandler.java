@@ -39,18 +39,25 @@ public class MenuHandler {
                 && gameData.getMouseX() < (images.get("yesexit").getX() + images.get("yesexit").getWidth())
                 && gameData.getMouseY() > images.get("yesexit").getY()
                 && gameData.getMouseY() < (images.get("yesexit").getY() + images.get("yesexit").getHeight())) {
-                System.exit(0);
+            System.exit(0);
         } else if (gameData.getKeys().isDown(GameKeys.MOUSE0)
                 && gameData.getMouseX() > images.get("noexit").getX()
                 && gameData.getMouseX() < (images.get("noexit").getX() + images.get("noexit").getWidth())
                 && gameData.getMouseY() > images.get("noexit").getY()
                 && gameData.getMouseY() < (images.get("noexit").getY() + images.get("noexit").getHeight())) {
-                setGameState(0);
+            setGameState(0);
         }
     }
 
     public void renderOptions(GameData gameData) {
         drawOptionMenuSprites(gameData.getDisplayWidth(), gameData.getDisplayHeight());
+        if (gameData.getKeys().isDown(GameKeys.MOUSE0)
+                && gameData.getMouseX() > images.get("optionsback").getX()
+                && gameData.getMouseX() < (images.get("optionsback").getX() + images.get("optionsback").getWidth())
+                && gameData.getMouseY() > images.get("optionsback").getY()
+                && gameData.getMouseY() < (images.get("optionsback").getY() + images.get("optionsback").getHeight())) {
+            setGameState(0);
+        }
     }
 
     public void renderMenu(GameData gameData) {
@@ -93,15 +100,17 @@ public class MenuHandler {
         drawSprite(images.get("exitquestion"), (int) ((width / 2) - (images.get("exitquestion").getWidth() / 2)),
                 (int) ((height / 2) - (images.get("exitquestion").getHeight() / 2) + 250));
         drawSprite(images.get("yesexit"), (int) (((width / 2) - (images.get("yesexit").getWidth() / 2)) - 50),
-                (int) ((height / 2) - (images.get("yesexit").getHeight() / 2)+150));
+                (int) ((height / 2) - (images.get("yesexit").getHeight() / 2) + 150));
         drawSprite(images.get("noexit"), (int) (((width / 2) - (images.get("noexit").getWidth() / 2)) + 50),
-                (int) ((height / 2) - (images.get("noexit").getHeight() / 2)+150));
+                (int) ((height / 2) - (images.get("noexit").getHeight() / 2) + 150));
         batch.end();
     }
 
     private void drawOptionMenuSprites(int width, int height) {
         batch.begin();
         drawSprite(images.get("menu"), 0, 0);
+        drawSprite(images.get("optionsback"),(int) (((width / 2) - (images.get("optionsback").getWidth() / 2))- 525),
+                (int) ((height / 2) - (images.get("optionsback").getHeight() / 2) + 300));
         // TODO draw options
         batch.end();
     }
@@ -152,6 +161,8 @@ public class MenuHandler {
         images.put("yesexit", new Sprite(tex));
         tex = new Texture(Gdx.files.internal("noexit.png"));
         images.put("noexit", new Sprite(tex));
-        
+        tex = new Texture(Gdx.files.internal("optionsback.png"));
+        images.put("optionsback", new Sprite(tex));
+
     }
 }
