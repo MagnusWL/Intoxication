@@ -1,9 +1,7 @@
 package group04.core;
 
-import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
 import com.badlogic.gdx.InputAdapter;
-import com.badlogic.gdx.InputProcessor;
 import group04.common.GameData;
 import group04.common.GameKeys;
 
