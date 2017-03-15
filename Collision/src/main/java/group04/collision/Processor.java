@@ -22,19 +22,18 @@ public class Processor implements ICollisionService, IServiceProcessor {
     public boolean isColliding(World world, GameData gameData, Entity entity, float moveX, float moveY) {
         float[] shapex = entity.getShapeX();
         float[] shapey = entity.getShapeY();
-        if (shapex != null && shapey != null) {
-            for (int i = 0; i < shapex.length; i++) {
-                int x = (int) ((entity.getX() + shapex[i] + moveX) / gameData.getTileSize());
-                int y = (int) ((entity.getY() + shapey[i] + moveY) / gameData.getTileSize());
-                if (x >= 0 && y >= 0 && x < gameData.getMapWidth() && y < gameData.getMapHeight()) {
-                    for (Entity map : world.getEntities(EntityType.MAP)) {
+        for (Entity map : world.getEntities(EntityType.MAP)) {
+            if (shapex != null && shapey != null) {
+                for (int i = 0; i < shapex.length; i++) {
+                    int x = (int) ((entity.getX() + shapex[i] + moveX) / gameData.getTileSize());
+                    int y = (int) ((entity.getY() + shapey[i] + moveY) / gameData.getTileSize());
+                    if (x >= 0 && y >= 0 && x < map.getMap().length && y < map.getMap()[0].length) {
                         if (map.getMap()[x][y] == 1) {
                             return true;
                         }
+                    } else {
+                        return true;
                     }
-
-                } else {
-                    return true;
                 }
             }
         }
