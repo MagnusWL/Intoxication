@@ -65,21 +65,31 @@ public class Renderer {
         clearBackground(gameData);
         sr.end();
 
+        //Total back (Background)
         batch.begin();
         drawBackground(gameData);
         drawSprites(gameData, world);
         drawAnimations(gameData, world);
         batch.end();
+        
+        //Next layer: Still background
 
         sr.begin(ShapeType.Filled);
         drawHealthBars(gameData, world);
         sr.end();
 
+        //Middle layer: Where entities is:
         batch.begin();
         drawForeground(gameData);
         drawScore(gameData, world);
         drawWaveCount(gameData, world);
         batch.end();
+        
+        //Layer beetween foreground and middleground: The frontside of the enemyspawner:
+        
+        //Foreground layer: The first one
+        
+        //Foreground layer: The last one
     }
 
     public void makeAnimation(String animationName, Texture spriteSheet, int spriteSizeX, int spriteSizeY) {
