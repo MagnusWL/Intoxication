@@ -23,6 +23,18 @@ public class Entity {
     private boolean hasGravity;
     private UUID ID = UUID.randomUUID();
     private int[][] map;
+
+    //SHOT FROM TYPE
+    private EntityType shotFrom;
+
+    public EntityType getShotFrom() {
+        return shotFrom;
+    }
+
+    public void setShotFrom(EntityType shotFrom) {
+        this.shotFrom = shotFrom;
+    }
+    
     // Weapons
     private String weaponCarrier;
     private String weaponOwned;

@@ -29,9 +29,6 @@ public class PlayerSystem implements IServiceProcessor, IServiceInitializer {
     @Override
     public void process(GameData gameData, World world) {
         for (Entity entity : world.getEntities(EntityType.PLAYER)) {
-
-            
-            System.out.println(gameData.getKeys().isDown(GameKeys.MOUSE0));
             if (gameData.getKeys().isDown(GameKeys.A)) {
                 //left
                 entity.setVelocity(-entity.getMovementSpeed());

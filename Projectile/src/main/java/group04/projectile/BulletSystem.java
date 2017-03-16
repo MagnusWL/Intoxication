@@ -29,14 +29,15 @@ public class BulletSystem implements IServiceProcessor, IServiceInitializer {
 
     private ArrayList<Entity> bullets = new ArrayList<>();
 
-    private Entity createBullet(Entity entity, GameData gameData, World world, float angle) {
+    private Entity createBullet(Entity weapon, GameData gameData, World world, float angle) {
         Entity bullet = new Entity();
         bullet.setEntityType(EntityType.PROJECTILE);
+        bullet.setShotFrom(world.getEntity(weapon.getWeaponCarrier()).getEntityType());
         bullet.setVelocity((float) (350 * Math.cos(angle)));
         bullet.setVerticalVelocity((float) (350 * Math.sin(angle)));
         bullet.setSprite("bullet");
-        bullet.setX(entity.getX() + 35 + ((float) Math.cos(angle) * 50));
-        bullet.setY(entity.getY() + 35 + ((float) Math.sin(angle) * 50));
+        bullet.setX(weapon.getX() + 35 + ((float) Math.cos(angle) * 50));
+        bullet.setY(weapon.getY() + 35 + ((float) Math.sin(angle) * 50));
         bullet.setShapeX(new float[]{0, 5, 5, 0});
         bullet.setShapeY(new float[]{5, 5, 0, 0});
 
@@ -48,31 +49,31 @@ public class BulletSystem implements IServiceProcessor, IServiceInitializer {
     public void process(GameData gameData, World world) {
         for (Event e : gameData.getAllEvents()) {
             if (e.getType() == EventType.PLAYER_SHOOT) {
-                Entity player = world.getEntity(e.getEntityID());
-                float angle = (float) Math.atan2(gameData.getMouseY() - (player.getY() + 15 - gameData.getCameraY()), gameData.getMouseX() - (player.getX() + 15 - gameData.getCameraX()));
-                world.addEntity(createBullet(player, gameData, world, angle));
+                Entity playerWeapon = world.getEntity(e.getEntityID());
+                float angle = (float) Math.atan2(gameData.getMouseY() - (playerWeapon.getY() + 15 - gameData.getCameraY()), gameData.getMouseX() - (playerWeapon.getX() + 15 - gameData.getCameraX()));
+                world.addEntity(createBullet(playerWeapon, gameData, world, angle));
                 gameData.removeEvent(e);
             }
 
             if (e.getType() == EventType.ENEMY_SHOOT) {
-                Entity enemy = world.getEntity(e.getEntityID());
+                Entity enemyWeapon = world.getEntity(e.getEntityID());
                 float distancePlayer = Float.MAX_VALUE;
                 float distanceBase = Float.MAX_VALUE;
 
                 for (Entity player : world.getEntities(EntityType.PLAYER)) {
-                    distancePlayer = Math.abs(player.getX() - enemy.getX());
+                    distancePlayer = Math.abs(player.getX() - enemyWeapon.getX());
                 }
                 for (Entity base : world.getEntities(EntityType.BASE)) {
-                    distanceBase = Math.abs(base.getX() - enemy.getX());
+                    distanceBase = Math.abs(base.getX() - enemyWeapon.getX());
                 }
                 
                 
-                if (enemy.getX() + 30 > gameData.getCameraX() && enemy.getX() + 30 < gameData.getCameraX() + gameData.getDisplayWidth()) {
+                if (enemyWeapon.getX() + 30 > gameData.getCameraX() && enemyWeapon.getX() + 30 < gameData.getCameraX() + gameData.getDisplayWidth()) {
                 
                     if (distancePlayer > distanceBase) {
-                        shootDecision(enemy, EntityType.BASE, world, gameData);
+                        shootDecision(enemyWeapon, EntityType.BASE, world, gameData);
                     } else {
-                        shootDecision(enemy, EntityType.PLAYER, world, gameData);
+                        shootDecision(enemyWeapon, EntityType.PLAYER, world, gameData);
                     }
                 }
                 gameData.removeEvent(e);

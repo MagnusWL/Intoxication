@@ -26,6 +26,7 @@ public class CurrencySystem implements IServiceInitializer, IServiceProcessor {
         Entity currency = world.getEntity(e.getEntityID());
         currency.setEntityType(CURRENCY);
         
+        currency.setHasGravity(true);
         currency.setAnimateable(true);
         currency.setCurrentAnimation("currency_gold");
         currencies.add(currency);

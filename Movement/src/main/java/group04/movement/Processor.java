@@ -30,7 +30,7 @@ public class Processor implements IServiceProcessor {
 
             }
 
-            for (Entity entity : world.getEntities(EntityType.PLAYER, EntityType.ENEMY, EntityType.PROJECTILE)) {
+            for (Entity entity : world.getEntities(EntityType.PLAYER, EntityType.ENEMY, EntityType.PROJECTILE, EntityType.CURRENCY)) {
                 steps = (int) (Math.ceil(Math.abs(entity.getVelocity())) + Math.ceil(Math.abs(entity.getVerticalVelocity())));
                 if (steps > 20) {
                     steps = 20;
@@ -60,6 +60,8 @@ public class Processor implements IServiceProcessor {
 
                 if (entity.getEntityType() == EntityType.PROJECTILE) {
                     for (Entity entityHit : world.getEntities(EntityType.PLAYER, EntityType.ENEMY, EntityType.BASE)) {
+                        if(entityHit.getEntityType() != entity.getShotFrom() 
+                                && !(entityHit.getEntityType() == EntityType.BASE && entity.getEntityType() == EntityType.PLAYER))
                         if (e.isEntitiesColliding(world, gameData, entity, entityHit)) {
                             gameData.addEvent(new Event(EventType.ENTITY_HIT, entityHit.getID()));
                             world.removeEntity(entity);
