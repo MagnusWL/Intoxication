@@ -85,7 +85,7 @@ public class Renderer {
         //Middle layer: Where entities is:
         batch.begin();
         drawForeground(gameData);
-        
+
         drawScore(gameData, world);
         drawWaveCount(gameData, world);
         batch.end();
@@ -222,26 +222,31 @@ public class Renderer {
 //        drawBackground(gameData, images.get("Eye_withoutpupil"), back3m);101
 
     }
-    
-    public void drawPupil(GameData gameData, World world, Sprite pupil, float mov)
-    {        
+
+    public void drawPupil(GameData gameData, World world, Sprite pupil, float mov) {
         float eyeX = 1818;
         float playerX = 0;
         float playerY = 80;
-        for(Entity player: world.getEntities(EntityType.PLAYER))
-        {
+        for (Entity player : world.getEntities(EntityType.PLAYER)) {
             playerX = (float) (player.getX() + images.get("Player").getWidth() / 2.0);
             playerY = player.getY();
         }
 
-        float d = (float) ((playerX - eyeX) / (eyeX));        
+        float d = (float) ((playerX - eyeX) / (eyeX));
+
+        if (d < 0) {
+            d = -d * d * 2;
+        } else {
+            d = d * d * 2;
+        }
+
         int xTranslate = (int) (200 * d);
-        int yTranslate = (int) (100 * Math.abs(d) + (playerY - 80)*0.2);
-        pupil.setX((float) (-pupil.getWidth()/2.0 + eyeX - gameData.getCameraX() * mov + xTranslate * 3.5));
-        pupil.setY(30 + yTranslate);
-        pupil.setScale(1 - Math.abs(d), 1);
-        pupil.setRotation(-d * 25);
-        pupil.draw(batch);        
+        int yTranslate = (int) (50 * Math.abs(d) + (playerY - 80) * 0.2);
+        pupil.setX((float) (-pupil.getWidth() / 2.0 + eyeX - gameData.getCameraX() * mov + xTranslate * 3.5));
+        pupil.setY(yTranslate);
+        pupil.setScale((float) ((1 - Math.abs(d))), 1);
+        pupil.setRotation(-d * 20);
+        pupil.draw(batch);
     }
 
     private void drawForeground(GameData gameData) {
