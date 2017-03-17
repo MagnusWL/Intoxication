@@ -140,7 +140,7 @@ public class Renderer {
         }
 
         for (Entity entity : world.getEntities(EntityType.PROJECTILE)) {
-            drawSprite(gameData, world, entity, images.get(entity.getSprite()), false);
+            drawSprite(gameData, world, entity, images.get(entity.getSprite()), true);
         }
     }
 
@@ -190,11 +190,11 @@ public class Renderer {
         sprite.draw(batch);
     }
 
-    float back1m = 1f;
-    float back2m = 1f;
+    float back1m = 0.4f;
+    float back2m = 0.6f;
     float back3m = 1f;
-    float back4m = 1f;
-    float back5m = 1f;
+    float back4m = 1.2f;
+    float back5m = 1.4f;
 
     private void clearBackground(GameData gameData) {
         sr.setColor(new Color(0f, 138f / 255f, 1f, 1f));
@@ -202,10 +202,10 @@ public class Renderer {
     }
 
     private void drawBackground(GameData gameData) {
-        drawBackground(gameData, images.get("Background_layer1"), back5m);
+        drawBackground(gameData, images.get("Background_layer1"), back1m);
         //pupil
 //        drawBackground(gameData, images.get("pupil"), back3m);
-        drawBackground(gameData, images.get("Background_layer2"), back4m);
+        drawBackground(gameData, images.get("Background_layer2"), back2m);
 
 /*        Sprite sp = images.get("lightSource");
         sp.setX(i * sprite.getWidth() - gameData.getCameraX() * mov);
@@ -225,8 +225,8 @@ public class Renderer {
         drawBackground(gameData, images.get("level_03_front"), back3m);
 
         //Player        
-        drawBackground(gameData, images.get("foreground_layer1"), back1m);
-        drawBackground(gameData, images.get("foreground_layer2"), back2m);
+        drawBackground(gameData, images.get("foreground_layer1"), back4m);
+        drawBackground(gameData, images.get("foreground_layer2"), back5m);
     }
 
     private void drawBackground(GameData gameData, Sprite sprite, float mov) {
