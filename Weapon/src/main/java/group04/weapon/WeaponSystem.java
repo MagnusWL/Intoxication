@@ -11,7 +11,6 @@ import group04.common.Entity;
 import group04.common.EntityType;
 import group04.common.GameData;
 import group04.common.GameKeys;
-import group04.common.WeaponType;
 import group04.common.World;
 import group04.common.events.Event;
 import group04.common.events.EventType;
@@ -23,7 +22,7 @@ import group04.common.services.IServiceProcessor;
     @ServiceProvider(service = IServiceInitializer.class)})
 
 public class WeaponSystem implements IServiceProcessor, IServiceInitializer {
-
+    
     @Override
     public void process(GameData gameData, World world) {
         for (Event e : gameData.getAllEvents()) {
@@ -86,7 +85,7 @@ public class WeaponSystem implements IServiceProcessor, IServiceInitializer {
                 gameData.addEvent(new Event(EventType.ENEMY_SHOOT, weapon.getID()));
                 weapon.setTimeSinceAttack(0);
             }
-
+            
         }
 
     }
@@ -110,9 +109,7 @@ public class WeaponSystem implements IServiceProcessor, IServiceInitializer {
         weapon.setSprite("gun");
         weapon.setAttackCooldown(5);
         weapon.setTimeSinceAttack(0);
-        weapon.setDamage(1);
         weapon.setWeaponCarrier(e.getID());
-        weapon.setWeaponType(type);
         world.addEntity(weapon);
         world.getEntity(e.getID()).setWeaponOwned(weapon.getID());
     }
@@ -150,9 +147,9 @@ public class WeaponSystem implements IServiceProcessor, IServiceInitializer {
 
     @Override
     public void start(GameData gameData, World world) {
-
+        
     }
-
+    
     @Override
     public void stop(GameData gameData, World world) {
 

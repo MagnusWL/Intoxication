@@ -26,6 +26,7 @@ public class EnemySystem implements IServiceProcessor, IServiceInitializer {
     @Override
     public void process(GameData gameData, World world) {
         for (Entity entity : world.getEntities(EntityType.WAVE_SPAWNER)) {
+            
             entity.setSpawnTimer(entity.getSpawnTimer() + 1);
 
             if (entity.getSpawnTimer() > entity.getSpawnTimerMax()) {

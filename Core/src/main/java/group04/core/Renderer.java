@@ -7,8 +7,11 @@ package group04.core;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Color;
+import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.Texture;
+import com.badlogic.gdx.graphics.g2d.Animation;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
+import com.badlogic.gdx.graphics.g2d.BitmapFontCache;
 import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
@@ -40,6 +43,7 @@ public class Renderer {
         batch = new SpriteBatch();
         sr = new ShapeRenderer();
         loadPNGImages("Enemy", "Player", "gun", "bullet", "base", "sky", "grass", "back1", "back2", "back3", "back4", "sword", "rocket");
+
         loadPNGAnimation("player_run", 75, 80);
         loadPNGAnimation("player_idle", 75, 80);
         loadPNGAnimation("player_jump", 75, 80);
@@ -62,20 +66,31 @@ public class Renderer {
         clearBackground(gameData);
         sr.end();
 
+        //Total back (Background)
         batch.begin();
         drawBackground(gameData);
         drawSprites(gameData, world);
         drawAnimations(gameData, world);
         batch.end();
+        
+        //Next layer: Still background
 
         sr.begin(ShapeType.Filled);
         drawHealthBars(gameData, world);
         sr.end();
 
+        //Middle layer: Where entities is:
         batch.begin();
         drawForeground(gameData);
         drawScore(gameData, world);
+        drawWaveCount(gameData, world);
         batch.end();
+        
+        //Layer beetween foreground and middleground: The frontside of the enemyspawner:
+        
+        //Foreground layer: The first one
+        
+        //Foreground layer: The last one
     }
 
     public void makeAnimation(String animationName, Texture spriteSheet, int spriteSizeX, int spriteSizeY) {
@@ -128,6 +143,12 @@ public class Renderer {
     private void drawScore(GameData gameData, World world) {
         for (Entity player : world.getEntities(EntityType.PLAYER)) {
             text.draw(batch, "Drug money: " + Integer.toString(player.getCurrency()), 40, gameData.getDisplayHeight() - 30);
+        }
+    }
+    
+    private void drawWaveCount(GameData gameData, World world) {
+        for (Entity wave : world.getEntities(EntityType.WAVE_SPAWNER)) {
+            text.draw(batch, "Next wave: " + Integer.toString((wave.getSpawnTimerMax() - wave.getSpawnTimer()) / 60) + " seconds", 40, gameData.getDisplayHeight() - 50);
         }
     }
 

@@ -10,5 +10,5 @@ package group04.common;
  * @author Michael-PC
  */
 public enum WeaponType {
-    MELEE, GUN, ROCKET
+    GUN, MELEE, ROCKET
 }

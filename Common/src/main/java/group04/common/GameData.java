@@ -3,7 +3,6 @@ package group04.common;
 import java.util.List;
 import java.util.concurrent.CopyOnWriteArrayList;
 import group04.common.events.Event;
-import group04.common.events.EventType;
 
 public class GameData {
 
@@ -56,7 +55,7 @@ public class GameData {
         this.mouseY = mouseY;
     }
 
-    public List<Event> getEvents(EventType... eventType) {
+    public List<Event> getEvents() {
         return events;
     }
 

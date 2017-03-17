@@ -16,6 +16,8 @@ public class Entity {
     private float jumpSpeed;
     private float velocity;
     private float verticalVelocity;
+    private float attackCooldown;
+    private float timeSinceAttack;
     private int life;
     private int maxLife;
     private boolean hasGravity;
@@ -261,14 +263,6 @@ public class Entity {
 
     public void setEntityType(EntityType entityType) {
         this.entityType = entityType;
-    }
-
-    public WeaponType getWeaponType() {
-        return weaponType;
-    }
-
-    public void setWeaponType(WeaponType weaponType) {
-        this.weaponType = weaponType;
     }
 
     public int[][] getMap() {
