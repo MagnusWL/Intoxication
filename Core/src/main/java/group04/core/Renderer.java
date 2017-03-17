@@ -42,12 +42,14 @@ public class Renderer {
         text = new BitmapFont();
         batch = new SpriteBatch();
         sr = new ShapeRenderer();
+
         loadPNGImages("Enemy", "Player", "pill", "gun", "bullet", "base", "sky", "grass", "back1", "back2", "back3", "back4", "sword", "rocket",
             "brain_jar", "Enemy_Beer", "Enemy_joint", "Enemy_LSD", "Enemy_narko", "Enemy_rave", "pupil",
             "Middleground", "lightSource", "level_01_back",  "level_01_front",  "level_02", "level_03_back", "level_03_front",
             "Eye_withoutpupil", "foreground_layer1", "foreground_layer2", "Background_layer1", "Background_layer2");
 
-/*        loadPNGAnimation("player_run", 75, 80);
+
+        /*        loadPNGAnimation("player_run", 75, 80);
         loadPNGAnimation("player_idle", 75, 80);
         loadPNGAnimation("player_jump", 75, 80);*/
         loadPNGAnimation("currency_gold", 44, 45);
@@ -71,13 +73,12 @@ public class Renderer {
 
         //Total back (Background)
         batch.begin();
-        drawBackground(gameData);
+        drawBackground(gameData, world);
         drawSprites(gameData, world);
         drawAnimations(gameData, world);
         batch.end();
-        
-        //Next layer: Still background
 
+        //Next layer: Still background
         sr.begin(ShapeType.Filled);
         drawHealthBars(gameData, world);
         sr.end();
@@ -85,14 +86,13 @@ public class Renderer {
         //Middle layer: Where entities is:
         batch.begin();
         drawForeground(gameData);
+
         drawScore(gameData, world);
         drawWaveCount(gameData, world);
         batch.end();
-        
+
         //Layer beetween foreground and middleground: The frontside of the enemyspawner:
-        
         //Foreground layer: The first one
-        
         //Foreground layer: The last one
     }
 
@@ -143,7 +143,7 @@ public class Renderer {
         }
 
         for (Entity entity : world.getEntities(EntityType.PROJECTILE)) {
-            drawSprite(gameData, world, entity, images.get(entity.getSprite()), false);
+            drawSprite(gameData, world, entity, images.get(entity.getSprite()), true);
         }
         
         for (Entity entity : world.getEntities(EntityType.BOOST)) {
@@ -156,7 +156,7 @@ public class Renderer {
             text.draw(batch, "Drug money: " + Integer.toString(player.getCurrency()), 40, gameData.getDisplayHeight() - 30);
         }
     }
-    
+
     private void drawWaveCount(GameData gameData, World world) {
         for (Entity wave : world.getEntities(EntityType.WAVE_SPAWNER)) {
             text.draw(batch, "Next wave: " + Integer.toString((wave.getSpawnTimerMax() - wave.getSpawnTimer()) / 60) + " seconds", 40, gameData.getDisplayHeight() - 50);
@@ -180,9 +180,12 @@ public class Renderer {
     }
 
     private void drawSprite(GameData gameData, World world, Entity entity, Sprite sprite, boolean flip) {
-        if (flip) {
-            if (entity.getEntityType() == EntityType.PLAYER && 
-                    ((gameData.getMouseX() < entity.getX() && !sprite.isFlipX()) || (gameData.getMouseX() > entity.getX() && sprite.isFlipX()))) {
+        if (entity.getAngle() != 0) {
+            sprite.setRotation((float) Math.toDegrees(entity.getAngle()));
+        } else if (flip) {
+            if (entity.getEntityType() == EntityType.PLAYER
+                    && ((gameData.getMouseX() < (entity.getX() - gameData.getCameraX()) && !sprite.isFlipX())
+                    || (gameData.getMouseX() > (entity.getX() - gameData.getCameraX()) && sprite.isFlipX()))) {
                 sprite.flip(true, false);
             }
             if (entity.getEntityType() != EntityType.PLAYER && ((entity.getVelocity() < 0 && !sprite.isFlipX()) || (entity.getVelocity() > 0 && sprite.isFlipX()))) {
@@ -190,32 +193,75 @@ public class Renderer {
             }
         }
 
-        sprite.setX(entity.getX() - gameData.getCameraX());
-        sprite.setY(entity.getY() - gameData.getCameraY());
-        sprite.setRotation(entity.getAngle());
+        sprite.setX(entity.getDrawOffsetX() + entity.getX() - gameData.getCameraX());
+        sprite.setY(entity.getDrawOffsetY() + entity.getY() - gameData.getCameraY());
         sprite.draw(batch);
     }
 
-    float back1m = 2f;
+    float back1m = 1f;
     float back2m = 1f;
-    float back3m = 0.9f;
-    float back4m = 0.80f;
-    float back5m = 0.65f;
+    float back3m = 1f;
+    float back4m = 1.2f;
+    float back5m = 1.4f;
 
     private void clearBackground(GameData gameData) {
         sr.setColor(new Color(0f, 138f / 255f, 1f, 1f));
         sr.rect(0, 0, gameData.getDisplayWidth(), gameData.getDisplayWidth());
     }
 
-    private void drawBackground(GameData gameData) {
-        drawBackground(gameData, images.get("Background_layer1"), back5m);
-        drawBackground(gameData, images.get("Background_layer2"), back4m);
+    private void drawBackground(GameData gameData, World world) {
+        drawBackground(gameData, images.get("Eye_withoutpupil"), back1m);
+        drawPupil(gameData, world, images.get("pupil"), back1m);
+        drawBackground(gameData, images.get("Background_layer1"), back1m);
+        //pupil
+//        drawBackground(gameData, images.get("pupil"), back3m);
+        drawBackground(gameData, images.get("Background_layer2"), back2m);
+
+        /*        Sprite sp = images.get("lightSource");
+        sp.setX(i * sprite.getWidth() - gameData.getCameraX() * mov);
+        sp.draw(batch);*/
+//        drawBackground(gameData, images.get("lightSource"), back5m);
         drawBackground(gameData, images.get("Middleground"), back3m);
+        drawBackground(gameData, images.get("level_01_back"), back3m);
+        drawBackground(gameData, images.get("level_03_back"), back3m);
+//        drawBackground(gameData, images.get("Eye_withoutpupil"), back3m);101
+
+    }
+
+    public void drawPupil(GameData gameData, World world, Sprite pupil, float mov) {
+        float eyeX = 1818;
+        float playerX = 0;
+        float playerY = 80;
+        for (Entity player : world.getEntities(EntityType.PLAYER)) {
+            playerX = (float) (player.getX() + images.get("Player").getWidth() / 2.0);
+            playerY = player.getY();
+        }
+
+        float d = (float) ((playerX - eyeX) / (eyeX));
+
+        if (d < 0) {
+            d = -d * d * 2;
+        } else {
+            d = d * d * 2;
+        }
+
+        int xTranslate = (int) (200 * d);
+        int yTranslate = (int) (50 * Math.abs(d) + (playerY - 80) * 0.2);
+        pupil.setX((float) (-pupil.getWidth() / 2.0 + eyeX - gameData.getCameraX() * mov + xTranslate * 3.5));
+        pupil.setY(yTranslate);
+        pupil.setScale((float) ((1 - Math.abs(d))), 1);
+        pupil.setRotation(-d * 20);
+        pupil.draw(batch);
     }
 
     private void drawForeground(GameData gameData) {
-        drawBackground(gameData, images.get("foreground_layer1"), back1m);
-        drawBackground(gameData, images.get("foreground_layer2"), back2m);
+        drawBackground(gameData, images.get("level_02"), back3m);
+        drawBackground(gameData, images.get("level_01_front"), back3m);
+        drawBackground(gameData, images.get("level_03_front"), back3m);
+
+        //Player        
+        drawBackground(gameData, images.get("foreground_layer1"), back4m);
+        drawBackground(gameData, images.get("foreground_layer2"), back5m);
     }
 
     private void drawBackground(GameData gameData, Sprite sprite, float mov) {

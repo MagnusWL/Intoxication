@@ -10,6 +10,7 @@ package group04.common.events;
  * @author lars
  */
 public enum EventType {
+
     PLAYER_SHOOT, ENTITY_HIT, ENEMY_SHOOT, PICKUP_WEAPON, DROP_CURRENCY, PICKUP_CURRENCY, PLAYER_SWING,
-    DROP_BOOST, PICKUP_BOOST;
+    DROP_BOOST, PICKUP_BOOST, ROCKET_HIT;
 }

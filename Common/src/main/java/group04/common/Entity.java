@@ -22,6 +22,24 @@ public class Entity {
     private UUID ID = UUID.randomUUID();
     private int[][] map;
     private float angle;
+    private int drawOffsetX;
+    private int drawOffsetY;
+
+    public int getDrawOffsetX() {
+        return drawOffsetX;
+    }
+
+    public void setDrawOffsetX(int drawOffsetX) {
+        this.drawOffsetX = drawOffsetX;
+    }
+
+    public int getDrawOffsetY() {
+        return drawOffsetY;
+    }
+
+    public void setDrawOffsetY(int drawOffsetY) {
+        this.drawOffsetY = drawOffsetY;
+    }
     
     // Weapons
     private String weaponCarrier;
@@ -32,6 +50,8 @@ public class Entity {
     private float timeSinceAttack;
     private boolean swinging;
     private EntityType shotFrom;
+    private boolean explosive;
+    private int explosionRadius;
 
     //Animation
     private String currentAnimation;
@@ -118,6 +138,22 @@ public class Entity {
 
     public void setSpawnDuration(int spawnDuration) {
         this.spawnDuration = spawnDuration;
+    }
+
+    public boolean isExplosive() {
+        return explosive;
+    }
+
+    public void setExplosive(boolean explosive) {
+        this.explosive = explosive;
+    }
+
+    public int getExplosionRadius() {
+        return explosionRadius;
+    }
+
+    public void setExplosionRadius(int explosionRadius) {
+        this.explosionRadius = explosionRadius;
     }
 
     public int getMobsSpawned() {

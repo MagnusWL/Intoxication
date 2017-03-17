@@ -52,7 +52,8 @@ public class BaseSystem implements IServiceProcessor, IServiceInitializer {
         base.setLife(base.getMaxLife());
         base.setHasGravity(false);
         base.setSprite("brain_jar");
-
+        base.setDrawOffsetY(-85);
+        base.setDrawOffsetX(-40);
         base.setShapeX(new float[]{
             20,
             20,

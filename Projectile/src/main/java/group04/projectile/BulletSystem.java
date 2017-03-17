@@ -33,6 +33,7 @@ public class BulletSystem implements IServiceProcessor, IServiceInitializer {
     private Entity createBullet(Entity weapon, GameData gameData, World world, float angle) {
         Entity bullet = new Entity();
         bullet.setEntityType(EntityType.PROJECTILE);
+        bullet.setAngle(angle);
         bullet.setShotFrom(world.getEntity(weapon.getWeaponCarrier()).getEntityType());
         bullet.setVelocity((float) (350 * Math.cos(angle)));
         bullet.setVerticalVelocity((float) (350 * Math.sin(angle)));
@@ -41,6 +42,7 @@ public class BulletSystem implements IServiceProcessor, IServiceInitializer {
         bullet.setY(weapon.getY() + 35 + ((float) Math.sin(angle) * 50));
         bullet.setShapeX(new float[]{0, 5, 5, 0});
         bullet.setShapeY(new float[]{5, 5, 0, 0});
+        bullet.setExplosive(false);
 
         bullets.add(bullet);
         return bullet;
@@ -49,6 +51,7 @@ public class BulletSystem implements IServiceProcessor, IServiceInitializer {
     private Entity createRocket(Entity entity, GameData gameData, World world, float angle) {
         Entity rocket = new Entity();
         rocket.setEntityType(EntityType.PROJECTILE);
+        rocket.setAngle(angle);
         rocket.setVelocity((float) (350 * Math.cos(angle)));
         rocket.setVerticalVelocity((float) (350 * Math.sin(angle)));
         rocket.setSprite("rocket");
@@ -56,6 +59,8 @@ public class BulletSystem implements IServiceProcessor, IServiceInitializer {
         rocket.setY(entity.getY() + 35 + ((float) Math.sin(angle) * 50));
         rocket.setShapeX(new float[]{0, 5, 5, 0});
         rocket.setShapeY(new float[]{5, 5, 0, 0});
+        rocket.setExplosive(true);
+        rocket.setExplosionRadius(40);
 
         bullets.add(rocket);
         return rocket;

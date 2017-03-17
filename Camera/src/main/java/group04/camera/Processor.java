@@ -14,7 +14,7 @@ public class Processor implements IServiceProcessor {
     @Override
     public void process(GameData gameData, World world) {
         for (Entity player : world.getEntities(EntityType.PLAYER)) {
-            gameData.setCameraX((int) (player.getX() - gameData.getDisplayWidth() / 2.0));
+            gameData.setCameraX((int) (player.getX() + 180 - gameData.getDisplayWidth() / 2.0));
             gameData.setCameraY((int) (player.getY() - gameData.getDisplayHeight() / 2.0));
             checkBlankSpace(gameData);
             break;
