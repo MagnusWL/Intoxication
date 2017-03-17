@@ -243,7 +243,7 @@ public class Renderer {
         int yTranslate = (int) (50 * Math.abs(d) + (playerY - 80) * 0.2);
         pupil.setX((float) (-pupil.getWidth() / 2.0 + eyeX - gameData.getCameraX() * mov + xTranslate * 3.5));
         pupil.setY(yTranslate);
-        pupil.setScale((float) (0.8*(1 - Math.abs(d))), 1);
+        pupil.setScale((float) ((1 - Math.abs(d))), 1);
         pupil.setRotation(-d * 20);
         pupil.draw(batch);
     }
