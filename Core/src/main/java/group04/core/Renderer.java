@@ -52,6 +52,7 @@ public class Renderer {
         /*        loadPNGAnimation("player_run", 75, 80);
         loadPNGAnimation("player_idle", 75, 80);
         loadPNGAnimation("player_jump", 75, 80);*/
+        loadPNGAnimation("Enemy_Beer_Run", 142, 122);
         loadPNGAnimation("currency_gold", 44, 45);
     }
 
@@ -110,7 +111,7 @@ public class Renderer {
     private void drawAnimations(GameData gameData, World world) {
         for (Entity entity : world.getAllEntities()) {
             if (entity.isAnimateable()) {
-                playAnimation(gameData, world, animations.get(entity.getCurrentAnimation()), true, entity, 10);
+                playAnimation(gameData, world, animations.get(entity.getCurrentAnimation()), true, entity, 5);
             }
         }
     }
@@ -130,9 +131,9 @@ public class Renderer {
             drawSprite(gameData, world, entity, images.get(entity.getSprite()), false);
         }
 
-        for (Entity entity : world.getEntities(EntityType.ENEMY)) {
-            drawSprite(gameData, world, entity, images.get(entity.getSprite()), true);
-        }
+//        for (Entity entity : world.getEntities(EntityType.ENEMY)) {
+//            drawSprite(gameData, world, entity, images.get(entity.getSprite()), true);
+//        }
 
         for (Entity entity : world.getEntities(EntityType.PLAYER)) {
             drawSprite(gameData, world, entity, images.get(entity.getSprite()), true);
