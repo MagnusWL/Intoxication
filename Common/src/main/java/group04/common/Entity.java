@@ -22,6 +22,24 @@ public class Entity {
     private UUID ID = UUID.randomUUID();
     private int[][] map;
     private float angle;
+    private int drawOffsetX;
+    private int drawOffsetY;
+
+    public int getDrawOffsetX() {
+        return drawOffsetX;
+    }
+
+    public void setDrawOffsetX(int drawOffsetX) {
+        this.drawOffsetX = drawOffsetX;
+    }
+
+    public int getDrawOffsetY() {
+        return drawOffsetY;
+    }
+
+    public void setDrawOffsetY(int drawOffsetY) {
+        this.drawOffsetY = drawOffsetY;
+    }
     
     // Weapons
     private String weaponCarrier;

@@ -173,7 +173,9 @@ public class Renderer {
     }
 
     private void drawSprite(GameData gameData, World world, Entity entity, Sprite sprite, boolean flip) {
-        if (flip) {
+        if (entity.getAngle() != 0) {
+            sprite.setRotation((float) Math.toDegrees(entity.getAngle()));
+        } else if (flip) {
             if (entity.getEntityType() == EntityType.PLAYER
                     && ((gameData.getMouseX() < (entity.getX() - gameData.getCameraX()) && !sprite.isFlipX())
                     || (gameData.getMouseX() > (entity.getX() - gameData.getCameraX()) && sprite.isFlipX()))) {
@@ -184,9 +186,8 @@ public class Renderer {
             }
         }
 
-        sprite.setX(entity.getX() - gameData.getCameraX());
-        sprite.setY(entity.getY() - gameData.getCameraY());
-        sprite.setRotation(entity.getAngle());
+        sprite.setX(entity.getDrawOffsetX() + entity.getX() - gameData.getCameraX());
+        sprite.setY(entity.getDrawOffsetY() + entity.getY() - gameData.getCameraY());
         sprite.draw(batch);
     }
 
@@ -207,10 +208,9 @@ public class Renderer {
 //        drawBackground(gameData, images.get("pupil"), back3m);
         drawBackground(gameData, images.get("Background_layer2"), back2m);
 
-/*        Sprite sp = images.get("lightSource");
+        /*        Sprite sp = images.get("lightSource");
         sp.setX(i * sprite.getWidth() - gameData.getCameraX() * mov);
         sp.draw(batch);*/
-        
 //        drawBackground(gameData, images.get("lightSource"), back5m);
         drawBackground(gameData, images.get("Middleground"), back3m);
         drawBackground(gameData, images.get("level_01_back"), back3m);

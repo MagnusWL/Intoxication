@@ -33,6 +33,7 @@ public class BulletSystem implements IServiceProcessor, IServiceInitializer {
     private Entity createBullet(Entity weapon, GameData gameData, World world, float angle) {
         Entity bullet = new Entity();
         bullet.setEntityType(EntityType.PROJECTILE);
+        bullet.setAngle(angle);
         bullet.setShotFrom(world.getEntity(weapon.getWeaponCarrier()).getEntityType());
         bullet.setVelocity((float) (350 * Math.cos(angle)));
         bullet.setVerticalVelocity((float) (350 * Math.sin(angle)));
@@ -49,6 +50,7 @@ public class BulletSystem implements IServiceProcessor, IServiceInitializer {
     private Entity createRocket(Entity entity, GameData gameData, World world, float angle) {
         Entity rocket = new Entity();
         rocket.setEntityType(EntityType.PROJECTILE);
+        rocket.setAngle(angle);
         rocket.setVelocity((float) (350 * Math.cos(angle)));
         rocket.setVerticalVelocity((float) (350 * Math.sin(angle)));
         rocket.setSprite("rocket");
