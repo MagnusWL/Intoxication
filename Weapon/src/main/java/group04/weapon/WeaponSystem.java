@@ -32,7 +32,6 @@ public class WeaponSystem implements IServiceProcessor, IServiceInitializer {
                     createGun(gameData, world, world.getEntity(e.getEntityID()), WeaponType.GUN);
                 }
                 if (world.getEntity(e.getEntityID()).getEntityType() == EntityType.PLAYER) {
-                    System.out.println("Player gets weapon");
                     createWeapon(gameData, world, world.getEntity(e.getEntityID()), WeaponType.ROCKET);
                 }
                 gameData.removeEvent(e);
@@ -107,6 +106,7 @@ public class WeaponSystem implements IServiceProcessor, IServiceInitializer {
     public void createGun(GameData gameData, World world, Entity e, WeaponType type) {
         Entity weapon = new Entity();
         weapon.setEntityType(EntityType.WEAPON);
+        weapon.setWeaponType(type);
         weapon.setSprite("gun");
         weapon.setAttackCooldown(5);
         weapon.setTimeSinceAttack(0);
