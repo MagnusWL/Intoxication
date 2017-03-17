@@ -51,7 +51,7 @@ public class BaseSystem implements IServiceProcessor, IServiceInitializer {
         base.setMaxLife(50);
         base.setLife(base.getMaxLife());
         base.setHasGravity(false);
-        base.setSprite("base");
+        base.setSprite("brain_jar");
 
         base.setShapeX(new float[]{
             20,
