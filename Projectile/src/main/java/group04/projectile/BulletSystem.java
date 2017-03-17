@@ -66,20 +66,20 @@ public class BulletSystem implements IServiceProcessor, IServiceInitializer {
         for (Event e : gameData.getAllEvents()) {
             if (e.getType() == EventType.PLAYER_SHOOT) {
                 Entity player = world.getEntity(e.getEntityID());
+                Entity playerWeapon = world.getEntity(player.getWeaponOwned());
                 float angle = (float) Math.atan2(gameData.getMouseY() - (player.getY() + 15 - gameData.getCameraY()), gameData.getMouseX() - (player.getX() + 15 - gameData.getCameraX()));
 
                 if (world.getEntity(player.getWeaponOwned()).getWeaponType() == WeaponType.ROCKET) {
-                    world.addEntity(createRocket(player, gameData, world, angle));
+                    world.addEntity(createRocket(playerWeapon, gameData, world, angle));
                 }
                 if (world.getEntity(player.getWeaponOwned()).getWeaponType() == WeaponType.GUN) {
-                    world.addEntity(createBullet(player, gameData, world, angle));
+                    world.addEntity(createBullet(playerWeapon, gameData, world, angle));
                 }
-                Entity playerWeapon = world.getEntity(e.getEntityID());
-                world.addEntity(createBullet(playerWeapon, gameData, world, angle));
                 gameData.removeEvent(e);
             }
 
             if (e.getType() == EventType.ENEMY_SHOOT) {
+                System.out.println("ENEMY SHOOT");
                 Entity enemyWeapon = world.getEntity(e.getEntityID());
                 float distancePlayer = Float.MAX_VALUE;
                 float distanceBase = Float.MAX_VALUE;
@@ -90,10 +90,9 @@ public class BulletSystem implements IServiceProcessor, IServiceInitializer {
                 for (Entity base : world.getEntities(EntityType.BASE)) {
                     distanceBase = Math.abs(base.getX() - enemyWeapon.getX());
                 }
-                
-                
+
                 if (enemyWeapon.getX() + 30 > gameData.getCameraX() && enemyWeapon.getX() + 30 < gameData.getCameraX() + gameData.getDisplayWidth()) {
-                
+
                     if (distancePlayer > distanceBase) {
                         shootDecision(enemyWeapon, EntityType.BASE, world, gameData);
                     } else {
