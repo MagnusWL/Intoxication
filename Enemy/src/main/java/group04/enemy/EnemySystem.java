@@ -15,18 +15,25 @@ import group04.common.services.IServiceInitializer;
 import group04.common.services.IServiceProcessor;
 
 @ServiceProviders(value = {
-    @ServiceProvider(service = IServiceProcessor.class),
-    @ServiceProvider(service = IServiceInitializer.class)})
+    @ServiceProvider(service = IServiceInitializer.class),
+    @ServiceProvider(service = IServiceProcessor.class)})
 
 public class EnemySystem implements IServiceProcessor, IServiceInitializer {
 
     private List<Entity> enemies = new ArrayList<>();
     private final Random rand = new Random();
 
+    private void dropItem(Entity drop, Entity enemy, World world, GameData gameData, EventType type) {
+        world.addEntity(drop);
+        gameData.addEvent(new Event(type, drop.getID()));
+        drop.setX(enemy.getX());
+        drop.setY(enemy.getY());
+    }
+
     @Override
     public void process(GameData gameData, World world) {
         for (Entity entity : world.getEntities(EntityType.WAVE_SPAWNER)) {
-            
+
             entity.setSpawnTimer(entity.getSpawnTimer() + 1);
 
             if (entity.getSpawnTimer() > entity.getSpawnTimerMax()) {
@@ -70,19 +77,21 @@ public class EnemySystem implements IServiceProcessor, IServiceInitializer {
                 if (e.getType() == EventType.ENTITY_HIT && e.getEntityID().equals(entity.getID())) {
 
                     entity.setLife(entity.getLife() - 1);
+                    
+                    
+                    //ENEMY DIES
                     if (entity.getLife() <= 0) {
                         world.removeEntity(world.getEntity(entity.getWeaponOwned()));
                         world.removeEntity(entity);
-                        
-                        Entity loot = new Entity();
-                        world.addEntity(loot);
-                        gameData.addEvent(new Event(EventType.DROP_CURRENCY, loot.getID()));
-                        loot.setX(entity.getX());
-                        loot.setY(entity.getY());
-                    }
 
+                        Entity currency = new Entity();
+                        Entity boost = new Entity();
+                        
+                        dropItem(currency, entity, world, gameData, EventType.DROP_CURRENCY);
+                        dropItem(boost, entity, world, gameData, EventType.DROP_BOOST);
+//                        
+                    }
                     gameData.removeEvent(e);
-                    
                 }
             }
         }

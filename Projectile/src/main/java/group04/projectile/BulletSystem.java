@@ -79,7 +79,6 @@ public class BulletSystem implements IServiceProcessor, IServiceInitializer {
             }
 
             if (e.getType() == EventType.ENEMY_SHOOT) {
-                System.out.println("ENEMY SHOOT");
                 Entity enemyWeapon = world.getEntity(e.getEntityID());
                 float distancePlayer = Float.MAX_VALUE;
                 float distanceBase = Float.MAX_VALUE;

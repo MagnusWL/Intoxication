@@ -72,6 +72,7 @@
         <module>Projectile</module>
         <module>Map</module>
         <module>Currency</module>
+        <module>Boost</module>
     </modules>
 
     <properties>

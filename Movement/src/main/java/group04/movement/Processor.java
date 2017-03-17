@@ -23,9 +23,18 @@ public class Processor implements IServiceProcessor {
         for (ICollisionService e : Lookup.getDefault().lookupAll(ICollisionService.class)) {
 
             for (Entity player : world.getEntities(EntityType.PLAYER)) {
+
                 for (Entity loot : world.getEntities(EntityType.CURRENCY)) {
+
                     if (e.isEntitiesColliding(world, gameData, player, loot)) {
                         gameData.addEvent(new Event(EventType.PICKUP_CURRENCY, loot.getID()));
+                    }
+                }
+
+                for (Entity boost : world.getEntities(EntityType.BOOST)) {
+
+                    if (e.isEntitiesColliding(world, gameData, player, boost)) {
+                        gameData.addEvent(new Event(EventType.PICKUP_BOOST, boost.getID()));
                     }
                 }
 
@@ -61,12 +70,13 @@ public class Processor implements IServiceProcessor {
 
                 if (entity.getEntityType() == EntityType.PROJECTILE) {
                     for (Entity entityHit : world.getEntities(EntityType.PLAYER, EntityType.ENEMY, EntityType.BASE)) {
-                        if(entityHit.getEntityType() != entity.getShotFrom() 
-                                && !(entityHit.getEntityType() == EntityType.BASE && entity.getEntityType() == EntityType.PLAYER))
-                        if (e.isEntitiesColliding(world, gameData, entity, entityHit)) {
-                            gameData.addEvent(new Event(EventType.ENTITY_HIT, entityHit.getID()));
-                            world.removeEntity(entity);
-                            break;
+                        if (entityHit.getEntityType() != entity.getShotFrom()
+                                && !(entityHit.getEntityType() == EntityType.BASE && entity.getEntityType() == EntityType.PLAYER)) {
+                            if (e.isEntitiesColliding(world, gameData, entity, entityHit)) {
+                                gameData.addEvent(new Event(EventType.ENTITY_HIT, entityHit.getID()));
+                                world.removeEntity(entity);
+                                break;
+                            }
                         }
                     }
                 }

@@ -42,7 +42,7 @@ public class Renderer {
         text = new BitmapFont();
         batch = new SpriteBatch();
         sr = new ShapeRenderer();
-        loadPNGImages("Enemy", "Player", "gun", "bullet", "base", "sky", "grass", "back1", "back2", "back3", "back4", "sword", "rocket",
+        loadPNGImages("Enemy", "Player", "pill", "gun", "bullet", "base", "sky", "grass", "back1", "back2", "back3", "back4", "sword", "rocket",
             "brain_jar", "Enemy_Beer", "Enemy_joint", "Enemy_LSD", "Enemy_narko", "Enemy_rave", "pupil",
             "Middleground", "lightSource", "level_01_back",  "level_01_front",  "level_02", "level_03_back", "level_03_front",
             "Eye_withoutpupil", "foreground_layer1", "foreground_layer2", "Background_layer1", "Background_layer2");
@@ -143,6 +143,10 @@ public class Renderer {
         }
 
         for (Entity entity : world.getEntities(EntityType.PROJECTILE)) {
+            drawSprite(gameData, world, entity, images.get(entity.getSprite()), false);
+        }
+        
+        for (Entity entity : world.getEntities(EntityType.BOOST)) {
             drawSprite(gameData, world, entity, images.get(entity.getSprite()), false);
         }
     }
