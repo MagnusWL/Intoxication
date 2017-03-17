@@ -204,9 +204,9 @@ public class Renderer {
     }
 
     private void drawBackground(GameData gameData, World world) {
-        drawBackground(gameData, images.get("Background_layer1"), back1m);
         drawBackground(gameData, images.get("Eye_withoutpupil"), back1m);
         drawPupil(gameData, world, images.get("pupil"), back1m);
+        drawBackground(gameData, images.get("Background_layer1"), back1m);
         //pupil
 //        drawBackground(gameData, images.get("pupil"), back3m);
         drawBackground(gameData, images.get("Background_layer2"), back2m);
