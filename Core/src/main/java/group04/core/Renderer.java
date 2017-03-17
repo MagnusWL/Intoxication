@@ -84,6 +84,7 @@ public class Renderer {
         //Middle layer: Where entities is:
         batch.begin();
         drawForeground(gameData);
+        
         drawScore(gameData, world);
         drawWaveCount(gameData, world);
         batch.end();
@@ -204,6 +205,7 @@ public class Renderer {
 
     private void drawBackground(GameData gameData, World world) {
         drawBackground(gameData, images.get("Background_layer1"), back1m);
+        drawBackground(gameData, images.get("Eye_withoutpupil"), back1m);
         drawPupil(gameData, world, images.get("pupil"), back1m);
         //pupil
 //        drawBackground(gameData, images.get("pupil"), back3m);
@@ -216,7 +218,7 @@ public class Renderer {
         drawBackground(gameData, images.get("Middleground"), back3m);
         drawBackground(gameData, images.get("level_01_back"), back3m);
         drawBackground(gameData, images.get("level_03_back"), back3m);
-//        drawBackground(gameData, images.get("Eye_withoutpupil"), back3m);
+//        drawBackground(gameData, images.get("Eye_withoutpupil"), back3m);101
 
     }
     
@@ -224,19 +226,20 @@ public class Renderer {
     {        
         float eyeX = 1818;
         float playerX = 0;
+        float playerY = 80;
         for(Entity player: world.getEntities(EntityType.PLAYER))
         {
-            playerX = player.getX();
+            playerX = (float) (player.getX() + images.get("Player").getWidth() / 2.0);
+            playerY = player.getY();
         }
 
-        float d = (float) ((playerX - eyeX) / (1818));
-        
+        float d = (float) ((playerX - eyeX) / (eyeX));        
         int xTranslate = (int) (200 * d);
-
+        int yTranslate = (int) (100 * Math.abs(d) + (playerY - 80)*0.2);
         pupil.setX((float) (-pupil.getWidth()/2.0 + eyeX - gameData.getCameraX() * mov + xTranslate * 3.5));
-        pupil.setY(180);
+        pupil.setY(30 + yTranslate);
         pupil.setScale(1 - Math.abs(d), 1);
-        pupil.setRotation(-d * 30);
+        pupil.setRotation(-d * 25);
         pupil.draw(batch);        
     }
 
