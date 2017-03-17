@@ -222,20 +222,21 @@ public class Renderer {
     
     public void drawPupil(GameData gameData, World world, Sprite pupil, float mov)
     {        
-        float eyeX = 1650 - gameData.getCameraX() * mov;
+        float eyeX = 1818;
         float playerX = 0;
         for(Entity player: world.getEntities(EntityType.PLAYER))
         {
-            playerX = player.getX() - gameData.getCameraX();
+            playerX = player.getX();
         }
 
-        float d = (float) ((playerX - eyeX) / (gameData.getDisplayWidth() * 0.5));
+        float d = (float) ((playerX - eyeX) / (1818));
         
         int xTranslate = (int) (200 * d);
-        
-        
-        pupil.setX(eyeX + xTranslate);
-        pupil.setY(220);
+
+        pupil.setX((float) (-pupil.getWidth()/2.0 + eyeX - gameData.getCameraX() * mov + xTranslate * 3.5));
+        pupil.setY(180);
+        pupil.setScale(1 - Math.abs(d), 1);
+        pupil.setRotation(-d * 30);
         pupil.draw(batch);        
     }
 
