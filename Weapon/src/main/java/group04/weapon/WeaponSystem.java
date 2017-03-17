@@ -11,6 +11,7 @@ import group04.common.Entity;
 import group04.common.EntityType;
 import group04.common.GameData;
 import group04.common.GameKeys;
+import group04.common.WeaponType;
 import group04.common.World;
 import group04.common.events.Event;
 import group04.common.events.EventType;

@@ -75,7 +75,6 @@ public class BulletSystem implements IServiceProcessor, IServiceInitializer {
                     world.addEntity(createBullet(player, gameData, world, angle));
                 }
                 Entity playerWeapon = world.getEntity(e.getEntityID());
-                float angle = (float) Math.atan2(gameData.getMouseY() - (playerWeapon.getY() + 15 - gameData.getCameraY()), gameData.getMouseX() - (playerWeapon.getX() + 15 - gameData.getCameraX()));
                 world.addEntity(createBullet(playerWeapon, gameData, world, angle));
                 gameData.removeEvent(e);
             }

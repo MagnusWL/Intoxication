@@ -16,8 +16,6 @@ public class Entity {
     private float jumpSpeed;
     private float velocity;
     private float verticalVelocity;
-    private float attackCooldown;
-    private float timeSinceAttack;
     private int life;
     private int maxLife;
     private boolean hasGravity;
@@ -33,6 +31,7 @@ public class Entity {
     private float attackCooldown;
     private float timeSinceAttack;
     private boolean swinging;
+    private EntityType shotFrom;
 
     //Animation
     private String currentAnimation;
@@ -61,6 +60,14 @@ public class Entity {
         return angle;
     }
 
+    public WeaponType getWeaponType() {
+        return weaponType;
+    }
+
+    public void setWeaponType(WeaponType weaponType) {
+        this.weaponType = weaponType;
+    }
+    
     public void setAngle(float angle) {
         this.angle = angle;
     }
@@ -69,6 +76,14 @@ public class Entity {
         return swinging;
     }
 
+    public EntityType getShotFrom() {
+        return shotFrom;
+    }
+
+    public void setShotFrom(EntityType shotFrom) {
+        this.shotFrom = shotFrom;
+    }
+    
     public void setSwinging(boolean swinging) {
         this.swinging = swinging;
     }
