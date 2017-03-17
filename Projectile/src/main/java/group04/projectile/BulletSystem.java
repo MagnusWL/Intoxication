@@ -14,6 +14,7 @@ import group04.common.services.IServiceInitializer;
 import group04.common.services.IServiceProcessor;
 import group04.common.Entity;
 import group04.common.EntityType;
+import group04.common.WeaponType;
 import group04.common.events.Event;
 import group04.common.events.EventType;
 
@@ -44,13 +45,34 @@ public class BulletSystem implements IServiceProcessor, IServiceInitializer {
         return bullet;
     }
 
+    private Entity createRocket(Entity entity, GameData gameData, World world, float angle) {
+        Entity rocket = new Entity();
+        rocket.setEntityType(EntityType.PROJECTILE);
+        rocket.setVelocity((float) (350 * Math.cos(angle)));
+        rocket.setVerticalVelocity((float) (350 * Math.sin(angle)));
+        rocket.setSprite("rocket");
+        rocket.setX(entity.getX() + 35 + ((float) Math.cos(angle) * 50));
+        rocket.setY(entity.getY() + 35 + ((float) Math.sin(angle) * 50));
+        rocket.setShapeX(new float[]{0, 5, 5, 0});
+        rocket.setShapeY(new float[]{5, 5, 0, 0});
+
+        bullets.add(rocket);
+        return rocket;
+    }
+
     @Override
     public void process(GameData gameData, World world) {
         for (Event e : gameData.getAllEvents()) {
             if (e.getType() == EventType.PLAYER_SHOOT) {
                 Entity player = world.getEntity(e.getEntityID());
                 float angle = (float) Math.atan2(gameData.getMouseY() - (player.getY() + 15 - gameData.getCameraY()), gameData.getMouseX() - (player.getX() + 15 - gameData.getCameraX()));
-                world.addEntity(createBullet(player, gameData, world, angle));
+
+                if (world.getEntity(player.getWeaponOwned()).getWeaponType() == WeaponType.ROCKET) {
+                    world.addEntity(createRocket(player, gameData, world, angle));
+                }
+                if (world.getEntity(player.getWeaponOwned()).getWeaponType() == WeaponType.GUN) {
+                    world.addEntity(createBullet(player, gameData, world, angle));
+                }
                 gameData.removeEvent(e);
             }
 

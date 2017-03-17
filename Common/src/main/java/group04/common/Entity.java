@@ -21,6 +21,8 @@ public class Entity {
     private boolean hasGravity;
     private UUID ID = UUID.randomUUID();
     private int[][] map;
+    private float angle;
+    
     // Weapons
     private String weaponCarrier;
     private String weaponOwned;
@@ -28,6 +30,7 @@ public class Entity {
     private WeaponType weaponType;
     private float attackCooldown;
     private float timeSinceAttack;
+    private boolean swinging;
 
     //Animation
     private String currentAnimation;
@@ -52,6 +55,22 @@ public class Entity {
         this.weaponOwned = weaponOwned;
     }
 
+    public float getAngle() {
+        return angle;
+    }
+
+    public void setAngle(float angle) {
+        this.angle = angle;
+    }
+
+    public boolean isSwinging() {
+        return swinging;
+    }
+
+    public void setSwinging(boolean swinging) {
+        this.swinging = swinging;
+    }
+    
     public int getDamage() {
         return damage;
     }

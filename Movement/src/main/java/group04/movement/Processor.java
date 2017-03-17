@@ -3,6 +3,7 @@ package group04.movement;
 import group04.common.Entity;
 import group04.common.EntityType;
 import group04.common.GameData;
+import group04.common.WeaponType;
 import group04.common.World;
 import group04.common.events.Event;
 import group04.common.events.EventType;
@@ -30,7 +31,7 @@ public class Processor implements IServiceProcessor {
 
             }
 
-            for (Entity entity : world.getEntities(EntityType.PLAYER, EntityType.ENEMY, EntityType.PROJECTILE)) {
+            for (Entity entity : world.getEntities(EntityType.PLAYER, EntityType.ENEMY, EntityType.PROJECTILE, EntityType.WEAPON)) {
                 steps = (int) (Math.ceil(Math.abs(entity.getVelocity())) + Math.ceil(Math.abs(entity.getVerticalVelocity())));
                 if (steps > 20) {
                     steps = 20;
@@ -63,6 +64,14 @@ public class Processor implements IServiceProcessor {
                         if (e.isEntitiesColliding(world, gameData, entity, entityHit)) {
                             gameData.addEvent(new Event(EventType.ENTITY_HIT, entityHit.getID()));
                             world.removeEntity(entity);
+                            break;
+                        }
+                    }
+                }
+                if (entity.getEntityType() == EntityType.WEAPON && entity.getWeaponType() == WeaponType.MELEE) {
+                    for (Entity entityHit : world.getEntities(EntityType.ENEMY, EntityType.PLAYER, EntityType.BASE)) {
+                        if (e.isEntitiesColliding(world, gameData, entity, entityHit)) {
+                            gameData.addEvent(new Event(EventType.ENTITY_HIT, entityHit.getID()));
                             break;
                         }
                     }

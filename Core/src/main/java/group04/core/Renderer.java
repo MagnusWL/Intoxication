@@ -39,7 +39,7 @@ public class Renderer {
         text = new BitmapFont();
         batch = new SpriteBatch();
         sr = new ShapeRenderer();
-        loadPNGImages("Enemy", "Player", "gun", "bullet", "base", "sky", "grass", "back1", "back2", "back3", "back4", "sword");
+        loadPNGImages("Enemy", "Player", "gun", "bullet", "base", "sky", "grass", "back1", "back2", "back3", "back4", "sword", "rocket");
         loadPNGAnimation("player_run", 75, 80);
         loadPNGAnimation("player_idle", 75, 80);
         loadPNGAnimation("player_jump", 75, 80);
@@ -149,13 +149,17 @@ public class Renderer {
 
     private void drawSprite(GameData gameData, World world, Entity entity, Sprite sprite, boolean flip) {
         if (flip) {
-            if ((entity.getVelocity() < 0 && !sprite.isFlipX()) || (entity.getVelocity() > 0 && sprite.isFlipX())) {
+            if (entity.getEntityType() == EntityType.PLAYER && (gameData.getMouseX() < entity.getX() && !sprite.isFlipX()) || (gameData.getMouseX() > entity.getX() && sprite.isFlipX())) {
+                sprite.flip(true, false);
+            }
+            if (entity.getEntityType() != EntityType.PLAYER && (entity.getVelocity() < 0 && !sprite.isFlipX()) || (entity.getVelocity() > 0 && sprite.isFlipX())) {
                 sprite.flip(true, false);
             }
         }
 
         sprite.setX(entity.getX() - gameData.getCameraX());
         sprite.setY(entity.getY() - gameData.getCameraY());
+        sprite.setRotation(entity.getAngle());
         sprite.draw(batch);
     }
 
