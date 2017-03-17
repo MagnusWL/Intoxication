@@ -47,9 +47,9 @@ public class Renderer {
             "Middleground", "lightSource", "level_01_back",  "level_01_front",  "level_02", "level_03_back", "level_03_front",
             "Eye_withoutpupil", "foreground_layer1", "foreground_layer2", "Background_layer1", "Background_layer2");
 
-        loadPNGAnimation("player_run", 75, 80);
+/*        loadPNGAnimation("player_run", 75, 80);
         loadPNGAnimation("player_idle", 75, 80);
-        loadPNGAnimation("player_jump", 75, 80);
+        loadPNGAnimation("player_jump", 75, 80);*/
         loadPNGAnimation("currency_gold", 44, 45);
     }
 
@@ -134,6 +134,10 @@ public class Renderer {
             drawSprite(gameData, world, entity, images.get(entity.getSprite()), true);
         }
 
+        for (Entity entity : world.getEntities(EntityType.PLAYER)) {
+            drawSprite(gameData, world, entity, images.get(entity.getSprite()), true);
+        }
+
         for (Entity entity : world.getEntities(EntityType.WEAPON)) {
             drawSprite(gameData, world, entity, images.get(entity.getSprite()), true);
         }
@@ -173,10 +177,11 @@ public class Renderer {
 
     private void drawSprite(GameData gameData, World world, Entity entity, Sprite sprite, boolean flip) {
         if (flip) {
-            if (entity.getEntityType() == EntityType.PLAYER && (gameData.getMouseX() < entity.getX() && !sprite.isFlipX()) || (gameData.getMouseX() > entity.getX() && sprite.isFlipX())) {
+            if (entity.getEntityType() == EntityType.PLAYER && 
+                    ((gameData.getMouseX() < entity.getX() && !sprite.isFlipX()) || (gameData.getMouseX() > entity.getX() && sprite.isFlipX()))) {
                 sprite.flip(true, false);
             }
-            if (entity.getEntityType() != EntityType.PLAYER && (entity.getVelocity() < 0 && !sprite.isFlipX()) || (entity.getVelocity() > 0 && sprite.isFlipX())) {
+            if (entity.getEntityType() != EntityType.PLAYER && ((entity.getVelocity() < 0 && !sprite.isFlipX()) || (entity.getVelocity() > 0 && sprite.isFlipX()))) {
                 sprite.flip(true, false);
             }
         }
@@ -189,8 +194,9 @@ public class Renderer {
 
     float back1m = 2f;
     float back2m = 1f;
-    float back3m = 0.5f;
-    float back4m = 0.25f;
+    float back3m = 0.9f;
+    float back4m = 0.80f;
+    float back5m = 0.65f;
 
     private void clearBackground(GameData gameData) {
         sr.setColor(new Color(0f, 138f / 255f, 1f, 1f));
@@ -198,13 +204,14 @@ public class Renderer {
     }
 
     private void drawBackground(GameData gameData) {
-        drawBackground(gameData, images.get("back4"), back4m);
-        drawBackground(gameData, images.get("back3"), back3m);
-        drawBackground(gameData, images.get("back2"), back2m);
+        drawBackground(gameData, images.get("Background_layer1"), back5m);
+        drawBackground(gameData, images.get("Background_layer2"), back4m);
+        drawBackground(gameData, images.get("Middleground"), back3m);
     }
 
     private void drawForeground(GameData gameData) {
-        drawBackground(gameData, images.get("back1"), back1m);
+        drawBackground(gameData, images.get("foreground_layer1"), back1m);
+        drawBackground(gameData, images.get("foreground_layer2"), back2m);
     }
 
     private void drawBackground(GameData gameData, Sprite sprite, float mov) {
