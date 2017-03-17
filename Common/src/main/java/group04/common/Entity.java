@@ -16,28 +16,42 @@ public class Entity {
     private float jumpSpeed;
     private float velocity;
     private float verticalVelocity;
-    private float attackCooldown;
-    private float timeSinceAttack;
     private int life;
     private int maxLife;
     private boolean hasGravity;
     private UUID ID = UUID.randomUUID();
     private int[][] map;
+    private float angle;
+    private int drawOffsetX;
+    private int drawOffsetY;
 
-    //SHOT FROM TYPE
-    private EntityType shotFrom;
-
-    public EntityType getShotFrom() {
-        return shotFrom;
+    public int getDrawOffsetX() {
+        return drawOffsetX;
     }
 
-    public void setShotFrom(EntityType shotFrom) {
-        this.shotFrom = shotFrom;
+    public void setDrawOffsetX(int drawOffsetX) {
+        this.drawOffsetX = drawOffsetX;
+    }
+
+    public int getDrawOffsetY() {
+        return drawOffsetY;
+    }
+
+    public void setDrawOffsetY(int drawOffsetY) {
+        this.drawOffsetY = drawOffsetY;
     }
     
     // Weapons
     private String weaponCarrier;
     private String weaponOwned;
+    private int damage;
+    private WeaponType weaponType;
+    private float attackCooldown;
+    private float timeSinceAttack;
+    private boolean swinging;
+    private EntityType shotFrom;
+    private boolean explosive;
+    private int explosionRadius;
 
     //Animation
     private String currentAnimation;
@@ -62,6 +76,46 @@ public class Entity {
         this.weaponOwned = weaponOwned;
     }
 
+    public float getAngle() {
+        return angle;
+    }
+
+    public WeaponType getWeaponType() {
+        return weaponType;
+    }
+
+    public void setWeaponType(WeaponType weaponType) {
+        this.weaponType = weaponType;
+    }
+    
+    public void setAngle(float angle) {
+        this.angle = angle;
+    }
+
+    public boolean isSwinging() {
+        return swinging;
+    }
+
+    public EntityType getShotFrom() {
+        return shotFrom;
+    }
+
+    public void setShotFrom(EntityType shotFrom) {
+        this.shotFrom = shotFrom;
+    }
+    
+    public void setSwinging(boolean swinging) {
+        this.swinging = swinging;
+    }
+    
+    public int getDamage() {
+        return damage;
+    }
+
+    public void setDamage(int damage) {
+        this.damage = damage;
+    }
+    
     public String getWeaponCarrier() {
         return weaponCarrier;
     }
@@ -84,6 +138,22 @@ public class Entity {
 
     public void setSpawnDuration(int spawnDuration) {
         this.spawnDuration = spawnDuration;
+    }
+
+    public boolean isExplosive() {
+        return explosive;
+    }
+
+    public void setExplosive(boolean explosive) {
+        this.explosive = explosive;
+    }
+
+    public int getExplosionRadius() {
+        return explosionRadius;
+    }
+
+    public void setExplosionRadius(int explosionRadius) {
+        this.explosionRadius = explosionRadius;
     }
 
     public int getMobsSpawned() {

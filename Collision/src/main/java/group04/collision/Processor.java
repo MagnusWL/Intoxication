@@ -48,7 +48,7 @@ public class Processor implements ICollisionService, IServiceProcessor {
         Polygon poly2 = new Polygon();
 
         for (int i = 0; i < entity1.getShapeX().length; i++) {
-            poly1.addPoint((int) (entity1.getShapeX()[i] + entity1.getX()), (int) (entity1.getShapeY()[i] + entity1.getY()));
+            poly1.addPoint((int) (entity1.getShapeX()[i] + entity1.getX()) , (int) (entity1.getShapeY()[i] + entity1.getY()));
         }
         for (int i = 0; i < entity2.getShapeX().length; i++) {
             poly2.addPoint((int) (entity2.getShapeX()[i] + entity2.getX()), (int) (entity2.getShapeY()[i] + entity2.getY()));

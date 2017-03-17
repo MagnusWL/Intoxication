@@ -83,13 +83,13 @@ public class PlayerSystem implements IServiceProcessor, IServiceInitializer {
     private Entity createPlayer(GameData gameData, World world) {
         Entity playerCharacter = new Entity();
 
-        playerCharacter.setCurrentAnimation("player_idle");
-        playerCharacter.setAnimateable(true);
+//        playerCharacter.setCurrentAnimation("player_idle");
+//        playerCharacter.setAnimateable(true);
         playerCharacter.setEntityType(EntityType.PLAYER);
         playerCharacter.setX((int) (gameData.getDisplayWidth() * 0.5));
         playerCharacter.setY((int) (gameData.getDisplayHeight() * 0.15));
         playerCharacter.setHasGravity(true);
-        playerCharacter.setMaxLife(100);
+        playerCharacter.setMaxLife(10000);
         playerCharacter.setLife(playerCharacter.getMaxLife());
         playerCharacter.setJumpSpeed(400);
         playerCharacter.setMovementSpeed(150);
