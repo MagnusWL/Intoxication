@@ -42,6 +42,7 @@ public class BulletSystem implements IServiceProcessor, IServiceInitializer {
         bullet.setY(weapon.getY() + 35 + ((float) Math.sin(angle) * 50));
         bullet.setShapeX(new float[]{0, 5, 5, 0});
         bullet.setShapeY(new float[]{5, 5, 0, 0});
+        bullet.setExplosive(false);
 
         bullets.add(bullet);
         return bullet;
@@ -58,6 +59,8 @@ public class BulletSystem implements IServiceProcessor, IServiceInitializer {
         rocket.setY(entity.getY() + 35 + ((float) Math.sin(angle) * 50));
         rocket.setShapeX(new float[]{0, 5, 5, 0});
         rocket.setShapeY(new float[]{5, 5, 0, 0});
+        rocket.setExplosive(true);
+        rocket.setExplosionRadius(40);
 
         bullets.add(rocket);
         return rocket;

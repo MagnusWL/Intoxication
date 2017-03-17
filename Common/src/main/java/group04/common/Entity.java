@@ -50,6 +50,8 @@ public class Entity {
     private float timeSinceAttack;
     private boolean swinging;
     private EntityType shotFrom;
+    private boolean explosive;
+    private int explosionRadius;
 
     //Animation
     private String currentAnimation;
@@ -136,6 +138,22 @@ public class Entity {
 
     public void setSpawnDuration(int spawnDuration) {
         this.spawnDuration = spawnDuration;
+    }
+
+    public boolean isExplosive() {
+        return explosive;
+    }
+
+    public void setExplosive(boolean explosive) {
+        this.explosive = explosive;
+    }
+
+    public int getExplosionRadius() {
+        return explosionRadius;
+    }
+
+    public void setExplosionRadius(int explosionRadius) {
+        this.explosionRadius = explosionRadius;
     }
 
     public int getMobsSpawned() {

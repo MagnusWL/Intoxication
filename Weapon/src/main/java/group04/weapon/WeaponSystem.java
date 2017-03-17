@@ -23,7 +23,7 @@ import group04.common.services.IServiceProcessor;
     @ServiceProvider(service = IServiceInitializer.class)})
 
 public class WeaponSystem implements IServiceProcessor, IServiceInitializer {
-    
+
     @Override
     public void process(GameData gameData, World world) {
         for (Event e : gameData.getAllEvents()) {
@@ -35,6 +35,24 @@ public class WeaponSystem implements IServiceProcessor, IServiceInitializer {
                     createWeapon(gameData, world, world.getEntity(e.getEntityID()), WeaponType.ROCKET);
                 }
                 gameData.removeEvent(e);
+            }
+        }
+
+        for (Event e : gameData.getAllEvents()) {
+            if (e.getType() == EventType.ROCKET_HIT) {
+                for (Entity entity : world.getEntities(EntityType.PLAYER)) {
+                    Entity entityHit = world.getEntity(e.getEntityID());
+                    Entity player = entity;
+                    Entity explosion = new Entity();
+                    explosion.setExplosionRadius(world.getEntity(player.getWeaponOwned()).getExplosionRadius());
+                    explosion.setDamage(world.getEntity(player.getWeaponOwned()).getDamage());
+                    explosion.setX(entityHit.getX());
+                    explosion.setY(entityHit.getY() + 50);
+                    explosion.setShapeX(new float[]{0, 0, world.getEntity(player.getWeaponOwned()).getExplosionRadius() * 2, world.getEntity(player.getWeaponOwned()).getExplosionRadius() * 2});
+                    explosion.setShapeY(new float[] {0, world.getEntity(player.getWeaponOwned()).getExplosionRadius() * 2, world.getEntity(player.getWeaponOwned()).getExplosionRadius() * 2, 0});
+                    explosion.setSprite("explosion");
+                    world.addEntity(explosion);
+                }
             }
         }
 
@@ -51,7 +69,6 @@ public class WeaponSystem implements IServiceProcessor, IServiceInitializer {
 //            float angle = (float) Math.atan2(gameData.getMouseY() - (carrier.getY() + 15 - gameData.getCameraY()), gameData.getMouseX() - (player.getX() + 15 - gameData.getCameraX()));
 //            weapon.setAngle(angle);
 //        }
-
         for (Entity weapon : world.getEntities(EntityType.WEAPON)) {
             Entity carrier = world.getEntity(weapon.getWeaponCarrier());
             float angle1 = (float) Math.atan2(gameData.getMouseY() - (carrier.getY() + 15 - gameData.getCameraY()) + 45, gameData.getMouseX() - (carrier.getX() + 15 - gameData.getCameraX()) - 45);
@@ -85,7 +102,7 @@ public class WeaponSystem implements IServiceProcessor, IServiceInitializer {
                 gameData.addEvent(new Event(EventType.ENEMY_SHOOT, weapon.getID()));
                 weapon.setTimeSinceAttack(0);
             }
-            
+
         }
 
     }
@@ -148,9 +165,9 @@ public class WeaponSystem implements IServiceProcessor, IServiceInitializer {
 
     @Override
     public void start(GameData gameData, World world) {
-        
+
     }
-    
+
     @Override
     public void stop(GameData gameData, World world) {
 
