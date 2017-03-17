@@ -59,10 +59,34 @@ public class Processor implements IServiceProcessor {
                     }
                 }
 
-                if (entity.getEntityType() == EntityType.PROJECTILE) {
+                if (entity.getEntityType() == EntityType.PROJECTILE && !entity.isExplosive()) {
                     for (Entity entityHit : world.getEntities(EntityType.PLAYER, EntityType.ENEMY, EntityType.BASE)) {
-                        if(entityHit.getEntityType() != entity.getShotFrom() 
-                                && !(entityHit.getEntityType() == EntityType.BASE && entity.getEntityType() == EntityType.PLAYER))
+                        if (entityHit.getEntityType() != entity.getShotFrom()
+                                && !(entityHit.getEntityType() == EntityType.BASE && entity.getEntityType() == EntityType.PLAYER)) {
+                            if (e.isEntitiesColliding(world, gameData, entity, entityHit)) {
+                                gameData.addEvent(new Event(EventType.ENTITY_HIT, entityHit.getID()));
+                                world.removeEntity(entity);
+                                break;
+                            }
+                        }
+                    }
+                }
+
+                if (entity.getEntityType() == EntityType.PROJECTILE && entity.isExplosive()) {
+                    for (Entity entityHit : world.getEntities(EntityType.PLAYER, EntityType.ENEMY, EntityType.BASE)) {
+                        if (entityHit.getEntityType() != entity.getShotFrom()
+                                && !(entityHit.getEntityType() == EntityType.BASE && entity.getEntityType() == EntityType.PLAYER)) {
+                            if (e.isEntitiesColliding(world, gameData, entity, entityHit)) {
+                                gameData.addEvent(new Event(EventType.ROCKET_HIT, entityHit.getID()));
+                                world.removeEntity(entity);
+                                break;
+                            }
+                        }
+                    }
+                }
+
+                if (entity.getEntityType() == EntityType.EXPLOSION) {
+                    for (Entity entityHit : world.getEntities(EntityType.PLAYER, EntityType.ENEMY, EntityType.BASE)) {
                         if (e.isEntitiesColliding(world, gameData, entity, entityHit)) {
                             gameData.addEvent(new Event(EventType.ENTITY_HIT, entityHit.getID()));
                             world.removeEntity(entity);
@@ -70,6 +94,7 @@ public class Processor implements IServiceProcessor {
                         }
                     }
                 }
+
                 if (entity.getEntityType() == EntityType.WEAPON && entity.getWeaponType() == WeaponType.MELEE) {
                     for (Entity entityHit : world.getEntities(EntityType.ENEMY, EntityType.PLAYER, EntityType.BASE)) {
                         if (e.isEntitiesColliding(world, gameData, entity, entityHit)) {
