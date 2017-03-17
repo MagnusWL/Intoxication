@@ -71,7 +71,7 @@ public class Renderer {
 
         //Total back (Background)
         batch.begin();
-        drawBackground(gameData);
+        drawBackground(gameData, world);
         drawSprites(gameData, world);
         drawAnimations(gameData, world);
         batch.end();
@@ -191,8 +191,8 @@ public class Renderer {
         sprite.draw(batch);
     }
 
-    float back1m = 0.4f;
-    float back2m = 0.6f;
+    float back1m = 1f;
+    float back2m = 1f;
     float back3m = 1f;
     float back4m = 1.2f;
     float back5m = 1.4f;
@@ -202,8 +202,9 @@ public class Renderer {
         sr.rect(0, 0, gameData.getDisplayWidth(), gameData.getDisplayWidth());
     }
 
-    private void drawBackground(GameData gameData) {
+    private void drawBackground(GameData gameData, World world) {
         drawBackground(gameData, images.get("Background_layer1"), back1m);
+        drawPupil(gameData, world, images.get("pupil"), back1m);
         //pupil
 //        drawBackground(gameData, images.get("pupil"), back3m);
         drawBackground(gameData, images.get("Background_layer2"), back2m);
@@ -217,6 +218,25 @@ public class Renderer {
         drawBackground(gameData, images.get("level_03_back"), back3m);
 //        drawBackground(gameData, images.get("Eye_withoutpupil"), back3m);
 
+    }
+    
+    public void drawPupil(GameData gameData, World world, Sprite pupil, float mov)
+    {        
+        float eyeX = 1650 - gameData.getCameraX() * mov;
+        float playerX = 0;
+        for(Entity player: world.getEntities(EntityType.PLAYER))
+        {
+            playerX = player.getX() - gameData.getCameraX();
+        }
+
+        float d = (float) ((playerX - eyeX) / (gameData.getDisplayWidth() * 0.5));
+        
+        int xTranslate = (int) (200 * d);
+        
+        
+        pupil.setX(eyeX + xTranslate);
+        pupil.setY(220);
+        pupil.draw(batch);        
     }
 
     private void drawForeground(GameData gameData) {
