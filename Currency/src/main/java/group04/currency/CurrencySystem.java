@@ -15,6 +15,7 @@ import group04.common.events.EventType;
 import group04.datacontainers.AnimationContainer;
 import group04.datacontainers.CollisionContainer;
 import group04.datacontainers.MovementContainer;
+import group04.datacontainers.PlayerContainer;
 import java.util.ArrayList;
 
 @ServiceProviders(value = {
@@ -58,8 +59,10 @@ public class CurrencySystem implements IServiceInitializer, IServiceProcessor {
     private void pickupCurrency(GameData gameData, Event e, World world) {
         world.removeEntity(world.getEntity(e.getEntityID()));
 
+        PlayerContainer playerContainer = new PlayerContainer();
+        
         for (Entity player : world.getEntities(EntityType.PLAYER)) {
-            player.setMoney(player.getMoney() + 10);
+            playerContainer.setMoney(playerContainer.getMoney() + 10);
         }
     }
 
