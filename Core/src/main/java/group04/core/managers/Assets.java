@@ -6,22 +6,47 @@
 package group04.core.managers;
 
 import com.badlogic.gdx.assets.AssetManager;
-import com.badlogic.gdx.assets.loaders.FileHandleResolver;
-import com.badlogic.gdx.files.FileHandle;
+import com.badlogic.gdx.assets.AssetDescriptor;
+import com.badlogic.gdx.audio.Sound;
+import com.badlogic.gdx.graphics.Texture;
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  *
- * @author Michael-PC
+ * @author Josan gamle stodder
  */
-public class Assets implements FileHandleResolver {
-    public static final AssetManager MANAGER = new AssetManager();
+public class Assets {
+    public static final AssetManager manager = new AssetManager();
+    private static List<AssetDescriptor<Sound>> soundAssets = new ArrayList<AssetDescriptor<Sound>>();
+    private static List<AssetDescriptor<Texture>> textureAssets = new ArrayList<AssetDescriptor<Texture>>();
     
-    public static void load() {
-        
+    public static void load()
+    {
+        for (AssetDescriptor<Sound> soundFile : soundAssets)
+        {
+            manager.load(soundFile);
+        }
+        for(AssetDescriptor<Texture> textureFile : textureAssets)
+        {
+            manager.load(textureFile);
+        }
     }
-
-    @Override
-    public FileHandle resolve(String string) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    
+    public void addSoundAsset(String soundAssetName)
+    {
+        soundAssets.add(new AssetDescriptor<Sound>(soundAssetName, Sound.class));
     }
+    
+    public void addImageAsset(String textureAssetName)
+    {
+        textureAssets.add(new AssetDescriptor<Texture>(textureAssetName, Texture.class));
+    }
+    
+    public static void dispose()
+    {
+        manager.dispose();
+    }
+    
+    
 }
