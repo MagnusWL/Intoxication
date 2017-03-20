@@ -3,15 +3,22 @@ package group04.datacontainers;
 import group04.common.EntityType;
 import group04.common.WeaponType;
 
-public class WeaponContainer  implements DataContainer {
-     
-     
+public class WeaponContainer implements DataContainer {
+
     private String weaponCarrier;
+    private int damage;
     private WeaponType weaponType;
     private float attackCooldown;
     private float timeSinceAttack;
     private boolean swinging;
 
+    public int getDamage() {
+        return damage;
+    }
+
+    public void setDamage(int damage) {
+        this.damage = damage;
+    }
     public String getWeaponCarrier() {
         return weaponCarrier;
     }
@@ -19,7 +26,6 @@ public class WeaponContainer  implements DataContainer {
     public void setWeaponCarrier(String weaponCarrier) {
         this.weaponCarrier = weaponCarrier;
     }
-
 
     public WeaponType getWeaponType() {
         return weaponType;

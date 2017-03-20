@@ -17,6 +17,13 @@ import group04.common.events.Event;
 import group04.common.events.EventType;
 import group04.common.services.IServiceInitializer;
 import group04.common.services.IServiceProcessor;
+import group04.datacontainers.AnimationContainer;
+import group04.datacontainers.CollisionContainer;
+import group04.datacontainers.ControllerContainer;
+import group04.datacontainers.HealthContainer;
+import group04.datacontainers.ImageContainer;
+import group04.datacontainers.MovementContainer;
+import group04.datacontainers.WeaponContainer;
 
 @ServiceProviders(value = {
     @ServiceProvider(service = IServiceProcessor.class),
@@ -49,7 +56,7 @@ public class WeaponSystem implements IServiceProcessor, IServiceInitializer {
                     explosion.setX(entityHit.getX());
                     explosion.setY(entityHit.getY() + 50);
                     explosion.setShapeX(new float[]{0, 0, world.getEntity(player.getWeaponOwned()).getExplosionRadius() * 2, world.getEntity(player.getWeaponOwned()).getExplosionRadius() * 2});
-                    explosion.setShapeY(new float[] {0, world.getEntity(player.getWeaponOwned()).getExplosionRadius() * 2, world.getEntity(player.getWeaponOwned()).getExplosionRadius() * 2, 0});
+                    explosion.setShapeY(new float[]{0, world.getEntity(player.getWeaponOwned()).getExplosionRadius() * 2, world.getEntity(player.getWeaponOwned()).getExplosionRadius() * 2, 0});
                     explosion.setSprite("explosion");
                     world.addEntity(explosion);
                 }
@@ -150,17 +157,32 @@ public class WeaponSystem implements IServiceProcessor, IServiceInitializer {
 
     private void createRocket(GameData gameData, World world, Entity e, WeaponType type) {
         Entity weapon = new Entity();
+
+        ControllerContainer controllerContainer = new ControllerContainer();
+        controllerContainer.setJumpSpeed(400);
+        controllerContainer.setMovementSpeed(150);
+
+        MovementContainer movementContainer = new MovementContainer();
+        movementContainer.setHasGravity(true);
+
+        ImageContainer imageContainer = new ImageContainer();
+        imageContainer.setSprite("gun");
+
+        WeaponContainer weaponContainer = new WeaponContainer();
+        weaponContainer.setAttackCooldown(8);
+        weaponContainer.setTimeSinceAttack(0);
+        weaponContainer.setDamage(2);
+        weaponContainer.setWeaponCarrier(e.getID());
+        weaponContainer.setWeaponType(type);
+                
+        weapon.addContainer(controllerContainer);
+        weapon.addContainer(movementContainer);
+        weapon.addContainer(imageContainer);
+
         weapon.setEntityType(EntityType.WEAPON);
-        weapon.setSprite("gun");
-        weapon.setAttackCooldown(8);
-        weapon.setTimeSinceAttack(0);
-        weapon.setDamage(2);
-        weapon.setWeaponCarrier(e.getID());
-        weapon.setWeaponType(type);
         world.addEntity(weapon);
 
         world.getEntity(e.getID()).setWeaponOwned(weapon.getID());
-
     }
 
     @Override
