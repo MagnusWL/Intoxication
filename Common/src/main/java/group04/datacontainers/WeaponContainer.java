@@ -6,7 +6,6 @@ import group04.common.WeaponType;
 public class WeaponContainer {
      
     private String weaponCarrier;
-    private String weaponOwned;
     private int damage;
     private WeaponType weaponType;
     private float attackCooldown;
@@ -22,14 +21,6 @@ public class WeaponContainer {
 
     public void setWeaponCarrier(String weaponCarrier) {
         this.weaponCarrier = weaponCarrier;
-    }
-
-    public String getWeaponOwned() {
-        return weaponOwned;
-    }
-
-    public void setWeaponOwned(String weaponOwned) {
-        this.weaponOwned = weaponOwned;
     }
 
     public int getDamage() {
