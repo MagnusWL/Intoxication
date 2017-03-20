@@ -34,7 +34,7 @@ public class BoostSystem implements IServiceInitializer, IServiceProcessor {
         MovementContainer movementContainer = new MovementContainer();
         movementContainer.setHasGravity(true);
         ImageContainer imageContainer = new ImageContainer();
-        imageContainer.setSprite("Pill");
+        imageContainer.setSprite("pill");
         boosts.add(boost);
 
         CollisionContainer collisionContainer = new CollisionContainer();
@@ -49,6 +49,10 @@ public class BoostSystem implements IServiceInitializer, IServiceProcessor {
             39,
             39,
             1});
+        
+        boost.addContainer(movementContainer);
+        boost.addContainer(imageContainer);
+        boost.addContainer(collisionContainer);
 
         return boost;
     }

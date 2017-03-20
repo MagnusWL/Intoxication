@@ -10,7 +10,7 @@ public class Entity {
     private float x;
     private float y;
     private UUID ID = UUID.randomUUID();
-    private HashMap<Class, DataContainer> dataContainer;
+    private HashMap<Class, DataContainer> dataContainer = new HashMap<>();
 
     public void addContainer(DataContainer container)
     {

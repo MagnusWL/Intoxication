@@ -51,6 +51,10 @@ public class CurrencySystem implements IServiceInitializer, IServiceProcessor {
             39,
             1});
 
+        currency.addContainer(movementContainer);
+        currency.addContainer(animationContainer);
+        currency.addContainer(collisionContainer);
+        
         currencies.add(currency);
 
         return currency;

@@ -55,10 +55,9 @@ public class Renderer {
                 "Middleground", "lightSource", "level_01_back", "level_01_front", "level_02", "level_03_back", "level_03_front",
                 "Eye_withoutpupil", "foreground_layer1", "foreground_layer2", "Background_layer1", "Background_layer2", "Halo");
 
-
-        /*        loadPNGAnimation("player_run", 75, 80);
+        loadPNGAnimation("player_run", 75, 80);
         loadPNGAnimation("player_idle", 75, 80);
-        loadPNGAnimation("player_jump", 75, 80);*/
+        loadPNGAnimation("player_jump", 75, 80);
         loadPNGAnimation("Enemy_Beer_Run", 142, 122);
         loadPNGAnimation("currency_gold", 44, 45);
     }
@@ -202,7 +201,7 @@ public class Renderer {
     }
 
     private void drawSprite(GameData gameData, World world, Entity entity, Sprite sprite, boolean flip, ImageContainer imageContainer) {
-        if (imageContainer.getAngle() != 0) {
+        if (imageContainer != null && imageContainer.getAngle() != 0) {
             sprite.setRotation((float) Math.toDegrees(imageContainer.getAngle()));
         } else if (flip) {
             if (entity.getEntityType() == EntityType.PLAYER
@@ -220,8 +219,15 @@ public class Renderer {
             }
         }
 
-        sprite.setX(imageContainer.getDrawOffsetX() + entity.getX() - gameData.getCameraX());
-        sprite.setY(imageContainer.getDrawOffsetY() + entity.getY() - gameData.getCameraY());
+        if (imageContainer != null) {
+            sprite.setX(imageContainer.getDrawOffsetX() + entity.getX() - gameData.getCameraX());
+            sprite.setY(imageContainer.getDrawOffsetY() + entity.getY() - gameData.getCameraY());
+        }
+        else
+        {
+            sprite.setX(entity.getX() - gameData.getCameraX());
+            sprite.setY(entity.getY() - gameData.getCameraY());            
+        }
         sprite.draw(batch);
     }
 

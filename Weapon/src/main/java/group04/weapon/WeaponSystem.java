@@ -39,13 +39,13 @@ public class WeaponSystem implements IServiceProcessor, IServiceInitializer {
                     createGun(gameData, world, world.getEntity(e.getEntityID()), WeaponType.GUN);
                 }
                 if (world.getEntity(e.getEntityID()).getEntityType() == EntityType.PLAYER) {
-                    createWeapon(gameData, world, world.getEntity(e.getEntityID()), WeaponType.ROCKET);
+                    createWeapon(gameData, world, world.getEntity(e.getEntityID()), WeaponType.GUN);
                 }
                 gameData.removeEvent(e);
             }
         }
         
-/*        for (Event e : gameData.getAllEvents()) {
+       /* for (Event e : gameData.getAllEvents()) {
             if (e.getType() == EventType.ROCKET_HIT) {
                 for (Entity entity : world.getEntities(EntityType.PLAYER)) {
                     Entity entityHit = world.getEntity(e.getEntityID());
@@ -140,7 +140,10 @@ public class WeaponSystem implements IServiceProcessor, IServiceInitializer {
         weaponContainer.setTimeSinceAttack(0);
         weaponContainer.setWeaponCarrier(e.getID());
         weaponContainer.setWeaponType(type);
-        
+
+        weapon.addContainer(imageContainer);
+        weapon.addContainer(weaponContainer);
+
         world.addEntity(weapon);
         ((HealthContainer) world.getEntity(e.getID()).getContainer(HealthContainer.class)).setWeaponOwned(weapon.getID());
     }
@@ -165,6 +168,7 @@ public class WeaponSystem implements IServiceProcessor, IServiceInitializer {
         
         weapon.addContainer(imageContainer);
         weapon.addContainer(weaponContainer);
+        weapon.addContainer(collisionContainer);
         
         world.addEntity(weapon);
         ((HealthContainer) world.getEntity(e.getID()).getContainer(HealthContainer.class)).setWeaponOwned(weapon.getID());

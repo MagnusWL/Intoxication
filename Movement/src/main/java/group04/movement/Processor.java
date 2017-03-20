@@ -43,7 +43,7 @@ public class Processor implements IServiceProcessor {
 
             }
 
-            for (Entity entity : world.getEntities(EntityType.PLAYER, EntityType.ENEMY, EntityType.PROJECTILE, EntityType.WEAPON, EntityType.CURRENCY)) {
+            for (Entity entity : world.getEntities(EntityType.PLAYER, EntityType.ENEMY, EntityType.PROJECTILE, EntityType.CURRENCY)) {
 
                 MovementContainer movementContainer = ((MovementContainer) entity.getContainer(MovementContainer.class));
 
