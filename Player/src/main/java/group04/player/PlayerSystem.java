@@ -28,9 +28,9 @@ public class PlayerSystem implements IServiceProcessor, IServiceInitializer {
 
     private Entity player;
 
-    private void checkAnimation(Entity entity, String newAnimation) {
-        if (!newAnimation.equals(entity.getCurrentAnimation())) {
-            entity.setCurrentFrame(0);
+    private void checkAnimation(AnimationContainer container, String newAnimation) {
+        if (!newAnimation.equals(container.getCurrentAnimation())) {
+            container.setCurrentFrame(0);
         }
     }
 
@@ -51,13 +51,13 @@ public class PlayerSystem implements IServiceProcessor, IServiceInitializer {
                 //left
 
                 movementContainer.setVelocity(-movementSpeed);
-                checkAnimation(entity, "player_run");
+                checkAnimation(animationContainer, "player_run");
                 animationContainer.setCurrentAnimation("player_run");
             }
             if (gameData.getKeys().isDown(GameKeys.D)) {
                 //right
                 movementContainer.setVelocity(movementSpeed);
-                checkAnimation(entity, "player_run");
+                checkAnimation(animationContainer, "player_run");
                 animationContainer.setCurrentAnimation("player_run");
             }
 
@@ -71,20 +71,20 @@ public class PlayerSystem implements IServiceProcessor, IServiceInitializer {
 
             if (!gameData.getKeys().isDown(GameKeys.A) && !gameData.getKeys().isDown(GameKeys.D)) {
                 movementContainer.setVelocity(0);
-                checkAnimation(entity, "player_idle");
+                checkAnimation(animationContainer, "player_idle");
                 animationContainer.setCurrentAnimation("player_idle");
             }
 
             if (!collisionContainer.isGrounded()) {
-                checkAnimation(entity, "player_jump");
+                checkAnimation(animationContainer, "player_jump");
                 animationContainer.setCurrentAnimation("player_jump");
             }
 
             for (Event e : gameData.getAllEvents()) {
                 if (e.getType() == EventType.ENTITY_HIT && e.getEntityID().equals(entity.getID())) {
-                    entity.setLife(entity.getLife() - 1);
-                    if (entity.getLife() <= 0) {
-                        world.removeEntity(world.getEntity(entity.getWeaponOwned()));
+                    healthContainer.setLife(healthContainer.getLife() - 1);
+                    if (healthContainer.getLife() <= 0) {
+                        world.removeEntity(world.getEntity(healthContainer.getWeaponOwned()));
                         world.removeEntity(entity);
                     }
                     gameData.removeEvent(e);
