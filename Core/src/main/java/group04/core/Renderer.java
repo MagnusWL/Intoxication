@@ -21,6 +21,13 @@ import group04.common.Entity;
 import group04.common.EntityType;
 import group04.common.GameData;
 import group04.common.World;
+import group04.datacontainers.AnimationContainer;
+import group04.datacontainers.DataContainer;
+import group04.datacontainers.HealthContainer;
+import group04.datacontainers.ImageContainer;
+import group04.datacontainers.MovementContainer;
+import group04.datacontainers.PlayerContainer;
+import group04.datacontainers.WaveSpawnerContainer;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
@@ -110,56 +117,65 @@ public class Renderer {
 
     private void drawAnimations(GameData gameData, World world) {
         for (Entity entity : world.getAllEntities()) {
-            if (entity.isAnimateable()) {
-                playAnimation(gameData, world, animations.get(entity.getCurrentAnimation()), true, entity, 5);
+            AnimationContainer animationContainer = (AnimationContainer) entity.getContainer(AnimationContainer.class);
+            if (animationContainer != null) {
+                playAnimation(gameData, world, animations.get(animationContainer.getCurrentAnimation()), true, entity, 5, animationContainer);
             }
         }
     }
 
-    private void playAnimation(GameData gameData, World world, ArrayList<Sprite> animation, boolean flip, Entity entity, double animationSpeed) {
-        drawSprite(gameData, world, entity, animation.get((int) entity.getCurrentFrame()), flip);
-        if (entity.getCurrentFrame() < (animation.size()) - 1) {
-            entity.setCurrentFrame(entity.getCurrentFrame() + (1 / animationSpeed));
+    private void playAnimation(GameData gameData, World world, ArrayList<Sprite> animation, boolean flip, Entity entity, double animationSpeed, AnimationContainer animationContainer) {
+        ImageContainer imageContainer = (ImageContainer) entity.getContainer(ImageContainer.class);
+        drawSprite(gameData, world, entity, animation.get((int) animationContainer.getCurrentFrame()), flip, imageContainer);
+        if (animationContainer.getCurrentFrame() < (animation.size()) - 1) {
+            animationContainer.setCurrentFrame(animationContainer.getCurrentFrame() + (1 / animationSpeed));
         } else {
-            entity.setCurrentFrame(0);
+            animationContainer.setCurrentFrame(0);
         }
 
     }
 
     private void drawSprites(GameData gameData, World world) {
         for (Entity entity : world.getEntities(EntityType.BASE)) {
-            drawSprite(gameData, world, entity, images.get(entity.getSprite()), false);
+            ImageContainer imageContainer = (ImageContainer) entity.getContainer(ImageContainer.class);
+            drawSprite(gameData, world, entity, images.get(imageContainer.getSprite()), false, imageContainer);
         }
 
 //        for (Entity entity : world.getEntities(EntityType.ENEMY)) {
 //            drawSprite(gameData, world, entity, images.get(entity.getSprite()), true);
 //        }
         for (Entity entity : world.getEntities(EntityType.PLAYER)) {
-            drawSprite(gameData, world, entity, images.get(entity.getSprite()), true);
+            ImageContainer imageContainer = (ImageContainer) entity.getContainer(ImageContainer.class);
+            drawSprite(gameData, world, entity, images.get(imageContainer.getSprite()), false, imageContainer);
         }
 
         for (Entity entity : world.getEntities(EntityType.WEAPON)) {
-            drawSprite(gameData, world, entity, images.get(entity.getSprite()), true);
+            ImageContainer imageContainer = (ImageContainer) entity.getContainer(ImageContainer.class);
+            drawSprite(gameData, world, entity, images.get(imageContainer.getSprite()), false, imageContainer);
         }
 
         for (Entity entity : world.getEntities(EntityType.PROJECTILE)) {
-            drawSprite(gameData, world, entity, images.get(entity.getSprite()), true);
+            ImageContainer imageContainer = (ImageContainer) entity.getContainer(ImageContainer.class);
+            drawSprite(gameData, world, entity, images.get(imageContainer.getSprite()), false, imageContainer);
         }
 
         for (Entity entity : world.getEntities(EntityType.BOOST)) {
-            drawSprite(gameData, world, entity, images.get(entity.getSprite()), false);
+            ImageContainer imageContainer = (ImageContainer) entity.getContainer(ImageContainer.class);
+            drawSprite(gameData, world, entity, images.get(imageContainer.getSprite()), false, imageContainer);
         }
     }
 
     private void drawScore(GameData gameData, World world) {
         for (Entity player : world.getEntities(EntityType.PLAYER)) {
-            text.draw(batch, "Drug money: " + Integer.toString(player.getMoney()), 40, gameData.getDisplayHeight() - 30);
+            PlayerContainer playerContainer = (PlayerContainer) player.getContainer(PlayerContainer.class);
+            text.draw(batch, "Drug money: " + Integer.toString(playerContainer.getMoney()), 40, gameData.getDisplayHeight() - 30);
         }
     }
 
     private void drawWaveCount(GameData gameData, World world) {
         for (Entity wave : world.getEntities(EntityType.WAVE_SPAWNER)) {
-            text.draw(batch, "Next wave: " + Integer.toString((wave.getSpawnTimerMax() - wave.getSpawnTimer()) / 60) + " seconds", 40, gameData.getDisplayHeight() - 50);
+            WaveSpawnerContainer waveSpawnerContainer = (WaveSpawnerContainer) wave.getContainer(WaveSpawnerContainer.class);
+            text.draw(batch, "Next wave: " + Integer.toString((waveSpawnerContainer.getSpawnTimerMax() - waveSpawnerContainer.getSpawnTimer()) / 60) + " seconds", 40, gameData.getDisplayHeight() - 50);
         }
     }
 
@@ -168,33 +184,44 @@ public class Renderer {
         int healthWidth;
 
         for (Entity entity : world.getAllEntities()) {
-            if (entity.getMaxLife() != 0) {
-                healthOffset = (int) images.get(entity.getSprite()).getHeight() + 5;
-                healthWidth = (int) images.get(entity.getSprite()).getWidth();
-                sr.setColor(1f, 0f, 0, 1f);
-                sr.rect(entity.getX() - gameData.getCameraX(), entity.getY() - gameData.getCameraY() + healthOffset, healthWidth, 5);
-                sr.setColor(0.0f, 1f, 0, 1f);
-                sr.rect(entity.getX() - gameData.getCameraX(), entity.getY() - gameData.getCameraY() + healthOffset, ((float) entity.getLife() / (float) entity.getMaxLife()) * healthWidth, 5);
+            HealthContainer healthContainer = (HealthContainer) entity.getContainer(HealthContainer.class);
+
+            if (healthContainer != null) {
+                ImageContainer imageContainer = (ImageContainer) entity.getContainer(ImageContainer.class);
+
+                if (imageContainer != null) {
+                    healthOffset = (int) images.get(imageContainer.getSprite()).getHeight() + 5;
+                    healthWidth = (int) images.get(imageContainer.getSprite()).getWidth();
+                    sr.setColor(1f, 0f, 0, 1f);
+                    sr.rect(entity.getX() - gameData.getCameraX(), entity.getY() - gameData.getCameraY() + healthOffset, healthWidth, 5);
+                    sr.setColor(0.0f, 1f, 0, 1f);
+                    sr.rect(entity.getX() - gameData.getCameraX(), entity.getY() - gameData.getCameraY() + healthOffset, ((float) healthContainer.getLife() / (float) healthContainer.getMaxLife()) * healthWidth, 5);
+                }
             }
         }
     }
 
-    private void drawSprite(GameData gameData, World world, Entity entity, Sprite sprite, boolean flip) {
-        if (entity.getAngle() != 0) {
-            sprite.setRotation((float) Math.toDegrees(entity.getAngle()));
+    private void drawSprite(GameData gameData, World world, Entity entity, Sprite sprite, boolean flip, ImageContainer imageContainer) {
+        if (imageContainer.getAngle() != 0) {
+            sprite.setRotation((float) Math.toDegrees(imageContainer.getAngle()));
         } else if (flip) {
             if (entity.getEntityType() == EntityType.PLAYER
                     && ((gameData.getMouseX() < (entity.getX() - gameData.getCameraX()) && !sprite.isFlipX())
                     || (gameData.getMouseX() > (entity.getX() - gameData.getCameraX()) && sprite.isFlipX()))) {
                 sprite.flip(true, false);
             }
-            if (entity.getEntityType() != EntityType.PLAYER && ((entity.getVelocity() < 0 && !sprite.isFlipX()) || (entity.getVelocity() > 0 && sprite.isFlipX()))) {
-                sprite.flip(true, false);
+            if (entity.getEntityType() != EntityType.PLAYER) {
+                MovementContainer movementContainer = (MovementContainer) entity.getContainer(MovementContainer.class);
+                if (movementContainer != null) {
+                    if ((movementContainer.getVelocity() < 0 && !sprite.isFlipX()) || (movementContainer.getVelocity() > 0 && sprite.isFlipX())) {
+                        sprite.flip(true, false);
+                    }
+                }
             }
         }
 
-        sprite.setX(entity.getDrawOffsetX() + entity.getX() - gameData.getCameraX());
-        sprite.setY(entity.getDrawOffsetY() + entity.getY() - gameData.getCameraY());
+        sprite.setX(imageContainer.getDrawOffsetX() + entity.getX() - gameData.getCameraX());
+        sprite.setY(imageContainer.getDrawOffsetY() + entity.getY() - gameData.getCameraY());
         sprite.draw(batch);
     }
 

@@ -30,7 +30,7 @@ import group04.datacontainers.WeaponContainer;
     @ServiceProvider(service = IServiceInitializer.class)})
 
 public class WeaponSystem implements IServiceProcessor, IServiceInitializer {
-
+    
     @Override
     public void process(GameData gameData, World world) {
         for (Event e : gameData.getAllEvents()) {
@@ -44,8 +44,8 @@ public class WeaponSystem implements IServiceProcessor, IServiceInitializer {
                 gameData.removeEvent(e);
             }
         }
-
-        for (Event e : gameData.getAllEvents()) {
+        
+/*        for (Event e : gameData.getAllEvents()) {
             if (e.getType() == EventType.ROCKET_HIT) {
                 for (Entity entity : world.getEntities(EntityType.PLAYER)) {
                     Entity entityHit = world.getEntity(e.getEntityID());
@@ -61,7 +61,7 @@ public class WeaponSystem implements IServiceProcessor, IServiceInitializer {
                     world.addEntity(explosion);
                 }
             }
-        }
+        }*/
 
 //        for (Event e : gameData.getEvents(EventType.PLAYER_SWING)) {
 //            Entity player = world.getEntity(e.getEntityID());
@@ -77,43 +77,44 @@ public class WeaponSystem implements IServiceProcessor, IServiceInitializer {
 //            weapon.setAngle(angle);
 //        }
         for (Entity weapon : world.getEntities(EntityType.WEAPON)) {
-            Entity carrier = world.getEntity(weapon.getWeaponCarrier());
+            WeaponContainer weaponContainer = (WeaponContainer) weapon.getContainer(WeaponContainer.class);
+            Entity carrier = world.getEntity(weaponContainer.getWeaponCarrier());
+            MovementContainer movementContainer = (MovementContainer) carrier.getContainer(MovementContainer.class);
             float angle1 = (float) Math.atan2(gameData.getMouseY() - (carrier.getY() + 15 - gameData.getCameraY()) + 45, gameData.getMouseX() - (carrier.getX() + 15 - gameData.getCameraX()) - 45);
             float angle2 = (float) Math.atan2(gameData.getMouseY() - (carrier.getY() + 15 - gameData.getCameraY()) - 45, gameData.getMouseX() - (carrier.getX() + 15 - gameData.getCameraX()) - 45);
-            swinging(angle1, angle2, weapon);
-            if (carrier.getVelocity() < 0) {
+            swinging(angle1, angle2, weapon, weaponContainer, (ImageContainer) weapon.getContainer(ImageContainer.class));
+            if (movementContainer.getVelocity() < 0) {
                 weapon.setX(carrier.getX() - 20);
                 weapon.setY(carrier.getY() + 30);
             }
-            if (carrier.getVelocity() > 0) {
+            if (movementContainer.getVelocity() > 0) {
                 weapon.setX(carrier.getX() + 60);
                 weapon.setY(carrier.getY() + 30);
             }
-
-            weapon.setVelocity(carrier.getVelocity());
-            weapon.setTimeSinceAttack(weapon.getTimeSinceAttack() + 10 * gameData.getDelta());
-
-            if (weapon.getWeaponType() == WeaponType.GUN && carrier.getEntityType() == EntityType.PLAYER && gameData.getKeys().isDown(GameKeys.MOUSE0) && weapon.getTimeSinceAttack() > weapon.getAttackCooldown()) {
-                gameData.addEvent(new Event(EventType.PLAYER_SHOOT, world.getEntity(weapon.getWeaponCarrier()).getID()));
-                weapon.setTimeSinceAttack(0);
-            } else if (weapon.getWeaponType() == WeaponType.MELEE && carrier.getEntityType() == EntityType.PLAYER && gameData.getKeys().isDown(GameKeys.MOUSE0) && weapon.getTimeSinceAttack() > weapon.getAttackCooldown()) {
+            
+            weaponContainer.setTimeSinceAttack(weaponContainer.getTimeSinceAttack() + 10 * gameData.getDelta());
+            
+            if (weaponContainer.getWeaponType() == WeaponType.GUN && carrier.getEntityType() == EntityType.PLAYER && gameData.getKeys().isDown(GameKeys.MOUSE0) && weaponContainer.getTimeSinceAttack() > weaponContainer.getAttackCooldown()) {
+                gameData.addEvent(new Event(EventType.PLAYER_SHOOT, world.getEntity(weaponContainer.getWeaponCarrier()).getID()));
+                weaponContainer.setTimeSinceAttack(0);
+            } else if (weaponContainer.getWeaponType() == WeaponType.MELEE && carrier.getEntityType() == EntityType.PLAYER && gameData.getKeys().isDown(GameKeys.MOUSE0) && weaponContainer.getTimeSinceAttack() > weaponContainer.getAttackCooldown()) {
                 System.out.println("waddup");
-                gameData.addEvent(new Event(EventType.PLAYER_SWING, world.getEntity(weapon.getWeaponCarrier()).getID()));
-                weapon.setTimeSinceAttack(0);
-            } else if (weapon.getWeaponType() == WeaponType.ROCKET && carrier.getEntityType() == EntityType.PLAYER && gameData.getKeys().isDown(GameKeys.MOUSE0) && weapon.getTimeSinceAttack() > weapon.getAttackCooldown()) {
-                gameData.addEvent(new Event(EventType.PLAYER_SHOOT, world.getEntity(weapon.getWeaponCarrier()).getID()));
-                weapon.setTimeSinceAttack(0);
+                gameData.addEvent(new Event(EventType.PLAYER_SWING, world.getEntity(weaponContainer.getWeaponCarrier()).getID()));
+                weaponContainer.setTimeSinceAttack(0);
+            } else if (weaponContainer.getWeaponType() == WeaponType.ROCKET && carrier.getEntityType() == EntityType.PLAYER && gameData.getKeys().isDown(GameKeys.MOUSE0) && weaponContainer.getTimeSinceAttack() > weaponContainer.getAttackCooldown()) {
+                gameData.addEvent(new Event(EventType.PLAYER_SHOOT, world.getEntity(weaponContainer.getWeaponCarrier()).getID()));
+                weaponContainer.setTimeSinceAttack(0);
             }
-
-            if (weapon.getWeaponType() == WeaponType.GUN && carrier.getEntityType() == EntityType.ENEMY && weapon.getTimeSinceAttack() > weapon.getAttackCooldown()) {
+            
+            if (weaponContainer.getWeaponType() == WeaponType.GUN && carrier.getEntityType() == EntityType.ENEMY && weaponContainer.getTimeSinceAttack() > weaponContainer.getAttackCooldown()) {
                 gameData.addEvent(new Event(EventType.ENEMY_SHOOT, weapon.getID()));
-                weapon.setTimeSinceAttack(0);
+                weaponContainer.setTimeSinceAttack(0);
             }
-
+            
         }
-
+        
     }
-
+    
     public void createWeapon(GameData gameData, World world, Entity e, WeaponType type) {
         //Find out which weapon it is
         if (false) {
@@ -126,85 +127,91 @@ public class WeaponSystem implements IServiceProcessor, IServiceInitializer {
             createRocket(gameData, world, e, type);
         }
     }
-
+    
     public void createGun(GameData gameData, World world, Entity e, WeaponType type) {
         Entity weapon = new Entity();
         weapon.setEntityType(EntityType.WEAPON);
-        weapon.setWeaponType(type);
-        weapon.setSprite("gun");
-        weapon.setAttackCooldown(5);
-        weapon.setTimeSinceAttack(0);
-        weapon.setWeaponCarrier(e.getID());
-        world.addEntity(weapon);
-        world.getEntity(e.getID()).setWeaponOwned(weapon.getID());
-    }
-
-    private void createMelee(GameData gameData, World world, Entity e, WeaponType type) {
-        System.out.println("sværd");
-        Entity weapon = new Entity();
-        weapon.setEntityType(EntityType.WEAPON);
-        weapon.setSprite("sword");
-        weapon.setAttackCooldown(3);
-        weapon.setTimeSinceAttack(0);
-        weapon.setDamage(2);
-        weapon.setWeaponCarrier(e.getID());
-        weapon.setWeaponType(type);
-        weapon.setShapeX(new float[]{2, 32, 8, 2});
-        weapon.setShapeY(new float[]{4, 36, 36, 4});
-        world.addEntity(weapon);
-        world.getEntity(e.getID()).setWeaponOwned(weapon.getID());
-    }
-
-    private void createRocket(GameData gameData, World world, Entity e, WeaponType type) {
-        Entity weapon = new Entity();
-
-        ControllerContainer controllerContainer = new ControllerContainer();
-        controllerContainer.setJumpSpeed(400);
-        controllerContainer.setMovementSpeed(150);
-
-        MovementContainer movementContainer = new MovementContainer();
-        movementContainer.setHasGravity(true);
-
+        
         ImageContainer imageContainer = new ImageContainer();
         imageContainer.setSprite("gun");
-
+        
+        WeaponContainer weaponContainer = new WeaponContainer();
+        weaponContainer.setAttackCooldown(5);
+        weaponContainer.setTimeSinceAttack(0);
+        weaponContainer.setWeaponCarrier(e.getID());
+        weaponContainer.setWeaponType(type);
+        
+        world.addEntity(weapon);
+        ((HealthContainer) world.getEntity(e.getID()).getContainer(HealthContainer.class)).setWeaponOwned(weapon.getID());
+    }
+    
+    private void createMelee(GameData gameData, World world, Entity e, WeaponType type) {
+        Entity weapon = new Entity();
+        weapon.setEntityType(EntityType.WEAPON);
+        
+        ImageContainer imageContainer = new ImageContainer();
+        imageContainer.setSprite("sword");
+        
+        WeaponContainer weaponContainer = new WeaponContainer();
+        weaponContainer.setAttackCooldown(3);
+        weaponContainer.setTimeSinceAttack(0);
+        weaponContainer.setDamage(2);
+        weaponContainer.setWeaponCarrier(e.getID());
+        weaponContainer.setWeaponType(type);
+        
+        CollisionContainer collisionContainer = new CollisionContainer();
+        collisionContainer.setShapeX(new float[]{2, 32, 8, 2});
+        collisionContainer.setShapeY(new float[]{4, 36, 36, 4});
+        
+        weapon.addContainer(imageContainer);
+        weapon.addContainer(weaponContainer);
+        
+        world.addEntity(weapon);
+        ((HealthContainer) world.getEntity(e.getID()).getContainer(HealthContainer.class)).setWeaponOwned(weapon.getID());
+    }
+    
+    private void createRocket(GameData gameData, World world, Entity e, WeaponType type) {
+        Entity weapon = new Entity();
+        
+        ImageContainer imageContainer = new ImageContainer();
+        imageContainer.setSprite("gun");
+        
         WeaponContainer weaponContainer = new WeaponContainer();
         weaponContainer.setAttackCooldown(8);
         weaponContainer.setTimeSinceAttack(0);
         weaponContainer.setDamage(2);
         weaponContainer.setWeaponCarrier(e.getID());
         weaponContainer.setWeaponType(type);
-                
-        weapon.addContainer(controllerContainer);
-        weapon.addContainer(movementContainer);
+        
         weapon.addContainer(imageContainer);
-
+        weapon.addContainer(weaponContainer);
+        
         weapon.setEntityType(EntityType.WEAPON);
         world.addEntity(weapon);
-
-        world.getEntity(e.getID()).setWeaponOwned(weapon.getID());
+        
+        ((HealthContainer) world.getEntity(e.getID()).getContainer(HealthContainer.class)).setWeaponOwned(weapon.getID());
     }
-
+    
     @Override
     public void start(GameData gameData, World world) {
-
+        
     }
-
+    
     @Override
     public void stop(GameData gameData, World world) {
-
+        
         for (Entity weapon : world.getEntities(EntityType.WEAPON)) {
             world.removeEntity(weapon);
         }
     }
-
-    private void swinging(float a1, float a2, Entity weapon) {
-        if (weapon.getAngle() > a1 && weapon.getAngle() <= a2) {
-            weapon.setAngle(weapon.getAngle() + 0.5f);
-            System.out.println("Angle: " + weapon.getAngle());
+    
+    private void swinging(float a1, float a2, Entity weapon, WeaponContainer weaponContainer, ImageContainer imageContainer) {
+        if (imageContainer.getAngle() > a1 && imageContainer.getAngle() <= a2) {
+            imageContainer.setAngle(imageContainer.getAngle() + 0.5f);
+            System.out.println("Angle: " + imageContainer.getAngle());
         } else {
-            weapon.setSwinging(false);
+            weaponContainer.setSwinging(false);
         }
     }
-
+    
 }

@@ -17,6 +17,12 @@ import group04.common.EntityType;
 import group04.common.WeaponType;
 import group04.common.events.Event;
 import group04.common.events.EventType;
+import group04.datacontainers.CollisionContainer;
+import group04.datacontainers.HealthContainer;
+import group04.datacontainers.ImageContainer;
+import group04.datacontainers.MovementContainer;
+import group04.datacontainers.ProjectileContainer;
+import group04.datacontainers.WeaponContainer;
 
 /**
  *
@@ -33,16 +39,30 @@ public class BulletSystem implements IServiceProcessor, IServiceInitializer {
     private Entity createBullet(Entity weapon, GameData gameData, World world, float angle) {
         Entity bullet = new Entity();
         bullet.setEntityType(EntityType.PROJECTILE);
-        bullet.setAngle(angle);
-        bullet.setShotFrom(world.getEntity(weapon.getWeaponCarrier()).getEntityType());
-        bullet.setVelocity((float) (350 * Math.cos(angle)));
-        bullet.setVerticalVelocity((float) (350 * Math.sin(angle)));
-        bullet.setSprite("bullet");
+
+        ImageContainer imageContainer = new ImageContainer();
+        imageContainer.setSprite("bullet");
+        imageContainer.setAngle(angle);
+
+        MovementContainer movementContainer = new MovementContainer();
+        movementContainer.setVelocity((float) (350 * Math.cos(angle)));
+        movementContainer.setVerticalVelocity((float) (350 * Math.sin(angle)));
+
+        CollisionContainer collisionContainer = new CollisionContainer();
+        collisionContainer.setShapeX(new float[]{0, 5, 5, 0});
+        collisionContainer.setShapeY(new float[]{5, 5, 0, 0});
+
+        ProjectileContainer projectileContainer = new ProjectileContainer();
+        projectileContainer.setShotFrom(world.getEntity(((WeaponContainer) weapon.getContainer(WeaponContainer.class)).getWeaponCarrier()).getEntityType());
+        projectileContainer.setExplosive(false);
+
         bullet.setX(weapon.getX() + 35 + ((float) Math.cos(angle) * 50));
         bullet.setY(weapon.getY() + 35 + ((float) Math.sin(angle) * 50));
-        bullet.setShapeX(new float[]{0, 5, 5, 0});
-        bullet.setShapeY(new float[]{5, 5, 0, 0});
-        bullet.setExplosive(false);
+
+        bullet.addContainer(projectileContainer);
+        bullet.addContainer(movementContainer);
+        bullet.addContainer(collisionContainer);
+        bullet.addContainer(imageContainer);
 
         bullets.add(bullet);
         return bullet;
@@ -51,16 +71,31 @@ public class BulletSystem implements IServiceProcessor, IServiceInitializer {
     private Entity createRocket(Entity entity, GameData gameData, World world, float angle) {
         Entity rocket = new Entity();
         rocket.setEntityType(EntityType.PROJECTILE);
-        rocket.setAngle(angle);
-        rocket.setVelocity((float) (350 * Math.cos(angle)));
-        rocket.setVerticalVelocity((float) (350 * Math.sin(angle)));
-        rocket.setSprite("rocket");
+
+        ImageContainer imageContainer = new ImageContainer();
+        imageContainer.setSprite("rocket");
+        imageContainer.setAngle(angle);
+
+        MovementContainer movementContainer = new MovementContainer();
+        movementContainer.setVelocity((float) (350 * Math.cos(angle)));
+        movementContainer.setVerticalVelocity((float) (350 * Math.sin(angle)));
+
+        CollisionContainer collisionContainer = new CollisionContainer();
+        collisionContainer.setShapeX(new float[]{0, 5, 5, 0});
+        collisionContainer.setShapeY(new float[]{5, 5, 0, 0});
+
+        ProjectileContainer projectileContainer = new ProjectileContainer();
+        projectileContainer.setShotFrom(world.getEntity(((WeaponContainer) entity.getContainer(WeaponContainer.class)).getWeaponCarrier()).getEntityType());
+        projectileContainer.setExplosive(true);
+        projectileContainer.setExplosionRadius(40);
+
         rocket.setX(entity.getX() + 35 + ((float) Math.cos(angle) * 50));
         rocket.setY(entity.getY() + 35 + ((float) Math.sin(angle) * 50));
-        rocket.setShapeX(new float[]{0, 5, 5, 0});
-        rocket.setShapeY(new float[]{5, 5, 0, 0});
-        rocket.setExplosive(true);
-        rocket.setExplosionRadius(40);
+
+        rocket.addContainer(projectileContainer);
+        rocket.addContainer(movementContainer);
+        rocket.addContainer(collisionContainer);
+        rocket.addContainer(imageContainer);
 
         bullets.add(rocket);
         return rocket;
@@ -71,13 +106,15 @@ public class BulletSystem implements IServiceProcessor, IServiceInitializer {
         for (Event e : gameData.getAllEvents()) {
             if (e.getType() == EventType.PLAYER_SHOOT) {
                 Entity player = world.getEntity(e.getEntityID());
-                Entity playerWeapon = world.getEntity(player.getWeaponOwned());
+                Entity playerWeapon = world.getEntity(((HealthContainer)player.getContainer(HealthContainer.class)).getWeaponOwned());
+                WeaponContainer weaponContainer = ((WeaponContainer)playerWeapon.getContainer(WeaponContainer.class));
+
                 float angle = (float) Math.atan2(gameData.getMouseY() - (player.getY() + 15 - gameData.getCameraY()), gameData.getMouseX() - (player.getX() + 15 - gameData.getCameraX()));
 
-                if (world.getEntity(player.getWeaponOwned()).getWeaponType() == WeaponType.ROCKET) {
+                if (weaponContainer.getWeaponType() == WeaponType.ROCKET) {
                     world.addEntity(createRocket(playerWeapon, gameData, world, angle));
                 }
-                if (world.getEntity(player.getWeaponOwned()).getWeaponType() == WeaponType.GUN) {
+                if (weaponContainer.getWeaponType() == WeaponType.GUN) {
                     world.addEntity(createBullet(playerWeapon, gameData, world, angle));
                 }
                 gameData.removeEvent(e);
