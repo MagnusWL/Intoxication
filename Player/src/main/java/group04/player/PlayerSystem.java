@@ -9,6 +9,10 @@ import group04.common.events.Event;
 import group04.common.events.EventType;
 import group04.common.services.IServiceInitializer;
 import group04.common.services.IServiceProcessor;
+import group04.datacontainers.ControllerContainer;
+import group04.datacontainers.DataContainer;
+import group04.datacontainers.MovementContainer;
+import group04.datacontainers.PlayerContainer;
 import org.openide.util.lookup.ServiceProvider;
 import org.openide.util.lookup.ServiceProviders;
 
@@ -29,15 +33,20 @@ public class PlayerSystem implements IServiceProcessor, IServiceInitializer {
     @Override
     public void process(GameData gameData, World world) {
         for (Entity entity : world.getEntities(EntityType.PLAYER)) {
+            ControllerContainer cc = ((ControllerContainer) entity.getContainer(ControllerContainer.class));
+            float movementSpeed = cc.getMovementSpeed();
+            float jumpSpeed = cc.getMovementSpeed();
+
             if (gameData.getKeys().isDown(GameKeys.A)) {
                 //left
-                entity.setVelocity(-entity.getMovementSpeed());
+
+                entity.setVelocity(-movementSpeed);
                 checkAnimation(entity, "player_run");
                 entity.setCurrentAnimation("player_run");
             }
             if (gameData.getKeys().isDown(GameKeys.D)) {
                 //right
-                entity.setVelocity(entity.getMovementSpeed());
+                entity.setVelocity(movementSpeed);
                 checkAnimation(entity, "player_run");
                 entity.setCurrentAnimation("player_run");
             }
@@ -45,7 +54,7 @@ public class PlayerSystem implements IServiceProcessor, IServiceInitializer {
             if (gameData.getKeys().isDown(GameKeys.SPACE)) {
                 if (entity.isGrounded()) {
                     {
-                        entity.setVerticalVelocity(entity.getJumpSpeed());
+                        entity.setVerticalVelocity(jumpSpeed);
                     }
                 }
             }
@@ -60,7 +69,7 @@ public class PlayerSystem implements IServiceProcessor, IServiceInitializer {
                 checkAnimation(entity, "player_jump");
                 entity.setCurrentAnimation("player_jump");
             }
-            
+
             for (Event e : gameData.getAllEvents()) {
                 if (e.getType() == EventType.ENTITY_HIT && e.getEntityID().equals(entity.getID())) {
                     entity.setLife(entity.getLife() - 1);
@@ -85,14 +94,25 @@ public class PlayerSystem implements IServiceProcessor, IServiceInitializer {
 
 //        playerCharacter.setCurrentAnimation("player_idle");
 //        playerCharacter.setAnimateable(true);
+        PlayerContainer playerContainer = new PlayerContainer();
+
+        ControllerContainer controllerContainer = new ControllerContainer();
+        controllerContainer.setJumpSpeed(400);
+        controllerContainer.setMovementSpeed(150);
+
+        MovementContainer movementContainer = new MovementContainer();
+        movementContainer.setHasGravity(true);
+
+        playerCharacter.addContainer(playerContainer);
+        playerCharacter.addContainer(controllerContainer);
+        playerCharacter.addContainer(movementContainer);
+
         playerCharacter.setEntityType(EntityType.PLAYER);
         playerCharacter.setX((int) (gameData.getDisplayWidth() * 0.5));
         playerCharacter.setY((int) (gameData.getDisplayHeight() * 0.15));
-        playerCharacter.setHasGravity(true);
         playerCharacter.setMaxLife(10000);
         playerCharacter.setLife(playerCharacter.getMaxLife());
-        playerCharacter.setJumpSpeed(400);
-        playerCharacter.setMovementSpeed(150);
+
         playerCharacter.setSprite("Player");
         playerCharacter.setShapeX(new float[]{17, 34, 52, 66});
         playerCharacter.setShapeY(new float[]{0, 73, 73, 0});

@@ -49,7 +49,7 @@ public class CurrencySystem implements IServiceInitializer, IServiceProcessor {
         world.removeEntity(world.getEntity(e.getEntityID()));
         
         for (Entity player : world.getEntities(EntityType.PLAYER)) {
-            player.setCurrency(player.getCurrency() + 10);
+            player.setMoney(player.getMoney() + 10);
         }
     }
 
