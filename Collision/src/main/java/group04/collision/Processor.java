@@ -62,7 +62,7 @@ public class Processor implements ICollisionService, IServiceProcessor {
 
     @Override
     public void process(GameData gameData, World world) {
-        for (Entity entity : world.getEntities(EntityType.PLAYER, EntityType.ENEMY)) {
+        for (Entity entity : world.getAllEntities()) {
             if (isColliding(world, gameData, entity, 0, -2)) {
                 entity.setGrounded(true);
             } else {
