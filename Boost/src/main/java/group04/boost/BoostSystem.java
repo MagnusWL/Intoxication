@@ -1,6 +1,5 @@
 package group04.boost;
 
-import group04.common.BoostType;
 import group04.common.Entity;
 import group04.common.EntityType;
 import static group04.common.EntityType.BOOST;
