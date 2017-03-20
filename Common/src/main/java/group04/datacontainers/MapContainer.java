@@ -1,5 +1,6 @@
 package group04.datacontainers;
 
+public class MapContainer implements DataContainer {
 public class MapContainer  implements DataContainer{
         private int[][] map;
 

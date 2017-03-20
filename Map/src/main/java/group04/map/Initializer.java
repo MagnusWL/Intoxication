@@ -6,6 +6,7 @@ import group04.common.EntityType;
 import group04.common.GameData;
 import group04.common.World;
 import group04.common.services.IServiceInitializer;
+import group04.datacontainers.MapContainer;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
@@ -41,6 +42,7 @@ public class Initializer implements IServiceInitializer {
 
     private Entity loadMap(GameData gameData) {
 
+        
         FileInputStream fin = null;
         ObjectInputStream ois = null;
         try {
@@ -58,12 +60,15 @@ public class Initializer implements IServiceInitializer {
             int[][] newMapInt;
 
             try {
+                MapContainer mapContainer = new MapContainer();
+                
                 newMapInt = (int[][]) ois.readObject();
                 gameData.setMapHeight(newMapInt[0].length);
                 gameData.setMapWidth(newMapInt.length);
                 newMap = new Entity();
+                newMap.addContainer(mapContainer);
                 newMap.setEntityType(EntityType.MAP);
-                newMap.setMap(newMapInt);
+                mapContainer.setMap(newMapInt);
             } catch (IOException ex) {
                 Logger.getLogger(Initializer.class.getName()).log(Level.SEVERE, null, ex);
             } catch (ClassNotFoundException ex) {
@@ -75,25 +80,6 @@ public class Initializer implements IServiceInitializer {
             return newMap;
         }
 
-        return generateMap(gameData);
-    }
-
-    private Entity generateMap(GameData gameData) {
-        int[][] newMapInt = new int[gameData.getMapWidth()][gameData.getMapHeight()];
-
-        for (int i = 0; i < gameData.getMapWidth(); i++) {
-            for (int j = 0; j < gameData.getMapHeight(); j++) {
-                if (j > (int) (gameData.getMapHeight() * 0.13)) {
-                    newMapInt[i][j] = 0;
-                } else {
-                    newMapInt[i][j] = 1;
-                }
-            }
-        }
-
-        Entity newMap = new Entity();
-        newMap.setEntityType(EntityType.MAP);
-        newMap.setMap(newMapInt);
-        return newMap;
+        return null;
     }
 }
