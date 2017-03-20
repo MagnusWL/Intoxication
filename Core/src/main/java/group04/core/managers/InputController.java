@@ -1,4 +1,4 @@
-package group04.core;
+package group04.core.managers;
 
 import com.badlogic.gdx.Input;
 import com.badlogic.gdx.InputAdapter;
