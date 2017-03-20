@@ -44,9 +44,9 @@ public class Renderer {
         sr = new ShapeRenderer();
 
         loadPNGImages("Enemy", "Player", "pill", "gun", "bullet", "base", "sky", "grass", "back1", "back2", "back3", "back4", "sword", "rocket",
-            "brain_jar", "Enemy_Beer", "Enemy_joint", "Enemy_LSD", "Enemy_narko", "Enemy_rave", "pupil",
-            "Middleground", "lightSource", "level_01_back",  "level_01_front",  "level_02", "level_03_back", "level_03_front",
-            "Eye_withoutpupil", "foreground_layer1", "foreground_layer2", "Background_layer1", "Background_layer2");
+                "brain_jar", "Enemy_Beer", "Enemy_joint", "Enemy_LSD", "Enemy_narko", "Enemy_rave", "pupil",
+                "Middleground", "lightSource", "level_01_back", "level_01_front", "level_02", "level_03_back", "level_03_front",
+                "Eye_withoutpupil", "foreground_layer1", "foreground_layer2", "Background_layer1", "Background_layer2", "Halo");
 
 
         /*        loadPNGAnimation("player_run", 75, 80);
@@ -134,7 +134,6 @@ public class Renderer {
 //        for (Entity entity : world.getEntities(EntityType.ENEMY)) {
 //            drawSprite(gameData, world, entity, images.get(entity.getSprite()), true);
 //        }
-
         for (Entity entity : world.getEntities(EntityType.PLAYER)) {
             drawSprite(gameData, world, entity, images.get(entity.getSprite()), true);
         }
@@ -146,7 +145,7 @@ public class Renderer {
         for (Entity entity : world.getEntities(EntityType.PROJECTILE)) {
             drawSprite(gameData, world, entity, images.get(entity.getSprite()), true);
         }
-        
+
         for (Entity entity : world.getEntities(EntityType.BOOST)) {
             drawSprite(gameData, world, entity, images.get(entity.getSprite()), false);
         }
@@ -263,6 +262,11 @@ public class Renderer {
         //Player        
         drawBackground(gameData, images.get("foreground_layer1"), back4m);
         drawBackground(gameData, images.get("foreground_layer2"), back5m);
+        drawHalo(gameData);
+    }
+
+    public void drawHalo(GameData gameData) {
+        images.get("Halo").draw(batch);
     }
 
     private void drawBackground(GameData gameData, Sprite sprite, float mov) {

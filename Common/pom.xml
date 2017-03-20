@@ -19,6 +19,7 @@
                         <publicPackage>group04.common</publicPackage>
                         <publicPackage>group04.common.events</publicPackage>
                         <publicPackage>group04.common.services</publicPackage>
+                        <publicPackage>group04.datacomponents</publicPackage>
                     </publicPackages>
                 </configuration>
             </plugin>
