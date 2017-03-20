@@ -1,6 +1,6 @@
 package group04.datacontainers;
 
-public class CollisionContainer {
+public class CollisionContainer implements DataContainer{
     private float[] shapeX;
     private float[] shapeY;
     private boolean grounded;

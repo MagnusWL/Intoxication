@@ -1,6 +1,6 @@
 package group04.datacontainers;
 
-public class ImageContainer {
+public class ImageContainer implements DataContainer{
     private String sprite;
     private int drawOffsetX;
     private int drawOffsetY;

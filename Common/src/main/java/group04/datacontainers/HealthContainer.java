@@ -1,6 +1,6 @@
 package group04.datacontainers;
 
-public class HealthContainer {
+public class HealthContainer implements DataContainer{
     private int life;
     private int maxLife;    
 

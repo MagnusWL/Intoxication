@@ -4,7 +4,8 @@ import group04.common.EntityType;
 import group04.common.WeaponType;
 
 public class WeaponContainer {
-     private String weaponCarrier;
+     
+    private String weaponCarrier;
     private String weaponOwned;
     private int damage;
     private WeaponType weaponType;
