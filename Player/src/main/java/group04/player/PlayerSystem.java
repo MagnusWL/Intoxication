@@ -104,6 +104,8 @@ public class PlayerSystem implements IServiceProcessor, IServiceInitializer {
 
         PlayerContainer playerContainer = new PlayerContainer();
 
+        AnimationContainer animationContainer = new AnimationContainer();
+
         ControllerContainer controllerContainer = new ControllerContainer();
         controllerContainer.setJumpSpeed(400);
         controllerContainer.setMovementSpeed(150);
@@ -123,6 +125,7 @@ public class PlayerSystem implements IServiceProcessor, IServiceInitializer {
         collisionContainer.setShapeY(new float[]{0, 73, 73, 0});
 
         playerCharacter.addContainer(playerContainer);
+        playerCharacter.addContainer(animationContainer);
         playerCharacter.addContainer(controllerContainer);
         playerCharacter.addContainer(movementContainer);
         playerCharacter.addContainer(healthContainer);

@@ -13,6 +13,14 @@ import group04.common.events.Event;
 import group04.common.events.EventType;
 import group04.common.services.IServiceInitializer;
 import group04.common.services.IServiceProcessor;
+import group04.datacontainers.AnimationContainer;
+import group04.datacontainers.CollisionContainer;
+import group04.datacontainers.ControllerContainer;
+import group04.datacontainers.HealthContainer;
+import group04.datacontainers.ImageContainer;
+import group04.datacontainers.MovementContainer;
+import group04.datacontainers.PlayerContainer;
+import group04.datacontainers.WaveSpawnerContainer;
 
 @ServiceProviders(value = {
     @ServiceProvider(service = IServiceInitializer.class),
@@ -33,25 +41,35 @@ public class EnemySystem implements IServiceProcessor, IServiceInitializer {
     @Override
     public void process(GameData gameData, World world) {
         for (Entity entity : world.getEntities(EntityType.WAVE_SPAWNER)) {
+            WaveSpawnerContainer waveSpawnerContainer = ((WaveSpawnerContainer) entity.getContainer(WaveSpawnerContainer.class));
 
-            entity.setSpawnTimer(entity.getSpawnTimer() + 1);
+            waveSpawnerContainer.setSpawnTimer(waveSpawnerContainer.getSpawnTimer() + 1);
 
-            if (entity.getSpawnTimer() > entity.getSpawnTimerMax()) {
-                int timePerMob = entity.getSpawnDuration() / entity.getMobsSpawnedMax();
+            if (waveSpawnerContainer.getSpawnTimer() > waveSpawnerContainer.getSpawnTimerMax()) {
+                int timePerMob = waveSpawnerContainer.getSpawnDuration() / waveSpawnerContainer.getMobsSpawnedMax();
 
-                if (entity.getSpawnTimer() - entity.getSpawnTimerMax() > timePerMob * entity.getMobsSpawned()) {
-                    entity.setMobsSpawned(entity.getMobsSpawned() + 1);
+                if (waveSpawnerContainer.getSpawnTimer() - waveSpawnerContainer.getSpawnTimerMax() > timePerMob * waveSpawnerContainer.getMobsSpawned()) {
+                    waveSpawnerContainer.setMobsSpawned(waveSpawnerContainer.getMobsSpawned() + 1);
                     createEnemy(gameData, world, (int) (gameData.getTileSize() * gameData.getMapWidth() * 0.95), (int) (gameData.getDisplayHeight() * 0.15));
                 }
 
-                if (entity.getSpawnTimer() > entity.getSpawnTimerMax() + entity.getSpawnDuration()) {
-                    entity.setSpawnTimer(0);
-                    entity.setMobsSpawned(0);
+                if (waveSpawnerContainer.getSpawnTimer() > waveSpawnerContainer.getSpawnTimerMax() + waveSpawnerContainer.getSpawnDuration()) {
+                    waveSpawnerContainer.setSpawnTimer(0);
+                    waveSpawnerContainer.setMobsSpawned(0);
                 }
             }
         }
 
         for (Entity entity : world.getEntities(EntityType.ENEMY)) {
+            ControllerContainer controllerContainer = ((ControllerContainer) entity.getContainer(ControllerContainer.class));
+            float movementSpeed = controllerContainer.getMovementSpeed();
+            float jumpSpeed = controllerContainer.getMovementSpeed();
+
+            MovementContainer movementContainer = ((MovementContainer) entity.getContainer(MovementContainer.class));
+            AnimationContainer animationContainer = ((AnimationContainer) entity.getContainer(AnimationContainer.class));
+            CollisionContainer collisionContainer = ((CollisionContainer) entity.getContainer(CollisionContainer.class));
+            HealthContainer healthContainer = ((HealthContainer) entity.getContainer(HealthContainer.class));
+
             float distancePlayer = Float.MAX_VALUE;
             float distanceBase = Float.MAX_VALUE;
             for (Entity player : world.getEntities(EntityType.PLAYER)) {
@@ -62,31 +80,30 @@ public class EnemySystem implements IServiceProcessor, IServiceInitializer {
             }
 
             if (distancePlayer > distanceBase) {
-                movementDecision(entity, EntityType.BASE, world);
+                movementDecision(entity, movementContainer, controllerContainer, EntityType.BASE, world);
             } else {
-                movementDecision(entity, EntityType.PLAYER, world);
+                movementDecision(entity, movementContainer, controllerContainer, EntityType.PLAYER, world);
             }
 
             if (rand.nextFloat() > 0.99f) {
-                if (entity.isGrounded()) {
-                    entity.setVerticalVelocity(entity.getJumpSpeed());
+                if (collisionContainer.isGrounded()) {
+                    movementContainer.setVerticalVelocity(jumpSpeed);
                 }
             }
 
             for (Event e : gameData.getAllEvents()) {
                 if (e.getType() == EventType.ENTITY_HIT && e.getEntityID().equals(entity.getID())) {
 
-                    entity.setLife(entity.getLife() - 1);
-                    
-                    
+                    healthContainer.setLife(healthContainer.getLife() - 1);
+
                     //ENEMY DIES
-                    if (entity.getLife() <= 0) {
-                        world.removeEntity(world.getEntity(entity.getWeaponOwned()));
+                    if (healthContainer.getLife() <= 0) {
+                        world.removeEntity(world.getEntity(healthContainer.getWeaponOwned()));
                         world.removeEntity(entity);
 
                         Entity currency = new Entity();
                         Entity boost = new Entity();
-                        
+
                         dropItem(currency, entity, world, gameData, EventType.DROP_CURRENCY);
                         dropItem(boost, entity, world, gameData, EventType.DROP_BOOST);
 //                        
@@ -99,30 +116,58 @@ public class EnemySystem implements IServiceProcessor, IServiceInitializer {
 
     @Override
     public void start(GameData gameData, World world) {
+        createWaveSpawner(gameData, world);
+    }
+
+    private void createWaveSpawner(GameData gameData, World world) {
         Entity waveSpawner = new Entity();
         waveSpawner.setEntityType(EntityType.WAVE_SPAWNER);
-        waveSpawner.setSpawnTimerMax(600);
-        waveSpawner.setMobsSpawnedMax(5);
-        waveSpawner.setSpawnDuration(300);
+
+        WaveSpawnerContainer waveSpawnerContainer = new WaveSpawnerContainer();
+        waveSpawnerContainer.setSpawnTimerMax(600);
+        waveSpawnerContainer.setMobsSpawnedMax(5);
+        waveSpawnerContainer.setSpawnDuration(300);
+
+        waveSpawner.addContainer(waveSpawnerContainer);
         world.addEntity(waveSpawner);
     }
 
     private Entity createEnemy(GameData gameData, World world, int x, int y) {
         Entity enemyCharacter = new Entity();
 
+        ControllerContainer controllerContainer = new ControllerContainer();
+        controllerContainer.setJumpSpeed(300);
+        controllerContainer.setMovementSpeed(85);
+
+        MovementContainer movementContainer = new MovementContainer();
+        movementContainer.setHasGravity(true);
+
+        HealthContainer healthContainer = new HealthContainer();
+        healthContainer.setMaxLife(5);
+        healthContainer.setLife(healthContainer.getMaxLife());
+
+        ImageContainer imageContainer = new ImageContainer();
+        imageContainer.setSprite("Enemy_Beer");
+
+        CollisionContainer collisionContainer = new CollisionContainer();
+        collisionContainer.setShapeX(new float[]{17, 34, 52, 66});
+        collisionContainer.setShapeY(new float[]{0, 73, 73, 0});
+
+        AnimationContainer animationContainer = new AnimationContainer();
+        animationContainer.setAnimateable(true);
+        animationContainer.setCurrentAnimation("Enemy_Beer_Run");
+
+        enemyCharacter.addContainer(animationContainer);
+        enemyCharacter.addContainer(controllerContainer);
+        enemyCharacter.addContainer(movementContainer);
+        enemyCharacter.addContainer(healthContainer);
+        enemyCharacter.addContainer(imageContainer);
+        enemyCharacter.addContainer(collisionContainer);
+
         enemyCharacter.setEntityType(EntityType.ENEMY);
         enemyCharacter.setX(x);
         enemyCharacter.setY(y);
-        enemyCharacter.setHasGravity(true);
-        enemyCharacter.setMaxLife(2);
-        enemyCharacter.setLife(enemyCharacter.getMaxLife());
-        enemyCharacter.setJumpSpeed(300);
-        enemyCharacter.setMovementSpeed(85);
-        enemyCharacter.setAnimateable(true);
-        enemyCharacter.setCurrentAnimation("Enemy_Beer_Run");
-        enemyCharacter.setSprite("Enemy_Beer");
-        enemyCharacter.setShapeX(new float[]{35, 6, 36, 68});
-        enemyCharacter.setShapeY(new float[]{0, 43, 63, 21});
+
         gameData.addEvent(new Event(EventType.PICKUP_WEAPON, enemyCharacter.getID()));
 
         enemies.add(enemyCharacter);
@@ -137,14 +182,14 @@ public class EnemySystem implements IServiceProcessor, IServiceInitializer {
         }
     }
 
-    private void movementDecision(Entity enemy, EntityType target, World world) {
+    private void movementDecision(Entity enemy, MovementContainer movementContainer, ControllerContainer controllerContainer, EntityType target, World world) {
         for (Entity entity : world.getEntities(target)) {
             if (entity.getX() - 100 > enemy.getX()) {
-                enemy.setVelocity(enemy.getMovementSpeed());
+                movementContainer.setVelocity(controllerContainer.getMovementSpeed());
             } else if (entity.getX() + 100 < enemy.getX()) {
-                enemy.setVelocity(-enemy.getMovementSpeed());
+                movementContainer.setVelocity(-controllerContainer.getMovementSpeed());
             } else {
-                enemy.setVelocity(0);
+                movementContainer.setVelocity(0);
             }
         }
     }

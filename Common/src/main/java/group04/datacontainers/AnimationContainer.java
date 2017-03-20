@@ -1,6 +1,6 @@
 package group04.datacontainers;
 
-public class AnimationContainer {
+public class AnimationContainer implements DataContainer{
     private String currentAnimation;
     private boolean animateable = false;
     private double currentFrame;    
