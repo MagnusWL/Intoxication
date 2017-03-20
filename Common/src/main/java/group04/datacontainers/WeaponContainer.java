@@ -3,7 +3,7 @@ package group04.datacontainers;
 import group04.common.EntityType;
 import group04.common.WeaponType;
 
-public class WeaponContainer {
+public class WeaponContainer  implements DataContainer {
      
     private String weaponCarrier;
     private int damage;

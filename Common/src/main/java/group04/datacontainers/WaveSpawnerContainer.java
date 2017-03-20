@@ -1,6 +1,6 @@
 package group04.datacontainers;
 
-public class WaveSpawnerContainer {
+public class WaveSpawnerContainer  implements DataContainer{
 
     private int spawnTimer;
     private int spawnTimerMax;
