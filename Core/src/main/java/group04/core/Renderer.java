@@ -19,7 +19,6 @@ import group04.common.EntityType;
 import group04.common.GameData;
 import group04.common.World;
 import group04.datacontainers.AnimationContainer;
-import group04.datacontainers.DataContainer;
 import group04.datacontainers.HealthContainer;
 import group04.datacontainers.ImageContainer;
 import group04.datacontainers.MovementContainer;
