@@ -48,8 +48,8 @@ public class Processor implements IServiceProcessor {
                 MovementContainer movementContainer = ((MovementContainer) entity.getContainer(MovementContainer.class));
 
                 steps = (int) (Math.ceil(Math.abs(movementContainer.getVelocity())) + Math.ceil(Math.abs(movementContainer.getVerticalVelocity())));
-                if (steps > 20) {
-                    steps = 20;
+                if (steps > 5) {
+                    steps = 5;
                 }
                 for (int i = 0; i < steps; i++) {
                     //X
