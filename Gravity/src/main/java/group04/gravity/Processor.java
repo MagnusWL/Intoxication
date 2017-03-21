@@ -9,6 +9,7 @@ import group04.common.EntityType;
 import static group04.common.EntityType.PLAYER;
 import group04.common.services.IServiceInitializer;
 import group04.common.services.IServiceProcessor;
+import group04.datacontainers.MovementContainer;
 
 @ServiceProvider(service = IServiceProcessor.class)
 
@@ -17,9 +18,10 @@ public class Processor implements IServiceProcessor {
     @Override
     public void process(GameData gameData, World world) {
 
-        for (Entity n : world.getAllEntities()) {
-            if (n.getHasGravity() == true) {
-                n.setVerticalVelocity(n.getVerticalVelocity() + gameData.getDelta() * gameData.getGravityConstant());
+        for (Entity entity : world.getAllEntities()) {
+             MovementContainer movementContainer = ((MovementContainer) entity.getContainer(MovementContainer.class));
+            if (movementContainer != null && movementContainer.isHasGravity() == true) {
+                movementContainer.setVerticalVelocity(movementContainer.getVerticalVelocity() + gameData.getDelta() * gameData.getGravityConstant());
             }
 
         }

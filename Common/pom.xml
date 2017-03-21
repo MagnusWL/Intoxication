@@ -20,6 +20,7 @@
                         <publicPackage>group04.common.events</publicPackage>
                         <publicPackage>group04.common.services</publicPackage>
                         <publicPackage>group04.datacomponents</publicPackage>
+                        <publicPackage>group04.datacontainers</publicPackage>
                     </publicPackages>
                 </configuration>
             </plugin>
