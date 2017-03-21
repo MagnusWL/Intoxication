@@ -9,9 +9,12 @@ import com.badlogic.gdx.ApplicationListener;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.FPSLogger;
 import com.badlogic.gdx.graphics.OrthographicCamera;
+import group04.common.Entity;
+import group04.common.EntityType;
 import org.openide.util.Lookup;
 import group04.common.GameData;
 import group04.common.World;
+import group04.common.services.ICameraService;
 import group04.common.services.IServiceInitializer;
 import group04.common.services.IServiceProcessor;
 
@@ -40,7 +43,7 @@ public class Game implements ApplicationListener {
         gameData.setDisplayWidth(Gdx.graphics.getWidth());
         gameData.setDisplayHeight(Gdx.graphics.getHeight());
         gameData.setTileSize(16);
-/*        gameData.setMapWidth(gameData.getDisplayWidth() / gameData.getTileSize() * 2);
+        /*        gameData.setMapWidth(gameData.getDisplayWidth() / gameData.getTileSize() * 2);
         gameData.setMapHeight(gameData.getDisplayHeight() / gameData.getTileSize());*/
 
         cam = new OrthographicCamera(gameData.getDisplayWidth(), gameData.getDisplayHeight());
@@ -76,17 +79,19 @@ public class Game implements ApplicationListener {
         } else if (menu.getGameState() == 3) {
             menu.renderExit(gameData);
         }
-
     }
 
     private void update() {
         gameData.setDelta(Gdx.graphics.getDeltaTime());
-        fps.log();
+
+        for (ICameraService e : Lookup.getDefault().lookupAll(ICameraService.class)) {
+            for(Entity player: world.getEntities(EntityType.PLAYER))
+                e.followEntity(gameData, world, player);
+        }
 
         for (IServiceProcessor e : Lookup.getDefault().lookupAll(IServiceProcessor.class)) {
             e.process(gameData, world);
         }
-
     }
 
     @Override

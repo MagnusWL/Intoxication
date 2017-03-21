@@ -4,21 +4,18 @@ import group04.common.Entity;
 import group04.common.EntityType;
 import group04.common.GameData;
 import group04.common.World;
-import group04.common.services.IServiceProcessor;
+import group04.common.services.ICameraService;
 import org.openide.util.lookup.ServiceProvider;
 
-@ServiceProvider(service = IServiceProcessor.class)
+@ServiceProvider(service = ICameraService.class)
 
-public class Processor implements IServiceProcessor {
+public class Processor implements ICameraService {
 
     @Override
-    public void process(GameData gameData, World world) {
-        for (Entity player : world.getEntities(EntityType.PLAYER)) {
-            gameData.setCameraX((int) (player.getX() + 180 - gameData.getDisplayWidth() / 2.0));
-            gameData.setCameraY((int) (player.getY() - gameData.getDisplayHeight() / 2.0));
-            checkBlankSpace(gameData);
-            break;
-        }
+    public void followEntity(GameData gameData, World world, Entity entity) {
+        gameData.setCameraX((int) (entity.getX() + 180 - gameData.getDisplayWidth() / 2.0));
+        gameData.setCameraY((int) (entity.getY() - gameData.getDisplayHeight() / 2.0));
+        checkBlankSpace(gameData);
     }
 
     public void checkBlankSpace(GameData gameData) {
