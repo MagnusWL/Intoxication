@@ -7,11 +7,8 @@ package group04.core;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Color;
-import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.Texture;
-import com.badlogic.gdx.graphics.g2d.Animation;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
-import com.badlogic.gdx.graphics.g2d.BitmapFontCache;
 import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
@@ -22,6 +19,7 @@ import group04.common.EntityType;
 import group04.common.GameData;
 import group04.common.World;
 import group04.datacontainers.AnimationContainer;
+import group04.datacontainers.CollisionContainer;
 import group04.datacontainers.DataContainer;
 import group04.datacontainers.HealthContainer;
 import group04.datacontainers.ImageContainer;
@@ -135,7 +133,7 @@ public class Renderer {
             MovementContainer movementContainer = (MovementContainer) entity.getContainer(MovementContainer.class);
             if (animationContainer != null) {
                 //FLIP
-                if (movementContainer != null && movementContainer.getVelocity() < 0){
+                if (movementContainer != null && movementContainer.getVelocity() < 0) {
                     playAnimation(gameData, world, animationsFlip.get(animationContainer.getCurrentAnimation()), entity, 5, animationContainer);
                 } else {
                     playAnimation(gameData, world, animations.get(animationContainer.getCurrentAnimation()), entity, 5, animationContainer);
@@ -199,9 +197,9 @@ public class Renderer {
 
     private void drawFPS(GameData gameData) {
         int fps = Gdx.graphics.getFramesPerSecond();
-        text.draw(batch, "FPS: " + Integer.toString(fps), 40,gameData.getDisplayHeight() - 70 );
+        text.draw(batch, "FPS: " + Integer.toString(fps), 40, gameData.getDisplayHeight() - 70);
     }
-    
+
     private void drawWaveCount(GameData gameData, World world) {
         for (Entity wave : world.getEntities(EntityType.WAVE_SPAWNER)) {
             WaveSpawnerContainer waveSpawnerContainer = (WaveSpawnerContainer) wave.getContainer(WaveSpawnerContainer.class);
@@ -210,22 +208,42 @@ public class Renderer {
     }
 
     private void drawHealthBars(GameData gameData, World world) {
-        int healthOffset;
+        int healthOffset = 0;
         int healthWidth;
 
         for (Entity entity : world.getAllEntities()) {
+
+            sr.set(ShapeType.Filled);
+            int max = 0;
+            int maxY = 0;
+            int min = Integer.MAX_VALUE;
+
             HealthContainer healthContainer = (HealthContainer) entity.getContainer(HealthContainer.class);
+            CollisionContainer collisionContainer = (CollisionContainer) entity.getContainer(CollisionContainer.class);
 
             if (healthContainer != null) {
                 ImageContainer imageContainer = (ImageContainer) entity.getContainer(ImageContainer.class);
 
                 if (imageContainer != null) {
                     healthOffset = (int) images.get(imageContainer.getSprite()).getHeight() + 5;
-                    healthWidth = (int) images.get(imageContainer.getSprite()).getWidth();
+
+                    for (int i = 0; i < collisionContainer.getShapeX().length; i++) {
+                        max = (int) Math.max(max, collisionContainer.getShapeX()[i]);
+                        min = (int) Math.min(min, collisionContainer.getShapeX()[i]);
+                        maxY = (int) Math.max(maxY, collisionContainer.getShapeY()[i]);
+                    }
+
+                    healthWidth = max - min;
+                    healthOffset = maxY + 5;
+
                     sr.setColor(1f, 0f, 0, 1f);
                     sr.rect(entity.getX() - gameData.getCameraX(), entity.getY() - gameData.getCameraY() + healthOffset, healthWidth, 5);
                     sr.setColor(0.0f, 1f, 0, 1f);
                     sr.rect(entity.getX() - gameData.getCameraX(), entity.getY() - gameData.getCameraY() + healthOffset, ((float) healthContainer.getLife() / (float) healthContainer.getMaxLife()) * healthWidth, 5);
+                    sr.setColor(Color.BLACK);
+                    sr.set(ShapeType.Line);
+                    sr.rect(entity.getX() - gameData.getCameraX(), entity.getY() - gameData.getCameraY() + healthOffset, healthWidth, 5);
+                    
                 }
             }
         }

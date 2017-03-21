@@ -28,7 +28,7 @@ public class BoostSystem implements IServiceInitializer, IServiceProcessor {
 
     private List<Entity> boosts;
 
-    private Entity createBoost(World world, Event e) {
+    private Entity createPill(World world, Event e) {
         Entity boost = world.getEntity(e.getEntityID());
         boost.setEntityType(BOOST);
         MovementContainer movementContainer = new MovementContainer();
@@ -85,7 +85,7 @@ public class BoostSystem implements IServiceInitializer, IServiceProcessor {
 
         for (Event e : gameData.getEvents()) {
             if (e.getType() == EventType.DROP_BOOST) {
-                createBoost(world, e);
+                createPill(world, e);
                 gameData.removeEvent(e);
             }
 
