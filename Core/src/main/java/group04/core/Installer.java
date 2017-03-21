@@ -5,6 +5,7 @@
  */
 package group04.core;
 
+import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.backends.lwjgl.LwjglApplication;
 import com.badlogic.gdx.backends.lwjgl.LwjglApplicationConfiguration;
 import org.openide.modules.ModuleInstall;
@@ -16,7 +17,7 @@ public class Installer extends ModuleInstall {
         LwjglApplicationConfiguration cfg
                 = new LwjglApplicationConfiguration();
 
-        cfg.title = "2D shooter game";
+        cfg.title = "2D shooter game"; 
         cfg.width = 1280;
         cfg.height = 720;
         cfg.useGL30 = false;
