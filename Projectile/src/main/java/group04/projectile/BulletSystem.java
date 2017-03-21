@@ -17,6 +17,7 @@ import group04.common.EntityType;
 import group04.common.WeaponType;
 import group04.common.events.Event;
 import group04.common.events.EventType;
+import group04.common.services.IProjectileService;
 import group04.datacontainers.CollisionContainer;
 import group04.datacontainers.HealthContainer;
 import group04.datacontainers.ImageContainer;
@@ -29,10 +30,11 @@ import group04.datacontainers.WeaponContainer;
  * @author burno
  */
 @ServiceProviders(value = {
-    @ServiceProvider(service = IServiceProcessor.class),
-    @ServiceProvider(service = IServiceInitializer.class)})
+    /* @ServiceProvider(service = IServiceProcessor.class ) , */
+    @ServiceProvider(service = IServiceInitializer.class),
+    @ServiceProvider(service = IProjectileService.class)})
 
-public class BulletSystem implements IServiceProcessor, IServiceInitializer {
+public class BulletSystem implements IServiceInitializer, IProjectileService {
 
     private ArrayList<Entity> bullets = new ArrayList<>();
 
@@ -100,14 +102,14 @@ public class BulletSystem implements IServiceProcessor, IServiceInitializer {
         bullets.add(rocket);
         return rocket;
     }
-
+    /**
     @Override
-    public void process(GameData gameData, World world) {
+    public void process(GameData gameData, World world, Entity player, Entity base) {
         for (Event e : gameData.getAllEvents()) {
             if (e.getType() == EventType.PLAYER_SHOOT) {
-                Entity player = world.getEntity(e.getEntityID());
-                Entity playerWeapon = world.getEntity(((HealthContainer)player.getContainer(HealthContainer.class)).getWeaponOwned());
-                WeaponContainer weaponContainer = ((WeaponContainer)playerWeapon.getContainer(WeaponContainer.class));
+                player = world.getEntity(e.getEntityID());
+                Entity playerWeapon = world.getEntity(((HealthContainer) player.getContainer(HealthContainer.class)).getWeaponOwned());
+                WeaponContainer weaponContainer = ((WeaponContainer) playerWeapon.getContainer(WeaponContainer.class));
 
                 float angle = (float) Math.atan2(gameData.getMouseY() - (player.getY() + 15 - gameData.getCameraY()), gameData.getMouseX() - (player.getX() + 15 - gameData.getCameraX()));
 
@@ -125,12 +127,8 @@ public class BulletSystem implements IServiceProcessor, IServiceInitializer {
                 float distancePlayer = Float.MAX_VALUE;
                 float distanceBase = Float.MAX_VALUE;
 
-                for (Entity player : world.getEntities(EntityType.PLAYER)) {
-                    distancePlayer = Math.abs(player.getX() - enemyWeapon.getX());
-                }
-                for (Entity base : world.getEntities(EntityType.BASE)) {
-                    distanceBase = Math.abs(base.getX() - enemyWeapon.getX());
-                }
+                distancePlayer = Math.abs(player.getX() - enemyWeapon.getX());
+                distanceBase = Math.abs(base.getX() - enemyWeapon.getX());
 
                 if (enemyWeapon.getX() + 30 > gameData.getCameraX() && enemyWeapon.getX() + 30 < gameData.getCameraX() + gameData.getDisplayWidth()) {
 
@@ -144,7 +142,7 @@ public class BulletSystem implements IServiceProcessor, IServiceInitializer {
             }
         }
     }
-
+*/
     @Override
     public void start(GameData gameData, World world) {
 
@@ -169,4 +167,39 @@ public class BulletSystem implements IServiceProcessor, IServiceInitializer {
             }
         }
     }
+
+    @Override
+    public void playershootgun(GameData gameData, World world, Entity player) {
+        Entity playerWeapon = world.getEntity(((HealthContainer) player.getContainer(HealthContainer.class)).getWeaponOwned());
+        float angle = (float) Math.atan2(gameData.getMouseY() - (player.getY() + 15 - gameData.getCameraY()), gameData.getMouseX() - (player.getX() + 15 - gameData.getCameraX()));
+        world.addEntity(createBullet(playerWeapon, gameData, world, angle));
+    }
+
+    @Override
+    public void playershootrocket(GameData gameData, World world, Entity player) {
+        Entity playerWeapon = world.getEntity(((HealthContainer) player.getContainer(HealthContainer.class)).getWeaponOwned());
+        float angle = (float) Math.atan2(gameData.getMouseY() - (player.getY() + 15 - gameData.getCameraY()), gameData.getMouseX() - (player.getX() + 15 - gameData.getCameraX()));
+
+        world.addEntity(createRocket(playerWeapon, gameData, world, angle));
+
+    }
+
+    @Override
+    public void enemyshoot(GameData gameData, World world, Entity enemy, Entity base, Entity player) {
+        float distancePlayer = Float.MAX_VALUE;
+        float distanceBase = Float.MAX_VALUE;
+
+        distancePlayer = Math.abs(player.getX() - enemy.getX());
+        distanceBase = Math.abs(base.getX() - enemy.getX());
+
+        if (enemy.getX() + 30 > gameData.getCameraX() && enemy.getX() + 30 < gameData.getCameraX() + gameData.getDisplayWidth()) {
+
+            if (distancePlayer > distanceBase) {
+                shootDecision(enemy, EntityType.BASE, world, gameData);
+            } else {
+                shootDecision(enemy, EntityType.PLAYER, world, gameData);
+            }
+        }
+    }
+
 }

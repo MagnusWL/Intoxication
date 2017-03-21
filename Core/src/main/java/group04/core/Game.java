@@ -9,11 +9,19 @@ import com.badlogic.gdx.ApplicationListener;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.FPSLogger;
 import com.badlogic.gdx.graphics.OrthographicCamera;
+import group04.common.Entity;
+import group04.common.EntityType;
 import org.openide.util.Lookup;
 import group04.common.GameData;
+import group04.common.WeaponType;
 import group04.common.World;
+import group04.common.events.Event;
+import group04.common.events.EventType;
+import group04.common.services.IProjectileService;
 import group04.common.services.IServiceInitializer;
 import group04.common.services.IServiceProcessor;
+import group04.datacontainers.HealthContainer;
+import group04.datacontainers.WeaponContainer;
 
 /**
  *
@@ -40,7 +48,7 @@ public class Game implements ApplicationListener {
         gameData.setDisplayWidth(Gdx.graphics.getWidth());
         gameData.setDisplayHeight(Gdx.graphics.getHeight());
         gameData.setTileSize(16);
-/*        gameData.setMapWidth(gameData.getDisplayWidth() / gameData.getTileSize() * 2);
+        /*        gameData.setMapWidth(gameData.getDisplayWidth() / gameData.getTileSize() * 2);
         gameData.setMapHeight(gameData.getDisplayHeight() / gameData.getTileSize());*/
 
         cam = new OrthographicCamera(gameData.getDisplayWidth(), gameData.getDisplayHeight());
@@ -80,6 +88,7 @@ public class Game implements ApplicationListener {
     }
 
     private void update() {
+
         gameData.setDelta(Gdx.graphics.getDeltaTime());
         fps.log();
 
@@ -87,21 +96,58 @@ public class Game implements ApplicationListener {
             e.process(gameData, world);
         }
 
+        for (Entity p : world.getEntities(EntityType.PLAYER)) {
+            for (IProjectileService ips : Lookup.getDefault().lookupAll(IProjectileService.class)) {
+                //ips.process(gameData, world);
+                for (Event e : gameData.getAllEvents()) {
+                    if (e.getType() == EventType.PLAYER_SHOOT) {
+                        Entity weapon = world.getEntity(((HealthContainer) p.getContainer(HealthContainer.class)).getWeaponOwned());
+                        if (((WeaponContainer) weapon.getContainer(WeaponContainer.class)).getWeaponType() == WeaponType.GUN) {
+                            ips.playershootgun(gameData, world, p);
+
+                        }
+                        gameData.removeEvent(e);
+                    } else if (e.getType() == EventType.PLAYER_SHOOT) {
+                        Entity weapon = world.getEntity(((HealthContainer) p.getContainer(HealthContainer.class)).getWeaponOwned());
+                        if (((WeaponContainer) weapon.getContainer(WeaponContainer.class)).getWeaponType() == WeaponType.ROCKET) {
+                            ips.playershootrocket(gameData, world, p);
+
+                        }
+                        gameData.removeEvent(e);
+                    }
+                }
+            }
+
+        }
+
+        @Override
+        public void resize
+        (int i, int i1
+        
+        
+        ) {
     }
 
     @Override
-    public void resize(int i, int i1) {
+        public void pause
+        
+        
+        () {
     }
 
     @Override
-    public void pause() {
+        public void resume
+        
+        
+        () {
     }
 
     @Override
-    public void resume() {
-    }
+        public void dispose
+        
+        
+    
 
-    @Override
-    public void dispose() {
+() {
     }
 }
