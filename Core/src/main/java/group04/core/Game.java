@@ -17,11 +17,14 @@ import group04.common.WeaponType;
 import group04.common.World;
 import group04.common.events.Event;
 import group04.common.events.EventType;
+import group04.common.services.ICameraService;
+import group04.common.services.IEnemyService;
 import group04.common.services.IProjectileService;
 import group04.common.services.IServiceInitializer;
 import group04.common.services.IServiceProcessor;
 import group04.datacontainers.HealthContainer;
 import group04.datacontainers.WeaponContainer;
+import java.util.ArrayList;
 
 /**
  *
@@ -84,13 +87,19 @@ public class Game implements ApplicationListener {
         } else if (menu.getGameState() == 3) {
             menu.renderExit(gameData);
         }
-
     }
 
     private void update() {
 
         gameData.setDelta(Gdx.graphics.getDeltaTime());
-        fps.log();
+
+        enemyProcess();
+
+        for (ICameraService e : Lookup.getDefault().lookupAll(ICameraService.class)) {
+            for (Entity player : world.getEntities(EntityType.PLAYER)) {
+                e.followEntity(gameData, world, player);
+            }
+        }
 
         for (IServiceProcessor e : Lookup.getDefault().lookupAll(IServiceProcessor.class)) {
             e.process(gameData, world);
@@ -119,35 +128,60 @@ public class Game implements ApplicationListener {
             }
 
         }
-
-        @Override
-        public void resize
-        (int i, int i1
-        
-        
-        ) {
     }
 
     @Override
-        public void pause
-        
-        
-        () {
+    public void resize(int i, int i1) {
     }
 
     @Override
-        public void resume
-        
-        
-        () {
+    public void pause() {
     }
 
     @Override
-        public void dispose
-        
-        
-    
+    public void resume() {
+    }
 
-() {
+    @Override
+    public void dispose() {
+    }
+
+    private void enemyProcess() {
+        for (IEnemyService i : Lookup.getDefault().lookupAll(IEnemyService.class)) {
+            Entity player = null;
+            Entity base = null;
+            Entity waveSpawner = null;
+            ArrayList<Entity> enemies = new ArrayList<>();
+            for (Entity p : world.getEntities(EntityType.PLAYER)) {
+                player = p;
+            }
+            for (Entity b : world.getEntities(EntityType.BASE)) {
+                base = b;
+            }
+            for (Entity w : world.getEntities(EntityType.WAVE_SPAWNER)) {
+                waveSpawner = w;
+            }
+            for (Entity e : world.getEntities(EntityType.ENEMY)) {
+                enemies.add(e);
+            }
+            try {
+                i.controller(gameData, world, player, base, enemies);
+            } catch (NullPointerException e) {
+                System.out.println("Base or player is null");
+            }
+
+            for (Event ev : gameData.getAllEvents()) {
+                if (ev.getType() == EventType.ENTITY_HIT) {
+                    Entity enemyHit = world.getEntity(ev.getEntityID());
+                    i.enemyHit(gameData, world, enemyHit);
+                }
+            }
+
+            try {
+                i.spawner(gameData, world, waveSpawner);
+            } catch (NullPointerException e) {
+                System.out.println("waveSpawner = null");
+            }
+        }
     }
 }
