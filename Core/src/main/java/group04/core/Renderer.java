@@ -216,6 +216,7 @@ public class Renderer {
 
         for (Entity entity : world.getAllEntities()) {
 
+            sr.set(ShapeType.Filled);
             int max = 0;
             int maxY = 0;
             int min = Integer.MAX_VALUE;
@@ -242,6 +243,10 @@ public class Renderer {
                     sr.rect(entity.getX() - gameData.getCameraX(), entity.getY() - gameData.getCameraY() + healthOffset, healthWidth, 5);
                     sr.setColor(0.0f, 1f, 0, 1f);
                     sr.rect(entity.getX() - gameData.getCameraX(), entity.getY() - gameData.getCameraY() + healthOffset, ((float) healthContainer.getLife() / (float) healthContainer.getMaxLife()) * healthWidth, 5);
+                    sr.setColor(Color.BLACK);
+                    sr.set(ShapeType.Line);
+                    sr.rect(entity.getX() - gameData.getCameraX(), entity.getY() - gameData.getCameraY() + healthOffset, healthWidth, 5);
+                    
                 }
             }
         }

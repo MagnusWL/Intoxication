@@ -126,7 +126,7 @@ public class EnemySystem implements IServiceProcessor, IServiceInitializer {
         WaveSpawnerContainer waveSpawnerContainer = new WaveSpawnerContainer();
         waveSpawnerContainer.setSpawnTimerMax(600);
         waveSpawnerContainer.setMobsSpawnedMax(5);
-        waveSpawnerContainer.setSpawnDuration(300);
+        waveSpawnerContainer.setSpawnDuration(500);
 
         waveSpawner.addContainer(waveSpawnerContainer);
         world.addEntity(waveSpawner);
@@ -150,8 +150,8 @@ public class EnemySystem implements IServiceProcessor, IServiceInitializer {
         imageContainer.setSprite("Enemy_Beer");
 
         CollisionContainer collisionContainer = new CollisionContainer();
-        collisionContainer.setShapeX(new float[]{250, 250, 0, 0});
-        collisionContainer.setShapeY(new float[]{0, 250, 250, 0});
+        collisionContainer.setShapeX(new float[]{120, 120, 20, 20});
+        collisionContainer.setShapeY(new float[]{0, 100, 100, 0});
 
         AnimationContainer animationContainer = new AnimationContainer();
         animationContainer.setAnimateable(true);
