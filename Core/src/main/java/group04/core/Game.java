@@ -8,25 +8,9 @@ package group04.core;
 import group04.core.managers.InputController;
 import com.badlogic.gdx.ApplicationListener;
 import com.badlogic.gdx.Gdx;
-import com.badlogic.gdx.graphics.Color;
-import com.badlogic.gdx.Input;
-import com.badlogic.gdx.graphics.GL20;
+import com.badlogic.gdx.graphics.FPSLogger;
 import com.badlogic.gdx.graphics.OrthographicCamera;
-import com.badlogic.gdx.graphics.Texture;
-import com.badlogic.gdx.graphics.g2d.Animation;
-import com.badlogic.gdx.graphics.g2d.Sprite;
-import com.badlogic.gdx.graphics.g2d.SpriteBatch;
-import com.badlogic.gdx.graphics.g2d.TextureRegion;
-import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
-import com.badlogic.gdx.graphics.glutils.ShapeRenderer.ShapeType;
-import com.badlogic.gdx.utils.Array;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
 import org.openide.util.Lookup;
-import group04.common.Entity;
-import group04.common.EntityType;
 import group04.common.GameData;
 import group04.common.World;
 import group04.common.services.IServiceInitializer;
@@ -43,6 +27,7 @@ public class Game implements ApplicationListener {
     private OrthographicCamera cam;
     Renderer render;
     MenuHandler menu;
+    private FPSLogger fps = new FPSLogger();
 
     public Game() {
 
@@ -56,7 +41,7 @@ public class Game implements ApplicationListener {
         gameData.setDisplayWidth(Gdx.graphics.getWidth());
         gameData.setDisplayHeight(Gdx.graphics.getHeight());
         gameData.setTileSize(16);
-/*        gameData.setMapWidth(gameData.getDisplayWidth() / gameData.getTileSize() * 2);
+        /*        gameData.setMapWidth(gameData.getDisplayWidth() / gameData.getTileSize() * 2);
         gameData.setMapHeight(gameData.getDisplayHeight() / gameData.getTileSize());*/
 
         cam = new OrthographicCamera(gameData.getDisplayWidth(), gameData.getDisplayHeight());
@@ -97,6 +82,7 @@ public class Game implements ApplicationListener {
 
     private void update() {
         gameData.setDelta(Gdx.graphics.getDeltaTime());
+        fps.log();
 
         for (IServiceProcessor e : Lookup.getDefault().lookupAll(IServiceProcessor.class)) {
             e.process(gameData, world);
