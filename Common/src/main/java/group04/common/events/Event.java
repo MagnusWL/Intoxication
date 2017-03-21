@@ -5,6 +5,7 @@
  */
 package group04.common.events;
 
+
 /**
  *
  * @author burno
@@ -17,6 +18,8 @@ public class Event {
         this.type = type;
         this.entityID = entityID;
     }
+    
+    
 
     public EventType getType() {
         return type;
