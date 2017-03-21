@@ -71,8 +71,7 @@ public class BaseSystem implements IServiceProcessor, IServiceInitializer {
         
         healthContainer.setLife(healthContainer.getMaxLife());
         healthContainer.setMaxLife(50);
-        
-        
+       
         base.setEntityType(EntityType.BASE);
         base.setX((int) (gameData.getDisplayWidth() * 0.2));
         base.setY((int) (gameData.getDisplayHeight() * 0.13));
