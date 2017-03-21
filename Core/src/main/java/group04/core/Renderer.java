@@ -17,10 +17,12 @@ import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer.ShapeType;
+import com.badlogic.gdx.utils.Array;
 import group04.common.Entity;
 import group04.common.EntityType;
 import group04.common.GameData;
 import group04.common.World;
+import group04.core.managers.Assets;
 import group04.datacontainers.AnimationContainer;
 import group04.datacontainers.CollisionContainer;
 import group04.datacontainers.DataContainer;
@@ -43,38 +45,44 @@ public class Renderer {
     private SpriteBatch batch;
     private ShapeRenderer sr;
 
-    private Map<String, ArrayList<Sprite>> animations = new HashMap<>();
-    private Map<String, Sprite> images = new HashMap<>();
-
-    private Map<String, ArrayList<Sprite>> animationsFlip = new HashMap<>();
-    private Map<String, Sprite> imagesFlip = new HashMap<>();
+//    private Map<String, ArrayList<Sprite>> animations = new HashMap<>();
+//    private Map<String, Sprite> images = new HashMap<>();
+//
+//    private Map<String, ArrayList<Sprite>> animationsFlip = new HashMap<>();
+//    private Map<String, Sprite> imagesFlip = new HashMap<>();
 
     private boolean loaded = false;
 
+    private Assets assetManager;
     public Renderer(GameData gameData) {
         text = new BitmapFont();
         batch = new SpriteBatch();
         sr = new ShapeRenderer();
 
-        loadPNGImages("Enemy", "Player", "pill", "gun", "bullet", "base", "sky", "grass", "back1", "back2", "back3", "back4", "sword", "rocket",
-                "brain_jar", "Enemy_Beer", "Enemy_joint", "Enemy_LSD", "Enemy_narko", "Enemy_rave", "pupil",
-                "Middleground", "lightSource", "level_01_back", "level_01_front", "level_02", "level_03_back", "level_03_front",
-                "Eye_withoutpupil", "foreground_layer1", "foreground_layer2", "Background_layer1", "Background_layer2", "Halo");
+        assetManager = new Assets();
+        assetManager.load();
+        while(!assetManager.getAssetManager().update())
+        {
+            System.out.println(assetManager.getAssetManager().getProgress()*100);
+        }
+       
+        loadPNGImages();
 
-        loadPNGAnimation("player_run", 75, 80);
-        loadPNGAnimation("player_idle", 75, 80);
-        loadPNGAnimation("player_jump", 75, 80);
-        loadPNGAnimation("Enemy_Beer_Run", 142, 122);
-        loadPNGAnimation("currency_gold", 44, 45);
+        loadPNGAnimation("player_run_animation", 75, 80);
+        loadPNGAnimation("player_idle_animation", 75, 80);
+        loadPNGAnimation("player_jump_animation", 75, 80);
+        loadPNGAnimation("enemybeer_run_animation", 142, 122);
+        loadPNGAnimation("currencygold_animation", 44, 45);
     }
 
     public void loadPNGAnimation(String animationName, int spriteSizeX, int spriteSizeY) {
-        makeAnimation(animationName, new Texture(Gdx.files.internal(animationName + ".png")), spriteSizeX, spriteSizeY);
+        assetManager.makeAnimation(animationName, assetManager.getAssetManager().get(animationName + ".png", Texture.class), spriteSizeX, spriteSizeY);
     }
 
-    public void loadPNGImages(String... imageNames) {
-        for (String imageName : imageNames) {
-            images.put(imageName, new Sprite(new Texture(Gdx.files.internal(imageName + ".png"))));
+    public void loadPNGImages() {
+        Array<Texture> imageTextures = new Array<Texture>();
+        for (Texture imageName : assetManager.getAssetManager().getAll(Texture.class, imageTextures) ) {
+            images.put(imageName.toString(), new Sprite(assetManager.getAssetManager().get(imageName.toString(),Texture.class)));
             Sprite flip = new Sprite(images.get(imageName).getTexture());
             flip.flip(true, false);
             imagesFlip.put(imageName, flip);
@@ -113,22 +121,22 @@ public class Renderer {
         //Foreground layer: The last one
     }
 
-    public void makeAnimation(String animationName, Texture spriteSheet, int spriteSizeX, int spriteSizeY) {
-        ArrayList<Sprite> keyFrames = new ArrayList<>();
-        ArrayList<Sprite> flipKeyFrames = new ArrayList<>();
-        int numberOfSprites = (int) (spriteSheet.getWidth() / spriteSizeX);
-        for (int i = 0; i < numberOfSprites; i++) {
-            TextureRegion sprite = new TextureRegion(spriteSheet);
-            sprite.setRegion(i * spriteSizeX, 0, spriteSizeX, spriteSizeY);
-            keyFrames.add(new Sprite(sprite));
-
-            Sprite flip = new Sprite(sprite);
-            flip.flip(true, false);
-            flipKeyFrames.add(flip);
-        }
-        animations.put(animationName, keyFrames);
-        animationsFlip.put(animationName, flipKeyFrames);
-    }
+//    public void makeAnimation(String animationName, Texture spriteSheet, int spriteSizeX, int spriteSizeY) {
+//        ArrayList<Sprite> keyFrames = new ArrayList<>();
+//        ArrayList<Sprite> flipKeyFrames = new ArrayList<>();
+//        int numberOfSprites = (int) (spriteSheet.getWidth() / spriteSizeX);
+//        for (int i = 0; i < numberOfSprites; i++) {
+//            TextureRegion sprite = new TextureRegion(spriteSheet);
+//            sprite.setRegion(i * spriteSizeX, 0, spriteSizeX, spriteSizeY);
+//            keyFrames.add(new Sprite(sprite));
+//
+//            Sprite flip = new Sprite(sprite);
+//            flip.flip(true, false);
+//            flipKeyFrames.add(flip);
+//        }
+//        animations.put(animationName, keyFrames);
+//        animationsFlip.put(animationName, flipKeyFrames);
+//    }
 
     private void drawAnimations(GameData gameData, World world) {
         for (Entity entity : world.getAllEntities()) {
@@ -137,9 +145,9 @@ public class Renderer {
             if (animationContainer != null) {
                 //FLIP
                 if (movementContainer != null && movementContainer.getVelocity() < 0) {
-                    playAnimation(gameData, world, animationsFlip.get(animationContainer.getCurrentAnimation()), entity, 5, animationContainer);
+                    playAnimation(gameData, world, assetManager.getAssetManager().get(animationContainer.getCurrentAnimation() + "_flipped", ArrayList.class), entity, 5, animationContainer);
                 } else {
-                    playAnimation(gameData, world, animations.get(animationContainer.getCurrentAnimation()), entity, 5, animationContainer);
+                    playAnimation(gameData, world, assetManager.getAssetManager().get(animationContainer.getCurrentAnimation(), ArrayList.class), entity, 5, animationContainer);
                 }
             }
         }
