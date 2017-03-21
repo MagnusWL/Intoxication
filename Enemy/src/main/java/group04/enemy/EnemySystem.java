@@ -50,7 +50,7 @@ public class EnemySystem implements IServiceProcessor, IServiceInitializer {
 
                 if (waveSpawnerContainer.getSpawnTimer() - waveSpawnerContainer.getSpawnTimerMax() > timePerMob * waveSpawnerContainer.getMobsSpawned()) {
                     waveSpawnerContainer.setMobsSpawned(waveSpawnerContainer.getMobsSpawned() + 1);
-                    createEnemy(gameData, world, (int) (gameData.getTileSize() * gameData.getMapWidth() * 0.95), (int) (gameData.getDisplayHeight() * 0.15));
+                    createEnemy(gameData, world, 3100, 350);
                 }
 
                 if (waveSpawnerContainer.getSpawnTimer() > waveSpawnerContainer.getSpawnTimerMax() + waveSpawnerContainer.getSpawnDuration()) {
@@ -150,8 +150,8 @@ public class EnemySystem implements IServiceProcessor, IServiceInitializer {
         imageContainer.setSprite("Enemy_Beer");
 
         CollisionContainer collisionContainer = new CollisionContainer();
-        collisionContainer.setShapeX(new float[]{17, 34, 52, 66});
-        collisionContainer.setShapeY(new float[]{0, 73, 73, 0});
+        collisionContainer.setShapeX(new float[]{250, 250, 0, 0});
+        collisionContainer.setShapeY(new float[]{0, 250, 250, 0});
 
         AnimationContainer animationContainer = new AnimationContainer();
         animationContainer.setAnimateable(true);
