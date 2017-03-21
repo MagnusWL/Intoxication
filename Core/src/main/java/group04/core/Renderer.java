@@ -205,7 +205,7 @@ public class Renderer {
     private void drawWaveCount(GameData gameData, World world) {
         for (Entity wave : world.getEntities(EntityType.WAVE_SPAWNER)) {
             WaveSpawnerContainer waveSpawnerContainer = (WaveSpawnerContainer) wave.getContainer(WaveSpawnerContainer.class);
-            text.draw(batch, "Next wave: " + Integer.toString((waveSpawnerContainer.getSpawnTimerMax() - waveSpawnerContainer.getSpawnTimer()) / 60) + " seconds", 40, gameData.getDisplayHeight() - 50);
+            text.draw(batch, "Next wave: " + Integer.toString(Math.max(0, (waveSpawnerContainer.getSpawnTimerMax() - waveSpawnerContainer.getSpawnTimer()) / 60)) + " seconds", 40, gameData.getDisplayHeight() - 50);
         }
     }
 
