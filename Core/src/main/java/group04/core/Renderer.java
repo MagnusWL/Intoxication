@@ -166,14 +166,14 @@ public class Renderer {
 //        for (Entity entity : world.getEntities(EntityType.ENEMY)) {
 //            drawSprite(gameData, world, entity, images.get(entity.getSprite()), true);
 //        }
-        for (Entity entity : world.getEntities(EntityType.PLAYER)) {
+        /*for (Entity entity : world.getEntities(EntityType.PLAYER)) {
             ImageContainer imageContainer = (ImageContainer) entity.getContainer(ImageContainer.class);
             if (gameData.getMouseX() < (entity.getX() - gameData.getCameraX())) {
                 drawSprite(gameData, world, entity, imagesFlip.get(imageContainer.getSprite()), imageContainer);
             } else {
                 drawSprite(gameData, world, entity, images.get(imageContainer.getSprite()), imageContainer);
             }
-        }
+        }*/
 
         for (Entity entity : world.getEntities(EntityType.WEAPON)) {
             ImageContainer imageContainer = (ImageContainer) entity.getContainer(ImageContainer.class);
