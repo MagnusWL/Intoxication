@@ -13,13 +13,17 @@ import group04.common.Entity;
 import group04.common.EntityType;
 import org.openide.util.Lookup;
 import group04.common.GameData;
+import group04.common.WeaponType;
 import group04.common.World;
 import group04.common.events.Event;
 import group04.common.events.EventType;
 import group04.common.services.ICameraService;
 import group04.common.services.IEnemyService;
+import group04.common.services.IProjectileService;
 import group04.common.services.IServiceInitializer;
 import group04.common.services.IServiceProcessor;
+import group04.datacontainers.HealthContainer;
+import group04.datacontainers.WeaponContainer;
 import java.util.ArrayList;
 
 /**
@@ -86,6 +90,7 @@ public class Game implements ApplicationListener {
     }
 
     private void update() {
+
         gameData.setDelta(Gdx.graphics.getDeltaTime());
 
         for (ICameraService e : Lookup.getDefault().lookupAll(ICameraService.class)) {
@@ -96,6 +101,30 @@ public class Game implements ApplicationListener {
 
         for (IServiceProcessor e : Lookup.getDefault().lookupAll(IServiceProcessor.class)) {
             e.process(gameData, world);
+        }
+
+        for (Entity p : world.getEntities(EntityType.PLAYER)) {
+            for (IProjectileService ips : Lookup.getDefault().lookupAll(IProjectileService.class)) {
+                //ips.process(gameData, world);
+                for (Event e : gameData.getAllEvents()) {
+                    if (e.getType() == EventType.PLAYER_SHOOT) {
+                        Entity weapon = world.getEntity(((HealthContainer) p.getContainer(HealthContainer.class)).getWeaponOwned());
+                        if (((WeaponContainer) weapon.getContainer(WeaponContainer.class)).getWeaponType() == WeaponType.GUN) {
+                            ips.playershootgun(gameData, world, p);
+
+                        }
+                        gameData.removeEvent(e);
+                    } else if (e.getType() == EventType.PLAYER_SHOOT) {
+                        Entity weapon = world.getEntity(((HealthContainer) p.getContainer(HealthContainer.class)).getWeaponOwned());
+                        if (((WeaponContainer) weapon.getContainer(WeaponContainer.class)).getWeaponType() == WeaponType.ROCKET) {
+                            ips.playershootrocket(gameData, world, p);
+
+                        }
+                        gameData.removeEvent(e);
+                    }
+                }
+            }
+
         }
 
         enemyProcess();
@@ -145,6 +174,7 @@ public class Game implements ApplicationListener {
                 if (ev.getType() == EventType.ENTITY_HIT) {
                     Entity enemyHit = world.getEntity(ev.getEntityID());
                     i.enemyHit(gameData, world, enemyHit);
+                    gameData.removeEvent(ev);
                 }
             }
 
