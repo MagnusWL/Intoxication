@@ -40,8 +40,7 @@ public class PlayerSystem implements IServiceProcessor, IServiceInitializer {
 
             ControllerContainer controllerContainer = ((ControllerContainer) entity.getContainer(ControllerContainer.class));
             float movementSpeed = controllerContainer.getMovementSpeed();
-            float jumpSpeed = controllerContainer.getMovementSpeed();
-
+            float jumpSpeed = controllerContainer.getJumpSpeed();
             MovementContainer movementContainer = ((MovementContainer) entity.getContainer(MovementContainer.class));
             AnimationContainer animationContainer = ((AnimationContainer) entity.getContainer(AnimationContainer.class));
             CollisionContainer collisionContainer = ((CollisionContainer) entity.getContainer(CollisionContainer.class));
