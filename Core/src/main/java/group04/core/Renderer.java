@@ -96,6 +96,7 @@ public class Renderer {
 
         drawScore(gameData, world);
         drawWaveCount(gameData, world);
+        drawFPS(gameData);
         batch.end();
 
         //Layer beetween foreground and middleground: The frontside of the enemyspawner:
@@ -171,6 +172,11 @@ public class Renderer {
         }
     }
 
+    private void drawFPS(GameData gameData) {
+        int fps = Gdx.graphics.getFramesPerSecond();
+        text.draw(batch, "FPS: " + Integer.toString(fps), 40,gameData.getDisplayHeight() - 70 );
+    }
+    
     private void drawWaveCount(GameData gameData, World world) {
         for (Entity wave : world.getEntities(EntityType.WAVE_SPAWNER)) {
             WaveSpawnerContainer waveSpawnerContainer = (WaveSpawnerContainer) wave.getContainer(WaveSpawnerContainer.class);
