@@ -88,8 +88,6 @@ public class Game implements ApplicationListener {
     private void update() {
         gameData.setDelta(Gdx.graphics.getDeltaTime());
 
-        enemyProcess();
-
         for (ICameraService e : Lookup.getDefault().lookupAll(ICameraService.class)) {
             for (Entity player : world.getEntities(EntityType.PLAYER)) {
                 e.followEntity(gameData, world, player);
@@ -99,6 +97,8 @@ public class Game implements ApplicationListener {
         for (IServiceProcessor e : Lookup.getDefault().lookupAll(IServiceProcessor.class)) {
             e.process(gameData, world);
         }
+
+        enemyProcess();
     }
 
     @Override
