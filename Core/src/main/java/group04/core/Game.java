@@ -174,6 +174,7 @@ public class Game implements ApplicationListener {
                 if (ev.getType() == EventType.ENTITY_HIT) {
                     Entity enemyHit = world.getEntity(ev.getEntityID());
                     i.enemyHit(gameData, world, enemyHit);
+                    gameData.removeEvent(ev);
                 }
             }
 
