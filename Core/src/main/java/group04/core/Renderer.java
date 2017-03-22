@@ -21,7 +21,7 @@ import group04.common.World;
 import group04.datacontainers.AnimationContainer;
 import group04.datacontainers.CollisionContainer;
 import group04.datacontainers.DataContainer;
-import group04.datacontainers.HealthContainer;
+import group04.datacontainers.UnitContainer;
 import group04.datacontainers.ImageContainer;
 import group04.datacontainers.MovementContainer;
 import group04.datacontainers.PlayerContainer;
@@ -218,10 +218,10 @@ public class Renderer {
             int maxY = 0;
             int min = Integer.MAX_VALUE;
 
-            HealthContainer healthContainer = (HealthContainer) entity.getContainer(HealthContainer.class);
+            UnitContainer unitContainer = (UnitContainer) entity.getContainer(UnitContainer.class);
             CollisionContainer collisionContainer = (CollisionContainer) entity.getContainer(CollisionContainer.class);
 
-            if (healthContainer != null) {
+            if (unitContainer != null) {
                 ImageContainer imageContainer = (ImageContainer) entity.getContainer(ImageContainer.class);
 
                 if (imageContainer != null) {
@@ -239,7 +239,7 @@ public class Renderer {
                     sr.setColor(1f, 0f, 0, 1f);
                     sr.rect(entity.getX() - gameData.getCameraX(), entity.getY() - gameData.getCameraY() + healthOffset, healthWidth, 5);
                     sr.setColor(0.0f, 1f, 0, 1f);
-                    sr.rect(entity.getX() - gameData.getCameraX(), entity.getY() - gameData.getCameraY() + healthOffset, ((float) healthContainer.getLife() / (float) healthContainer.getMaxLife()) * healthWidth, 5);
+                    sr.rect(entity.getX() - gameData.getCameraX(), entity.getY() - gameData.getCameraY() + healthOffset, ((float) unitContainer.getLife() / (float) unitContainer.getMaxLife()) * healthWidth, 5);
                     sr.setColor(Color.BLACK);
                     sr.set(ShapeType.Line);
                     sr.rect(entity.getX() - gameData.getCameraX(), entity.getY() - gameData.getCameraY() + healthOffset, healthWidth, 5);

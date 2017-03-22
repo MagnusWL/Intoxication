@@ -154,7 +154,7 @@ public class BulletSystem implements IServiceInitializer, IProjectileService {
     private void shootDecision(Entity enemy, EntityType entity, World world, GameData gameData) {
 
         for (Entity target : world.getEntities(entity)) {
-            Entity weapon = world.getEntity(((HealthContainer)enemy.getContainer(HealthContainer.class)).getWeaponOwned());
+            Entity weapon = world.getEntity(((UnitContainer)enemy.getContainer(UnitContainer.class)).getWeaponOwned());
             if (entity == EntityType.PLAYER) {
                 float angle = (float) Math.atan2((target.getY() + 15) - (enemy.getY() + 15), (target.getX() + 15) - (enemy.getX() + 15));
                 world.addEntity(createBullet(enemy, gameData, world, angle));
