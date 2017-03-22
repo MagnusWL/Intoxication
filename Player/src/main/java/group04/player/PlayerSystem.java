@@ -13,7 +13,7 @@ import group04.datacontainers.AnimationContainer;
 import group04.datacontainers.CollisionContainer;
 import group04.datacontainers.ControllerContainer;
 import group04.datacontainers.DataContainer;
-import group04.datacontainers.HealthContainer;
+import group04.datacontainers.UnitContainer;
 import group04.datacontainers.ImageContainer;
 import group04.datacontainers.MovementContainer;
 import group04.datacontainers.PlayerContainer;
@@ -44,7 +44,7 @@ public class PlayerSystem implements IServiceProcessor, IServiceInitializer {
             MovementContainer movementContainer = ((MovementContainer) entity.getContainer(MovementContainer.class));
             AnimationContainer animationContainer = ((AnimationContainer) entity.getContainer(AnimationContainer.class));
             CollisionContainer collisionContainer = ((CollisionContainer) entity.getContainer(CollisionContainer.class));
-            HealthContainer healthContainer = ((HealthContainer) entity.getContainer(HealthContainer.class));
+            UnitContainer unitContainer = ((UnitContainer) entity.getContainer(UnitContainer.class));
 
             if (gameData.getKeys().isDown(GameKeys.A)) {
                 //left
@@ -81,9 +81,9 @@ public class PlayerSystem implements IServiceProcessor, IServiceInitializer {
 
             for (Event e : gameData.getAllEvents()) {
                 if (e.getType() == EventType.ENTITY_HIT && e.getEntityID().equals(entity.getID())) {
-                    healthContainer.setLife(healthContainer.getLife() - 1);
-                    if (healthContainer.getLife() <= 0) {
-                        world.removeEntity(world.getEntity(healthContainer.getWeaponOwned()));
+                    unitContainer.setLife(unitContainer.getLife() - 1);
+                    if (unitContainer.getLife() <= 0) {
+                        world.removeEntity(world.getEntity(unitContainer.getWeaponOwned()));
                         world.removeEntity(entity);
                     }
                     gameData.removeEvent(e);
@@ -112,9 +112,9 @@ public class PlayerSystem implements IServiceProcessor, IServiceInitializer {
         MovementContainer movementContainer = new MovementContainer();
         movementContainer.setHasGravity(true);
 
-        HealthContainer healthContainer = new HealthContainer();
-        healthContainer.setMaxLife(10000);
-        healthContainer.setLife(healthContainer.getMaxLife());
+        UnitContainer unitContainer = new UnitContainer();
+        unitContainer.setMaxLife(10000);
+        unitContainer.setLife(unitContainer.getMaxLife());
 
         ImageContainer imageContainer = new ImageContainer();
         imageContainer.setSprite("Player");
@@ -127,7 +127,7 @@ public class PlayerSystem implements IServiceProcessor, IServiceInitializer {
         playerCharacter.addContainer(animationContainer);
         playerCharacter.addContainer(controllerContainer);
         playerCharacter.addContainer(movementContainer);
-        playerCharacter.addContainer(healthContainer);
+        playerCharacter.addContainer(unitContainer);
         playerCharacter.addContainer(imageContainer);
         playerCharacter.addContainer(collisionContainer);
 
