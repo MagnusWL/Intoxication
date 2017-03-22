@@ -17,6 +17,7 @@ import group04.common.WeaponType;
 import group04.common.World;
 import group04.common.events.Event;
 import group04.common.events.EventType;
+import group04.common.services.IBoostService;
 import group04.common.services.ICameraService;
 import group04.common.services.ICurrencyService;
 import group04.common.services.IEnemyService;
@@ -93,8 +94,11 @@ public class Game implements ApplicationListener {
     private void update() {
 
         enemyProcess();
-        
+
         currencyProcess();
+        
+        boostProcess();
+        
         gameData.setDelta(Gdx.graphics.getDeltaTime());
 
         for (ICameraService e : Lookup.getDefault().lookupAll(ICameraService.class)) {
@@ -149,9 +153,36 @@ public class Game implements ApplicationListener {
     @Override
     public void dispose() {
     }
-    
+
+    private void boostProcess() {
+        for (IBoostService e : Lookup.getDefault().lookupAll(IBoostService.class)) {
+            for (Event event : gameData.getEvents()) {
+                if (event.getType() == EventType.PICKUP_BOOST) {
+                    world.removeEntity(world.getEntity(event.getEntityID()));
+                    gameData.removeEvent(event);
+
+                    for (Entity player : world.getEntities(EntityType.PLAYER)) {
+                        for (Entity boost : world.getEntities(EntityType.BOOST)) {
+                            e.pickUpBoost(gameData, world, player, boost);
+                        }
+                    }
+                }
+            }
+
+            for (Event event : gameData.getEvents()) {
+                if (event.getType() == EventType.DROP_CURRENCY) {
+                    for (Entity boost : world.getEntities(EntityType.CURRENCY)) {
+                        e.dropBoost(world, boost);
+                        gameData.removeEvent(event);
+                    }
+                }
+            }
+
+        }
+    }
+
     private void currencyProcess() {
-        
+
         for (ICurrencyService e : Lookup.getDefault().lookupAll(ICurrencyService.class)) {
 
             for (Event event : gameData.getEvents()) {
@@ -160,7 +191,7 @@ public class Game implements ApplicationListener {
 
                     world.removeEntity(world.getEntity(event.getEntityID()));
                     gameData.removeEvent(event);
-                    
+
                     for (Entity player : world.getEntities(EntityType.PLAYER)) {
 
                         for (Entity currency : world.getEntities(EntityType.CURRENCY)) {
@@ -169,11 +200,12 @@ public class Game implements ApplicationListener {
                     }
                 }
             }
-            
+
             for (Event event : gameData.getEvents()) {
                 if (event.getType() == EventType.DROP_CURRENCY) {
-                    for(Entity currency : world.getEntities(EntityType.CURRENCY)) {
+                    for (Entity currency : world.getEntities(EntityType.CURRENCY)) {
                         e.dropCurrency(world, currency);
+                        gameData.removeEvent(event);
                     }
                 }
             }
