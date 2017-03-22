@@ -17,6 +17,7 @@ import group04.common.World;
 import group04.common.events.Event;
 import group04.common.events.EventType;
 import group04.common.services.ICameraService;
+import group04.common.services.ICurrencyService;
 import group04.common.services.IEnemyService;
 import group04.common.services.IServiceInitializer;
 import group04.common.services.IServiceProcessor;
@@ -89,6 +90,8 @@ public class Game implements ApplicationListener {
         gameData.setDelta(Gdx.graphics.getDeltaTime());
 
         enemyProcess();
+        
+        currencyProcess();
 
         for (ICameraService e : Lookup.getDefault().lookupAll(ICameraService.class)) {
             for (Entity player : world.getEntities(EntityType.PLAYER)) {
@@ -99,6 +102,8 @@ public class Game implements ApplicationListener {
         for (IServiceProcessor e : Lookup.getDefault().lookupAll(IServiceProcessor.class)) {
             e.process(gameData, world);
         }
+
+        
     }
 
     @Override
@@ -115,6 +120,36 @@ public class Game implements ApplicationListener {
 
     @Override
     public void dispose() {
+    }
+    
+    private void currencyProcess() {
+        
+        for (ICurrencyService e : Lookup.getDefault().lookupAll(ICurrencyService.class)) {
+
+            for (Event event : gameData.getEvents()) {
+
+                if (event.getType() == EventType.PICKUP_CURRENCY) {
+
+                    world.removeEntity(world.getEntity(event.getEntityID()));
+                    gameData.removeEvent(event);
+                    
+                    for (Entity player : world.getEntities(EntityType.PLAYER)) {
+
+                        for (Entity currency : world.getEntities(EntityType.CURRENCY)) {
+                            e.pickUpCurrency(gameData, world, player, currency);
+                        }
+                    }
+                }
+            }
+            
+            for (Event event : gameData.getEvents()) {
+                if (event.getType() == EventType.DROP_CURRENCY) {
+                    for(Entity currency : world.getEntities(EntityType.CURRENCY)) {
+                        e.dropCurrency(world, currency);
+                    }
+                }
+            }
+        }
     }
 
     private void enemyProcess() {

@@ -14,15 +14,18 @@ import group04.common.events.Event;
 import group04.common.events.EventType;
 import group04.datacontainers.AnimationContainer;
 import group04.datacontainers.CollisionContainer;
+import group04.datacontainers.HealthContainer;
 import group04.datacontainers.MovementContainer;
 import group04.datacontainers.PlayerContainer;
 import java.util.ArrayList;
+import group04.common.services.ICurrencyService;
 
 @ServiceProviders(value = {
     @ServiceProvider(service = IServiceInitializer.class),
+    @ServiceProvider(service = ICurrencyService.class),
     @ServiceProvider(service = IServiceProcessor.class)})
 
-public class CurrencySystem implements IServiceInitializer, IServiceProcessor {
+public class CurrencySystem implements IServiceInitializer, IServiceProcessor, ICurrencyService {
 
     private List<Entity> currencies;
 
@@ -54,22 +57,12 @@ public class CurrencySystem implements IServiceInitializer, IServiceProcessor {
         currency.addContainer(movementContainer);
         currency.addContainer(animationContainer);
         currency.addContainer(collisionContainer);
-        
+
         currencies.add(currency);
 
         return currency;
     }
-
-    private void pickupCurrency(GameData gameData, Event e, World world) {
-        world.removeEntity(world.getEntity(e.getEntityID()));
-
-        PlayerContainer playerContainer = new PlayerContainer();
-        
-        for (Entity player : world.getEntities(EntityType.PLAYER)) {
-            playerContainer.setMoney(playerContainer.getMoney() + 10);
-        }
-    }
-
+    
     @Override
     public void start(GameData gameData, World world) {
         currencies = new ArrayList<>();
@@ -89,13 +82,49 @@ public class CurrencySystem implements IServiceInitializer, IServiceProcessor {
                 createCurrency(world, e);
                 gameData.removeEvent(e);
             }
-
-            if (e.getType() == EventType.PICKUP_CURRENCY) {
-                pickupCurrency(gameData, e, world);
-                gameData.removeEvent(e);
-            }
-
         }
     }
 
+    @Override
+    public void pickUpCurrency(GameData gameData, World world, Entity player, Entity currency) {
+        PlayerContainer playerContainer = new PlayerContainer();
+        playerContainer.setMoney(playerContainer.getMoney() + 10);
+    }
+
+    @Override
+    public Entity dropCurrency(World world, Entity currency) {
+        
+        //Entity currency = world.getEntity(e.getEntityID());
+
+        currency.setEntityType(CURRENCY);
+
+        MovementContainer movementContainer = new MovementContainer();
+        movementContainer.setHasGravity(true);
+
+        AnimationContainer animationContainer = new AnimationContainer();
+        animationContainer.setAnimateable(true);
+        animationContainer.setCurrentAnimation("currency_gold");
+
+        CollisionContainer collisionContainer = new CollisionContainer();
+        collisionContainer.setShapeX(new float[]{
+            1,
+            1,
+            39,
+            39});
+
+        collisionContainer.setShapeY(new float[]{
+            1,
+            39,
+            39,
+            1});
+
+        currency.addContainer(movementContainer);
+        currency.addContainer(animationContainer);
+        currency.addContainer(collisionContainer);
+
+        currencies.add(currency);
+
+        return currency;
+        
+    }
 }
