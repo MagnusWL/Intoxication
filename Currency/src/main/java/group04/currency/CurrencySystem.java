@@ -14,7 +14,7 @@ import group04.common.events.Event;
 import group04.common.events.EventType;
 import group04.datacontainers.AnimationContainer;
 import group04.datacontainers.CollisionContainer;
-import group04.datacontainers.HealthContainer;
+import group04.datacontainers.UnitContainer;
 import group04.datacontainers.MovementContainer;
 import group04.datacontainers.PlayerContainer;
 import java.util.ArrayList;

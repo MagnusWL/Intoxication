@@ -13,7 +13,7 @@ import group04.datacontainers.AnimationContainer;
 import group04.datacontainers.CollisionContainer;
 import group04.datacontainers.ControllerContainer;
 import group04.datacontainers.DataContainer;
-import group04.datacontainers.HealthContainer;
+import group04.datacontainers.UnitContainer;
 import group04.datacontainers.ImageContainer;
 import group04.datacontainers.MovementContainer;
 import group04.datacontainers.PlayerContainer;
@@ -44,7 +44,7 @@ public class PlayerSystem implements IServiceProcessor, IServiceInitializer {
             MovementContainer movementContainer = ((MovementContainer) entity.getContainer(MovementContainer.class));
             AnimationContainer animationContainer = ((AnimationContainer) entity.getContainer(AnimationContainer.class));
             CollisionContainer collisionContainer = ((CollisionContainer) entity.getContainer(CollisionContainer.class));
-            HealthContainer healthContainer = ((HealthContainer) entity.getContainer(HealthContainer.class));
+            UnitContainer healthContainer = ((UnitContainer) entity.getContainer(UnitContainer.class));
 
             if (gameData.getKeys().isDown(GameKeys.A)) {
                 //left

@@ -11,7 +11,7 @@ import group04.common.events.EventType;
 import group04.common.services.IServiceInitializer;
 import group04.common.services.IServiceProcessor;
 import group04.datacontainers.CollisionContainer;
-import group04.datacontainers.HealthContainer;
+import group04.datacontainers.UnitContainer;
 import group04.datacontainers.ImageContainer;
 import group04.datacontainers.MovementContainer;
 import group04.datacontainers.PlayerContainer;
@@ -60,11 +60,10 @@ public class BoostSystem implements IServiceInitializer, IServiceProcessor {
     private void pickupBoost(GameData gameData, Event e, World world) {
         world.removeEntity(world.getEntity(e.getEntityID()));
 
-        HealthContainer healthContainer = new HealthContainer();
+        UnitContainer unitContainer = new UnitContainer();
         
         for (Entity player : world.getEntities(EntityType.PLAYER)) {
-            healthContainer.setLife(healthContainer.getLife() + 10);
-            //player.setLife(player.getLife() + 10);
+            unitContainer.setLife(unitContainer.getLife() + 10);
         }
     }
 
