@@ -89,6 +89,9 @@ public class WeaponSystem implements IWeaponService, IServiceInitializer {
 
         weapon.addContainer(imageContainer);
         weapon.addContainer(weaponContainer);
+        
+        weapon.setX(e.getX());
+        weapon.setY(e.getY());
 
         world.addEntity(weapon);
         ((UnitContainer) e.getContainer(UnitContainer.class)).setWeaponOwned(weapon.getID());
@@ -176,11 +179,11 @@ public class WeaponSystem implements IWeaponService, IServiceInitializer {
         float angle1 = (float) Math.atan2(gameData.getMouseY() - (carrier.getY() + 15 - gameData.getCameraY()) + 45, gameData.getMouseX() - (carrier.getX() + 15 - gameData.getCameraX()) - 45);
         float angle2 = (float) Math.atan2(gameData.getMouseY() - (carrier.getY() + 15 - gameData.getCameraY()) - 45, gameData.getMouseX() - (carrier.getX() + 15 - gameData.getCameraX()) - 45);
         swinging(angle1, angle2, weapon, weaponContainer, (ImageContainer) weapon.getContainer(ImageContainer.class));
+
         if (movementContainer.getVelocity() < 0) {
             weapon.setX(carrier.getX() - 20);
             weapon.setY(carrier.getY() + 30);
-        }
-        if (movementContainer.getVelocity() > 0) {
+        } else {
             weapon.setX(carrier.getX() + 60);
             weapon.setY(carrier.getY() + 30);
         }

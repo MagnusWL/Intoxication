@@ -260,7 +260,7 @@ public class Game implements ApplicationListener {
             for (IProjectileService ips : Lookup.getDefault().lookupAll(IProjectileService.class)) {
                 for (Entity enemy : world.getEntities(EntityType.ENEMY)) {
                     for (Event e : gameData.getAllEvents()) {
-                        if (e.getEntityID().equals(enemy.getID())) {
+                        if (e.getType() == EventType.ENEMY_SHOOT && e.getEntityID().equals(enemy.getID())) {
                             ips.enemyshoot(gameData, world, enemy, base, player);
                             gameData.removeEvent(e);
                         }
