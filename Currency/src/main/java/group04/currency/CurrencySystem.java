@@ -22,10 +22,9 @@ import group04.common.services.ICurrencyService;
 
 @ServiceProviders(value = {
     @ServiceProvider(service = IServiceInitializer.class),
-    @ServiceProvider(service = ICurrencyService.class),
-    @ServiceProvider(service = IServiceProcessor.class)})
+    @ServiceProvider(service = ICurrencyService.class)})
 
-public class CurrencySystem implements IServiceInitializer, IServiceProcessor, ICurrencyService {
+public class CurrencySystem implements IServiceInitializer, ICurrencyService {
 
     private List<Entity> currencies;
 
@@ -74,17 +73,7 @@ public class CurrencySystem implements IServiceInitializer, IServiceProcessor, I
             world.removeEntity(c);
         }
     }
-
-    @Override
-    public void process(GameData gameData, World world) {
-        for (Event e : gameData.getEvents()) {
-            if (e.getType() == EventType.DROP_CURRENCY) {
-                createCurrency(world, e);
-                gameData.removeEvent(e);
-            }
-        }
-    }
-
+    
     @Override
     public void pickUpCurrency(GameData gameData, World world, Entity player, Entity currency) {
         PlayerContainer playerContainer = new PlayerContainer();
