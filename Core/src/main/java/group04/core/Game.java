@@ -24,6 +24,7 @@ import group04.common.services.IEnemyService;
 import group04.common.services.IProjectileService;
 import group04.common.services.IServiceInitializer;
 import group04.common.services.IServiceProcessor;
+import group04.common.services.IWeaponService;
 import group04.datacontainers.UnitContainer;
 import group04.datacontainers.WeaponContainer;
 import java.util.ArrayList;
@@ -111,11 +112,21 @@ public class Game implements ApplicationListener {
             e.process(gameData, world);
         }
 
+        for (IWeaponService ips : Lookup.getDefault().lookupAll(IWeaponService.class)) {
+            ips.pickUpWeapon(gameData, world);
+        }
+
         for (Entity p : world.getEntities(EntityType.PLAYER)) {
+
+            for (IWeaponService ips : Lookup.getDefault().lookupAll(IWeaponService.class)) {
+                ips.playerAttack(gameData, world, p);
+            }
+
             for (IProjectileService ips : Lookup.getDefault().lookupAll(IProjectileService.class)) {
                 //ips.process(gameData, world);
                 for (Event e : gameData.getAllEvents()) {
                     if (e.getType() == EventType.PLAYER_SHOOT_GUN) {
+                        System.out.println("shoot");
                         Entity weapon = world.getEntity(((UnitContainer) p.getContainer(UnitContainer.class)).getWeaponOwned());
                         if (((WeaponContainer) weapon.getContainer(WeaponContainer.class)).getWeaponType() == WeaponType.GUN) {
                             ips.playershootgun(gameData, world, p, weapon);
@@ -230,6 +241,13 @@ public class Game implements ApplicationListener {
             for (Entity e : world.getEntities(EntityType.ENEMY)) {
                 enemies.add(e);
             }
+
+            for (IWeaponService ips : Lookup.getDefault().lookupAll(IWeaponService.class)) {
+                for (Entity enemy : world.getEntities(EntityType.ENEMY)) {
+                    ips.enemyAttack(gameData, world, enemy, player, base);
+                }
+            }
+            
             try {
                 i.controller(gameData, world, player, base, enemies);
             } catch (NullPointerException e) {

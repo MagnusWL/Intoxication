@@ -80,10 +80,10 @@ public class EnemySystem implements IEnemyService, IServiceInitializer {
         animationContainer.setAnimateable(true);
         animationContainer.setCurrentAnimation("Enemy_Beer_Run");
 
+        enemyCharacter.addContainer(unitContainer);
         enemyCharacter.addContainer(animationContainer);
         enemyCharacter.addContainer(controllerContainer);
         enemyCharacter.addContainer(movementContainer);
-        enemyCharacter.addContainer(unitContainer);
         enemyCharacter.addContainer(imageContainer);
         enemyCharacter.addContainer(collisionContainer);
 
@@ -120,7 +120,7 @@ public class EnemySystem implements IEnemyService, IServiceInitializer {
     public void spawner(GameData gameData, World world, Entity waveSpawner) {
         WaveSpawnerContainer waveSpawnerContainer = ((WaveSpawnerContainer) waveSpawner.getContainer(WaveSpawnerContainer.class));
 
-        waveSpawnerContainer.setSpawnTimer(waveSpawnerContainer.getSpawnTimer() + 1);
+        waveSpawnerContainer.setSpawnTimer((int) (waveSpawnerContainer.getSpawnTimer() + 60 * gameData.getDelta()));
 
         if (waveSpawnerContainer.getSpawnTimer() > waveSpawnerContainer.getSpawnTimerMax()) {
             int timePerMob = waveSpawnerContainer.getSpawnDuration() / waveSpawnerContainer.getMobsSpawnedMax();
@@ -148,7 +148,6 @@ public class EnemySystem implements IEnemyService, IServiceInitializer {
             MovementContainer movementContainer = ((MovementContainer) enemy.getContainer(MovementContainer.class));
             AnimationContainer animationContainer = ((AnimationContainer) enemy.getContainer(AnimationContainer.class));
             CollisionContainer collisionContainer = ((CollisionContainer) enemy.getContainer(CollisionContainer.class));
-            UnitContainer unitContainer = ((UnitContainer) enemy.getContainer(UnitContainer.class));
 
             float distancePlayer = Float.MAX_VALUE;
             float distanceBase = Float.MAX_VALUE;
@@ -184,7 +183,7 @@ public class EnemySystem implements IEnemyService, IServiceInitializer {
             Entity boost = new Entity();
 
             dropItem(currency, enemyHit, world, gameData, EventType.DROP_CURRENCY);
-            dropItem(boost, enemyHit, world, gameData, EventType.DROP_BOOST);                       
+            dropItem(boost, enemyHit, world, gameData, EventType.DROP_BOOST);
         }
     }
 }
