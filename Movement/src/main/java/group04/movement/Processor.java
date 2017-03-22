@@ -79,7 +79,7 @@ public class Processor implements IServiceProcessor {
                     if (!projectileContainer.isExplosive()) {
                         for (Entity entityHit : world.getEntities(EntityType.PLAYER, EntityType.ENEMY, EntityType.BASE)) {
                             if (entityHit.getEntityType() != projectileContainer.getShotFrom()
-                                    && !(entityHit.getEntityType() == EntityType.BASE && entity.getEntityType() == EntityType.PLAYER)) {
+                                    && !(entityHit.getEntityType() == EntityType.BASE && projectileContainer.getShotFrom() == EntityType.PLAYER)) {
                                 if (e.isEntitiesColliding(world, gameData, entity, entityHit)) {
                                     gameData.addEvent(new Event(EventType.ENTITY_HIT, entityHit.getID()));
                                     world.removeEntity(entity);
@@ -90,7 +90,7 @@ public class Processor implements IServiceProcessor {
                     } else {
                         for (Entity entityHit : world.getEntities(EntityType.PLAYER, EntityType.ENEMY, EntityType.BASE)) {
                             if (entityHit.getEntityType() != projectileContainer.getShotFrom()
-                                    && !(entityHit.getEntityType() == EntityType.BASE && entity.getEntityType() == EntityType.PLAYER)) {
+                                    && !(entityHit.getEntityType() == EntityType.BASE && projectileContainer.getShotFrom() == EntityType.PLAYER)) {
                                 if (e.isEntitiesColliding(world, gameData, entity, entityHit)) {
                                     gameData.addEvent(new Event(EventType.ROCKET_HIT, entityHit.getID()));
                                     world.removeEntity(entity);
