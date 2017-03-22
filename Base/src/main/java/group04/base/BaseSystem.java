@@ -11,7 +11,7 @@ import group04.common.events.EventType;
 import group04.common.services.IServiceInitializer;
 import group04.common.services.IServiceProcessor;
 import group04.datacontainers.CollisionContainer;
-import group04.datacontainers.HealthContainer;
+import group04.datacontainers.UnitContainer;
 import group04.datacontainers.ImageContainer;
 
 @ServiceProviders(value = {
@@ -29,14 +29,14 @@ public class BaseSystem implements IServiceProcessor, IServiceInitializer {
     public void process(GameData gameData, World world) {
         for (Entity entity : world.getEntities(EntityType.BASE)) {
             CollisionContainer collisionContainer = ((CollisionContainer) entity.getContainer(CollisionContainer.class));
-            HealthContainer healthContainer = ((HealthContainer) entity.getContainer(HealthContainer.class));
+            UnitContainer unitContainer = ((UnitContainer) entity.getContainer(UnitContainer.class));
             ImageContainer imageContrainer = ((ImageContainer) entity.getContainer(ImageContainer.class));
             
             for (Event e : gameData.getAllEvents()) {
                 if (e.getType() == EventType.ENTITY_HIT && e.getEntityID().equals(entity.getID())) {
                     
-                    healthContainer.setLife(healthContainer.getLife() - 1);
-                    if (healthContainer.getLife() <= 0) {
+                    unitContainer.setLife(unitContainer.getLife() - 1);
+                    if (unitContainer.getLife() <= 0) {
                         world.removeEntity(entity);
                     }
                     
@@ -54,12 +54,12 @@ public class BaseSystem implements IServiceProcessor, IServiceInitializer {
     
     private Entity createBase(GameData gameData, World world) {
         Entity base = new Entity();
-        HealthContainer healthContainer = new HealthContainer();
+        UnitContainer unitContainer = new UnitContainer();
         ImageContainer imageContainer = new ImageContainer();
         CollisionContainer collisionContainer = new CollisionContainer();
         
         base.addContainer(imageContainer);
-        base.addContainer(healthContainer);
+        base.addContainer(unitContainer);
         base.addContainer(collisionContainer);
         
         collisionContainer.setShapeX(new float[]{20,20,200,200});
@@ -69,8 +69,8 @@ public class BaseSystem implements IServiceProcessor, IServiceInitializer {
         imageContainer.setDrawOffsetY(-40);
         imageContainer.setSprite("brain_jar");
         
-        healthContainer.setLife(healthContainer.getMaxLife());
-        healthContainer.setMaxLife(50);
+        unitContainer.setLife(unitContainer.getMaxLife());
+        unitContainer.setMaxLife(50);
        
         base.setEntityType(EntityType.BASE);
         base.setX((int) (gameData.getDisplayWidth() * 0.2));

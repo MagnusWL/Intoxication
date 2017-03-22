@@ -22,7 +22,7 @@ import group04.common.services.IEnemyService;
 import group04.common.services.IProjectileService;
 import group04.common.services.IServiceInitializer;
 import group04.common.services.IServiceProcessor;
-import group04.datacontainers.HealthContainer;
+import group04.datacontainers.UnitContainer;
 import group04.datacontainers.WeaponContainer;
 import java.util.ArrayList;
 
@@ -108,14 +108,14 @@ public class Game implements ApplicationListener {
                 //ips.process(gameData, world);
                 for (Event e : gameData.getAllEvents()) {
                     if (e.getType() == EventType.PLAYER_SHOOT) {
-                        Entity weapon = world.getEntity(((HealthContainer) p.getContainer(HealthContainer.class)).getWeaponOwned());
+                        Entity weapon = world.getEntity(((UnitContainer) p.getContainer(UnitContainer.class)).getWeaponOwned());
                         if (((WeaponContainer) weapon.getContainer(WeaponContainer.class)).getWeaponType() == WeaponType.GUN) {
                             ips.playershootgun(gameData, world, p);
 
                         }
                         gameData.removeEvent(e);
                     } else if (e.getType() == EventType.PLAYER_SHOOT) {
-                        Entity weapon = world.getEntity(((HealthContainer) p.getContainer(HealthContainer.class)).getWeaponOwned());
+                        Entity weapon = world.getEntity(((UnitContainer) p.getContainer(UnitContainer.class)).getWeaponOwned());
                         if (((WeaponContainer) weapon.getContainer(WeaponContainer.class)).getWeaponType() == WeaponType.ROCKET) {
                             ips.playershootrocket(gameData, world, p);
 
