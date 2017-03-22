@@ -92,10 +92,6 @@ public class Game implements ApplicationListener {
     }
 
     private void update() {
-
-        enemyProcess();
-
-        currencyProcess();
         gameData.setDelta(Gdx.graphics.getDeltaTime());
 
         for (ICameraService e : Lookup.getDefault().lookupAll(ICameraService.class)) {
@@ -122,7 +118,6 @@ public class Game implements ApplicationListener {
                 //ips.process(gameData, world);
                 for (Event e : gameData.getAllEvents()) {
                     if (e.getType() == EventType.PLAYER_SHOOT_GUN) {
-                        System.out.println("shoot");
                         Entity weapon = world.getEntity(((UnitContainer) p.getContainer(UnitContainer.class)).getWeaponOwned());
                         if (((WeaponContainer) weapon.getContainer(WeaponContainer.class)).getWeaponType() == WeaponType.GUN) {
                             ips.playershootgun(gameData, world, p, weapon);
@@ -143,6 +138,7 @@ public class Game implements ApplicationListener {
         }
 
         enemyProcess();
+        currencyProcess();
     }
 
     @Override
@@ -215,7 +211,7 @@ public class Game implements ApplicationListener {
                     ips.enemyAttack(gameData, world, enemy, player, base);
                 }
             }
-            
+
             try {
                 i.controller(gameData, world, player, base, enemies);
             } catch (NullPointerException e) {
