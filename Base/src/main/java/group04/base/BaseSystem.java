@@ -69,8 +69,8 @@ public class BaseSystem implements IServiceProcessor, IServiceInitializer {
         imageContainer.setDrawOffsetY(-40);
         imageContainer.setSprite("brain_jar");
         
-        unitContainer.setLife(unitContainer.getMaxLife());
         unitContainer.setMaxLife(50);
+        unitContainer.setLife(unitContainer.getMaxLife());
        
         base.setEntityType(EntityType.BASE);
         base.setX((int) (gameData.getDisplayWidth() * 0.2));
