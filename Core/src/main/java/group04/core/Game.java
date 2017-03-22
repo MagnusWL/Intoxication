@@ -162,34 +162,36 @@ public class Game implements ApplicationListener {
 
     private void boostProcess() {
         for (IBoostService e : Lookup.getDefault().lookupAll(IBoostService.class)) {
+
+            for (Event event : gameData.getEvents()) {
+                if (event.getType() == EventType.DROP_BOOST) {
+                    e.dropBoost(world, world.getEntity(event.getEntityID()));
+                    gameData.removeEvent(event);
+                }
+            }
+
             for (Event event : gameData.getEvents()) {
                 if (event.getType() == EventType.PICKUP_BOOST) {
                     world.removeEntity(world.getEntity(event.getEntityID()));
                     gameData.removeEvent(event);
 
-                    for (Entity player : world.getEntities(EntityType.PLAYER)) {
-                        for (Entity boost : world.getEntities(EntityType.BOOST)) {
-                            e.pickUpBoost(gameData, world, player, boost);
-                        }
-                    }
+                    e.pickUpBoost(gameData, world, world.getEntity(event.getEntityID()), world.getEntity(event.getEntityID()));
+
                 }
             }
-
-            for (Event event : gameData.getEvents()) {
-                if (event.getType() == EventType.DROP_CURRENCY) {
-                    for (Entity boost : world.getEntities(EntityType.CURRENCY)) {
-                        e.dropBoost(world, boost);
-                        gameData.removeEvent(event);
-                    }
-                }
-            }
-
         }
     }
 
     private void currencyProcess() {
 
         for (ICurrencyService e : Lookup.getDefault().lookupAll(ICurrencyService.class)) {
+
+            for (Event event : gameData.getEvents()) {
+                if (event.getType() == EventType.DROP_CURRENCY) {
+                    e.dropCurrency(world, world.getEntity(event.getEntityID()));
+                    gameData.removeEvent(event);
+                }
+            }
 
             for (Event event : gameData.getEvents()) {
 
@@ -200,22 +202,13 @@ public class Game implements ApplicationListener {
 
                     for (Entity player : world.getEntities(EntityType.PLAYER)) {
 
-                        for (Entity currency : world.getEntities(EntityType.CURRENCY)) {
-                            e.pickUpCurrency(gameData, world, player, currency);
-                        }
-                    }
-                }
-            }
+                        e.pickUpCurrency(gameData, world, player, world.getEntity(event.getEntityID()));
 
-            for (Event event : gameData.getEvents()) {
-                if (event.getType() == EventType.DROP_CURRENCY) {
-                    for (Entity currency : world.getEntities(EntityType.CURRENCY)) {
-                        e.dropCurrency(world, currency);
-                        gameData.removeEvent(event);
                     }
                 }
             }
         }
+
     }
 
     private void enemyProcess() {
