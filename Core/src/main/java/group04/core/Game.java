@@ -17,6 +17,7 @@ import group04.common.WeaponType;
 import group04.common.World;
 import group04.common.events.Event;
 import group04.common.events.EventType;
+import group04.common.services.IBoostService;
 import group04.common.services.ICameraService;
 import group04.common.services.ICurrencyService;
 import group04.common.services.IEnemyService;
@@ -93,13 +94,6 @@ public class Game implements ApplicationListener {
 
     private void update() {
 
-        enemyProcess();
-        
-        for (IWeaponService ips : Lookup.getDefault().lookupAll(IWeaponService.class)) {
-            ips.pickUpWeapon(gameData, world);
-        }
-
-        currencyProcess();
         gameData.setDelta(Gdx.graphics.getDeltaTime());
 
         for (ICameraService e : Lookup.getDefault().lookupAll(ICameraService.class)) {
@@ -122,7 +116,6 @@ public class Game implements ApplicationListener {
                 //ips.process(gameData, world);
                 for (Event e : gameData.getAllEvents()) {
                     if (e.getType() == EventType.PLAYER_SHOOT_GUN) {
-                        System.out.println("shoot");
                         Entity weapon = world.getEntity(((UnitContainer) p.getContainer(UnitContainer.class)).getWeaponOwned());
                         if (((WeaponContainer) weapon.getContainer(WeaponContainer.class)).getWeaponType() == WeaponType.GUN) {
                             ips.playershootgun(gameData, world, p, weapon);
@@ -142,6 +135,9 @@ public class Game implements ApplicationListener {
 
         }
 
+        enemyProcess();
+        currencyProcess();
+        boostProcess();
     }
 
     @Override
@@ -158,6 +154,33 @@ public class Game implements ApplicationListener {
 
     @Override
     public void dispose() {
+    }
+
+    private void boostProcess() {
+        for (IBoostService e : Lookup.getDefault().lookupAll(IBoostService.class)) {
+            for (Event event : gameData.getEvents()) {
+                if (event.getType() == EventType.PICKUP_BOOST) {
+                    world.removeEntity(world.getEntity(event.getEntityID()));
+                    gameData.removeEvent(event);
+
+                    for (Entity player : world.getEntities(EntityType.PLAYER)) {
+                        for (Entity boost : world.getEntities(EntityType.BOOST)) {
+                            e.pickUpBoost(gameData, world, player, boost);
+                        }
+                    }
+                }
+            }
+
+            for (Event event : gameData.getEvents()) {
+                if (event.getType() == EventType.DROP_CURRENCY) {
+                    for (Entity boost : world.getEntities(EntityType.CURRENCY)) {
+                        e.dropBoost(world, boost);
+                        gameData.removeEvent(event);
+                    }
+                }
+            }
+
+        }
     }
 
     private void currencyProcess() {
@@ -184,6 +207,7 @@ public class Game implements ApplicationListener {
                 if (event.getType() == EventType.DROP_CURRENCY) {
                     for (Entity currency : world.getEntities(EntityType.CURRENCY)) {
                         e.dropCurrency(world, currency);
+                        gameData.removeEvent(event);
                     }
                 }
             }
@@ -214,7 +238,7 @@ public class Game implements ApplicationListener {
                     ips.enemyAttack(gameData, world, enemy, player, base);
                 }
             }
-            
+
             try {
                 i.controller(gameData, world, player, base, enemies);
             } catch (NullPointerException e) {

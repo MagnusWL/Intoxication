@@ -91,7 +91,7 @@ public class WeaponSystem implements IWeaponService, IServiceInitializer {
         weapon.addContainer(weaponContainer);
 
         world.addEntity(weapon);
-        ((UnitContainer) world.getEntity(e.getID()).getContainer(UnitContainer.class)).setWeaponOwned(weapon.getID());
+        ((UnitContainer) e.getContainer(UnitContainer.class)).setWeaponOwned(weapon.getID());
     }
 
     private void createMelee(GameData gameData, World world, Entity e, WeaponType type) {
@@ -117,6 +117,7 @@ public class WeaponSystem implements IWeaponService, IServiceInitializer {
         weapon.addContainer(collisionContainer);
 
         world.addEntity(weapon);
+        System.out.println(weapon.getID());
         ((UnitContainer) world.getEntity(e.getID()).getContainer(UnitContainer.class)).setWeaponOwned(weapon.getID());
     }
 
