@@ -16,8 +16,8 @@ import group04.common.events.Event;
  */
 public interface IProjectileService {
   //  public void process(GameData gameData, World world, Entity player, Entity base);
-    public void playershootgun(GameData gameData, World world, Entity player);
-    public void playershootrocket(GameData gameData, World world, Entity player);
+    public void playershootgun(GameData gameData, World world, Entity player, Entity playerWeapon);
+    public void playershootrocket(GameData gameData, World world, Entity player, Entity playerWeapon);
     public void enemyshoot(GameData gameData, World world, Entity enemy, Entity base, Entity player);
     
 }

@@ -11,15 +11,11 @@ import org.openide.util.lookup.ServiceProviders;
 import group04.common.GameData;
 import group04.common.World;
 import group04.common.services.IServiceInitializer;
-import group04.common.services.IServiceProcessor;
 import group04.common.Entity;
 import group04.common.EntityType;
-import group04.common.WeaponType;
-import group04.common.events.Event;
-import group04.common.events.EventType;
 import group04.common.services.IProjectileService;
 import group04.datacontainers.CollisionContainer;
-import group04.datacontainers.HealthContainer;
+import group04.datacontainers.UnitContainer;
 import group04.datacontainers.ImageContainer;
 import group04.datacontainers.MovementContainer;
 import group04.datacontainers.ProjectileContainer;
@@ -170,15 +166,13 @@ public class BulletSystem implements IServiceInitializer, IProjectileService {
     }
 
     @Override
-    public void playershootgun(GameData gameData, World world, Entity player) {
-        Entity playerWeapon = world.getEntity(((HealthContainer) player.getContainer(HealthContainer.class)).getWeaponOwned());
+    public void playershootgun(GameData gameData, World world, Entity player, Entity playerWeapon) {
         float angle = (float) Math.atan2(gameData.getMouseY() - (player.getY() + 15 - gameData.getCameraY()), gameData.getMouseX() - (player.getX() + 15 - gameData.getCameraX()));
         world.addEntity(createBullet(playerWeapon, gameData, world, angle));
     }
 
     @Override
-    public void playershootrocket(GameData gameData, World world, Entity player) {
-        Entity playerWeapon = world.getEntity(((HealthContainer) player.getContainer(HealthContainer.class)).getWeaponOwned());
+    public void playershootrocket(GameData gameData, World world, Entity player, Entity playerWeapon) {
         float angle = (float) Math.atan2(gameData.getMouseY() - (player.getY() + 15 - gameData.getCameraY()), gameData.getMouseX() - (player.getX() + 15 - gameData.getCameraX()));
 
         world.addEntity(createRocket(playerWeapon, gameData, world, angle));

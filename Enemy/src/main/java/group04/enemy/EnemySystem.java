@@ -16,7 +16,7 @@ import group04.common.services.IServiceInitializer;
 import group04.datacontainers.AnimationContainer;
 import group04.datacontainers.CollisionContainer;
 import group04.datacontainers.ControllerContainer;
-import group04.datacontainers.HealthContainer;
+import group04.datacontainers.UnitContainer;
 import group04.datacontainers.ImageContainer;
 import group04.datacontainers.MovementContainer;
 import group04.datacontainers.WaveSpawnerContainer;
@@ -65,9 +65,9 @@ public class EnemySystem implements IEnemyService, IServiceInitializer {
         MovementContainer movementContainer = new MovementContainer();
         movementContainer.setHasGravity(true);
 
-        HealthContainer healthContainer = new HealthContainer();
-        healthContainer.setMaxLife(5);
-        healthContainer.setLife(healthContainer.getMaxLife());
+        UnitContainer unitContainer = new UnitContainer();
+        unitContainer.setMaxLife(5);
+        unitContainer.setLife(unitContainer.getMaxLife());
 
         ImageContainer imageContainer = new ImageContainer();
         imageContainer.setSprite("Enemy_Beer");
@@ -83,7 +83,7 @@ public class EnemySystem implements IEnemyService, IServiceInitializer {
         enemyCharacter.addContainer(animationContainer);
         enemyCharacter.addContainer(controllerContainer);
         enemyCharacter.addContainer(movementContainer);
-        enemyCharacter.addContainer(healthContainer);
+        enemyCharacter.addContainer(unitContainer);
         enemyCharacter.addContainer(imageContainer);
         enemyCharacter.addContainer(collisionContainer);
 
@@ -148,7 +148,7 @@ public class EnemySystem implements IEnemyService, IServiceInitializer {
             MovementContainer movementContainer = ((MovementContainer) enemy.getContainer(MovementContainer.class));
             AnimationContainer animationContainer = ((AnimationContainer) enemy.getContainer(AnimationContainer.class));
             CollisionContainer collisionContainer = ((CollisionContainer) enemy.getContainer(CollisionContainer.class));
-            HealthContainer healthContainer = ((HealthContainer) enemy.getContainer(HealthContainer.class));
+            UnitContainer unitContainer = ((UnitContainer) enemy.getContainer(UnitContainer.class));
 
             float distancePlayer = Float.MAX_VALUE;
             float distanceBase = Float.MAX_VALUE;
@@ -171,13 +171,13 @@ public class EnemySystem implements IEnemyService, IServiceInitializer {
 
     @Override
     public void enemyHit(GameData gameData, World world, Entity enemyHit) {
-        HealthContainer healthContainer = ((HealthContainer) enemyHit.getContainer(HealthContainer.class));
+        UnitContainer unitContainer = ((UnitContainer) enemyHit.getContainer(UnitContainer.class));
 
-        healthContainer.setLife(healthContainer.getLife() - 1);
+        unitContainer.setLife(unitContainer.getLife() - 1);
 
         //ENEMY DIES
-        if (healthContainer.getLife() <= 0) {
-            world.removeEntity(world.getEntity(healthContainer.getWeaponOwned()));
+        if (unitContainer.getLife() <= 0) {
+            world.removeEntity(world.getEntity(unitContainer.getWeaponOwned()));
             world.removeEntity(enemyHit);
 
             Entity currency = new Entity();
