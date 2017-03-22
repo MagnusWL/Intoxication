@@ -95,24 +95,23 @@ public class WeaponSystem implements IServiceProcessor, IServiceInitializer {
             weaponContainer.setTimeSinceAttack(weaponContainer.getTimeSinceAttack() + 10 * gameData.getDelta());
             
             if (weaponContainer.getWeaponType() == WeaponType.GUN && carrier.getEntityType() == EntityType.PLAYER && gameData.getKeys().isDown(GameKeys.MOUSE0) && weaponContainer.getTimeSinceAttack() > weaponContainer.getAttackCooldown()) {
-                gameData.addEvent(new Event(EventType.PLAYER_SHOOT, world.getEntity(weaponContainer.getWeaponCarrier()).getID()));
+                gameData.addEvent(new Event(EventType.PLAYER_SHOOT_GUN, world.getEntity(weaponContainer.getWeaponCarrier()).getID()));
                 weaponContainer.setTimeSinceAttack(0);
             } else if (weaponContainer.getWeaponType() == WeaponType.MELEE && carrier.getEntityType() == EntityType.PLAYER && gameData.getKeys().isDown(GameKeys.MOUSE0) && weaponContainer.getTimeSinceAttack() > weaponContainer.getAttackCooldown()) {
                 System.out.println("waddup");
                 gameData.addEvent(new Event(EventType.PLAYER_SWING, world.getEntity(weaponContainer.getWeaponCarrier()).getID()));
                 weaponContainer.setTimeSinceAttack(0);
             } else if (weaponContainer.getWeaponType() == WeaponType.ROCKET && carrier.getEntityType() == EntityType.PLAYER && gameData.getKeys().isDown(GameKeys.MOUSE0) && weaponContainer.getTimeSinceAttack() > weaponContainer.getAttackCooldown()) {
-                gameData.addEvent(new Event(EventType.PLAYER_SHOOT, world.getEntity(weaponContainer.getWeaponCarrier()).getID()));
+                gameData.addEvent(new Event(EventType.PLAYER_SHOOT_ROCKET, world.getEntity(weaponContainer.getWeaponCarrier()).getID()));
                 weaponContainer.setTimeSinceAttack(0);
             }
             
             if (weaponContainer.getWeaponType() == WeaponType.GUN && carrier.getEntityType() == EntityType.ENEMY && weaponContainer.getTimeSinceAttack() > weaponContainer.getAttackCooldown()) {
                 gameData.addEvent(new Event(EventType.ENEMY_SHOOT, weapon.getID()));
+                System.out.println("shoot");
                 weaponContainer.setTimeSinceAttack(0);
             }
-            
         }
-        
     }
     
     public void createWeapon(GameData gameData, World world, Entity e, WeaponType type) {
