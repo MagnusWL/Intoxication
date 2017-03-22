@@ -34,7 +34,7 @@ public class BulletSystem implements IServiceInitializer, IProjectileService {
 
     private ArrayList<Entity> bullets = new ArrayList<>();
 
-    private Entity createBullet(Entity weapon, GameData gameData, World world, float angle) {
+    private Entity createBullet(Entity entity, GameData gameData, World world, float angle) {
         Entity bullet = new Entity();
         bullet.setEntityType(EntityType.PROJECTILE);
 
@@ -51,11 +51,11 @@ public class BulletSystem implements IServiceInitializer, IProjectileService {
         collisionContainer.setShapeY(new float[]{5, 5, 0, 0});
 
         ProjectileContainer projectileContainer = new ProjectileContainer();
-        projectileContainer.setShotFrom(world.getEntity(((WeaponContainer) weapon.getContainer(WeaponContainer.class)).getWeaponCarrier()).getEntityType());
+        projectileContainer.setShotFrom(entity.getEntityType());
         projectileContainer.setExplosive(false);
 
-        bullet.setX(weapon.getX() + 35 + ((float) Math.cos(angle) * 50));
-        bullet.setY(weapon.getY() + 35 + ((float) Math.sin(angle) * 50));
+        bullet.setX(entity.getX() + 35 + ((float) Math.cos(angle) * 50));
+        bullet.setY(entity.getY() + 35 + ((float) Math.sin(angle) * 50));
 
         bullet.addContainer(projectileContainer);
         bullet.addContainer(movementContainer);
@@ -83,7 +83,7 @@ public class BulletSystem implements IServiceInitializer, IProjectileService {
         collisionContainer.setShapeY(new float[]{5, 5, 0, 0});
 
         ProjectileContainer projectileContainer = new ProjectileContainer();
-        projectileContainer.setShotFrom(world.getEntity(((WeaponContainer) entity.getContainer(WeaponContainer.class)).getWeaponCarrier()).getEntityType());
+        projectileContainer.setShotFrom(entity.getEntityType());
         projectileContainer.setExplosive(true);
         projectileContainer.setExplosionRadius(40);
 
@@ -154,6 +154,7 @@ public class BulletSystem implements IServiceInitializer, IProjectileService {
     private void shootDecision(Entity enemy, EntityType entity, World world, GameData gameData) {
 
         for (Entity target : world.getEntities(entity)) {
+            Entity weapon = world.getEntity(((HealthContainer)enemy.getContainer(HealthContainer.class)).getWeaponOwned());
             if (entity == EntityType.PLAYER) {
                 float angle = (float) Math.atan2((target.getY() + 15) - (enemy.getY() + 15), (target.getX() + 15) - (enemy.getX() + 15));
                 world.addEntity(createBullet(enemy, gameData, world, angle));

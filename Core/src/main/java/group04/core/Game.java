@@ -111,14 +111,14 @@ public class Game implements ApplicationListener {
             for (IProjectileService ips : Lookup.getDefault().lookupAll(IProjectileService.class)) {
                 //ips.process(gameData, world);
                 for (Event e : gameData.getAllEvents()) {
-                    if (e.getType() == EventType.PLAYER_SHOOT) {
+                    if (e.getType() == EventType.PLAYER_SHOOT_GUN) {
                         Entity weapon = world.getEntity(((HealthContainer) p.getContainer(HealthContainer.class)).getWeaponOwned());
                         if (((WeaponContainer) weapon.getContainer(WeaponContainer.class)).getWeaponType() == WeaponType.GUN) {
                             ips.playershootgun(gameData, world, p);
 
                         }
                         gameData.removeEvent(e);
-                    } else if (e.getType() == EventType.PLAYER_SHOOT) {
+                    } else if (e.getType() == EventType.PLAYER_SHOOT_ROCKET) {
                         Entity weapon = world.getEntity(((HealthContainer) p.getContainer(HealthContainer.class)).getWeaponOwned());
                         if (((WeaponContainer) weapon.getContainer(WeaponContainer.class)).getWeaponType() == WeaponType.ROCKET) {
                             ips.playershootrocket(gameData, world, p);
@@ -209,6 +209,17 @@ public class Game implements ApplicationListener {
                     Entity enemyHit = world.getEntity(ev.getEntityID());
                     i.enemyHit(gameData, world, enemyHit);
                     gameData.removeEvent(ev);
+                }
+            }
+
+            for (IProjectileService ips : Lookup.getDefault().lookupAll(IProjectileService.class)) {
+                for (Entity enemy : world.getEntities(EntityType.ENEMY)) {
+                    for (Event e : gameData.getAllEvents()) {
+                        if (e.getEntityID().equals(enemy.getID())) {
+                            ips.enemyshoot(gameData, world, enemy, base, player);
+                            gameData.removeEvent(e);
+                        }
+                    }
                 }
             }
 
