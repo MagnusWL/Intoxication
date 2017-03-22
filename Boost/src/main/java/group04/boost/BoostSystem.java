@@ -29,44 +29,6 @@ public class BoostSystem implements IServiceInitializer, IBoostService {
 
     private List<Entity> boosts;
 
-//    private Entity createPill(World world, Event e) {
-//        Entity boost = world.getEntity(e.getEntityID());
-//        boost.setEntityType(BOOST);
-//        MovementContainer movementContainer = new MovementContainer();
-//        movementContainer.setHasGravity(true);
-//        ImageContainer imageContainer = new ImageContainer();
-//        imageContainer.setSprite("pill");
-//        boosts.add(boost);
-//
-//        CollisionContainer collisionContainer = new CollisionContainer();
-//        collisionContainer.setShapeX(new float[]{
-//            1,
-//            1,
-//            39,
-//            39});
-//
-//        collisionContainer.setShapeY(new float[]{
-//            1,
-//            39,
-//            39,
-//            1});
-//        
-//        boost.addContainer(movementContainer);
-//        boost.addContainer(imageContainer);
-//        boost.addContainer(collisionContainer);
-//
-//        return boost;
-//    }
-    private void pickupBoost(GameData gameData, Event e, World world) {
-        world.removeEntity(world.getEntity(e.getEntityID()));
-
-        UnitContainer unitContainer = new UnitContainer();
-
-        for (Entity player : world.getEntities(EntityType.PLAYER)) {
-            unitContainer.setLife(unitContainer.getLife() + 10);
-        }
-    }
-
     @Override
     public void start(GameData gameData, World world) {
         boosts = new ArrayList<>();
@@ -79,22 +41,6 @@ public class BoostSystem implements IServiceInitializer, IBoostService {
         }
     }
 
-//    @Override
-//    public void process(GameData gameData, World world) {
-//
-//        for (Event e : gameData.getEvents()) {
-//            if (e.getType() == EventType.DROP_BOOST) {
-//                createPill(world, e);
-//                gameData.removeEvent(e);
-//            }
-//
-//            if (e.getType() == EventType.PICKUP_BOOST) {
-//                pickupBoost(gameData, e, world);
-//                gameData.removeEvent(e);
-//            }
-//
-//        }
-//    }
     @Override
     public Entity dropBoost(World world, Entity boost) {
         boost.setEntityType(BOOST);
