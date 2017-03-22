@@ -94,6 +94,10 @@ public class Game implements ApplicationListener {
     private void update() {
 
         enemyProcess();
+        
+        for (IWeaponService ips : Lookup.getDefault().lookupAll(IWeaponService.class)) {
+            ips.pickUpWeapon(gameData, world);
+        }
 
         currencyProcess();
         gameData.setDelta(Gdx.graphics.getDeltaTime());
@@ -106,10 +110,6 @@ public class Game implements ApplicationListener {
 
         for (IServiceProcessor e : Lookup.getDefault().lookupAll(IServiceProcessor.class)) {
             e.process(gameData, world);
-        }
-
-        for (IWeaponService ips : Lookup.getDefault().lookupAll(IWeaponService.class)) {
-            ips.pickUpWeapon(gameData, world);
         }
 
         for (Entity p : world.getEntities(EntityType.PLAYER)) {
@@ -142,7 +142,6 @@ public class Game implements ApplicationListener {
 
         }
 
-        enemyProcess();
     }
 
     @Override

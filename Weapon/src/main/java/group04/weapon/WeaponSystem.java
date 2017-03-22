@@ -200,7 +200,6 @@ public class WeaponSystem implements IWeaponService, IServiceInitializer {
 
     @Override
     public void enemyAttack(GameData gameData, World world, Entity enemy, Entity player, Entity base) {
-        System.out.println("enemyShoot");
         UnitContainer unitContainer = (UnitContainer) enemy.getContainer(UnitContainer.class);
         Entity weapon = world.getEntity(unitContainer.getWeaponOwned());
 
