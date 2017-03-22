@@ -120,7 +120,7 @@ public class EnemySystem implements IEnemyService, IServiceInitializer {
     public void spawner(GameData gameData, World world, Entity waveSpawner) {
         WaveSpawnerContainer waveSpawnerContainer = ((WaveSpawnerContainer) waveSpawner.getContainer(WaveSpawnerContainer.class));
 
-        waveSpawnerContainer.setSpawnTimer(waveSpawnerContainer.getSpawnTimer() + 1);
+        waveSpawnerContainer.setSpawnTimer((int) (waveSpawnerContainer.getSpawnTimer() + 60 * gameData.getDelta()));
 
         if (waveSpawnerContainer.getSpawnTimer() > waveSpawnerContainer.getSpawnTimerMax()) {
             int timePerMob = waveSpawnerContainer.getSpawnDuration() / waveSpawnerContainer.getMobsSpawnedMax();

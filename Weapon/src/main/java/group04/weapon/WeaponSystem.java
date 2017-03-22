@@ -63,7 +63,7 @@ public class WeaponSystem implements IWeaponService, IServiceInitializer {
 //        }
     public void createWeapon(GameData gameData, World world, Entity e, WeaponType type) {
         //Find out which weapon it is
-        if (type.toString().equals("GUN")) {
+        if (type == WeaponType.GUN) {
             createGun(gameData, world, e, type);
         }
         if (type.toString().equals("SWORD")) {
@@ -200,6 +200,7 @@ public class WeaponSystem implements IWeaponService, IServiceInitializer {
 
     @Override
     public void enemyAttack(GameData gameData, World world, Entity enemy, Entity player, Entity base) {
+        System.out.println("enemyShoot");
         UnitContainer unitContainer = (UnitContainer) enemy.getContainer(UnitContainer.class);
         Entity weapon = world.getEntity(unitContainer.getWeaponOwned());
 

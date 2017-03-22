@@ -108,6 +108,10 @@ public class Game implements ApplicationListener {
             e.process(gameData, world);
         }
 
+        for (IWeaponService ips : Lookup.getDefault().lookupAll(IWeaponService.class)) {
+            ips.pickUpWeapon(gameData, world);
+        }
+
         for (Entity p : world.getEntities(EntityType.PLAYER)) {
 
             for (IWeaponService ips : Lookup.getDefault().lookupAll(IWeaponService.class)) {
@@ -205,16 +209,17 @@ public class Game implements ApplicationListener {
             for (Entity e : world.getEntities(EntityType.ENEMY)) {
                 enemies.add(e);
             }
-            try {
-                i.controller(gameData, world, player, base, enemies);
-            } catch (NullPointerException e) {
-                System.out.println("Base or player is null");
-            }
 
             for (IWeaponService ips : Lookup.getDefault().lookupAll(IWeaponService.class)) {
                 for (Entity enemy : world.getEntities(EntityType.ENEMY)) {
                     ips.enemyAttack(gameData, world, enemy, player, base);
                 }
+            }
+            
+            try {
+                i.controller(gameData, world, player, base, enemies);
+            } catch (NullPointerException e) {
+                System.out.println("Base or player is null");
             }
 
             for (Event ev : gameData.getAllEvents()) {
