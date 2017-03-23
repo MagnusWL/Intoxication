@@ -146,8 +146,6 @@ public class BulletSystem implements IServiceInitializer, IProjectileService {
     }
 
     private void shootDecision(Entity enemy, EntityType entity, World world, GameData gameData) {
-        System.out.println("decision");
-
         for (Entity target : world.getEntities(entity)) {
             Entity weapon = world.getEntity(((UnitContainer) enemy.getContainer(UnitContainer.class)).getWeaponOwned());
             if (entity == EntityType.PLAYER) {
