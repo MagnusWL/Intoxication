@@ -171,7 +171,6 @@ public class Renderer {
                 drawSprite(gameData, world, entity, images.get(imageContainer.getSprite()), imageContainer);
             }
         }*/
-
         for (Entity entity : world.getEntities(EntityType.WEAPON)) {
             ImageContainer imageContainer = (ImageContainer) entity.getContainer(ImageContainer.class);
             drawSprite(gameData, world, entity, images.get(imageContainer.getSprite()), imageContainer);
@@ -243,7 +242,7 @@ public class Renderer {
                     sr.setColor(Color.BLACK);
                     sr.set(ShapeType.Line);
                     sr.rect(entity.getX() - gameData.getCameraX(), entity.getY() - gameData.getCameraY() + healthOffset, healthWidth, 5);
-                    
+
                 }
             }
         }
@@ -295,9 +294,9 @@ public class Renderer {
     }
 
     public void drawPupil(GameData gameData, World world, Sprite pupil, float mov) {
-        float eyeX = 1818;
-        float playerX = 0;
-        float playerY = 80;
+        double eyeX = 1818;
+        double playerX = 0;
+        double playerY = 80;
         for (Entity player : world.getEntities(EntityType.PLAYER)) {
             playerX = (float) (player.getX() + images.get("Player").getWidth() / 2.0);
             playerY = player.getY();
@@ -311,8 +310,8 @@ public class Renderer {
             d = d * d * 2;
         }
 
-        int xTranslate = (int) (200 * d);
-        int yTranslate = (int) (50 * Math.abs(d) + (playerY - 80) * 0.2);
+        float xTranslate = (200 * d);
+        float yTranslate = (float) (50 * Math.abs(d) + (playerY - 80) * 0.2);
         pupil.setX((float) (-pupil.getWidth() / 2.0 + eyeX - gameData.getCameraX() * mov + xTranslate * 3.5));
         pupil.setY(yTranslate);
         pupil.setScale((float) ((1 - Math.abs(d))), 1);
@@ -326,9 +325,17 @@ public class Renderer {
         drawBackground(gameData, images.get("level_03_front"), back3m);
 
         //Player        
-        drawBackground(gameData, images.get("foreground_layer1"), back4m);
+        
+        drawBackgroundNoTile(gameData, images.get("foreground_layer1"), back4m);
+        
         drawBackground(gameData, images.get("foreground_layer2"), back5m);
         drawHalo(gameData);
+    }
+    
+    private void drawBackgroundNoTile(GameData gameData, Sprite sprite, float mov)
+    {
+        sprite.setX(- gameData.getCameraX() * mov);
+        sprite.draw(batch);        
     }
 
     public void drawHalo(GameData gameData) {

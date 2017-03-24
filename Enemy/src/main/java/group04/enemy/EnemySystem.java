@@ -181,7 +181,6 @@ public class EnemySystem implements IEnemyService, IServiceInitializer {
 
             Entity currency = new Entity();
             Entity boost = new Entity();
-
             dropItem(currency, enemyHit, world, gameData, EventType.DROP_CURRENCY);
             dropItem(boost, enemyHit, world, gameData, EventType.DROP_BOOST);
         }
