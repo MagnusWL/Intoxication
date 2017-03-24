@@ -134,7 +134,7 @@ public class Game implements ApplicationListener {
             }
 
         }
-
+        
         enemyProcess();
         currencyProcess();
         boostProcess();

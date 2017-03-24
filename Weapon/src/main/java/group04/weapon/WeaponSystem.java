@@ -229,7 +229,8 @@ public class WeaponSystem implements IWeaponService, IServiceInitializer {
 
     @Override
     public void pickUpWeapon(GameData gameData, World world) {
-        //Mangler at blive lavet komponentbaseret
+        // Mangler at blive lavet komponentbaseret
+        // Muligvis en Eventtype der tillader at man sender et våben med
         for (Event e : gameData.getAllEvents()) {
             if (e.getType() == EventType.PICKUP_WEAPON) {
                 createWeapon(gameData, world, world.getEntity(e.getEntityID()), WeaponType.GUN);

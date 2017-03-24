@@ -111,16 +111,16 @@ public class Processor implements IServiceProcessor {
                     }
                 }
 
-                if (entity.getEntityType() == EntityType.WEAPON) {
-                    WeaponContainer weaponContainer = ((WeaponContainer) entity.getContainer(WeaponContainer.class));
-                    if(weaponContainer.getWeaponType() == WeaponType.MELEE)
-                    for (Entity entityHit : world.getEntities(EntityType.ENEMY, EntityType.PLAYER, EntityType.BASE)) {
-                        if (e.isEntitiesColliding(world, gameData, entity, entityHit)) {
-                            gameData.addEvent(new Event(EventType.ENTITY_HIT, entityHit.getID()));
-                            break;
-                        }
-                    }
-                }
+//                if (entity.getEntityType() == EntityType.WEAPON) {
+//                    WeaponContainer weaponContainer = ((WeaponContainer) entity.getContainer(WeaponContainer.class));
+//                    if(weaponContainer.getWeaponType() == WeaponType.MELEE)
+//                    for (Entity entityHit : world.getEntities(EntityType.ENEMY, EntityType.PLAYER, EntityType.BASE)) {
+//                        if (e.isEntitiesColliding(world, gameData, entity, entityHit)) {
+//                            gameData.addEvent(new Event(EventType.ENTITY_HIT, entityHit.getID()));
+//                            break;
+//                        }
+//                    }
+//                }
             }
 
             break;
