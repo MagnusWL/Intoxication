@@ -109,7 +109,30 @@ public class Game implements ApplicationListener {
         for (IWeaponService ips : Lookup.getDefault().lookupAll(IWeaponService.class)) {
             ips.pickUpWeapon(gameData, world);
         }
+        
+        playerProcess();
+        enemyProcess();
+        currencyProcess();
+        boostProcess();
+    }
 
+    @Override
+    public void resize(int i, int i1) {
+    }
+
+    @Override
+    public void pause() {
+    }
+
+    @Override
+    public void resume() {
+    }
+
+    @Override
+    public void dispose() {
+    }
+    
+    private void playerProcess() {
         for (Entity p : world.getEntities(EntityType.PLAYER)) {
 
             for (IWeaponService ips : Lookup.getDefault().lookupAll(IWeaponService.class)) {
@@ -138,26 +161,6 @@ public class Game implements ApplicationListener {
             }
 
         }
-
-        enemyProcess();
-        currencyProcess();
-        boostProcess();
-    }
-
-    @Override
-    public void resize(int i, int i1) {
-    }
-
-    @Override
-    public void pause() {
-    }
-
-    @Override
-    public void resume() {
-    }
-
-    @Override
-    public void dispose() {
     }
 
     private void boostProcess() {
