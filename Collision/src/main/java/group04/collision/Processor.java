@@ -29,7 +29,7 @@ public class Processor implements ICollisionService, IServiceProcessor {
         float[] shapey = entity.getShapeY();
         MapEntity mapEntity = null;
         for (Entity map : world.getEntities(EntityType.MAP)) {
-            mapEntity = (MapEntity) entity;
+            mapEntity = (MapEntity) map;
         }
         
         if (mapEntity != null && shapex != null && shapey != null) {
