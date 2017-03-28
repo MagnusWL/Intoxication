@@ -1,10 +1,10 @@
 package group04.camera;
 
+import group04.cameracommon.ICameraService;
 import group04.common.Entity;
 import group04.common.EntityType;
 import group04.common.GameData;
 import group04.common.World;
-import group04.common.services.ICameraService;
 import org.openide.util.lookup.ServiceProvider;
 
 @ServiceProvider(service = ICameraService.class)

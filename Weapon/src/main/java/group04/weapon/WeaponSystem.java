@@ -16,8 +16,8 @@ import group04.common.World;
 import group04.common.events.Event;
 import group04.common.events.EventType;
 import group04.common.services.IServiceInitializer;
-import group04.common.services.IWeaponService;
 import group04.playercommon.PlayerEntity;
+import group04.weaponcommon.IWeaponService;
 import group04.weaponcommon.WeaponEntity;
 
 @ServiceProviders(value = {
@@ -122,7 +122,7 @@ public class WeaponSystem implements IWeaponService, IServiceInitializer {
 
     @Override
     public void stop(GameData gameData, World world) {
-        for (Entity weapon : world.getEntities(EntityType.WEAPON)) {
+        for (Entity weapon : world.getEntities(WeaponEntity.class)) {
             world.removeEntity(weapon);
         }
     }
