@@ -17,7 +17,6 @@
                 <configuration>
                     <publicPackages>
                         <publicPackage>group04.basecommon</publicPackage>
-                        <publicPackage>group04.basecommon</publicPackage>
                     </publicPackages>
                 </configuration>
             </plugin>
