@@ -5,6 +5,7 @@
  */
 package group04.projectile;
 
+import group04.basecommon.BaseEntity;
 import java.util.ArrayList;
 import org.openide.util.lookup.ServiceProvider;
 import org.openide.util.lookup.ServiceProviders;
@@ -14,8 +15,8 @@ import group04.common.services.IServiceInitializer;
 import group04.common.Entity;
 import group04.common.EntityType;
 import group04.common.services.IProjectileService;
+import group04.playercommon.PlayerEntity;
 import group04.projectilecommon.ProjectileEntity;
-
 
 /**
  *
@@ -34,19 +35,15 @@ public class BulletSystem implements IServiceInitializer, IProjectileService {
         ProjectileEntity bullet = new ProjectileEntity();
         bullet.setEntityType(EntityType.PROJECTILE);
 
-        
         bullet.setDrawable("bullet");
         bullet.setAngle(angle);
 
-        
         bullet.setVelocity((float) (350 * Math.cos(angle)));
         bullet.setVerticalVelocity((float) (350 * Math.sin(angle)));
 
-        
         bullet.setShapeX(new float[]{0, 5, 5, 0});
         bullet.setShapeY(new float[]{5, 5, 0, 0});
 
-        
         bullet.setShotFrom(entity.getEntityType());
         bullet.setExplosive(false);
 
@@ -61,19 +58,15 @@ public class BulletSystem implements IServiceInitializer, IProjectileService {
         ProjectileEntity rocket = new ProjectileEntity();
         rocket.setEntityType(EntityType.PROJECTILE);
 
-        
         rocket.setDrawable("rocket");
         rocket.setAngle(angle);
 
-        
         rocket.setVelocity((float) (350 * Math.cos(angle)));
         rocket.setVerticalVelocity((float) (350 * Math.sin(angle)));
 
-        
         rocket.setShapeX(new float[]{0, 5, 5, 0});
         rocket.setShapeY(new float[]{5, 5, 0, 0});
 
-        
         rocket.setShotFrom(entity.getEntityType());
         rocket.setExplosive(true);
         rocket.setExplosionRadius(40);
@@ -131,16 +124,11 @@ public class BulletSystem implements IServiceInitializer, IProjectileService {
         }
     }
 
-    private void shootDecision(Entity enemy, EntityType entity, World world, GameData gameData) {
-        for (Entity target : world.getEntities(entity)) {
-            if (entity == EntityType.PLAYER) {
-                float angle = (float) Math.atan2((target.getY() + 15) - (enemy.getY() + 15), (target.getX() + 15) - (enemy.getX() + 15));
-                world.addEntity(createBullet(enemy, gameData, world, angle));
-            } else {
-                float angle = (float) Math.atan2(target.getY() + 50 - (enemy.getY() + 15), (target.getX() + 50) - (enemy.getX() + 15));
-                world.addEntity(createBullet(enemy, gameData, world, angle));
-            }
-        }
+    private void shootDecision(Entity enemy, Entity target, World world, GameData gameData) {
+
+        float angle = (float) Math.atan2((target.getY() + 15) - (enemy.getY() + 15), (target.getX() + 15) - (enemy.getX() + 15));
+        world.addEntity(createBullet(enemy, gameData, world, angle));
+
     }
 
     @Override
@@ -166,9 +154,16 @@ public class BulletSystem implements IServiceInitializer, IProjectileService {
         if (enemy.getX() + 30 > gameData.getCameraX() && enemy.getX() + 30 < gameData.getCameraX() + gameData.getDisplayWidth()) {
 
             if (distancePlayer > distanceBase) {
-                shootDecision(enemy, EntityType.BASE, world, gameData);
+                
+                for(Entity baseEntity : world.getEntities(BaseEntity.class)) {
+                    shootDecision(enemy, baseEntity, world, gameData);
+                }
+                
             } else {
-                shootDecision(enemy, EntityType.PLAYER, world, gameData);
+                for(Entity playerEntity : world.getEntities(PlayerEntity.class)) {
+                    shootDecision(enemy, playerEntity, world, gameData);
+                }
+                
             }
         }
     }
