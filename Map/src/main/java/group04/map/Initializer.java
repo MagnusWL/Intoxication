@@ -57,15 +57,13 @@ public class Initializer implements IServiceInitializer {
             int[][] newMapInt;
 
             try {
-                MapContainer mapContainer = new MapContainer();
                 
                 newMapInt = (int[][]) ois.readObject();
                 gameData.setMapHeight(newMapInt[0].length);
                 gameData.setMapWidth(newMapInt.length);
                 newMap = new MapEntity();
-                newMap.addContainer(mapContainer);
                 newMap.setEntityType(EntityType.MAP);
-                mapContainer.setMap(newMapInt);
+                newMap.setMap(newMapInt);
             } catch (IOException ex) {
                 Logger.getLogger(Initializer.class.getName()).log(Level.SEVERE, null, ex);
             } catch (ClassNotFoundException ex) {
