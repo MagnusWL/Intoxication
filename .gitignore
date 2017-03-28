@@ -25,3 +25,6 @@
 /BoostCommon/target/
 /Spawner/target/
 /SpawnerCommon/target/
+/CameraCommon/target/
+/CollisionCommon/target/
+/MovementCommon/target/

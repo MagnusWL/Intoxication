@@ -83,6 +83,9 @@
         <module>WeaponCommon</module>
         <module>BaseCommon</module>
         <module>BoostCommon</module>
+        <module>CollisionCommon</module>
+        <module>CameraCommon</module>
+        <module>MovementCommon</module>
     </modules>
 
     <properties>
