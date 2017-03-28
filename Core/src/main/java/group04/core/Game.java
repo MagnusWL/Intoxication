@@ -19,14 +19,14 @@ import group04.common.events.Event;
 import group04.common.events.EventType;
 import group04.common.services.IBoostService;
 import group04.common.services.ICameraService;
-import group04.common.services.ICurrencyService;
 import group04.common.services.IEnemyService;
 import group04.common.services.IProjectileService;
 import group04.common.services.IServiceInitializer;
 import group04.common.services.IServiceProcessor;
 import group04.common.services.IWeaponService;
-import group04.datacontainers.UnitContainer;
-import group04.datacontainers.WeaponContainer;
+import group04.currencycommon.ICurrencyService;
+import group04.playercommon.PlayerEntity;
+import group04.weaponcommon.WeaponEntity;
 import java.util.ArrayList;
 
 /**
@@ -134,7 +134,8 @@ public class Game implements ApplicationListener {
     
     private void playerProcess() {
         for (Entity p : world.getEntities(EntityType.PLAYER)) {
-
+        PlayerEntity player = (PlayerEntity) p;
+        
             for (IWeaponService ips : Lookup.getDefault().lookupAll(IWeaponService.class)) {
                 ips.playerAttack(gameData, world, p);
             }
@@ -143,15 +144,16 @@ public class Game implements ApplicationListener {
                 //ips.process(gameData, world);
                 for (Event e : gameData.getAllEvents()) {
                     if (e.getType() == EventType.PLAYER_SHOOT_GUN) {
-                        Entity weapon = world.getEntity(((UnitContainer) p.getContainer(UnitContainer.class)).getWeaponOwned());
-                        if (((WeaponContainer) weapon.getContainer(WeaponContainer.class)).getWeaponType() == WeaponType.GUN) {
+                        WeaponEntity weapon = (WeaponEntity)world.getEntity(player.getWeaponOwned());
+                        
+                        if (weapon.getWeaponType() == WeaponType.GUN) {
                             ips.playershootgun(gameData, world, p, weapon);
 
                         }
                         gameData.removeEvent(e);
                     } else if (e.getType() == EventType.PLAYER_SHOOT_ROCKET) {
-                        Entity weapon = world.getEntity(((UnitContainer) p.getContainer(UnitContainer.class)).getWeaponOwned());
-                        if (((WeaponContainer) weapon.getContainer(WeaponContainer.class)).getWeaponType() == WeaponType.ROCKET) {
+                        WeaponEntity weapon = (WeaponEntity) world.getEntity(player.getWeaponOwned());
+                        if (weapon.getWeaponType() == WeaponType.ROCKET) {
                             ips.playershootrocket(gameData, world, p, weapon);
 
                         }
@@ -190,7 +192,7 @@ public class Game implements ApplicationListener {
 
             for (Event event : gameData.getEvents()) {
                 if (event.getType() == EventType.DROP_CURRENCY) {
-                    e.dropCurrency(world, world.getEntity(event.getEntityID()));
+                    e.dropCurrency(world.getEntity(event.getEntityID()));
                     gameData.removeEvent(event);
                 }
             }
@@ -204,7 +206,7 @@ public class Game implements ApplicationListener {
 
                     for (Entity player : world.getEntities(EntityType.PLAYER)) {
 
-                        e.pickUpCurrency(gameData, world, player, world.getEntity(event.getEntityID()));
+                        e.pickUpCurrency(player);
                     }
                 }
             }
