@@ -1,9 +1,8 @@
-package group04.common.services;
+package group04.currencycommon;
 
 import group04.common.Entity;
 import group04.common.GameData;
 import group04.common.World;
-import group04.common.events.Event;
 
 /**
  *
@@ -12,5 +11,6 @@ import group04.common.events.Event;
 public interface ICurrencyService {
     
     public Entity dropCurrency(World world, Entity currency);
-    public void pickUpCurrency(GameData gameData, World world, Entity player, Entity currency);
+    public void pickUpCurrency(GameData gameData, World world, Entity player);
+    
 }

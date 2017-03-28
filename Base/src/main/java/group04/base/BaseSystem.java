@@ -1,5 +1,6 @@
 package group04.base;
 
+import group04.basecommon.BaseEntity;
 import org.openide.util.lookup.ServiceProvider;
 import org.openide.util.lookup.ServiceProviders;
 import group04.common.Entity;
@@ -10,9 +11,6 @@ import group04.common.events.Event;
 import group04.common.events.EventType;
 import group04.common.services.IServiceInitializer;
 import group04.common.services.IServiceProcessor;
-import group04.datacontainers.CollisionContainer;
-import group04.datacontainers.UnitContainer;
-import group04.datacontainers.ImageContainer;
 
 @ServiceProviders(value = {
     @ServiceProvider(service = IServiceProcessor.class),
@@ -22,21 +20,14 @@ public class BaseSystem implements IServiceProcessor, IServiceInitializer {
     
     private Entity base;
 
-    // collision
-    // health
-    // image
     @Override
     public void process(GameData gameData, World world) {
-        for (Entity entity : world.getEntities(EntityType.BASE)) {
-            CollisionContainer collisionContainer = ((CollisionContainer) entity.getContainer(CollisionContainer.class));
-            UnitContainer unitContainer = ((UnitContainer) entity.getContainer(UnitContainer.class));
-            ImageContainer imageContrainer = ((ImageContainer) entity.getContainer(ImageContainer.class));
-            
+        for (Entity entity : world.getEntities(EntityType.BASE)) {            
+            BaseEntity base = (BaseEntity) entity;
             for (Event e : gameData.getAllEvents()) {
                 if (e.getType() == EventType.ENTITY_HIT && e.getEntityID().equals(entity.getID())) {
-                    
-                    unitContainer.setLife(unitContainer.getLife() - 1);
-                    if (unitContainer.getLife() <= 0) {
+                    base.setLife(base.getLife() - 1);
+                    if (base.getLife() <= 0) {
                         world.removeEntity(entity);
                     }
                     
@@ -53,29 +44,17 @@ public class BaseSystem implements IServiceProcessor, IServiceInitializer {
     }
     
     private Entity createBase(GameData gameData, World world) {
-        Entity base = new Entity();
-        UnitContainer unitContainer = new UnitContainer();
-        ImageContainer imageContainer = new ImageContainer();
-        CollisionContainer collisionContainer = new CollisionContainer();
-        
-        base.addContainer(imageContainer);
-        base.addContainer(unitContainer);
-        base.addContainer(collisionContainer);
-        
-        collisionContainer.setShapeX(new float[]{20,20,200,200});
-        collisionContainer.setShapeY(new float[]{35,180,180,35});
-        
-        imageContainer.setDrawOffsetX(-85);
-        imageContainer.setDrawOffsetY(-40);
-        imageContainer.setSprite("brain_jar");
-        
-        unitContainer.setMaxLife(50);
-        unitContainer.setLife(unitContainer.getMaxLife());
-       
+        BaseEntity base = new BaseEntity();
+        base.setShapeX(new float[]{20,20,200,200});
+        base.setShapeY(new float[]{35,180,180,35});
+//        base.setDrawOffsetX(-85);
+//        base.setDrawOffsetY(-40);
+        base.setDrawable("brain_jar");
+        base.setMaxLife(50);
+        base.setLife(base.getMaxLife());
         base.setEntityType(EntityType.BASE);
         base.setX((int) (gameData.getDisplayWidth() * 0.2));
         base.setY((int) (gameData.getDisplayHeight() * 0.13));
-        
         return base;
     }
     

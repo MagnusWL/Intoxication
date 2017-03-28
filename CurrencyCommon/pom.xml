@@ -6,7 +6,7 @@
         <artifactId>Intoxication-parent</artifactId>
         <version>1.0-SNAPSHOT</version>
     </parent>
-    <artifactId>BaseCommon</artifactId>
+    <artifactId>CurrencyCommon</artifactId>
     <packaging>nbm</packaging>
     <build>
         <plugins>
@@ -14,11 +14,6 @@
                 <groupId>org.codehaus.mojo</groupId>
                 <artifactId>nbm-maven-plugin</artifactId>
                 <extensions>true</extensions>
-                <configuration>
-                    <publicPackages>
-                        <publicPackage>group04.basecommon</publicPackage>
-                    </publicPackages>
-                </configuration>
             </plugin>
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
@@ -36,9 +31,10 @@
             <version>${netbeans.version}</version>
         </dependency>
         <dependency>
-            <groupId>${project.groupId}</groupId>
+            <groupId>group04</groupId>
             <artifactId>Common</artifactId>
-            <version>${project.version}</version>
+            <version>1.0-SNAPSHOT</version>
+            <type>jar</type>
         </dependency>
     </dependencies>
     <properties>

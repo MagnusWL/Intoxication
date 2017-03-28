@@ -7,6 +7,15 @@ public class WaveSpawnerContainer  implements DataContainer{
     private int mobsSpawned;
     private int mobsSpawnedMax;
     private int spawnDuration;
+    private boolean waveAlive = false;
+
+    public boolean isWaveAlive() {
+        return waveAlive;
+    }
+
+    public void setWaveAlive(boolean waveAlive) {
+        this.waveAlive = waveAlive;
+    }
 
     public int getSpawnTimer() {
         return spawnTimer;
