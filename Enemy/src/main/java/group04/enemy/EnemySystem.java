@@ -11,15 +11,9 @@ import group04.common.GameData;
 import group04.common.World;
 import group04.common.events.Event;
 import group04.common.events.EventType;
-import group04.common.services.IEnemyService;
+import group04.enemycommon.IEnemyService;
 import group04.common.services.IServiceInitializer;
-import group04.datacontainers.AnimationContainer;
-import group04.datacontainers.CollisionContainer;
-import group04.datacontainers.ControllerContainer;
-import group04.datacontainers.UnitContainer;
-import group04.datacontainers.ImageContainer;
-import group04.datacontainers.MovementContainer;
-import group04.datacontainers.WaveSpawnerContainer;
+import group04.enemycommon.EnemyEntity;
 
 @ServiceProviders(value = {
     @ServiceProvider(service = IEnemyService.class),
@@ -27,7 +21,7 @@ import group04.datacontainers.WaveSpawnerContainer;
 
 public class EnemySystem implements IEnemyService, IServiceInitializer {
 
-    private List<Entity> enemies = new ArrayList<>();
+    private List<EnemyEntity> enemies = new ArrayList<>();
     private final Random rand = new Random();
 
     private void dropItem(Entity drop, Entity enemy, World world, GameData gameData, EventType type) {
@@ -56,36 +50,23 @@ public class EnemySystem implements IEnemyService, IServiceInitializer {
     }
 
     private Entity createEnemy(GameData gameData, World world, int x, int y) {
-        Entity enemyCharacter = new Entity();
+        EnemyEntity enemyCharacter = new EnemyEntity();
 
-        ControllerContainer controllerContainer = new ControllerContainer();
-        controllerContainer.setJumpSpeed(300);
-        controllerContainer.setMovementSpeed(85);
+        enemyCharacter.setJumpSpeed(300);
+        enemyCharacter.setMovementSpeed(85);
 
-        MovementContainer movementContainer = new MovementContainer();
-        movementContainer.setHasGravity(true);
+        enemyCharacter.setHasGravity(true);
 
-        UnitContainer unitContainer = new UnitContainer();
-        unitContainer.setMaxLife(5);
-        unitContainer.setLife(unitContainer.getMaxLife());
+        enemyCharacter.setMaxLife(5);
+        enemyCharacter.setLife(enemyCharacter.getMaxLife());
 
-        ImageContainer imageContainer = new ImageContainer();
-        imageContainer.setSprite("Enemy_Beer");
+        enemyCharacter.setDrawable("Enemy_Beer");
 
-        CollisionContainer collisionContainer = new CollisionContainer();
-        collisionContainer.setShapeX(new float[]{120, 120, 20, 20});
-        collisionContainer.setShapeY(new float[]{0, 100, 100, 0});
+        enemyCharacter.setShapeX(new float[]{120, 120, 20, 20});
+        enemyCharacter.setShapeY(new float[]{0, 100, 100, 0});
 
-        AnimationContainer animationContainer = new AnimationContainer();
-        animationContainer.setAnimateable(true);
-        animationContainer.setCurrentAnimation("Enemy_Beer_Run");
-
-        enemyCharacter.addContainer(unitContainer);
-        enemyCharacter.addContainer(animationContainer);
-        enemyCharacter.addContainer(controllerContainer);
-        enemyCharacter.addContainer(movementContainer);
-        enemyCharacter.addContainer(imageContainer);
-        enemyCharacter.addContainer(collisionContainer);
+//        enemyCharacter.setAnimateable(true);
+//        enemyCharacter.setCurrentAnimation("Enemy_Beer_Run");
 
         enemyCharacter.setEntityType(EntityType.ENEMY);
         enemyCharacter.setX(x);
@@ -169,14 +150,13 @@ public class EnemySystem implements IEnemyService, IServiceInitializer {
     }
 
     @Override
-    public void enemyHit(GameData gameData, World world, Entity enemyHit) {
-        UnitContainer unitContainer = ((UnitContainer) enemyHit.getContainer(UnitContainer.class));
+    public void enemyHit(GameData gameData, World world, EnemyEntity enemyHit) {
 
-        unitContainer.setLife(unitContainer.getLife() - 1);
+        enemyHit.setLife(enemyHit.getLife() - 1);
 
         //ENEMY DIES
-        if (unitContainer.getLife() <= 0) {
-            world.removeEntity(world.getEntity(unitContainer.getWeaponOwned()));
+        if (enemyHit.getLife() <= 0) {
+            world.removeEntity(enemyHit.getWeaponOwned());
             world.removeEntity(enemyHit);
 
             Entity currency = new Entity();
