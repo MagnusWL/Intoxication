@@ -137,7 +137,7 @@ public class Game implements ApplicationListener {
     }
 
     private void playerProcess() {
-        for (Entity p : world.getEntities(EntityType.PLAYER)) {
+        for (Entity p : world.getEntities(PlayerEntity.class)) {
             PlayerEntity player = (PlayerEntity) p;
 
             for (IWeaponService ips : Lookup.getDefault().lookupAll(IWeaponService.class)) {
