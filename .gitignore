@@ -16,3 +16,12 @@
 /Map/target/
 /application/target/
 /Boost/target/
+/PlayerCommon/target/
+/WeaponCommon/target/
+/EnemyCommon/target/
+/BaseCommon/target/
+/CurrencyCommon/target/
+/ProjectileCommon/target/
+/BoostCommon/target/
+/Spawner/target/
+/SpawnerCommon/target/

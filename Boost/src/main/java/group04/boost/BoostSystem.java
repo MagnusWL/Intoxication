@@ -38,7 +38,7 @@ public class BoostSystem implements IServiceInitializer, IBoostService {
     }
 
     @Override
-    public Entity dropBoost(World world, Entity boost) {
+    public Entity dropBoost(Entity boost) {
         boost.setEntityType(BOOST);
         
         boost.setHasGravity(true);

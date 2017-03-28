@@ -82,7 +82,7 @@ public class WeaponSystem implements IWeaponService, IServiceInitializer {
         weapon.setX(e.getX());
         weapon.setY(e.getY());
         world.addEntity(weapon);
-        player.setWeaponOwned(weapon.getID());
+        player.setWeaponOwned(weapon);
     }
 
     private void createMelee(GameData gameData, World world, Entity e, WeaponType type) {
@@ -98,7 +98,7 @@ public class WeaponSystem implements IWeaponService, IServiceInitializer {
         weapon.setShapeX(new float[]{2, 32, 8, 2});
         weapon.setShapeY(new float[]{4, 36, 36, 4});
         world.addEntity(weapon);
-        player.setWeaponOwned(weapon.getID());
+        player.setWeaponOwned(weapon);
     }
 
     private void createRocket(GameData gameData, World world, Entity e, WeaponType type) {
@@ -112,7 +112,7 @@ public class WeaponSystem implements IWeaponService, IServiceInitializer {
         weapon.setWeaponType(type);
         weapon.setEntityType(EntityType.WEAPON);
         world.addEntity(weapon);
-        player.setWeaponOwned(weapon.getID());
+        player.setWeaponOwned(weapon);
     }
 
     @Override
@@ -140,7 +140,7 @@ public class WeaponSystem implements IWeaponService, IServiceInitializer {
     @Override
     public void playerAttack(GameData gameData, World world, Entity entity) {
         PlayerEntity player = (PlayerEntity) entity;
-        WeaponEntity weapon = (WeaponEntity) world.getEntity(player.getWeaponOwned());
+        WeaponEntity weapon = (WeaponEntity) player.getWeaponOwned();
 
         Entity carrier = world.getEntity(weapon.getWeaponCarrier());
 
@@ -173,7 +173,7 @@ public class WeaponSystem implements IWeaponService, IServiceInitializer {
     @Override
     public void enemyAttack(GameData gameData, World world, Entity enemy, Entity playerEntity, Entity base) {
         PlayerEntity player = (PlayerEntity) playerEntity;
-        WeaponEntity weapon = (WeaponEntity) world.getEntity(player.getWeaponOwned());
+        WeaponEntity weapon = (WeaponEntity) player.getWeaponOwned();
         Entity carrier = world.getEntity(weapon.getWeaponCarrier());
 
         float angle1 = (float) Math.atan2(gameData.getMouseY() - (carrier.getY() + 15 - gameData.getCameraY()) + 45, gameData.getMouseX() - (carrier.getX() + 15 - gameData.getCameraX()) - 45);
