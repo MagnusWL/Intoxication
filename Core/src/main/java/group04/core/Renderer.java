@@ -20,14 +20,6 @@ import group04.common.Entity;
 import group04.common.EntityType;
 import group04.common.GameData;
 import group04.common.World;
-import group04.datacontainers.AnimationContainer;
-import group04.datacontainers.CollisionContainer;
-import group04.datacontainers.DataContainer;
-import group04.datacontainers.UnitContainer;
-import group04.datacontainers.ImageContainer;
-import group04.datacontainers.MovementContainer;
-import group04.datacontainers.PlayerContainer;
-import group04.datacontainers.WaveSpawnerContainer;
 import group04.playercommon.PlayerEntity;
 import group04.projectilecommon.ProjectileEntity;
 import group04.spawnercommon.WaveSpawnerEntity;
@@ -89,7 +81,7 @@ public class Renderer {
         sr.setAutoShapeType(true);
         clearBackground(gameData);
         sr.end();
-
+/*
         //Total back (Background)
         batch.begin();
         drawBackground(gameData, world);
@@ -109,7 +101,7 @@ public class Renderer {
         drawScore(gameData, world);
         drawWaveCount(gameData, world);
         drawFPS(gameData);
-        batch.end();
+        batch.end();*/
 
         //Layer beetween foreground and middleground: The frontside of the enemyspawner:
         //Foreground layer: The first one
@@ -133,7 +125,7 @@ public class Renderer {
         animationsFlip.put(animationName, flipKeyFrames);
     }
 
-    private void drawAnimations(GameData gameData, World world) {
+  /*  private void drawAnimations(GameData gameData, World world) {
         for (Entity entity : world.getAllEntities()) {
             AnimationContainer animationContainer = (AnimationContainer) entity.getContainer(AnimationContainer.class);
             MovementContainer movementContainer = (MovementContainer) entity.getContainer(MovementContainer.class);
@@ -169,14 +161,14 @@ public class Renderer {
 //        for (Entity entity : world.getEntities(EntityType.ENEMY)) {
 //            drawSprite(gameData, world, entity, images.get(entity.getSprite()), true);
 //        }
-        /*for (Entity entity : world.getEntities(EntityType.PLAYER)) {
+        for (Entity entity : world.getEntities(EntityType.PLAYER)) {
             ImageContainer imageContainer = (ImageContainer) entity.getContainer(ImageContainer.class);
             if (gameData.getMouseX() < (entity.getX() - gameData.getCameraX())) {
                 drawSprite(gameData, world, entity, imagesFlip.get(imageContainer.getSprite()), imageContainer);
             } else {
                 drawSprite(gameData, world, entity, images.get(imageContainer.getSprite()), imageContainer);
             }
-        }*/
+        }
         for (Entity entity : world.getEntities(WeaponEntity.class)) {
             ImageContainer imageContainer = (ImageContainer) entity.getContainer(ImageContainer.class);
             drawSprite(gameData, world, entity, images.get(imageContainer.getSprite()), imageContainer);
@@ -267,7 +259,7 @@ public class Renderer {
             sprite.setY(entity.getY() - gameData.getCameraY());
         }
         sprite.draw(batch);
-    }
+    }*/
 
     float back1m = 1f;
     float back2m = 1f;
