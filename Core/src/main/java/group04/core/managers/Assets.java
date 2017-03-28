@@ -13,6 +13,7 @@ import com.badlogic.gdx.files.FileHandle;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
+import com.badlogic.gdx.graphics.glutils.FileTextureData;
 import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileOutputStream;
@@ -31,53 +32,54 @@ public final class Assets {
 
     private static AssetManager manager;
     private static List<AssetDescriptor<Sound>> soundAssets = new ArrayList<AssetDescriptor<Sound>>();
-    private static List<AssetDescriptor<Texture>> textureAssets = new ArrayList<AssetDescriptor<Texture>>();
+    private static List<Texture> textureAssets = new ArrayList<Texture>();
     private Map<String, ArrayList<Sprite>> animations = new HashMap<>();
     private Map<String, ArrayList<Sprite>> animationsFlip = new HashMap<>();
+    private Map<String, Sprite> sprites = new HashMap<>();
+
+    private static Map<String, String> filePaths = new HashMap<>();
 
     private AssetsJarFileResolver jfhr;
     private String directory = new File("../../../").getAbsolutePath();
 
     public Assets() {
-        FileHandle components = Gdx.files.internal(directory + "/Data/componentList.txt");
+        addComponentResources();
 
-        try {
-            System.out.println(directory + components.path());
-            FileReader file = new FileReader(components.path());
-            BufferedReader reader = new BufferedReader(file);
-            String line = reader.readLine();
-            while (line != null) {
-                System.out.println(line);
-                addComponentResources(line);
-                line = reader.readLine();
-            }
-        } catch (Exception e) {
-        }
         jfhr = new AssetsJarFileResolver();
         manager = new AssetManager();
+    }
+
+    public Map<String, String> getFilePaths() {
+        return filePaths;
     }
 
     public static void load() {
         for (AssetDescriptor<Sound> soundFile : soundAssets) {
             manager.load(soundFile);
+            System.out.println("Loaded Soundfile");
         }
-        for (AssetDescriptor<Texture> textureFile : textureAssets) {
-            manager.load(textureFile);
+        for (Texture texture : textureAssets) {
+
+            String path = ((FileTextureData) texture.getTextureData()).getFileHandle().path();
+            manager.load(path, Texture.class);
+            System.out.println("Loaded Texturefile");
         }
+        textureAssets.clear();
+        soundAssets.clear();
     }
 
     public void addSoundAsset(String soundAssetName) {
         soundAssets.add(new AssetDescriptor<>(soundAssetName, Sound.class));
     }
 
-    public void addImageAsset(String textureAssetName) {
-        textureAssets.add(new AssetDescriptor<>(textureAssetName, Texture.class));
-        if (textureAssetName.contentEquals("animation")) {
-            manager.setReferenceCount(textureAssetName, 1);
-        } else {
-            manager.setReferenceCount(textureAssetName, 0);
-        }
+    public void addImageAsset(Texture textureAsset) {
+        String path = ((FileTextureData) textureAsset.getTextureData()).getFileHandle().path();
+        String[] filePathSplit = path.split("/");
+        String fileName = filePathSplit[filePathSplit.length - 1];
+        textureAssets.add(textureAsset);
+        filePaths.put(fileName, path);
 
+        sprites.put(fileName, new Sprite(textureAsset));
     }
 
     public static void dispose() {
@@ -88,12 +90,18 @@ public final class Assets {
         return manager;
     }
 
-    public void addComponentResources(String componentName) {
-        FileHandle fh = Gdx.files.absolute(directory + "\\" + componentName);
-        String jarUrl = fh.path() + "/target/" + componentName + "-1.0-SNAPSHOT.jar!../src/main/resources/";
-        // FileHandle jarFile =  jfhr.resolve(jarUrl); 
-        FileHandle folder = Gdx.files.absolute(fh.path() + "/src/main/resources/");
-        listFilesForFolder(folder.file());
+    public void addComponentResources() {
+        FileHandle componentsFH = Gdx.files.absolute(directory);
+        File components = componentsFH.file();
+        for (final File fileEntry : components.listFiles()) {
+             try {
+                FileHandle folder = Gdx.files.absolute(fileEntry.getPath() + "/src/main/resources/");
+                listFilesForFolder(folder.file());
+            } catch (Exception e) {
+                System.out.println("Files not found");
+            }
+        }
+
     }
 
     public void listFilesForFolder(final File folder) {
@@ -102,29 +110,32 @@ public final class Assets {
             if (fileEntry.isDirectory()) {
                 listFilesForFolder(fileEntry);
             } else if (fileType.equals("png")) {
-                addImageAsset(fileEntry.getName());
+                addImageAsset(new Texture(folder.getAbsolutePath() + "/" + fileEntry.getName()));
+
             } else if (fileType.equals("wav")) {
-                addSoundAsset(fileEntry.getName());
+                addSoundAsset(folder.getAbsolutePath() + "/" + fileEntry.getName());
             }
         }
     }
-    public Map<String, ArrayList<Sprite>> getAnimations() {
-        return animations;
+
+    public ArrayList<Sprite> getAnimations(String key) {
+        return animations.get(key);
     }
 
-    public void setAnimations(String key, ArrayList<Sprite> animation){
+    public void setAnimations(String key, ArrayList<Sprite> animation) {
         this.animations.put(key, animation);
     }
 
-    public Map<String, ArrayList<Sprite>> getAnimationsFlip() {
-        return animationsFlip;
+    public ArrayList<Sprite> getAnimationsFlip(String key) {
+        return animationsFlip.get(key);
     }
 
-    public void setAnimationsFlip(String key, ArrayList<Sprite> animation){
+    public void setAnimationsFlip(String key, ArrayList<Sprite> animation) {
         this.animations.put(key, animation);
     }
-    
-     public void makeAnimation(String animationName, Texture spriteSheet, int spriteSizeX, int spriteSizeY) {
+
+    public void makeAnimation(String animationName, Texture spriteSheet, int spriteSizeX, int spriteSizeY) {
+        System.out.println(animationName + "Starting");
         ArrayList<Sprite> keyFrames = new ArrayList<>();
         ArrayList<Sprite> flipKeyFrames = new ArrayList<>();
         int numberOfSprites = (int) (spriteSheet.getWidth() / spriteSizeX);
@@ -137,8 +148,14 @@ public final class Assets {
             flip.flip(true, false);
             flipKeyFrames.add(flip);
         }
-        manager.load(animationName, keyFrames.getClass());
-        manager.load(animationName + "_flipped", flipKeyFrames.getClass());
+
+        animations.put(animationName, keyFrames);
+        animationsFlip.put(animationName.substring(0, animationName.length() - 4) + "_flipped.png", flipKeyFrames);
+        System.out.println(animationName.substring(0, animationName.length() - 4) + "_flipped.png");
     }
-     
+
+    public Sprite getSprites(String key) {
+        return sprites.get(key);
+    }
+
 }

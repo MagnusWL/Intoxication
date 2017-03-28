@@ -6,6 +6,7 @@
 package group04.core;
 
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.assets.AssetDescriptor;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.Texture;
@@ -50,44 +51,46 @@ public class Renderer {
 //
 //    private Map<String, ArrayList<Sprite>> animationsFlip = new HashMap<>();
 //    private Map<String, Sprite> imagesFlip = new HashMap<>();
-
     private boolean loaded = false;
 
     private Assets assetManager;
+
     public Renderer(GameData gameData) {
         text = new BitmapFont();
         batch = new SpriteBatch();
         sr = new ShapeRenderer();
 
         assetManager = new Assets();
-        assetManager.load();
-        while(!assetManager.getAssetManager().update())
-        {
-            System.out.println(assetManager.getAssetManager().getProgress()*100);
-        }
-       
-        loadPNGImages();
 
-        loadPNGAnimation("player_run_animation", 75, 80);
-        loadPNGAnimation("player_idle_animation", 75, 80);
-        loadPNGAnimation("player_jump_animation", 75, 80);
-        loadPNGAnimation("enemybeer_run_animation", 142, 122);
-        loadPNGAnimation("currencygold_animation", 44, 45);
+        assetManager.load();
+         while (!assetManager.getAssetManager().update()) {
+            System.out.println(assetManager.getAssetManager().getProgress() * 100);
+        }
+        loadPNGAnimation("player_run_animation.png", 75, 80);
+        System.out.println("Renderer");
+        loadPNGAnimation("player_idle_animation.png", 75, 80);
+        loadPNGAnimation("player_jump_animation.png", 75, 80);
+        loadPNGAnimation("enemybeer_run_animation.png", 142, 122);
+        loadPNGAnimation("currency_gold_animation.png", 44, 45);
+       // loadPNGImages();
+        System.out.println(assetManager.getAssetManager().getLoadedAssets());
+
     }
 
     public void loadPNGAnimation(String animationName, int spriteSizeX, int spriteSizeY) {
-        assetManager.makeAnimation(animationName, assetManager.getAssetManager().get(animationName + ".png", Texture.class), spriteSizeX, spriteSizeY);
+        assetManager.makeAnimation(animationName, assetManager.getAssetManager().get(assetManager.getFilePaths().get(animationName), Texture.class), spriteSizeX, spriteSizeY);
     }
 
-    public void loadPNGImages() {
-        Array<Texture> imageTextures = new Array<Texture>();
-        for (Texture imageName : assetManager.getAssetManager().getAll(Texture.class, imageTextures) ) {
-            images.put(imageName.toString(), new Sprite(assetManager.getAssetManager().get(imageName.toString(),Texture.class)));
-            Sprite flip = new Sprite(images.get(imageName).getTexture());
-            flip.flip(true, false);
-            imagesFlip.put(imageName, flip);
-        }
-    }
+//    public void loadPNGImages() {
+//        Array<Texture> imageTextures = new Array<Texture>();
+//        for (Texture imageName : assetManager.getAssetManager().getAll(Texture.class, imageTextures)) {
+//            Sprite thisSprite = new Sprite(imageName);
+//            assetManager.getAssetManager().load(thisSprite, Sprite.class);
+//            Sprite flip = new Sprite(imageName);
+//            flip.flip(true, false);
+//            assetManager.getAssetManager().load(thisSprite.toString() + "_flipped", Sprite.class);
+//        }
+//    }
 
     public void render(GameData gameData, World world) {
         sr.begin(ShapeType.Filled);
@@ -137,7 +140,6 @@ public class Renderer {
 //        animations.put(animationName, keyFrames);
 //        animationsFlip.put(animationName, flipKeyFrames);
 //    }
-
     private void drawAnimations(GameData gameData, World world) {
         for (Entity entity : world.getAllEntities()) {
             AnimationContainer animationContainer = (AnimationContainer) entity.getContainer(AnimationContainer.class);
@@ -145,9 +147,10 @@ public class Renderer {
             if (animationContainer != null) {
                 //FLIP
                 if (movementContainer != null && movementContainer.getVelocity() < 0) {
-                    playAnimation(gameData, world, assetManager.getAssetManager().get(animationContainer.getCurrentAnimation() + "_flipped", ArrayList.class), entity, 5, animationContainer);
+                    System.out.println(animationContainer.getCurrentAnimation() + "_flipped.png");
+                    playAnimation(gameData, world, assetManager.getAnimationsFlip(animationContainer.getCurrentAnimation() + "_flipped.png"), entity, 5, animationContainer);
                 } else {
-                    playAnimation(gameData, world, assetManager.getAssetManager().get(animationContainer.getCurrentAnimation(), ArrayList.class), entity, 5, animationContainer);
+                    playAnimation(gameData, world, assetManager.getAnimations(animationContainer.getCurrentAnimation()+".png"), entity, 5, animationContainer);
                 }
             }
         }
@@ -168,7 +171,7 @@ public class Renderer {
     private void drawSprites(GameData gameData, World world) {
         for (Entity entity : world.getEntities(EntityType.BASE)) {
             ImageContainer imageContainer = (ImageContainer) entity.getContainer(ImageContainer.class);
-            drawSprite(gameData, world, entity, images.get(imageContainer.getSprite()), imageContainer);
+            drawSprite(gameData, world, entity, assetManager.getSprites(imageContainer.getSprite()+".png"), imageContainer);
         }
 
 //        for (Entity entity : world.getEntities(EntityType.ENEMY)) {
@@ -182,20 +185,20 @@ public class Renderer {
                 drawSprite(gameData, world, entity, images.get(imageContainer.getSprite()), imageContainer);
             }
         }*/
-
         for (Entity entity : world.getEntities(EntityType.WEAPON)) {
             ImageContainer imageContainer = (ImageContainer) entity.getContainer(ImageContainer.class);
-            drawSprite(gameData, world, entity, images.get(imageContainer.getSprite()), imageContainer);
+            drawSprite(gameData, world, entity, assetManager.getSprites(imageContainer.getSprite()+".png"), imageContainer);
         }
 
         for (Entity entity : world.getEntities(EntityType.PROJECTILE)) {
             ImageContainer imageContainer = (ImageContainer) entity.getContainer(ImageContainer.class);
-            drawSprite(gameData, world, entity, images.get(imageContainer.getSprite()), imageContainer);
+            drawSprite(gameData, world, entity, assetManager.getSprites(imageContainer.getSprite()+".png"), imageContainer);
         }
 
         for (Entity entity : world.getEntities(EntityType.BOOST)) {
             ImageContainer imageContainer = (ImageContainer) entity.getContainer(ImageContainer.class);
-            drawSprite(gameData, world, entity, images.get(imageContainer.getSprite()), imageContainer);
+            drawSprite(gameData, world, entity, assetManager.getSprites(imageContainer.getSprite()+".png"), imageContainer);
+
         }
     }
 
@@ -235,7 +238,7 @@ public class Renderer {
                 ImageContainer imageContainer = (ImageContainer) entity.getContainer(ImageContainer.class);
 
                 if (imageContainer != null) {
-                    healthOffset = (int) images.get(imageContainer.getSprite()).getHeight() + 5;
+                    healthOffset = (int)assetManager.getSprites(imageContainer.getSprite()+".png").getHeight() + 5;
 
                     for (int i = 0; i < collisionContainer.getShapeX().length; i++) {
                         max = (int) Math.max(max, collisionContainer.getShapeX()[i]);
@@ -282,20 +285,20 @@ public class Renderer {
     }
 
     private void drawBackground(GameData gameData, World world) {
-        drawBackground(gameData, images.get("Eye_withoutpupil"), back1m);
-        drawPupil(gameData, world, images.get("pupil"), back1m);
-        drawBackground(gameData, images.get("Background_layer1"), back1m);
+        drawBackground(gameData, assetManager.getSprites("eye_withoutpupil.png"), back1m);
+        drawPupil(gameData, world, assetManager.getSprites("pupil.png"), back1m);
+        drawBackground(gameData, assetManager.getSprites("background_layer1.png"), back1m);
         //pupil
 //        drawBackground(gameData, images.get("pupil"), back3m);
-        drawBackground(gameData, images.get("Background_layer2"), back2m);
+        drawBackground(gameData, assetManager.getSprites("background_layer2.png"), back2m);
 
         /*        Sprite sp = images.get("lightSource");
         sp.setX(i * sprite.getWidth() - gameData.getCameraX() * mov);
         sp.draw(batch);*/
 //        drawBackground(gameData, images.get("lightSource"), back5m);
-        drawBackground(gameData, images.get("Middleground"), back3m);
-        drawBackground(gameData, images.get("level_01_back"), back3m);
-        drawBackground(gameData, images.get("level_03_back"), back3m);
+        drawBackground(gameData, assetManager.getSprites("middleground.png"), back3m);
+        drawBackground(gameData, assetManager.getSprites("level_01_back.png"), back3m);
+        drawBackground(gameData, assetManager.getSprites("level_03_back.png"), back3m);
 //        drawBackground(gameData, images.get("Eye_withoutpupil"), back3m);101
 
     }
@@ -305,7 +308,7 @@ public class Renderer {
         float playerX = 0;
         float playerY = 80;
         for (Entity player : world.getEntities(EntityType.PLAYER)) {
-            playerX = (float) (player.getX() + images.get("Player").getWidth() / 2.0);
+            playerX = (float) (player.getX() + assetManager.getSprites("player.png").getWidth() / 2.0);
             playerY = player.getY();
         }
 
@@ -327,18 +330,18 @@ public class Renderer {
     }
 
     private void drawForeground(GameData gameData) {
-        drawBackground(gameData, images.get("level_02"), back3m);
-        drawBackground(gameData, images.get("level_01_front"), back3m);
-        drawBackground(gameData, images.get("level_03_front"), back3m);
+        drawBackground(gameData, assetManager.getSprites("level_02.png"), back3m);
+        drawBackground(gameData, assetManager.getSprites("level_01_front.png"), back3m);
+        drawBackground(gameData, assetManager.getSprites("level_03_front.png"), back3m);
 
         //Player        
-        drawBackground(gameData, images.get("foreground_layer1"), back4m);
-        drawBackground(gameData, images.get("foreground_layer2"), back5m);
+        drawBackground(gameData, assetManager.getSprites("foreground_layer1.png"), back4m);
+        drawBackground(gameData, assetManager.getSprites("foreground_layer2.png"), back5m);
         drawHalo(gameData);
     }
 
     public void drawHalo(GameData gameData) {
-        images.get("Halo").draw(batch);
+        assetManager.getSprites("halo.png").draw(batch);
     }
 
     private void drawBackground(GameData gameData, Sprite sprite, float mov) {

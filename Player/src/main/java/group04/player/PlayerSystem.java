@@ -50,14 +50,14 @@ public class PlayerSystem implements IServiceProcessor, IServiceInitializer {
                 //left
 
                 movementContainer.setVelocity(-movementSpeed);
-                checkAnimation(animationContainer, "player_run");
-                animationContainer.setCurrentAnimation("player_run");
+                checkAnimation(animationContainer, "player_run_animation");
+                animationContainer.setCurrentAnimation("player_run_animation");
             }
             if (gameData.getKeys().isDown(GameKeys.D)) {
                 //right
                 movementContainer.setVelocity(movementSpeed);
-                checkAnimation(animationContainer, "player_run");
-                animationContainer.setCurrentAnimation("player_run");
+                checkAnimation(animationContainer, "player_run_animation");
+                animationContainer.setCurrentAnimation("player_run_animation");
             }
 
             if (gameData.getKeys().isDown(GameKeys.SPACE)) {
@@ -70,13 +70,13 @@ public class PlayerSystem implements IServiceProcessor, IServiceInitializer {
 
             if (!gameData.getKeys().isDown(GameKeys.A) && !gameData.getKeys().isDown(GameKeys.D)) {
                 movementContainer.setVelocity(0);
-                checkAnimation(animationContainer, "player_idle");
-                animationContainer.setCurrentAnimation("player_idle");
+                checkAnimation(animationContainer, "player_idle_animation");
+                animationContainer.setCurrentAnimation("player_idle_animation");
             }
 
             if (!collisionContainer.isGrounded()) {
-                checkAnimation(animationContainer, "player_jump");
-                animationContainer.setCurrentAnimation("player_jump");
+                checkAnimation(animationContainer, "player_jump_animation");
+                animationContainer.setCurrentAnimation("player_jump_animation");
             }
 
             for (Event e : gameData.getAllEvents()) {
@@ -117,7 +117,7 @@ public class PlayerSystem implements IServiceProcessor, IServiceInitializer {
         healthContainer.setLife(healthContainer.getMaxLife());
 
         ImageContainer imageContainer = new ImageContainer();
-        imageContainer.setSprite("Player");
+        imageContainer.setSprite("player");
 
         CollisionContainer collisionContainer = new CollisionContainer();
         collisionContainer.setShapeX(new float[]{17, 34, 52, 66});

@@ -147,7 +147,7 @@ public class EnemySystem implements IServiceProcessor, IServiceInitializer {
         healthContainer.setLife(healthContainer.getMaxLife());
 
         ImageContainer imageContainer = new ImageContainer();
-        imageContainer.setSprite("Enemy_Beer");
+        imageContainer.setSprite("enemy_beer");
 
         CollisionContainer collisionContainer = new CollisionContainer();
         collisionContainer.setShapeX(new float[]{250, 250, 0, 0});
@@ -155,7 +155,7 @@ public class EnemySystem implements IServiceProcessor, IServiceInitializer {
 
         AnimationContainer animationContainer = new AnimationContainer();
         animationContainer.setAnimateable(true);
-        animationContainer.setCurrentAnimation("Enemy_Beer_Run");
+        animationContainer.setCurrentAnimation("enemybeer_run_animation");
 
         enemyCharacter.addContainer(animationContainer);
         enemyCharacter.addContainer(controllerContainer);
