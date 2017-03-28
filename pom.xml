@@ -76,6 +76,8 @@
         <module>PlayerCommon</module>
         <module>MapCommon</module>
         <module>ProjectileCommon</module>
+        <module>WeaponCommon</module>
+        <module>BaseCommon</module>
     </modules>
 
     <properties>
