@@ -22,7 +22,7 @@ public class BaseSystem implements IServiceProcessor, IServiceInitializer {
 
     @Override
     public void process(GameData gameData, World world) {
-        for (Entity entity : world.getEntities(EntityType.BASE)) {            
+        for (Entity entity : world.getEntities(BaseEntity.class)) {            
             BaseEntity base = (BaseEntity) entity;
             for (Event e : gameData.getAllEvents()) {
                 if (e.getType() == EventType.ENTITY_HIT && e.getEntityID().equals(entity.getID())) {

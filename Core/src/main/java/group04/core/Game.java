@@ -9,6 +9,7 @@ import com.badlogic.gdx.ApplicationListener;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.FPSLogger;
 import com.badlogic.gdx.graphics.OrthographicCamera;
+import group04.basecommon.BaseEntity;
 import group04.boostcommon.IBoostService;
 import group04.common.Entity;
 import group04.common.EntityType;
@@ -101,7 +102,7 @@ public class Game implements ApplicationListener {
         gameData.setDelta(Gdx.graphics.getDeltaTime());
 
         for (ICameraService e : Lookup.getDefault().lookupAll(ICameraService.class)) {
-            for (Entity player : world.getEntities(EntityType.PLAYER)) {
+            for (Entity player : world.getEntities(PlayerEntity.class)) {
                 e.followEntity(gameData, world, player);
             }
         }
@@ -208,7 +209,7 @@ public class Game implements ApplicationListener {
                     world.removeEntity(world.getEntity(event.getEntityID()));
                     gameData.removeEvent(event);
 
-                    for (Entity player : world.getEntities(EntityType.PLAYER)) {
+                    for (Entity player : world.getEntities(PlayerEntity.class)) {
 
                         e.pickUpCurrency(player);
                     }
@@ -229,18 +230,18 @@ public class Game implements ApplicationListener {
             Entity player = null;
             Entity base = null;
             ArrayList<EnemyEntity> enemies = new ArrayList<>();
-            for (Entity p : world.getEntities(EntityType.PLAYER)) {
+            for (Entity p : world.getEntities(PlayerEntity.class)) {
                 player = p;
             }
-            for (Entity b : world.getEntities(EntityType.BASE)) {
+            for (Entity b : world.getEntities(BaseEntity.class)) {
                 base = b;
             }
-            for (Entity e : world.getEntities(EntityType.ENEMY)) {
+            for (Entity e : world.getEntities(EnemyEntity.class)) {
                 enemies.add((EnemyEntity) e);
             }
 
             for (IWeaponService ips : Lookup.getDefault().lookupAll(IWeaponService.class)) {
-                for (Entity enemy : world.getEntities(EntityType.ENEMY)) {
+                for (Entity enemy : world.getEntities(EnemyEntity.class)) {
                     ips.enemyAttack(gameData, world, enemy, player, base);
                 }
             }
@@ -260,7 +261,7 @@ public class Game implements ApplicationListener {
             }
 
             for (IProjectileService ips : Lookup.getDefault().lookupAll(IProjectileService.class)) {
-                for (Entity enemy : world.getEntities(EntityType.ENEMY)) {
+                for (Entity enemy : world.getEntities(EnemyEntity.class)) {
                     for (Event e : gameData.getAllEvents()) {
                         if (e.getType() == EventType.ENEMY_SHOOT && e.getEntityID().equals(enemy.getID())) {
                             ips.enemyshoot(gameData, world, enemy, base, player);

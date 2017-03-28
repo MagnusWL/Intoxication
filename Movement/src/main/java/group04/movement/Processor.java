@@ -1,5 +1,7 @@
 package group04.movement;
 
+import group04.basecommon.BaseEntity;
+import group04.boostcommon.BoostEntity;
 import group04.common.Entity;
 import group04.common.EntityType;
 import group04.common.GameData;
@@ -10,6 +12,9 @@ import group04.common.events.EventType;
 import group04.common.services.ICollisionService;
 import group04.common.services.IMovementService;
 import group04.common.services.IServiceProcessor;
+import group04.currencycommon.CurrencyEntity;
+import group04.enemycommon.EnemyEntity;
+import group04.playercommon.PlayerEntity;
 import group04.projectilecommon.ProjectileEntity;
 import group04.weaponcommon.WeaponEntity;
 import org.openide.util.Lookup;
@@ -25,16 +30,16 @@ public class Processor implements IMovementService {
     public void process(GameData gameData, World world) {
         for (ICollisionService e : Lookup.getDefault().lookupAll(ICollisionService.class)) {
 
-            for (Entity player : world.getEntities(EntityType.PLAYER)) {
+            for (Entity player : world.getEntities(PlayerEntity.class)) {
 
-                for (Entity loot : world.getEntities(EntityType.CURRENCY)) {
+                for (Entity loot : world.getEntities(CurrencyEntity.class)) {
 
                     if (e.isEntitiesColliding(world, gameData, player, loot)) {
                         gameData.addEvent(new Event(EventType.PICKUP_CURRENCY, loot.getID()));
                     }
                 }
 
-                for (Entity boost : world.getEntities(EntityType.BOOST)) {
+                for (Entity boost : world.getEntities(BoostEntity.class)) {
 
                     if (e.isEntitiesColliding(world, gameData, player, boost)) {
                         gameData.addEvent(new Event(EventType.PICKUP_BOOST, boost.getID()));
@@ -43,10 +48,9 @@ public class Processor implements IMovementService {
 
             }
 
-            for (Entity entity : world.getEntities(EntityType.PLAYER, EntityType.ENEMY, EntityType.PROJECTILE, EntityType.CURRENCY)) {
+            for (Entity entity : world.getEntities(PlayerEntity.class, EnemyEntity.class, ProjectileEntity.class, CurrencyEntity.class)) {
 
 //                MovementContainer movementContainer = ((MovementContainer) entity.getContainer(MovementContainer.class));
-
                 steps = (int) (Math.ceil(Math.abs(entity.getVelocity())) + Math.ceil(Math.abs(entity.getVerticalVelocity())));
                 if (steps > 5) {
                     steps = 5;
@@ -78,7 +82,7 @@ public class Processor implements IMovementService {
 //                    ProjectileContainer projectileContainer = ((ProjectileContainer) entity.getContainer(ProjectileContainer.class));
                     ProjectileEntity bullet = (ProjectileEntity) entity;
                     if (!bullet.isExplosive()) {
-                        for (Entity entityHit : world.getEntities(EntityType.PLAYER, EntityType.ENEMY, EntityType.BASE)) {
+                        for (Entity entityHit : world.getEntities(PlayerEntity.class, EnemyEntity.class, BaseEntity.class)) {
                             if (entityHit.getEntityType() != bullet.getShotFrom()
                                     && !(entityHit.getEntityType() == EntityType.BASE && bullet.getShotFrom() == EntityType.PLAYER)) {
                                 if (e.isEntitiesColliding(world, gameData, entity, entityHit)) {
@@ -89,7 +93,7 @@ public class Processor implements IMovementService {
                             }
                         }
                     } else {
-                        for (Entity entityHit : world.getEntities(EntityType.PLAYER, EntityType.ENEMY, EntityType.BASE)) {
+                        for (Entity entityHit : world.getEntities(PlayerEntity.class, EnemyEntity.class, BaseEntity.class)) {
                             if (entityHit.getEntityType() != bullet.getShotFrom()
                                     && !(entityHit.getEntityType() == EntityType.BASE && bullet.getShotFrom() == EntityType.PLAYER)) {
                                 if (e.isEntitiesColliding(world, gameData, entity, entityHit)) {
@@ -103,7 +107,7 @@ public class Processor implements IMovementService {
                 }
 
                 if (entity.getEntityType() == EntityType.EXPLOSION) {
-                    for (Entity entityHit : world.getEntities(EntityType.PLAYER, EntityType.ENEMY, EntityType.BASE)) {
+                    for (Entity entityHit : world.getEntities(PlayerEntity.class, EnemyEntity.class, BaseEntity.class)) {
                         if (e.isEntitiesColliding(world, gameData, entity, entityHit)) {
                             gameData.addEvent(new Event(EventType.ENTITY_HIT, entityHit.getID()));
                             world.removeEntity(entity);
@@ -114,11 +118,12 @@ public class Processor implements IMovementService {
 
                 if (entity.getEntityType() == EntityType.WEAPON) {
                     WeaponEntity weapon = (WeaponEntity) entity;
-                    if(weapon.getWeaponType() == WeaponType.MELEE)
-                    for (Entity entityHit : world.getEntities(EntityType.ENEMY, EntityType.PLAYER, EntityType.BASE)) {
-                        if (e.isEntitiesColliding(world, gameData, entity, entityHit)) {
-                            gameData.addEvent(new Event(EventType.ENTITY_HIT, entityHit.getID()));
-                            break;
+                    if (weapon.getWeaponType() == WeaponType.MELEE) {
+                        for (Entity entityHit : world.getEntities(EnemyEntity.class, PlayerEntity.class, BaseEntity.class)) {
+                            if (e.isEntitiesColliding(world, gameData, entity, entityHit)) {
+                                gameData.addEvent(new Event(EventType.ENTITY_HIT, entityHit.getID()));
+                                break;
+                            }
                         }
                     }
                 }
@@ -140,6 +145,6 @@ public class Processor implements IMovementService {
 
     @Override
     public void movementWhenColliding(GameData gameData, World world, Entity entity, Entity target) {
-        
+
     }
 }
