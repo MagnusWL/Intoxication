@@ -74,11 +74,15 @@
         <module>Currency</module>
         <module>Boost</module>
         <module>PlayerCommon</module>
+        <module>EnemyCommon</module>
+        <module>SpawnerCommon</module>
+        <module>Spawner</module>
         <module>CurrencyCommon</module>
         <module>MapCommon</module>
         <module>ProjectileCommon</module>
         <module>WeaponCommon</module>
         <module>BaseCommon</module>
+        <module>BoostCommon</module>
     </modules>
 
     <properties>

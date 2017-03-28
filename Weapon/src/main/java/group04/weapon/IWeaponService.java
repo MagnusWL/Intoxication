@@ -3,7 +3,7 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package group04.weaponcommon;
+package group04.weapon;
 
 import group04.common.Entity;
 import group04.common.GameData;

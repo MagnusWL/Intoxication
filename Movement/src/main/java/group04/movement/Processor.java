@@ -3,21 +3,20 @@ package group04.movement;
 import group04.common.Entity;
 import group04.common.EntityType;
 import group04.common.GameData;
-import group04.common.WeaponType;
 import group04.common.World;
 import group04.common.events.Event;
 import group04.common.events.EventType;
 import group04.common.services.ICollisionService;
+import group04.common.services.IMovementService;
 import group04.common.services.IServiceProcessor;
 import group04.datacontainers.MovementContainer;
 import group04.datacontainers.ProjectileContainer;
-import group04.datacontainers.WeaponContainer;
 import org.openide.util.Lookup;
 import org.openide.util.lookup.ServiceProvider;
 
-@ServiceProvider(service = IServiceProcessor.class)
+@ServiceProvider(service = IMovementService.class)
 
-public class Processor implements IServiceProcessor {
+public class Processor implements IMovementService {
 
     private float steps = 10.0f;
 
@@ -111,19 +110,34 @@ public class Processor implements IServiceProcessor {
                     }
                 }
 
-                if (entity.getEntityType() == EntityType.WEAPON) {
-                    WeaponContainer weaponContainer = ((WeaponContainer) entity.getContainer(WeaponContainer.class));
-                    if(weaponContainer.getWeaponType() == WeaponType.MELEE)
-                    for (Entity entityHit : world.getEntities(EntityType.ENEMY, EntityType.PLAYER, EntityType.BASE)) {
-                        if (e.isEntitiesColliding(world, gameData, entity, entityHit)) {
-                            gameData.addEvent(new Event(EventType.ENTITY_HIT, entityHit.getID()));
-                            break;
-                        }
-                    }
-                }
+//                if (entity.getEntityType() == EntityType.WEAPON) {
+//                    WeaponContainer weaponContainer = ((WeaponContainer) entity.getContainer(WeaponContainer.class));
+//                    if(weaponContainer.getWeaponType() == WeaponType.MELEE)
+//                    for (Entity entityHit : world.getEntities(EntityType.ENEMY, EntityType.PLAYER, EntityType.BASE)) {
+//                        if (e.isEntitiesColliding(world, gameData, entity, entityHit)) {
+//                            gameData.addEvent(new Event(EventType.ENTITY_HIT, entityHit.getID()));
+//                            break;
+//                        }
+//                    }
+//                }
             }
 
             break;
         }
+    }
+
+    @Override
+    public void movementWhenGrounded(GameData gameData, World world, Entity entity) {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
+
+    @Override
+    public void movementWhenNotGrounded(GameData gameData, World world, Entity entity) {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
+
+    @Override
+    public void movementWhenColliding(GameData gameData, World world, Entity entity, Entity target) {
+        
     }
 }

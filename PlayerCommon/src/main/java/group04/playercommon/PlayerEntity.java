@@ -6,6 +6,7 @@
 package group04.playercommon;
 
 import group04.common.Entity;
+import group04.weaponcommon.WeaponEntity;
 
 /**
  *
@@ -18,13 +19,13 @@ public class PlayerEntity extends Entity {
     private float jumpSpeed;
     private int life;
     private int maxLife;    
-    private String weaponOwned;
+    private Entity weaponOwned;
 
-    public String getWeaponOwned() {
+    public Entity getWeaponOwned() {
         return weaponOwned;
     }
 
-    public void setWeaponOwned(String weaponOwned) {
+    public void setWeaponOwned(WeaponEntity weaponOwned) {
         this.weaponOwned = weaponOwned;
     }
 

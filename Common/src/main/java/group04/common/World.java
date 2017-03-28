@@ -20,6 +20,14 @@ public class World {
         return r;
     }
     
+    public List<Entity> getEntities(Class... classes) {
+        List<Entity> r = new ArrayList<>();
+        for(Entity e: entityMap.values())
+            if(Arrays.asList(classes).contains(e.getClass()))
+                r.add(e);
+        return r;
+    }
+    
     public Entity getEntity(String id)
     {
         return entityMap.get(id);
