@@ -1,6 +1,6 @@
 package group04.common;
 
-import group04.datacontainers.DataContainer;
+
 import java.util.HashMap;
 import java.util.UUID;
 
@@ -10,7 +10,6 @@ public class Entity {
     private float x;
     private float y;
     private UUID ID = UUID.randomUUID();
-    private HashMap<Class, DataContainer> dataContainer = new HashMap<>();
     private float[] shapeX;
     private float[] shapeY;
     private float velocity;
@@ -100,18 +99,6 @@ public class Entity {
 
     public void setShapeY(float[] shapeY) {
         this.shapeY = shapeY;
-    }
-
-    public void addContainer(DataContainer container) {
-        dataContainer.put(container.getClass(), container);
-    }
-
-    public void removeContainer(Class c) {
-        dataContainer.remove(c);
-    }
-
-    public DataContainer getContainer(Class c) {
-        return dataContainer.get(c);
     }
 
     public EntityType getEntityType() {
