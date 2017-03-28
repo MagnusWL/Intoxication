@@ -73,6 +73,7 @@
         <module>Map</module>
         <module>Currency</module>
         <module>Boost</module>
+        <module>PlayerCommon</module>
     </modules>
 
     <properties>
