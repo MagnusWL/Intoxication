@@ -9,14 +9,7 @@ import group04.common.events.Event;
 import group04.common.events.EventType;
 import group04.common.services.IServiceInitializer;
 import group04.common.services.IServiceProcessor;
-import group04.datacontainers.AnimationContainer;
-import group04.datacontainers.CollisionContainer;
-import group04.datacontainers.ControllerContainer;
-import group04.datacontainers.DataContainer;
-import group04.datacontainers.UnitContainer;
-import group04.datacontainers.ImageContainer;
-import group04.datacontainers.MovementContainer;
-import group04.datacontainers.PlayerContainer;
+import group04.playercommon.PlayerEntity;
 import org.openide.util.lookup.ServiceProvider;
 import org.openide.util.lookup.ServiceProviders;
 
@@ -99,37 +92,19 @@ public class PlayerSystem implements IServiceProcessor, IServiceInitializer {
     }
 
     private Entity createPlayer(GameData gameData, World world) {
-        Entity playerCharacter = new Entity();
+        PlayerEntity playerCharacter = new PlayerEntity();
+        
+        
+        playerCharacter.setJumpSpeed(400);
+        playerCharacter.setMovementSpeed(150);
+        playerCharacter.setHasGravity(true);
+        playerCharacter.setMaxLife(10000);
+        playerCharacter.setLife(playerCharacter.getMaxLife());
+        playerCharacter.setDrawable("Player");
 
-        PlayerContainer playerContainer = new PlayerContainer();
-
-        AnimationContainer animationContainer = new AnimationContainer();
-
-        ControllerContainer controllerContainer = new ControllerContainer();
-        controllerContainer.setJumpSpeed(400);
-        controllerContainer.setMovementSpeed(150);
-
-        MovementContainer movementContainer = new MovementContainer();
-        movementContainer.setHasGravity(true);
-
-        UnitContainer unitContainer = new UnitContainer();
-        unitContainer.setMaxLife(10000);
-        unitContainer.setLife(unitContainer.getMaxLife());
-
-        ImageContainer imageContainer = new ImageContainer();
-        imageContainer.setSprite("Player");
-
-        CollisionContainer collisionContainer = new CollisionContainer();
-        collisionContainer.setShapeX(new float[]{17, 34, 52, 66});
-        collisionContainer.setShapeY(new float[]{0, 73, 73, 0});
-
-        playerCharacter.addContainer(playerContainer);
-        playerCharacter.addContainer(animationContainer);
-        playerCharacter.addContainer(controllerContainer);
-        playerCharacter.addContainer(movementContainer);
-        playerCharacter.addContainer(unitContainer);
-        playerCharacter.addContainer(imageContainer);
-        playerCharacter.addContainer(collisionContainer);
+        
+        playerCharacter.setShapeX(new float[]{17, 34, 52, 66});
+        playerCharacter.setShapeY(new float[]{0, 73, 73, 0});
 
         playerCharacter.setEntityType(EntityType.PLAYER);
         playerCharacter.setX((int) (gameData.getDisplayWidth() * 0.5));
