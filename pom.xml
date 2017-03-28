@@ -79,6 +79,7 @@
         <module>ProjectileCommon</module>
         <module>WeaponCommon</module>
         <module>BaseCommon</module>
+        <module>BoostCommon</module>
     </modules>
 
     <properties>

@@ -1,4 +1,4 @@
-package group04.common.services;
+package group04.boostcommon;
 
 import group04.common.Entity;
 import group04.common.GameData;

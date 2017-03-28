@@ -1,5 +1,6 @@
 package group04.boost;
 
+import group04.boostcommon.IBoostService;
 import group04.common.BoostType;
 import group04.common.Entity;
 import group04.common.EntityType;
@@ -8,14 +9,9 @@ import group04.common.GameData;
 import group04.common.World;
 import group04.common.events.Event;
 import group04.common.events.EventType;
-import group04.common.services.IBoostService;
 import group04.common.services.IServiceInitializer;
 import group04.common.services.IServiceProcessor;
-import group04.datacontainers.CollisionContainer;
-import group04.datacontainers.UnitContainer;
-import group04.datacontainers.ImageContainer;
-import group04.datacontainers.MovementContainer;
-import group04.datacontainers.PlayerContainer;
+import group04.playercommon.PlayerEntity;
 import org.openide.util.lookup.ServiceProvider;
 import org.openide.util.lookup.ServiceProviders;
 import java.util.ArrayList;
@@ -44,35 +40,30 @@ public class BoostSystem implements IServiceInitializer, IBoostService {
     @Override
     public Entity dropBoost(World world, Entity boost) {
         boost.setEntityType(BOOST);
-        MovementContainer movementContainer = new MovementContainer();
-        movementContainer.setHasGravity(true);
-        ImageContainer imageContainer = new ImageContainer();
-        imageContainer.setSprite("pill");
+        
+        boost.setHasGravity(true);
+        boost.setDrawable("pill");
         boosts.add(boost);
 
-        CollisionContainer collisionContainer = new CollisionContainer();
-        collisionContainer.setShapeX(new float[]{
+        
+        boost.setShapeX(new float[]{
             1,
             1,
             39,
             39});
 
-        collisionContainer.setShapeY(new float[]{
+        boost.setShapeY(new float[]{
             1,
             39,
             39,
             1});
-
-        boost.addContainer(movementContainer);
-        boost.addContainer(imageContainer);
-        boost.addContainer(collisionContainer);
 
         return boost;
     }
 
     @Override
     public void pickUpBoost(GameData gameData, World world, Entity player, Entity boost) {
-        UnitContainer unitContainer = new UnitContainer();
-        unitContainer.setLife(unitContainer.getLife() + 10);
+        PlayerEntity entity = (PlayerEntity) player;
+        entity.setLife(entity.getLife() + 10);
     }
 }
