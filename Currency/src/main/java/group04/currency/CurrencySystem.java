@@ -62,7 +62,7 @@ public class CurrencySystem implements IServiceInitializer, ICurrencyService {
     }
 
     @Override
-    public void pickUpCurrency(GameData gameData, World world, Entity player) {
+    public void pickUpCurrency(Entity player) {
         PlayerEntity entity = (PlayerEntity) player;
         entity.setMoney(entity.getMoney() + 10);
     }
