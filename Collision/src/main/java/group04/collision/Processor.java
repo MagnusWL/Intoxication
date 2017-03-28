@@ -9,6 +9,7 @@ import group04.common.services.IServiceProcessor;
 import group04.datacontainers.CollisionContainer;
 import group04.datacontainers.MapContainer;
 import group04.mapcommon.MapEntity;
+
 import java.awt.Polygon;
 import java.awt.geom.Area;
 import org.openide.util.lookup.ServiceProvider;
@@ -28,7 +29,7 @@ public class Processor implements ICollisionService, IServiceProcessor {
         float[] shapex = entity.getShapeX();
         float[] shapey = entity.getShapeY();
         MapEntity mapEntity = null;
-        for (Entity map : world.getEntities(EntityType.MAP)) {
+        for (Entity map : world.getEntities(MapEntity.class)) {
             mapEntity = (MapEntity) map;
         }
         

@@ -14,6 +14,8 @@ import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer.ShapeType;
+import group04.basecommon.BaseEntity;
+import group04.boostcommon.BoostEntity;
 import group04.common.Entity;
 import group04.common.EntityType;
 import group04.common.GameData;
@@ -26,6 +28,10 @@ import group04.datacontainers.ImageContainer;
 import group04.datacontainers.MovementContainer;
 import group04.datacontainers.PlayerContainer;
 import group04.datacontainers.WaveSpawnerContainer;
+import group04.playercommon.PlayerEntity;
+import group04.projectilecommon.ProjectileEntity;
+import group04.spawnercommon.WaveSpawnerEntity;
+import group04.weaponcommon.WeaponEntity;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
@@ -155,7 +161,7 @@ public class Renderer {
     }
 
     private void drawSprites(GameData gameData, World world) {
-        for (Entity entity : world.getEntities(EntityType.BASE)) {
+        for (Entity entity : world.getEntities(BaseEntity.class)) {
             ImageContainer imageContainer = (ImageContainer) entity.getContainer(ImageContainer.class);
             drawSprite(gameData, world, entity, images.get(imageContainer.getSprite()), imageContainer);
         }
@@ -171,24 +177,24 @@ public class Renderer {
                 drawSprite(gameData, world, entity, images.get(imageContainer.getSprite()), imageContainer);
             }
         }*/
-        for (Entity entity : world.getEntities(EntityType.WEAPON)) {
+        for (Entity entity : world.getEntities(WeaponEntity.class)) {
             ImageContainer imageContainer = (ImageContainer) entity.getContainer(ImageContainer.class);
             drawSprite(gameData, world, entity, images.get(imageContainer.getSprite()), imageContainer);
         }
 
-        for (Entity entity : world.getEntities(EntityType.PROJECTILE)) {
+        for (Entity entity : world.getEntities(ProjectileEntity.class)) {
             ImageContainer imageContainer = (ImageContainer) entity.getContainer(ImageContainer.class);
             drawSprite(gameData, world, entity, images.get(imageContainer.getSprite()), imageContainer);
         }
 
-        for (Entity entity : world.getEntities(EntityType.BOOST)) {
+        for (Entity entity : world.getEntities(BoostEntity.class)) {
             ImageContainer imageContainer = (ImageContainer) entity.getContainer(ImageContainer.class);
             drawSprite(gameData, world, entity, images.get(imageContainer.getSprite()), imageContainer);
         }
     }
 
     private void drawScore(GameData gameData, World world) {
-        for (Entity player : world.getEntities(EntityType.PLAYER)) {
+        for (Entity player : world.getEntities(PlayerEntity.class)) {
             PlayerContainer playerContainer = (PlayerContainer) player.getContainer(PlayerContainer.class);
             text.draw(batch, "Drug money: " + Integer.toString(playerContainer.getMoney()), 40, gameData.getDisplayHeight() - 30);
         }
@@ -200,7 +206,7 @@ public class Renderer {
     }
 
     private void drawWaveCount(GameData gameData, World world) {
-        for (Entity wave : world.getEntities(EntityType.WAVE_SPAWNER)) {
+        for (Entity wave : world.getEntities(WaveSpawnerEntity.class)) {
             WaveSpawnerContainer waveSpawnerContainer = (WaveSpawnerContainer) wave.getContainer(WaveSpawnerContainer.class);
             text.draw(batch, "Next wave: " + Integer.toString(Math.max(0, (waveSpawnerContainer.getSpawnTimerMax() - waveSpawnerContainer.getSpawnTimer()) / 60)) + " seconds", 40, gameData.getDisplayHeight() - 50);
         }
@@ -297,7 +303,7 @@ public class Renderer {
         double eyeX = 1818;
         double playerX = 0;
         double playerY = 80;
-        for (Entity player : world.getEntities(EntityType.PLAYER)) {
+        for (Entity player : world.getEntities(PlayerEntity.class)) {
             playerX = (float) (player.getX() + images.get("Player").getWidth() / 2.0);
             playerY = player.getY();
         }

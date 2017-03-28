@@ -11,14 +11,6 @@ import java.util.concurrent.ConcurrentHashMap;
 public class World {
 
     private final Map<String, Entity> entityMap = new ConcurrentHashMap<>();
-
-    public List<Entity> getEntities(EntityType... entityTypes) {
-        List<Entity> r = new ArrayList<>();
-        for(Entity e: entityMap.values())
-            if(Arrays.asList(entityTypes).contains(e.getEntityType()))
-                r.add(e);
-        return r;
-    }
     
     public List<Entity> getEntities(Class... classes) {
         List<Entity> r = new ArrayList<>();

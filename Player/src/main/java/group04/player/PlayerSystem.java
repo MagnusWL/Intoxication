@@ -29,7 +29,7 @@ public class PlayerSystem implements IServiceProcessor, IServiceInitializer {
 
     @Override
     public void process(GameData gameData, World world) {
-        for (Entity entity : world.getEntities(EntityType.PLAYER)) {
+        for (Entity entity : world.getEntities(PlayerEntity.class)) {
             PlayerEntity playerEntity =  (PlayerEntity) entity;
             
             float movementSpeed = playerEntity.getMovementSpeed();
