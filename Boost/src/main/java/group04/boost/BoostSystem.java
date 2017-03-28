@@ -72,7 +72,7 @@ public class BoostSystem implements IServiceInitializer, IBoostService {
 
     @Override
     public void pickUpBoost(GameData gameData, World world, Entity player, Entity boost) {
-        UnitContainer unitContainer = new UnitContainer();
+        UnitContainer unitContainer = (UnitContainer) player.getContainer(UnitContainer.class);
         unitContainer.setLife(unitContainer.getLife() + 10);
     }
 }
