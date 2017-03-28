@@ -7,6 +7,7 @@ import group04.common.GameData;
 import group04.common.World;
 import group04.common.services.IServiceInitializer;
 import group04.datacontainers.MapContainer;
+import group04.mapcommon.MapEntity;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
@@ -19,7 +20,7 @@ import java.util.logging.Logger;
 
 public class Initializer implements IServiceInitializer {
 
-    private Entity map;
+    
 
     public Initializer() {
     }
@@ -27,7 +28,7 @@ public class Initializer implements IServiceInitializer {
     @Override
     public void start(GameData gameData, World world) {
 //        map = generateMap(gameData);
-        map = loadMap(gameData);
+        Entity map = loadMap(gameData);
         world.addEntity(map);
     }
 
@@ -50,7 +51,7 @@ public class Initializer implements IServiceInitializer {
             Logger.getLogger(Initializer.class.getName()).log(Level.SEVERE, null, ex);
         }
 
-        Entity newMap = null;
+        MapEntity newMap = null;
 
         if (ois != null) {
             int[][] newMapInt;
@@ -61,7 +62,7 @@ public class Initializer implements IServiceInitializer {
                 newMapInt = (int[][]) ois.readObject();
                 gameData.setMapHeight(newMapInt[0].length);
                 gameData.setMapWidth(newMapInt.length);
-                newMap = new Entity();
+                newMap = new MapEntity();
                 newMap.addContainer(mapContainer);
                 newMap.setEntityType(EntityType.MAP);
                 mapContainer.setMap(newMapInt);
