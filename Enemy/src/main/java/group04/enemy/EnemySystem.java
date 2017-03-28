@@ -118,6 +118,7 @@ public class EnemySystem implements IEnemyService, IServiceInitializer {
 
     @Override
     public void spawner(GameData gameData, World world, Entity waveSpawner) {
+
         WaveSpawnerContainer waveSpawnerContainer = ((WaveSpawnerContainer) waveSpawner.getContainer(WaveSpawnerContainer.class));
 
         waveSpawnerContainer.setSpawnTimer((int) (waveSpawnerContainer.getSpawnTimer() + 60 * gameData.getDelta()));
@@ -128,11 +129,13 @@ public class EnemySystem implements IEnemyService, IServiceInitializer {
             if (waveSpawnerContainer.getSpawnTimer() - waveSpawnerContainer.getSpawnTimerMax() > timePerMob * waveSpawnerContainer.getMobsSpawned()) {
                 waveSpawnerContainer.setMobsSpawned(waveSpawnerContainer.getMobsSpawned() + 1);
                 createEnemy(gameData, world, (int) (gameData.getTileSize() * gameData.getMapWidth() * 0.95), (int) (gameData.getDisplayHeight() * 0.15));
+
             }
 
             if (waveSpawnerContainer.getSpawnTimer() > waveSpawnerContainer.getSpawnTimerMax() + waveSpawnerContainer.getSpawnDuration()) {
                 waveSpawnerContainer.setSpawnTimer(0);
                 waveSpawnerContainer.setMobsSpawned(0);
+                waveSpawnerContainer.setWaveAlive(true);
             }
 
         }
@@ -171,8 +174,9 @@ public class EnemySystem implements IEnemyService, IServiceInitializer {
     @Override
     public void enemyHit(GameData gameData, World world, Entity enemyHit) {
         UnitContainer unitContainer = ((UnitContainer) enemyHit.getContainer(UnitContainer.class));
-
         unitContainer.setLife(unitContainer.getLife() - 1);
+
+        WaveSpawnerContainer waveSpawnerContainer = new WaveSpawnerContainer();
 
         //ENEMY DIES
         if (unitContainer.getLife() <= 0) {

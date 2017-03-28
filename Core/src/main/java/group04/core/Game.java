@@ -179,7 +179,6 @@ public class Game implements ApplicationListener {
                     gameData.removeEvent(event);
 
                     e.pickUpBoost(gameData, world, world.getEntity(event.getEntityID()), world.getEntity(event.getEntityID()));
-
                 }
             }
         }
@@ -206,12 +205,10 @@ public class Game implements ApplicationListener {
                     for (Entity player : world.getEntities(EntityType.PLAYER)) {
 
                         e.pickUpCurrency(gameData, world, player, world.getEntity(event.getEntityID()));
-
                     }
                 }
             }
         }
-
     }
 
     private void enemyProcess() {
