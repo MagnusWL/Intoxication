@@ -68,7 +68,7 @@ public class CurrencySystem implements IServiceInitializer, ICurrencyService {
     }
 
     @Override
-    public Entity dropCurrency(World world, Entity currency) {
+    public Entity dropCurrency(Entity currency) {
 
         //Entity currency = world.getEntity(e.getEntityID());
         currency.setEntityType(CURRENCY);

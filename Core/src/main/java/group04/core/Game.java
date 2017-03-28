@@ -192,7 +192,7 @@ public class Game implements ApplicationListener {
 
             for (Event event : gameData.getEvents()) {
                 if (event.getType() == EventType.DROP_CURRENCY) {
-                    e.dropCurrency(world, world.getEntity(event.getEntityID()));
+                    e.dropCurrency(world.getEntity(event.getEntityID()));
                     gameData.removeEvent(event);
                 }
             }
