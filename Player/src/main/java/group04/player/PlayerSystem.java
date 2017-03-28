@@ -19,64 +19,60 @@ import org.openide.util.lookup.ServiceProviders;
 
 public class PlayerSystem implements IServiceProcessor, IServiceInitializer {
 
-    private Entity player;
+    
 
-    private void checkAnimation(AnimationContainer container, String newAnimation) {
-        if (!newAnimation.equals(container.getCurrentAnimation())) {
-            container.setCurrentFrame(0);
+    private void checkAnimation(PlayerEntity player, String newAnimation) {
+        if (!newAnimation.equals(player.getCurrentAnimation())) {
+            player.setCurrentFrame(0);
         }
     }
 
     @Override
     public void process(GameData gameData, World world) {
         for (Entity entity : world.getEntities(EntityType.PLAYER)) {
-
-            ControllerContainer controllerContainer = ((ControllerContainer) entity.getContainer(ControllerContainer.class));
-            float movementSpeed = controllerContainer.getMovementSpeed();
-            float jumpSpeed = controllerContainer.getJumpSpeed();
-            MovementContainer movementContainer = ((MovementContainer) entity.getContainer(MovementContainer.class));
-            AnimationContainer animationContainer = ((AnimationContainer) entity.getContainer(AnimationContainer.class));
-            CollisionContainer collisionContainer = ((CollisionContainer) entity.getContainer(CollisionContainer.class));
-            UnitContainer unitContainer = ((UnitContainer) entity.getContainer(UnitContainer.class));
+            PlayerEntity playerEntity =  (PlayerEntity) entity;
+            
+            float movementSpeed = playerEntity.getMovementSpeed();
+            float jumpSpeed = playerEntity.getJumpSpeed();
 
             if (gameData.getKeys().isDown(GameKeys.A)) {
                 //left
 
-                movementContainer.setVelocity(-movementSpeed);
-                checkAnimation(animationContainer, "player_run");
-                animationContainer.setCurrentAnimation("player_run");
+                playerEntity.setVelocity(-movementSpeed);
+                checkAnimation(playerEntity, "player_run");
+                playerEntity.setCurrentAnimation("player_run");
             }
             if (gameData.getKeys().isDown(GameKeys.D)) {
                 //right
-                movementContainer.setVelocity(movementSpeed);
-                checkAnimation(animationContainer, "player_run");
-                animationContainer.setCurrentAnimation("player_run");
+                playerEntity.setVelocity(movementSpeed);
+                checkAnimation(playerEntity, "player_run");
+                playerEntity.setCurrentAnimation("player_run");
             }
 
             if (gameData.getKeys().isDown(GameKeys.SPACE)) {
-                if (collisionContainer.isGrounded()) {
+                if (playerEntity.isGrounded()) {
                     {
-                        movementContainer.setVerticalVelocity(jumpSpeed);
+                        playerEntity.setVerticalVelocity(jumpSpeed);
                     }
                 }
             }
 
             if (!gameData.getKeys().isDown(GameKeys.A) && !gameData.getKeys().isDown(GameKeys.D)) {
-                movementContainer.setVelocity(0);
-                checkAnimation(animationContainer, "player_idle");
-                animationContainer.setCurrentAnimation("player_idle");
+                playerEntity.setVelocity(0);
+                checkAnimation(playerEntity, "player_idle");
+                playerEntity.setCurrentAnimation("player_idle");
             }
 
-            if (!collisionContainer.isGrounded()) {
-                checkAnimation(animationContainer, "player_jump");
-                animationContainer.setCurrentAnimation("player_jump");
+            if (!playerEntity.isGrounded()) {
+                checkAnimation(playerEntity, "player_jump");
+                playerEntity.setCurrentAnimation("player_jump");
             }
 
             for (Event e : gameData.getAllEvents()) {
                 if (e.getType() == EventType.ENTITY_HIT && e.getEntityID().equals(entity.getID())) {
-                    unitContainer.setLife(unitContainer.getLife() - 1);
-                    if (unitContainer.getLife() <= 0) {
-                        world.removeEntity(world.getEntity(unitContainer.getWeaponOwned()));
+                    playerEntity.setLife(playerEntity.getLife() - 1);
+                    if (playerEntity.getLife() <= 0) {
+                        world.removeEntity(world.getEntity(playerEntity.getWeaponOwned()));
                         world.removeEntity(entity);
                     }
                     gameData.removeEvent(e);
@@ -87,7 +83,7 @@ public class PlayerSystem implements IServiceProcessor, IServiceInitializer {
 
     @Override
     public void start(GameData gameData, World world) {
-        player = createPlayer(gameData, world);
+        Entity player = createPlayer(gameData, world);
         world.addEntity(player);
     }
 
@@ -117,6 +113,6 @@ public class PlayerSystem implements IServiceProcessor, IServiceInitializer {
 
     @Override
     public void stop(GameData gameData, World world) {
-        world.removeEntity(player);
+        
     }
 }

@@ -1,10 +1,20 @@
-package group04.datacontainers;
+/*
+ * To change this license header, choose License Headers in Project Properties.
+ * To change this template file, choose Tools | Templates
+ * and open the template in the editor.
+ */
+package group04.weaponcommon;
 
-import group04.common.EntityType;
+import group04.common.Entity;
 import group04.common.WeaponType;
 
-public class WeaponContainer implements DataContainer {
-      private String weaponCarrier;
+/**
+ *
+ * @author Magnus
+ */
+public class WeaponEntity extends Entity {
+
+    private String weaponCarrier;
     private int damage;
     private WeaponType weaponType;
     private float attackCooldown;
