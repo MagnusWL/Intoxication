@@ -28,6 +28,7 @@ import group04.common.services.IWeaponService;
 import group04.datacontainers.UnitContainer;
 import group04.datacontainers.WeaponContainer;
 import java.util.ArrayList;
+import sun.nio.cs.ext.ISCII91;
 
 /**
  *
@@ -215,19 +216,20 @@ public class Game implements ApplicationListener {
     }
 
     private void enemyProcess() {
+        
+        for (I) {
+            
+        }
+        
         for (IEnemyService i : Lookup.getDefault().lookupAll(IEnemyService.class)) {
             Entity player = null;
             Entity base = null;
-            Entity waveSpawner = null;
             ArrayList<Entity> enemies = new ArrayList<>();
             for (Entity p : world.getEntities(EntityType.PLAYER)) {
                 player = p;
             }
             for (Entity b : world.getEntities(EntityType.BASE)) {
                 base = b;
-            }
-            for (Entity w : world.getEntities(EntityType.WAVE_SPAWNER)) {
-                waveSpawner = w;
             }
             for (Entity e : world.getEntities(EntityType.ENEMY)) {
                 enemies.add(e);
@@ -264,11 +266,7 @@ public class Game implements ApplicationListener {
                 }
             }
 
-            try {
-                i.spawner(gameData, world, waveSpawner);
-            } catch (NullPointerException e) {
-                System.out.println("waveSpawner = null");
-            }
+            
         }
     }
 }

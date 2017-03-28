@@ -32,24 +32,7 @@ public class EnemySystem implements IEnemyService, IServiceInitializer {
     }
 
     @Override
-    public void start(GameData gameData, World world) {
-        createWaveSpawner(gameData, world);
-    }
-
-    private void createWaveSpawner(GameData gameData, World world) {
-        Entity waveSpawner = new Entity();
-        waveSpawner.setEntityType(EntityType.WAVE_SPAWNER);
-
-        WaveSpawnerContainer waveSpawnerContainer = new WaveSpawnerContainer();
-        waveSpawnerContainer.setSpawnTimerMax(600);
-        waveSpawnerContainer.setMobsSpawnedMax(5);
-        waveSpawnerContainer.setSpawnDuration(500);
-
-        waveSpawner.addContainer(waveSpawnerContainer);
-        world.addEntity(waveSpawner);
-    }
-
-    private Entity createEnemy(GameData gameData, World world, int x, int y) {
+    public void createEnemy(GameData gameData, World world, int x, int y) {
         EnemyEntity enemyCharacter = new EnemyEntity();
 
         enemyCharacter.setJumpSpeed(300);
@@ -67,7 +50,6 @@ public class EnemySystem implements IEnemyService, IServiceInitializer {
 
 //        enemyCharacter.setAnimateable(true);
 //        enemyCharacter.setCurrentAnimation("Enemy_Beer_Run");
-
         enemyCharacter.setEntityType(EntityType.ENEMY);
         enemyCharacter.setX(x);
         enemyCharacter.setY(y);
@@ -76,7 +58,6 @@ public class EnemySystem implements IEnemyService, IServiceInitializer {
 
         enemies.add(enemyCharacter);
         world.addEntity(enemyCharacter);
-        return enemyCharacter;
     }
 
     @Override
@@ -86,49 +67,22 @@ public class EnemySystem implements IEnemyService, IServiceInitializer {
         }
     }
 
-    private void movementDecision(Entity enemy, MovementContainer movementContainer, ControllerContainer controllerContainer, Entity target, World world) {
+    private void movementDecision(EnemyEntity enemy, Entity target, World world) {
         if (target.getX() - 100 > enemy.getX()) {
-            movementContainer.setVelocity(controllerContainer.getMovementSpeed());
+            enemy.setVelocity(enemy.getMovementSpeed());
         } else if (target.getX() + 100 < enemy.getX()) {
-            movementContainer.setVelocity(-controllerContainer.getMovementSpeed());
+            enemy.setVelocity(-enemy.getMovementSpeed());
         } else {
-            movementContainer.setVelocity(0);
+            enemy.setVelocity(0);
         }
 
     }
 
     @Override
-    public void spawner(GameData gameData, World world, Entity waveSpawner) {
-        WaveSpawnerContainer waveSpawnerContainer = ((WaveSpawnerContainer) waveSpawner.getContainer(WaveSpawnerContainer.class));
-
-        waveSpawnerContainer.setSpawnTimer((int) (waveSpawnerContainer.getSpawnTimer() + 60 * gameData.getDelta()));
-
-        if (waveSpawnerContainer.getSpawnTimer() > waveSpawnerContainer.getSpawnTimerMax()) {
-            int timePerMob = waveSpawnerContainer.getSpawnDuration() / waveSpawnerContainer.getMobsSpawnedMax();
-
-            if (waveSpawnerContainer.getSpawnTimer() - waveSpawnerContainer.getSpawnTimerMax() > timePerMob * waveSpawnerContainer.getMobsSpawned()) {
-                waveSpawnerContainer.setMobsSpawned(waveSpawnerContainer.getMobsSpawned() + 1);
-                createEnemy(gameData, world, (int) (gameData.getTileSize() * gameData.getMapWidth() * 0.95), (int) (gameData.getDisplayHeight() * 0.15));
-            }
-
-            if (waveSpawnerContainer.getSpawnTimer() > waveSpawnerContainer.getSpawnTimerMax() + waveSpawnerContainer.getSpawnDuration()) {
-                waveSpawnerContainer.setSpawnTimer(0);
-                waveSpawnerContainer.setMobsSpawned(0);
-            }
-
-        }
-    }
-
-    @Override
-    public void controller(GameData gameData, World world, Entity player, Entity base, ArrayList<Entity> enemyList) {
-        for (Entity enemy : enemyList) {
-            ControllerContainer controllerContainer = ((ControllerContainer) enemy.getContainer(ControllerContainer.class));
-            float movementSpeed = controllerContainer.getMovementSpeed();
-            float jumpSpeed = controllerContainer.getMovementSpeed();
-
-            MovementContainer movementContainer = ((MovementContainer) enemy.getContainer(MovementContainer.class));
-            AnimationContainer animationContainer = ((AnimationContainer) enemy.getContainer(AnimationContainer.class));
-            CollisionContainer collisionContainer = ((CollisionContainer) enemy.getContainer(CollisionContainer.class));
+    public void controller(GameData gameData, World world, Entity player, Entity base, ArrayList<EnemyEntity> enemyList) {
+        for (EnemyEntity enemy : enemyList) {
+            float movementSpeed = enemy.getMovementSpeed();
+            float jumpSpeed = enemy.getJumpSpeed();
 
             float distancePlayer = Float.MAX_VALUE;
             float distanceBase = Float.MAX_VALUE;
@@ -136,14 +90,14 @@ public class EnemySystem implements IEnemyService, IServiceInitializer {
             distanceBase = Math.abs(base.getX() - enemy.getX());
 
             if (distancePlayer > distanceBase) {
-                movementDecision(enemy, movementContainer, controllerContainer, base, world);
+                movementDecision(enemy, base, world);
             } else {
-                movementDecision(enemy, movementContainer, controllerContainer, player, world);
+                movementDecision(enemy, player, world);
             }
 
             if (rand.nextFloat() > 0.99f) {
-                if (collisionContainer.isGrounded()) {
-                    movementContainer.setVerticalVelocity(jumpSpeed);
+                if (enemy.isGrounded()) {
+                    enemy.setVerticalVelocity(jumpSpeed);
                 }
             }
         }
@@ -164,5 +118,9 @@ public class EnemySystem implements IEnemyService, IServiceInitializer {
             dropItem(currency, enemyHit, world, gameData, EventType.DROP_CURRENCY);
             dropItem(boost, enemyHit, world, gameData, EventType.DROP_BOOST);
         }
+    }
+
+    @Override
+    public void start(GameData gameData, World world) {
     }
 }

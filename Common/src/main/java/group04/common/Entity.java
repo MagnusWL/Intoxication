@@ -17,9 +17,18 @@ public class Entity {
     private float verticalVelocity;
     private boolean hasGravity;
     private String drawable;
-     private String currentAnimation;
+    private String currentAnimation;
     private boolean animateable = false;
-    private double currentFrame;    
+    private double currentFrame;
+    private boolean grounded;
+
+    public boolean isGrounded() {
+        return grounded;
+    }
+
+    public void setGrounded(boolean grounded) {
+        this.grounded = grounded;
+    }
 
     public String getCurrentAnimation() {
         return currentAnimation;

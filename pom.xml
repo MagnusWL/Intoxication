@@ -77,6 +77,8 @@
         <module>EnemyCommon</module>
         <module>SpawnerCommon</module>
         <module>Spawner</module>
+        <module>WeaponCommon</module>
+        <module>BaseCommon</module>
     </modules>
 
     <properties>

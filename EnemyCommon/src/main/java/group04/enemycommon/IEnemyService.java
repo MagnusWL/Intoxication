@@ -18,9 +18,9 @@ import group04.common.events.Event;
  */
 public interface IEnemyService {
     
-    public void spawner(GameData gameData, World world, Entity spawner);
+    public void controller(GameData gameData, World world, Entity player, Entity base, ArrayList<EnemyEntity> enemy);
     
-    public void controller(GameData gameData, World world, Entity player, Entity base, ArrayList<Entity> enemy);
+    public void enemyHit(GameData gameData, World world, EnemyEntity enemyHit);
     
-    public void enemyHit(GameData gameData, World world, Entity enemyHit);
+    public void createEnemy(GameData gameData, World world, int x, int y);
 }
