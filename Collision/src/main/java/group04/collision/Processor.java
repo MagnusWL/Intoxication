@@ -6,8 +6,6 @@ import group04.common.EntityType;
 import group04.common.GameData;
 import group04.common.World;
 import group04.common.services.IServiceProcessor;
-import group04.datacontainers.CollisionContainer;
-import group04.datacontainers.MapContainer;
 import group04.mapcommon.MapEntity;
 
 import java.awt.Polygon;
