@@ -74,6 +74,7 @@
         <module>Currency</module>
         <module>Boost</module>
         <module>PlayerCommon</module>
+        <module>CurrencyCommon</module>
     </modules>
 
     <properties>
