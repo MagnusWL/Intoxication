@@ -19,9 +19,9 @@ public class Processor implements IServiceProcessor {
     public void process(GameData gameData, World world) {
 
         for (Entity entity : world.getAllEntities()) {
-             MovementContainer movementContainer = ((MovementContainer) entity.getContainer(MovementContainer.class));
-            if (movementContainer != null && movementContainer.isHasGravity() == true) {
-                movementContainer.setVerticalVelocity(movementContainer.getVerticalVelocity() + gameData.getDelta() * gameData.getGravityConstant());
+             
+            if (entity != null && entity.isHasGravity() == true) {
+                entity.setVerticalVelocity(entity.getVerticalVelocity() + gameData.getDelta() * gameData.getGravityConstant());
             }
 
         }

@@ -19,15 +19,19 @@ import group04.common.World;
 import group04.common.events.Event;
 import group04.common.events.EventType;
 import group04.common.services.ICameraService;
-import group04.common.services.IEnemyService;
 import group04.common.services.IProjectileService;
 import group04.common.services.IServiceInitializer;
 import group04.common.services.IServiceProcessor;
 import group04.common.services.IWeaponService;
 import group04.currencycommon.ICurrencyService;
+import group04.enemycommon.EnemyEntity;
+import group04.enemycommon.IEnemyService;
 import group04.playercommon.PlayerEntity;
+import group04.spawnercommon.ISpawnerService;
+import group04.spawnercommon.WaveSpawnerEntity;
 import group04.weaponcommon.WeaponEntity;
 import java.util.ArrayList;
+import sun.nio.cs.ext.ISCII91;
 
 /**
  *
@@ -109,7 +113,7 @@ public class Game implements ApplicationListener {
         for (IWeaponService ips : Lookup.getDefault().lookupAll(IWeaponService.class)) {
             ips.pickUpWeapon(gameData, world);
         }
-        
+
         playerProcess();
         enemyProcess();
         currencyProcess();
@@ -131,11 +135,11 @@ public class Game implements ApplicationListener {
     @Override
     public void dispose() {
     }
-    
+
     private void playerProcess() {
         for (Entity p : world.getEntities(EntityType.PLAYER)) {
-        PlayerEntity player = (PlayerEntity) p;
-        
+            PlayerEntity player = (PlayerEntity) p;
+
             for (IWeaponService ips : Lookup.getDefault().lookupAll(IWeaponService.class)) {
                 ips.playerAttack(gameData, world, p);
             }
@@ -144,15 +148,15 @@ public class Game implements ApplicationListener {
                 //ips.process(gameData, world);
                 for (Event e : gameData.getAllEvents()) {
                     if (e.getType() == EventType.PLAYER_SHOOT_GUN) {
-                        WeaponEntity weapon = (WeaponEntity)world.getEntity(player.getWeaponOwned());
-                        
+                        WeaponEntity weapon = (WeaponEntity) player.getWeaponOwned();
+
                         if (weapon.getWeaponType() == WeaponType.GUN) {
                             ips.playershootgun(gameData, world, p, weapon);
 
                         }
                         gameData.removeEvent(e);
                     } else if (e.getType() == EventType.PLAYER_SHOOT_ROCKET) {
-                        WeaponEntity weapon = (WeaponEntity) world.getEntity(player.getWeaponOwned());
+                        WeaponEntity weapon = (WeaponEntity) player.getWeaponOwned();
                         if (weapon.getWeaponType() == WeaponType.ROCKET) {
                             ips.playershootrocket(gameData, world, p, weapon);
 
@@ -170,7 +174,7 @@ public class Game implements ApplicationListener {
 
             for (Event event : gameData.getEvents()) {
                 if (event.getType() == EventType.DROP_BOOST) {
-                    e.dropBoost(world, world.getEntity(event.getEntityID()));
+                    e.dropBoost(world.getEntity(event.getEntityID()));
                     gameData.removeEvent(event);
                 }
             }
@@ -180,7 +184,7 @@ public class Game implements ApplicationListener {
                     world.removeEntity(world.getEntity(event.getEntityID()));
                     gameData.removeEvent(event);
 
-                    e.pickUpBoost(gameData, world, world.getEntity(event.getEntityID()), world.getEntity(event.getEntityID()));
+                    e.pickUpBoost(world.getEntity(event.getEntityID()));
                 }
             }
         }
@@ -214,22 +218,25 @@ public class Game implements ApplicationListener {
     }
 
     private void enemyProcess() {
+
+        for (ISpawnerService i : Lookup.getDefault().lookupAll(ISpawnerService.class)) {
+            for (Entity e : world.getEntities(WaveSpawnerEntity.class)) {
+                i.spawner(gameData, world, (WaveSpawnerEntity) e);
+            }
+        }
+
         for (IEnemyService i : Lookup.getDefault().lookupAll(IEnemyService.class)) {
             Entity player = null;
             Entity base = null;
-            Entity waveSpawner = null;
-            ArrayList<Entity> enemies = new ArrayList<>();
+            ArrayList<EnemyEntity> enemies = new ArrayList<>();
             for (Entity p : world.getEntities(EntityType.PLAYER)) {
                 player = p;
             }
             for (Entity b : world.getEntities(EntityType.BASE)) {
                 base = b;
             }
-            for (Entity w : world.getEntities(EntityType.WAVE_SPAWNER)) {
-                waveSpawner = w;
-            }
             for (Entity e : world.getEntities(EntityType.ENEMY)) {
-                enemies.add(e);
+                enemies.add((EnemyEntity) e);
             }
 
             for (IWeaponService ips : Lookup.getDefault().lookupAll(IWeaponService.class)) {
@@ -247,7 +254,7 @@ public class Game implements ApplicationListener {
             for (Event ev : gameData.getAllEvents()) {
                 if (ev.getType() == EventType.ENTITY_HIT) {
                     Entity enemyHit = world.getEntity(ev.getEntityID());
-                    i.enemyHit(gameData, world, enemyHit);
+                    i.enemyHit(gameData, world, (EnemyEntity) enemyHit);
                     gameData.removeEvent(ev);
                 }
             }
@@ -263,11 +270,6 @@ public class Game implements ApplicationListener {
                 }
             }
 
-            try {
-                i.spawner(gameData, world, waveSpawner);
-            } catch (NullPointerException e) {
-                System.out.println("waveSpawner = null");
-            }
         }
     }
 }

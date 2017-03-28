@@ -38,7 +38,7 @@ public class BoostSystem implements IServiceInitializer, IBoostService {
     }
 
     @Override
-    public Entity dropBoost(World world, Entity boost) {
+    public Entity dropBoost(Entity boost) {
         boost.setEntityType(BOOST);
         
         boost.setHasGravity(true);
@@ -62,7 +62,7 @@ public class BoostSystem implements IServiceInitializer, IBoostService {
     }
 
     @Override
-    public void pickUpBoost(GameData gameData, World world, Entity player, Entity boost) {
+    public void pickUpBoost(Entity player) {
         PlayerEntity entity = (PlayerEntity) player;
         entity.setLife(entity.getLife() + 10);
     }
