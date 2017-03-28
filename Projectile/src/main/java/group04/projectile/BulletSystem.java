@@ -14,8 +14,8 @@ import group04.common.World;
 import group04.common.services.IServiceInitializer;
 import group04.common.Entity;
 import group04.common.EntityType;
-import group04.common.services.IProjectileService;
 import group04.playercommon.PlayerEntity;
+import group04.projectilecommon.IProjectileService;
 import group04.projectilecommon.ProjectileEntity;
 
 /**
