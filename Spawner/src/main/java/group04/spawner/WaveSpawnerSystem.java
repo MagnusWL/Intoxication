@@ -43,7 +43,6 @@ public class WaveSpawnerSystem implements ISpawnerService, IServiceInitializer {
     public void spawner(GameData gameData, World world, WaveSpawnerEntity waveSpawner) {
         waveSpawner.setSpawnTimer((int) (waveSpawner.getSpawnTimer() + 60 * gameData.getDelta()));
 
-        System.out.println(waveSpawner.getSpawnTimer() + " / " + waveSpawner.getSpawnTimerMax());
         if (waveSpawner.getSpawnTimer() > waveSpawner.getSpawnTimerMax()) {
             int timePerMob = waveSpawner.getSpawnDuration() / waveSpawner.getMobsSpawnedMax();
 

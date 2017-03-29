@@ -19,6 +19,7 @@ import group04.common.Entity;
 import group04.common.GameData;
 import group04.common.World;
 import group04.core.managers.Assets;
+import group04.enemycommon.EnemyEntity;
 import group04.playercommon.PlayerEntity;
 import group04.projectilecommon.ProjectileEntity;
 import group04.spawnercommon.WaveSpawnerEntity;
@@ -175,6 +176,14 @@ public class Renderer {
                 drawSprite(gameData, world, entity, assetManager.getSprites(entity.getDrawable() + ".png"));
             }
         }
+
+
+        for (Entity entity : world.getEntities(EnemyEntity.class)) {
+            if (entity.getDrawable() != null) {
+                drawSprite(gameData, world, entity, assetManager.getSprites(entity.getDrawable() + ".png"));
+            }
+        }
+
         for (Entity entity : world.getEntities(WeaponEntity.class)) {
             if (entity.getDrawable() != null) {
                 drawSprite(gameData, world, entity, assetManager.getSprites(entity.getDrawable() + ".png"));
