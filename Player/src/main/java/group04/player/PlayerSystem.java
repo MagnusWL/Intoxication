@@ -37,7 +37,6 @@ public class PlayerSystem implements IServiceProcessor, IServiceInitializer {
 
             if (gameData.getKeys().isDown(GameKeys.A)) {
                 //left
-
                 playerEntity.setVelocity(-movementSpeed);
                 checkAnimation(playerEntity, "player_run");
                 playerEntity.setCurrentAnimation("player_run");
