@@ -28,7 +28,6 @@ public class Processor implements IMovementService {
 
     @Override
     public void process(GameData gameData, World world) {
-        System.out.println("HEJ JEG ER MOVEMENT");
         for (ICollisionService e : Lookup.getDefault().lookupAll(ICollisionService.class)) {
 
             for (Entity player : world.getEntities(PlayerEntity.class)) {
@@ -50,8 +49,6 @@ public class Processor implements IMovementService {
             }
 
             for (Entity entity : world.getEntities(PlayerEntity.class, EnemyEntity.class, ProjectileEntity.class, CurrencyEntity.class)) {
-                System.out.println(PlayerEntity.class.toString());
-                System.out.println("BULLERBALLER");
 //                MovementContainer movementContainer = ((MovementContainer) entity.getContainer(MovementContainer.class));
                 steps = (int) (Math.ceil(Math.abs(entity.getVelocity())) + Math.ceil(Math.abs(entity.getVerticalVelocity())));
                 if (steps > 5) {

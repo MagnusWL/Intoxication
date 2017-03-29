@@ -116,7 +116,6 @@ public class Game implements ApplicationListener {
             e.process(gameData, world);
         }
 
-
         for (IWeaponService ips : Lookup.getDefault().lookupAll(IWeaponService.class)) {
             ips.pickUpWeapon(gameData, world);
         }
