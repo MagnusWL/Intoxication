@@ -25,30 +25,6 @@ public class CurrencySystem implements IServiceInitializer, ICurrencyService {
 
     private List<Entity> currencies;
 
-    private Entity createCurrency(World world, Event e) {
-        CurrencyEntity currency = new CurrencyEntity();
-        currency.setEntityType(CURRENCY);
-
-        currency.setHasGravity(true);
-        currency.setAnimateable(true);
-        currency.setCurrentAnimation("currency_gold");
-        currency.setShapeX(new float[]{
-            1,
-            1,
-            39,
-            39});
-
-        currency.setShapeY(new float[]{
-            1,
-            39,
-            39,
-            1});
-
-        currencies.add(currency);
-
-        return currency;
-    }
-
     @Override
     public void start(GameData gameData, World world) {
         currencies = new ArrayList<>();
@@ -73,7 +49,7 @@ public class CurrencySystem implements IServiceInitializer, ICurrencyService {
         currency.setEntityType(CURRENCY);
         currency.setHasGravity(true);
         currency.setAnimateable(true);
-        currency.setCurrentAnimation("currency_gold");
+        currency.setCurrentAnimation("currency_gold_animation");
         currency.setShapeX(new float[]{
             1,
             1,

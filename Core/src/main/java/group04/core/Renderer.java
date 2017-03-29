@@ -136,6 +136,8 @@ public class Renderer {
                     System.out.println(entity.getCurrentAnimation() + "_flipped.png");
                     playAnimation(gameData, world, assetManager.getAnimationsFlip(entity.getCurrentAnimation() + "_flipped.png"), entity, 5);
                 } else {
+                    System.out.println(entity.getCurrentAnimation() + ".png@@");
+                    System.out.println(entity.getEntityType() + "@@");
                     playAnimation(gameData, world, assetManager.getAnimations(entity.getCurrentAnimation() + ".png"), entity, 5);
                 }
             }
