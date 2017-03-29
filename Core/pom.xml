@@ -213,16 +213,6 @@
         </dependency>
         <dependency>
             <groupId>${project.groupId}</groupId>
-            <artifactId>CurrencyCommon</artifactId>
-            <version>${project.version}</version>
-        </dependency>
-        <dependency>
-            <groupId>${project.groupId}</groupId>
-            <artifactId>ProjectileCommon</artifactId>
-            <version>${project.version}</version>
-        </dependency>
-        <dependency>
-            <groupId>${project.groupId}</groupId>
             <artifactId>SpawnerCommon</artifactId>
             <version>${project.version}</version>
         </dependency>
@@ -253,11 +243,6 @@
         </dependency>
         <dependency>
             <groupId>${project.groupId}</groupId>
-            <artifactId>BoostCommon</artifactId>
-            <version>${project.version}</version>
-        </dependency>
-        <dependency>
-            <groupId>${project.groupId}</groupId>
             <artifactId>CollisionCommon</artifactId>
             <version>${project.version}</version>
         </dependency>
@@ -275,6 +260,12 @@
             <groupId>${project.groupId}</groupId>
             <artifactId>MovementCommon</artifactId>
             <version>${project.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>org.netbeans.external</groupId>
+            <artifactId>org-apache-commons-io</artifactId>
+            <version>RELEASE82</version>
+            <type>jar</type>
         </dependency>
     </dependencies>
     <properties>

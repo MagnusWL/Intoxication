@@ -17,8 +17,6 @@ public class PlayerEntity extends Entity {
     private int money;
     private float movementSpeed;
     private float jumpSpeed;
-    private int life;
-    private int maxLife;    
     private Entity weaponOwned;
 
     public Entity getWeaponOwned() {
@@ -27,22 +25,6 @@ public class PlayerEntity extends Entity {
 
     public void setWeaponOwned(WeaponEntity weaponOwned) {
         this.weaponOwned = weaponOwned;
-    }
-
-    public int getLife() {
-        return life;
-    }
-
-    public void setLife(int life) {
-        this.life = life;
-    }
-
-    public int getMaxLife() {
-        return maxLife;
-    }
-
-    public void setMaxLife(int maxLife) {
-        this.maxLife = maxLife;
     }
 
     public float getMovementSpeed() {

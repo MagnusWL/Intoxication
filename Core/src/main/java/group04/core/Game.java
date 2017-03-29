@@ -5,6 +5,7 @@
  */
 package group04.core;
 
+import group04.core.managers.InputController;
 import com.badlogic.gdx.ApplicationListener;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.FPSLogger;

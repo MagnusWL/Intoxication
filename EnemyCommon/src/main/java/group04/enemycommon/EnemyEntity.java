@@ -16,8 +16,6 @@ public class EnemyEntity extends Entity {
     
     private float movementSpeed;
     private float jumpSpeed;
-    private int life;
-    private int maxLife;
     private Entity weaponOwned;
 
     public float getMovementSpeed() {
@@ -36,21 +34,6 @@ public class EnemyEntity extends Entity {
         this.jumpSpeed = jumpSpeed;
     }
 
-    public int getLife() {
-        return life;
-    }
-
-    public void setLife(int life) {
-        this.life = life;
-    }
-
-    public int getMaxLife() {
-        return maxLife;
-    }
-
-    public void setMaxLife(int maxLife) {
-        this.maxLife = maxLife;
-    }
 
     public Entity getWeaponOwned() {
         return weaponOwned;
