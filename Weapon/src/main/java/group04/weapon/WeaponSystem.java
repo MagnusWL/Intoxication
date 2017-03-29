@@ -16,6 +16,7 @@ import group04.common.World;
 import group04.common.events.Event;
 import group04.common.events.EventType;
 import group04.common.services.IServiceInitializer;
+import group04.enemycommon.EnemyEntity;
 import group04.playercommon.PlayerEntity;
 import group04.weaponcommon.IWeaponService;
 import group04.weaponcommon.WeaponEntity;
@@ -71,7 +72,6 @@ public class WeaponSystem implements IWeaponService, IServiceInitializer {
     }
 
     public void createGun(GameData gameData, World world, Entity e, WeaponType type) {
-        PlayerEntity player = (PlayerEntity) e;
         WeaponEntity weapon = new WeaponEntity();
         weapon.setEntityType(EntityType.WEAPON);
         weapon.setDrawable("gun");
@@ -82,11 +82,19 @@ public class WeaponSystem implements IWeaponService, IServiceInitializer {
         weapon.setX(e.getX());
         weapon.setY(e.getY());
         world.addEntity(weapon);
-        player.setWeaponOwned(weapon);
+        if(e.getClass() == PlayerEntity.class)
+        {
+            PlayerEntity player = (PlayerEntity) e;
+            player.setWeaponOwned(weapon);
+        }
+        if(e.getClass() == EnemyEntity.class)
+        {
+            EnemyEntity enemy = (EnemyEntity) e;
+            enemy.setWeaponOwned(weapon);
+        }        
     }
 
     private void createMelee(GameData gameData, World world, Entity e, WeaponType type) {
-        PlayerEntity player = (PlayerEntity) e;
         WeaponEntity weapon = new WeaponEntity();
         weapon.setEntityType(EntityType.WEAPON);
         weapon.setDrawable("sword");
@@ -98,11 +106,19 @@ public class WeaponSystem implements IWeaponService, IServiceInitializer {
         weapon.setShapeX(new float[]{2, 32, 8, 2});
         weapon.setShapeY(new float[]{4, 36, 36, 4});
         world.addEntity(weapon);
-        player.setWeaponOwned(weapon);
+        if(e.getClass() == PlayerEntity.class)
+        {
+            PlayerEntity player = (PlayerEntity) e;
+            player.setWeaponOwned(weapon);
+        }
+        if(e.getClass() == EnemyEntity.class)
+        {
+            EnemyEntity enemy = (EnemyEntity) e;
+            enemy.setWeaponOwned(weapon);
+        }        
     }
 
     private void createRocket(GameData gameData, World world, Entity e, WeaponType type) {
-        PlayerEntity player = (PlayerEntity) e;
         WeaponEntity weapon = new WeaponEntity();
         weapon.setDrawable("gun");
         weapon.setAttackCooldown(8);
@@ -112,7 +128,16 @@ public class WeaponSystem implements IWeaponService, IServiceInitializer {
         weapon.setWeaponType(type);
         weapon.setEntityType(EntityType.WEAPON);
         world.addEntity(weapon);
-        player.setWeaponOwned(weapon);
+        if(e.getClass() == PlayerEntity.class)
+        {
+            PlayerEntity player = (PlayerEntity) e;
+            player.setWeaponOwned(weapon);
+        }
+        if(e.getClass() == EnemyEntity.class)
+        {
+            EnemyEntity enemy = (EnemyEntity) e;
+            enemy.setWeaponOwned(weapon);
+        }        
     }
 
     @Override
