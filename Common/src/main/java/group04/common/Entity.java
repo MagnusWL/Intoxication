@@ -75,7 +75,7 @@ public class Entity {
     }
 
     public String getDrawable() {
-        if(currentAnimation != null)
+        if(drawable != null)
             return drawable.toLowerCase();
         else
             return null;
