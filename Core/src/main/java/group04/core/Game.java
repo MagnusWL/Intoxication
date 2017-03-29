@@ -99,7 +99,6 @@ public class Game implements ApplicationListener {
     }
 
     private void update() {
-
         gameData.setDelta(Gdx.graphics.getDeltaTime());
 
         for (ICameraService e : Lookup.getDefault().lookupAll(ICameraService.class)) {

@@ -64,6 +64,7 @@ public class WaveSpawnerSystem implements ISpawnerService, IServiceInitializer {
 
     @Override
     public void start(GameData gameData, World world) {
+        createWaveSpawner(gameData, world);
     }
 
     @Override
