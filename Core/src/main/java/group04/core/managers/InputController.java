@@ -17,6 +17,7 @@ public class InputController extends InputAdapter
     @Override
     public boolean touchDown(int screenX, int screenY, int pointer, int button) {
         gameData.getKeys().setKey(GameKeys.MOUSE0, true);
+        System.out.println("WAAAAAAT");
 //        System.out.println("BEFORE DOWN");
 //        if (Gdx.input.isButtonPressed(Input.Buttons.LEFT)) {
 //            System.out.println("DOWN");
