@@ -43,13 +43,11 @@ public class EnemySystem implements IEnemyService, IServiceInitializer {
         enemyCharacter.setMaxLife(5);
         enemyCharacter.setLife(enemyCharacter.getMaxLife());
 
-        enemyCharacter.setDrawable("enemy_beer");
-
         enemyCharacter.setShapeX(new float[]{120, 120, 20, 20});
         enemyCharacter.setShapeY(new float[]{0, 100, 100, 0});
 
-//        enemyCharacter.setAnimateable(true);
-//        enemyCharacter.setCurrentAnimation("Enemy_Beer_Run");
+        enemyCharacter.setAnimateable(true);
+        enemyCharacter.setCurrentAnimation("enemybeer_run_animation");
         enemyCharacter.setEntityType(EntityType.ENEMY);
         enemyCharacter.setX(x);
         enemyCharacter.setY(y);
