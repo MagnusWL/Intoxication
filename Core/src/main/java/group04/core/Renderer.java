@@ -170,7 +170,6 @@ public class Renderer {
                 drawSprite(gameData, world, entity, images.get(imageContainer.getSprite()), imageContainer);
             }
         }*/
-
         for (Entity entity : world.getEntities(PlayerEntity.class)) {
             if (entity.getDrawable() != null) {
                 drawSprite(gameData, world, entity, assetManager.getSprites(entity.getDrawable() + ".png"));
@@ -241,7 +240,7 @@ public class Renderer {
                     sr.rect(entity.getX() - gameData.getCameraX(), entity.getY() - gameData.getCameraY() + healthOffset, healthWidth, 5);
                     sr.setColor(0.0f, 1f, 0, 1f);
                     sr.rect(entity.getX() - gameData.getCameraX(), entity.getY() - gameData.getCameraY() + healthOffset, ((float) entity.getLife() / (float) entity.getMaxLife()) * healthWidth, 5);
-               }
+                }
             }
         }
 
@@ -276,7 +275,7 @@ public class Renderer {
         drawPupil(gameData, world, assetManager.getSprites("pupil.png"), back1m);
         drawBackground(gameData, assetManager.getSprites("background_layer1.png"), back1m);
         //pupil
-//        drawBackground(gameData, images.get("pupil"), back3m);
+        //drawBackground(gameData, images.get("pupil"), back3m);
         drawBackground(gameData, assetManager.getSprites("background_layer2.png"), back2m);
 
         /*        Sprite sp = images.get("lightSource");

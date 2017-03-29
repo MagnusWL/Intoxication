@@ -27,6 +27,7 @@ import group04.common.services.IServiceProcessor;
 import group04.currencycommon.ICurrencyService;
 import group04.enemycommon.EnemyEntity;
 import group04.enemycommon.IEnemyService;
+import group04.movementcommon.IMovementService;
 import group04.playercommon.PlayerEntity;
 import group04.spawnercommon.ISpawnerService;
 import group04.spawnercommon.WaveSpawnerEntity;
@@ -107,10 +108,15 @@ public class Game implements ApplicationListener {
                 e.followEntity(gameData, world, player);
             }
         }
-
+        
         for (IServiceProcessor e : Lookup.getDefault().lookupAll(IServiceProcessor.class)) {
             e.process(gameData, world);
         }
+        
+        for (IMovementService e : Lookup.getDefault().lookupAll(IMovementService.class)) {
+            e.process(gameData, world);
+        }
+
 
         for (IWeaponService ips : Lookup.getDefault().lookupAll(IWeaponService.class)) {
             ips.pickUpWeapon(gameData, world);
