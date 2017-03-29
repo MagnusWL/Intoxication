@@ -96,7 +96,7 @@ public class PlayerSystem implements IServiceProcessor, IServiceInitializer {
         playerCharacter.setHasGravity(true);
         playerCharacter.setMaxLife(10000);
         playerCharacter.setLife(playerCharacter.getMaxLife());
-        playerCharacter.setDrawable("Player");
+        playerCharacter.setDrawable("player");
 
         
         playerCharacter.setShapeX(new float[]{17, 34, 52, 66});
