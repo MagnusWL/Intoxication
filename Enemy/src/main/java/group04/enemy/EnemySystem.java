@@ -44,7 +44,6 @@ public class EnemySystem implements IEnemyService, IServiceInitializer {
         enemyCharacter.setLife(enemyCharacter.getMaxLife());
 
         enemyCharacter.setDrawable("enemy_beer");
-        System.out.println("SET: " + enemyCharacter.getDrawable());
 
         enemyCharacter.setShapeX(new float[]{120, 120, 20, 20});
         enemyCharacter.setShapeY(new float[]{0, 100, 100, 0});
@@ -81,10 +80,6 @@ public class EnemySystem implements IEnemyService, IServiceInitializer {
 
     @Override
     public void controller(GameData gameData, World world, Entity player, Entity base, ArrayList<EnemyEntity> enemyList) {
-        for (Entity enemy : world.getEntities(EnemyEntity.class)) {            
-            System.out.println("IMAGEE: " + enemy.getDrawable());
-        }
-
         for (EnemyEntity enemy : enemyList) {
             float movementSpeed = enemy.getMovementSpeed();
             float jumpSpeed = enemy.getJumpSpeed();
