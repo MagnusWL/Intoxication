@@ -48,7 +48,10 @@ public class Entity {
     }
 
     public String getCurrentAnimation() {
-        return currentAnimation;
+        if(currentAnimation != null)
+            return currentAnimation.toLowerCase();
+        else
+            return null;
     }
 
     public void setCurrentAnimation(String currentAnimation) {
@@ -72,7 +75,10 @@ public class Entity {
     }
 
     public String getDrawable() {
-        return drawable;
+        if(currentAnimation != null)
+            return drawable.toLowerCase();
+        else
+            return null;
     }
 
     public void setDrawable(String drawable) {

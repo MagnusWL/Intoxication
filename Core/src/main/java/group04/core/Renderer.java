@@ -62,7 +62,7 @@ public class Renderer {
 
         assetManager.load();
         while (!assetManager.getAssetManager().update()) {
-            System.out.println(assetManager.getAssetManager().getProgress() * 100);
+//            System.out.println(assetManager.getAssetManager().getProgress() * 100);
         }
         loadPNGAnimation("player_run_animation.png", 75, 80);
         System.out.println("Renderer");
@@ -139,11 +139,13 @@ public class Renderer {
 //    }
     private void drawAnimations(GameData gameData, World world) {
         for (Entity entity : world.getAllEntities()) {
-            if (entity.getVelocity() < 0) {
-                System.out.println(entity.getCurrentAnimation() + "_flipped.png");
-                playAnimation(gameData, world, assetManager.getAnimationsFlip(entity.getCurrentAnimation() + "_flipped.png"), entity, 5);
-            } else {
-                playAnimation(gameData, world, assetManager.getAnimations(entity.getCurrentAnimation() + ".png"), entity, 5);
+            if (entity.isAnimateable() && entity.getCurrentAnimation() != null) {
+                if (entity.getVelocity() < 0) {
+                    System.out.println(entity.getCurrentAnimation() + "_flipped.png");
+                    playAnimation(gameData, world, assetManager.getAnimationsFlip(entity.getCurrentAnimation() + "_flipped.png"), entity, 5);
+                } else {
+                    playAnimation(gameData, world, assetManager.getAnimations(entity.getCurrentAnimation() + ".png"), entity, 5);
+                }
             }
         }
     }
@@ -161,7 +163,9 @@ public class Renderer {
 
     private void drawSprites(GameData gameData, World world) {
         for (Entity entity : world.getEntities(BaseEntity.class)) {
-            drawSprite(gameData, world, entity, assetManager.getSprites(entity.getDrawable() + ".png"));
+            if (entity.getDrawable() != null) {
+                drawSprite(gameData, world, entity, assetManager.getSprites(entity.getDrawable() + ".png"));
+            }
         }
 
 //        for (Entity entity : world.getEntities(EntityType.ENEMY)) {
@@ -175,17 +179,28 @@ public class Renderer {
                 drawSprite(gameData, world, entity, images.get(imageContainer.getSprite()), imageContainer);
             }
         }*/
+
+        for (Entity entity : world.getEntities(PlayerEntity.class)) {
+            if (entity.getDrawable() != null) {
+                drawSprite(gameData, world, entity, assetManager.getSprites(entity.getDrawable() + ".png"));
+            }
+        }
         for (Entity entity : world.getEntities(WeaponEntity.class)) {
-            drawSprite(gameData, world, entity, assetManager.getSprites(entity.getDrawable() + ".png"));
+            if (entity.getDrawable() != null) {
+                drawSprite(gameData, world, entity, assetManager.getSprites(entity.getDrawable() + ".png"));
+            }
         }
 
         for (Entity entity : world.getEntities(ProjectileEntity.class)) {
-            drawSprite(gameData, world, entity, assetManager.getSprites(entity.getDrawable() + ".png"));
+            if (entity.getDrawable() != null) {
+                drawSprite(gameData, world, entity, assetManager.getSprites(entity.getDrawable() + ".png"));
+            }
         }
 
         for (Entity entity : world.getEntities(BoostEntity.class)) {
-            drawSprite(gameData, world, entity, assetManager.getSprites(entity.getDrawable() + ".png"));
-
+            if (entity.getDrawable() != null) {
+                drawSprite(gameData, world, entity, assetManager.getSprites(entity.getDrawable() + ".png"));
+            }
         }
     }
 
@@ -219,21 +234,23 @@ public class Renderer {
             int min = Integer.MAX_VALUE;
 
             if (entity.getMaxLife() != 0) {
-                healthOffset = (int) assetManager.getSprites(entity.getDrawable() + ".png").getHeight() + 5;
+                if (entity.getDrawable() != null) {
+                    healthOffset = (int) assetManager.getSprites(entity.getDrawable() + ".png").getHeight() + 5;
 
-                for (int i = 0; i < entity.getShapeX().length; i++) {
-                    max = (int) Math.max(max, entity.getShapeX()[i]);
-                    min = (int) Math.min(min, entity.getShapeX()[i]);
-                    maxY = (int) Math.max(maxY, entity.getShapeY()[i]);
-                }
+                    for (int i = 0; i < entity.getShapeX().length; i++) {
+                        max = (int) Math.max(max, entity.getShapeX()[i]);
+                        min = (int) Math.min(min, entity.getShapeX()[i]);
+                        maxY = (int) Math.max(maxY, entity.getShapeY()[i]);
+                    }
 
-                healthWidth = max - min;
-                healthOffset = maxY + 5;
+                    healthWidth = max - min;
+                    healthOffset = maxY + 5;
 
-                sr.setColor(1f, 0f, 0, 1f);
-                sr.rect(entity.getX() - gameData.getCameraX(), entity.getY() - gameData.getCameraY() + healthOffset, healthWidth, 5);
-                sr.setColor(0.0f, 1f, 0, 1f);
-                sr.rect(entity.getX() - gameData.getCameraX(), entity.getY() - gameData.getCameraY() + healthOffset, ((float) entity.getLife() / (float) entity.getMaxLife()) * healthWidth, 5);
+                    sr.setColor(1f, 0f, 0, 1f);
+                    sr.rect(entity.getX() - gameData.getCameraX(), entity.getY() - gameData.getCameraY() + healthOffset, healthWidth, 5);
+                    sr.setColor(0.0f, 1f, 0, 1f);
+                    sr.rect(entity.getX() - gameData.getCameraX(), entity.getY() - gameData.getCameraY() + healthOffset, ((float) entity.getLife() / (float) entity.getMaxLife()) * healthWidth, 5);
+               }
             }
         }
 

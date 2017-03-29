@@ -96,7 +96,7 @@ public final class Assets {
                 FileHandle folder = Gdx.files.absolute(fileEntry.getPath() + "/src/main/resources/");
                 listFilesForFolder(folder.file());
             } catch (Exception e) {
-                System.out.println("Files not found");
+                System.out.println("Files not found: " + fileEntry.getPath());
             }
         }
 
@@ -149,7 +149,7 @@ public final class Assets {
 
         animations.put(animationName, keyFrames);
         animationsFlip.put(animationName.substring(0, animationName.length() - 4) + "_flipped.png", flipKeyFrames);
-        System.out.println(animationName.substring(0, animationName.length() - 4) + "_flipped.png");
+        //System.out.println(animationName.substring(0, animationName.length() - 4) + "_flipped.png");
     }
 
     public Sprite getSprites(String key) {
