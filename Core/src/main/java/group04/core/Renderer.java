@@ -6,23 +6,16 @@
 package group04.core;
 
 import com.badlogic.gdx.Gdx;
-import com.badlogic.gdx.assets.AssetDescriptor;
 import com.badlogic.gdx.graphics.Color;
-import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.Texture;
-import com.badlogic.gdx.graphics.g2d.Animation;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
-import com.badlogic.gdx.graphics.g2d.BitmapFontCache;
 import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
-import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer.ShapeType;
-import com.badlogic.gdx.utils.Array;
 import group04.basecommon.BaseEntity;
 import group04.boostcommon.BoostEntity;
 import group04.common.Entity;
-import group04.common.EntityType;
 import group04.common.GameData;
 import group04.common.World;
 import group04.core.managers.Assets;
@@ -31,8 +24,6 @@ import group04.projectilecommon.ProjectileEntity;
 import group04.spawnercommon.WaveSpawnerEntity;
 import group04.weaponcommon.WeaponEntity;
 import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.Map;
 
 /**
  *
@@ -179,7 +170,6 @@ public class Renderer {
                 drawSprite(gameData, world, entity, images.get(imageContainer.getSprite()), imageContainer);
             }
         }*/
-
         for (Entity entity : world.getEntities(PlayerEntity.class)) {
             if (entity.getDrawable() != null) {
                 drawSprite(gameData, world, entity, assetManager.getSprites(entity.getDrawable() + ".png"));
@@ -250,7 +240,7 @@ public class Renderer {
                     sr.rect(entity.getX() - gameData.getCameraX(), entity.getY() - gameData.getCameraY() + healthOffset, healthWidth, 5);
                     sr.setColor(0.0f, 1f, 0, 1f);
                     sr.rect(entity.getX() - gameData.getCameraX(), entity.getY() - gameData.getCameraY() + healthOffset, ((float) entity.getLife() / (float) entity.getMaxLife()) * healthWidth, 5);
-               }
+                }
             }
         }
 
@@ -285,7 +275,7 @@ public class Renderer {
         drawPupil(gameData, world, assetManager.getSprites("pupil.png"), back1m);
         drawBackground(gameData, assetManager.getSprites("background_layer1.png"), back1m);
         //pupil
-//        drawBackground(gameData, images.get("pupil"), back3m);
+        //drawBackground(gameData, images.get("pupil"), back3m);
         drawBackground(gameData, assetManager.getSprites("background_layer2.png"), back2m);
 
         /*        Sprite sp = images.get("lightSource");

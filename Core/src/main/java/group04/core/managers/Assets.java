@@ -14,10 +14,7 @@ import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.graphics.glutils.FileTextureData;
-import java.io.BufferedReader;
 import java.io.File;
-import java.io.FileOutputStream;
-import java.io.FileReader;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -133,7 +130,6 @@ public final class Assets {
     }
 
     public void makeAnimation(String animationName, Texture spriteSheet, int spriteSizeX, int spriteSizeY) {
-        System.out.println(animationName + "Starting");
         ArrayList<Sprite> keyFrames = new ArrayList<>();
         ArrayList<Sprite> flipKeyFrames = new ArrayList<>();
         int numberOfSprites = (int) (spriteSheet.getWidth() / spriteSizeX);
