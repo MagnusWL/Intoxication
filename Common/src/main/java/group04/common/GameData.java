@@ -3,6 +3,8 @@ package group04.common;
 import java.util.List;
 import java.util.concurrent.CopyOnWriteArrayList;
 import group04.common.events.Event;
+import java.util.HashMap;
+import java.util.Map;
 
 public class GameData {
 
@@ -17,21 +19,28 @@ public class GameData {
     private int mouseY;
     private final float gravityConstant = -1000f;
     private List<Event> events = new CopyOnWriteArrayList<>();
-    private List<String> images = new CopyOnWriteArrayList<>();    
+    private List<String> images = new CopyOnWriteArrayList<>();
+    private Map<String, int[]> spriteInfo = new HashMap<>();
     private int mapHeight;
     private final GameKeys keys = new GameKeys();
 
+    public Map<String, int[]> getSpriteInfo() {
+        return spriteInfo;
+    }
+
+    public void setSpriteInfo(Map<String, int[]> spriteInfo) {
+        this.spriteInfo = spriteInfo;
+    }
+    
     public List<Event> getAllEvents() {
         return events;
     }
-    
-    public void removeEvent(Event e)
-    {
+
+    public void removeEvent(Event e) {
         events.remove(e);
     }
-    
-    public void addEvent(Event e)
-    {
+
+    public void addEvent(Event e) {
         events.add(e);
     }
 

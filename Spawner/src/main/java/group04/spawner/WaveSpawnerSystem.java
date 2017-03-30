@@ -10,6 +10,7 @@ import group04.common.EntityType;
 import group04.common.GameData;
 import group04.common.World;
 import group04.common.services.IServiceInitializer;
+import group04.enemycommon.EnemyEntity;
 import group04.enemycommon.IEnemyService;
 import group04.spawnercommon.ISpawnerService;
 import group04.spawnercommon.WaveSpawnerEntity;
@@ -45,18 +46,24 @@ public class WaveSpawnerSystem implements ISpawnerService, IServiceInitializer {
         if (waveSpawner.getSpawnTimer() > waveSpawner.getSpawnTimerMax()) {
             int timePerMob = waveSpawner.getSpawnDuration() / waveSpawner.getMobsSpawnedMax();
 
-            if (waveSpawner.getSpawnTimer() - waveSpawner.getSpawnTimerMax() > timePerMob * waveSpawner.getMobsSpawned()) {
+            if (waveSpawner.getSpawnTimer() - waveSpawner.getSpawnTimerMax() > timePerMob * waveSpawner.getMobsSpawned() && waveSpawner.getMobsSpawned() < waveSpawner.getMobsSpawnedMax()) {
                 waveSpawner.setMobsSpawned(waveSpawner.getMobsSpawned() + 1);
                 for (IEnemyService e : Lookup.getDefault().lookupAll(IEnemyService.class)) {
-                    e.createEnemy(gameData, world, (int) (gameData.getTileSize() * gameData.getMapWidth() * 0.95), (int) (gameData.getDisplayHeight() * 0.15));
+                        e.createEnemy(gameData, world, (int) (gameData.getTileSize() * gameData.getMapWidth() * 0.95), (int) (gameData.getDisplayHeight() * 0.15));
                 }
             }
 
-            if (waveSpawner.getSpawnTimer() > waveSpawner.getSpawnTimerMax() + waveSpawner.getSpawnDuration()) {
+            boolean enemiesLeft = false;
+            for(Entity enemy: world.getEntities(EnemyEntity.class))
+            {
+                enemiesLeft = true;
+                break;
+            }
+            
+            if (waveSpawner.getSpawnTimer() > waveSpawner.getSpawnTimerMax() + waveSpawner.getSpawnDuration() && !enemiesLeft) {
                 waveSpawner.setSpawnTimer(0);
                 waveSpawner.setMobsSpawned(0);
             }
-
         }
     }
 
