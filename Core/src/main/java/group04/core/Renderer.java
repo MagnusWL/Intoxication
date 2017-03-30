@@ -174,7 +174,6 @@ public class Renderer {
             }
         }
 
-
         for (Entity entity : world.getEntities(EnemyEntity.class)) {
             if (entity.getDrawable() != null) {
                 drawSprite(gameData, world, entity, assetManager.getSprites(entity.getDrawable() + ".png"));
@@ -230,19 +229,19 @@ public class Renderer {
             int min = Integer.MAX_VALUE;
 
             if (entity.getMaxLife() != 0) {
-                    for (int i = 0; i < entity.getShapeX().length; i++) {
-                        max = (int) Math.max(max, entity.getShapeX()[i]);
-                        min = (int) Math.min(min, entity.getShapeX()[i]);
-                        maxY = (int) Math.max(maxY, entity.getShapeY()[i]);
-                    }
+                for (int i = 0; i < entity.getShapeX().length; i++) {
+                    max = (int) Math.max(max, entity.getShapeX()[i]);
+                    min = (int) Math.min(min, entity.getShapeX()[i]);
+                    maxY = (int) Math.max(maxY, entity.getShapeY()[i]);
+                }
 
-                    healthWidth = max - min;
-                    healthOffset = maxY + 5;
+                healthWidth = max - min;
+                healthOffset = maxY + 5;
 
-                    sr.setColor(1f, 0f, 0, 1f);
-                    sr.rect(entity.getX() - gameData.getCameraX(), entity.getY() - gameData.getCameraY() + healthOffset, healthWidth, 5);
-                    sr.setColor(0.0f, 1f, 0, 1f);
-                    sr.rect(entity.getX() - gameData.getCameraX(), entity.getY() - gameData.getCameraY() + healthOffset, ((float) entity.getLife() / (float) entity.getMaxLife()) * healthWidth, 5);
+                sr.setColor(1f, 0f, 0, 1f);
+                sr.rect(entity.getX() - gameData.getCameraX(), entity.getY() - gameData.getCameraY() + healthOffset, healthWidth, 5);
+                sr.setColor(0.0f, 1f, 0, 1f);
+                sr.rect(entity.getX() - gameData.getCameraX(), entity.getY() - gameData.getCameraY() + healthOffset, ((float) entity.getLife() / (float) entity.getMaxLife()) * healthWidth, 5);
             }
         }
 
@@ -323,13 +322,18 @@ public class Renderer {
         drawBackground(gameData, assetManager.getSprites("level_03_front.png"), back3m);
 
         //Player        
-        drawBackground(gameData, assetManager.getSprites("foreground_layer1.png"), back4m);
+        drawBackgroundNoRepeat(gameData, assetManager.getSprites("foreground_layer1.png"), back4m);
         drawBackground(gameData, assetManager.getSprites("foreground_layer2.png"), back5m);
         drawHalo(gameData);
     }
 
     public void drawHalo(GameData gameData) {
         assetManager.getSprites("halo.png").draw(batch);
+    }
+
+    private void drawBackgroundNoRepeat(GameData gameData, Sprite sprite, float mov) {
+        sprite.setX( - gameData.getCameraX() * mov);
+        sprite.draw(batch);
     }
 
     private void drawBackground(GameData gameData, Sprite sprite, float mov) {
