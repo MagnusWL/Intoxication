@@ -255,8 +255,8 @@ public class Renderer {
             }
         }
 
-        sprite.setX(entity.getX() - gameData.getCameraX());
-        sprite.setY(entity.getY() - gameData.getCameraY());
+        sprite.setX((float) (entity.getX() - sprite.getWidth()/2.0 - gameData.getCameraX()));
+        sprite.setY((float) (entity.getY() - sprite.getHeight()/2.0 - gameData.getCameraY()));
         sprite.draw(batch);
     }
 
