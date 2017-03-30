@@ -122,7 +122,6 @@ public class Game implements ApplicationListener {
 
         playerProcess();
         enemyProcess();
-        currencyProcess();
         boostProcess();
     }
 
@@ -191,33 +190,6 @@ public class Game implements ApplicationListener {
                     gameData.removeEvent(event);
 
                     e.pickUpBoost(world.getEntity(event.getEntityID()));
-                }
-            }
-        }
-    }
-
-    private void currencyProcess() {
-
-        for (ICurrencyService e : Lookup.getDefault().lookupAll(ICurrencyService.class)) {
-
-            for (Event event : gameData.getEvents()) {
-                if (event.getType() == EventType.DROP_CURRENCY) {
-                    e.dropCurrency(world.getEntity(event.getEntityID()));
-                    gameData.removeEvent(event);
-                }
-            }
-
-            for (Event event : gameData.getEvents()) {
-
-                if (event.getType() == EventType.PICKUP_CURRENCY) {
-
-                    world.removeEntity(world.getEntity(event.getEntityID()));
-                    gameData.removeEvent(event);
-
-                    for (Entity player : world.getEntities(PlayerEntity.class)) {
-
-                        e.pickUpCurrency(player);
-                    }
                 }
             }
         }

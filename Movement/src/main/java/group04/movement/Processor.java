@@ -12,6 +12,7 @@ import group04.common.events.Event;
 import group04.common.events.EventType;
 import group04.common.services.IServiceProcessor;
 import group04.currencycommon.CurrencyEntity;
+import group04.currencycommon.ICurrencyService;
 import group04.enemycommon.EnemyEntity;
 import group04.movementcommon.IMovementService;
 import group04.playercommon.PlayerEntity;
@@ -35,7 +36,15 @@ public class Processor implements IMovementService {
                 for (Entity loot : world.getEntities(CurrencyEntity.class)) {
 
                     if (e.isEntitiesColliding(world, gameData, player, loot)) {
-                        gameData.addEvent(new Event(EventType.PICKUP_CURRENCY, loot.getID()));
+
+                        for (Entity entity : world.getEntities(PlayerEntity.class)) {
+                            PlayerEntity playerEntity = (PlayerEntity) entity;
+
+                            //PICKUP CURRENCY
+                            for (ICurrencyService i : Lookup.getDefault().lookupAll(ICurrencyService.class)) {
+                                i.pickUpCurrency(world, playerEntity, loot);
+                            }
+                        }
                     }
                 }
 
@@ -133,17 +142,20 @@ public class Processor implements IMovementService {
     }
 
     @Override
-    public void movementWhenGrounded(GameData gameData, World world, Entity entity) {
+    public void movementWhenGrounded(GameData gameData, World world, Entity entity
+    ) {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 
     @Override
-    public void movementWhenNotGrounded(GameData gameData, World world, Entity entity) {
+    public void movementWhenNotGrounded(GameData gameData, World world, Entity entity
+    ) {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 
     @Override
-    public void movementWhenColliding(GameData gameData, World world, Entity entity, Entity target) {
+    public void movementWhenColliding(GameData gameData, World world, Entity entity, Entity target
+    ) {
 
     }
 }

@@ -9,7 +9,9 @@ import group04.common.events.Event;
 import group04.common.events.EventType;
 import group04.common.services.IServiceInitializer;
 import group04.common.services.IServiceProcessor;
+import group04.currencycommon.ICurrencyService;
 import group04.playercommon.PlayerEntity;
+import org.openide.util.Lookup;
 import org.openide.util.lookup.ServiceProvider;
 import org.openide.util.lookup.ServiceProviders;
 
@@ -18,8 +20,6 @@ import org.openide.util.lookup.ServiceProviders;
     @ServiceProvider(service = IServiceInitializer.class)})
 
 public class PlayerSystem implements IServiceProcessor, IServiceInitializer {
-
-    
 
     private void checkAnimation(PlayerEntity player, String newAnimation) {
         if (!newAnimation.equals(player.getCurrentAnimation())) {
@@ -30,8 +30,8 @@ public class PlayerSystem implements IServiceProcessor, IServiceInitializer {
     @Override
     public void process(GameData gameData, World world) {
         for (Entity entity : world.getEntities(PlayerEntity.class)) {
-            PlayerEntity playerEntity =  (PlayerEntity) entity;
-            
+            PlayerEntity playerEntity = (PlayerEntity) entity;
+
             float movementSpeed = playerEntity.getMovementSpeed();
             float jumpSpeed = playerEntity.getJumpSpeed();
 
@@ -77,6 +77,8 @@ public class PlayerSystem implements IServiceProcessor, IServiceInitializer {
                     gameData.removeEvent(e);
                 }
             }
+            
+            
         }
     }
 
@@ -88,8 +90,7 @@ public class PlayerSystem implements IServiceProcessor, IServiceInitializer {
 
     private Entity createPlayer(GameData gameData, World world) {
         PlayerEntity playerCharacter = new PlayerEntity();
-        
-        
+
         playerCharacter.setJumpSpeed(400);
         playerCharacter.setMovementSpeed(150);
         playerCharacter.setHasGravity(true);
@@ -97,7 +98,6 @@ public class PlayerSystem implements IServiceProcessor, IServiceInitializer {
         playerCharacter.setLife(playerCharacter.getMaxLife());
         playerCharacter.setDrawable("player");
 
-        
         playerCharacter.setShapeX(new float[]{17, 34, 52, 66});
         playerCharacter.setShapeY(new float[]{0, 73, 73, 0});
 
@@ -112,6 +112,6 @@ public class PlayerSystem implements IServiceProcessor, IServiceInitializer {
 
     @Override
     public void stop(GameData gameData, World world) {
-        
+
     }
 }

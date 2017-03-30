@@ -13,7 +13,9 @@ import group04.common.events.Event;
 import group04.common.events.EventType;
 import group04.enemycommon.IEnemyService;
 import group04.common.services.IServiceInitializer;
+import group04.currencycommon.ICurrencyService;
 import group04.enemycommon.EnemyEntity;
+import org.openide.util.Lookup;
 
 @ServiceProviders(value = {
     @ServiceProvider(service = IEnemyService.class),
@@ -111,10 +113,10 @@ public class EnemySystem implements IEnemyService, IServiceInitializer {
             world.removeEntity(enemyHit.getWeaponOwned());
             world.removeEntity(enemyHit);
 
-            Entity currency = new Entity();
-            Entity boost = new Entity();
-            dropItem(currency, enemyHit, world, gameData, EventType.DROP_CURRENCY);
-            dropItem(boost, enemyHit, world, gameData, EventType.DROP_BOOST);
+            //DROPS ITEMS IF AN ENEMY IS DEAD
+            for (ICurrencyService i : Lookup.getDefault().lookupAll(ICurrencyService.class)) {
+                i.dropCurrency(world, enemyHit.getX(), enemyHit.getY());
+            }
         }
     }
 
