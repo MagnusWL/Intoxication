@@ -51,13 +51,11 @@ public final class Assets {
     public static void load() {
         for (AssetDescriptor<Sound> soundFile : soundAssets) {
             manager.load(soundFile);
-            System.out.println("Loaded Soundfile");
         }
         for (Texture texture : textureAssets) {
 
             String path = ((FileTextureData) texture.getTextureData()).getFileHandle().path();
             manager.load(path, Texture.class);
-            System.out.println("Loaded Texturefile");
         }
         textureAssets.clear();
         soundAssets.clear();
@@ -93,7 +91,6 @@ public final class Assets {
                 FileHandle folder = Gdx.files.absolute(fileEntry.getPath() + "/src/main/resources/");
                 listFilesForFolder(folder.file());
             } catch (Exception e) {
-                System.out.println("Files not found: " + fileEntry.getPath());
             }
         }
 
