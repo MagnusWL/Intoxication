@@ -14,6 +14,7 @@ import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.graphics.glutils.FileTextureData;
+import group04.common.GameData;
 import java.io.File;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -33,13 +34,15 @@ public final class Assets {
     private Map<String, ArrayList<Sprite>> animations = new HashMap<>();
     private Map<String, ArrayList<Sprite>> animationsFlip = new HashMap<>();
     private Map<String, Sprite> sprites = new HashMap<>();
+    private GameData gameData;
 
     private static Map<String, String> filePaths = new HashMap<>();
 
     private String directory = new File("../../../").getAbsolutePath();
 
-    public Assets() {
+    public Assets(GameData gameData) {
         addComponentResources();
+        this.gameData = gameData;
 
         manager = new AssetManager();
     }
@@ -71,6 +74,7 @@ public final class Assets {
         String fileName = filePathSplit[filePathSplit.length - 1];
         textureAssets.add(textureAsset);
         filePaths.put(fileName, path);
+        gameData.getSpriteInfo().put(fileName.substring(0, fileName.length() - 4), new int[]{textureAsset.getWidth(), textureAsset.getHeight()});
 
         sprites.put(fileName, new Sprite(textureAsset));
     }
@@ -87,7 +91,7 @@ public final class Assets {
         FileHandle componentsFH = Gdx.files.absolute(directory);
         File components = componentsFH.file();
         for (final File fileEntry : components.listFiles()) {
-             try {
+            try {
                 FileHandle folder = Gdx.files.absolute(fileEntry.getPath() + "/src/main/resources/");
                 listFilesForFolder(folder.file());
             } catch (Exception e) {
