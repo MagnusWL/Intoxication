@@ -130,7 +130,7 @@ public class Renderer {
     private void drawAnimations(GameData gameData, World world) {
         for (Entity entity : world.getAllEntities()) {
             if (entity.isAnimateable() && entity.getCurrentAnimation() != null) {
-                if (entity.getVelocity() < 0) {
+                if ((entity.getVelocity() < 0 && entity.getClass() != PlayerEntity.class) || (gameData.getMouseX() > entity.getX() && entity.getClass() == PlayerEntity.class)) {
                     playAnimation(gameData, world, assetManager.getAnimationsFlip(entity.getCurrentAnimation() + "_flipped.png"), entity, 5);
                 } else {
                     playAnimation(gameData, world, assetManager.getAnimations(entity.getCurrentAnimation() + ".png"), entity, 5);
