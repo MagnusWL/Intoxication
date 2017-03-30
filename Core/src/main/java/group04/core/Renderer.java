@@ -50,7 +50,7 @@ public class Renderer {
         batch = new SpriteBatch();
         sr = new ShapeRenderer();
 
-        assetManager = new Assets();
+        assetManager = new Assets(gameData);
 
         assetManager.load();
         while (!assetManager.getAssetManager().update()) {

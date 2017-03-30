@@ -19,8 +19,6 @@ import org.openide.util.lookup.ServiceProviders;
 
 public class PlayerSystem implements IServiceProcessor, IServiceInitializer {
 
-    
-
     private void checkAnimation(PlayerEntity player, String newAnimation) {
         if (!newAnimation.equals(player.getCurrentAnimation())) {
             player.setCurrentFrame(0);
@@ -30,8 +28,8 @@ public class PlayerSystem implements IServiceProcessor, IServiceInitializer {
     @Override
     public void process(GameData gameData, World world) {
         for (Entity entity : world.getEntities(PlayerEntity.class)) {
-            PlayerEntity playerEntity =  (PlayerEntity) entity;
-            
+            PlayerEntity playerEntity = (PlayerEntity) entity;
+
             float movementSpeed = playerEntity.getMovementSpeed();
             float jumpSpeed = playerEntity.getJumpSpeed();
 
@@ -88,18 +86,18 @@ public class PlayerSystem implements IServiceProcessor, IServiceInitializer {
 
     private Entity createPlayer(GameData gameData, World world) {
         PlayerEntity playerCharacter = new PlayerEntity();
-        
-        
+
         playerCharacter.setJumpSpeed(400);
         playerCharacter.setMovementSpeed(150);
         playerCharacter.setHasGravity(true);
         playerCharacter.setMaxLife(10000);
         playerCharacter.setLife(playerCharacter.getMaxLife());
         playerCharacter.setDrawable("player");
+        int spriteWidth = gameData.getSpriteInfo().get("player")[0];
+        int spriteHeight = gameData.getSpriteInfo().get("player")[1];
 
-        
-        playerCharacter.setShapeX(new float[]{17, 34, 52, 66});
-        playerCharacter.setShapeY(new float[]{0, 73, 73, 0});
+        playerCharacter.setShapeX(new float[]{-(spriteWidth / 2), -(spriteWidth / 2), spriteWidth / 2, spriteWidth / 2});
+        playerCharacter.setShapeY(new float[]{-(spriteHeight / 2), spriteHeight / 2, spriteHeight / 2, -(spriteHeight / 2)});
 
         playerCharacter.setEntityType(EntityType.PLAYER);
         playerCharacter.setX((int) (gameData.getDisplayWidth() * 0.5));
@@ -112,6 +110,6 @@ public class PlayerSystem implements IServiceProcessor, IServiceInitializer {
 
     @Override
     public void stop(GameData gameData, World world) {
-        
+
     }
 }
