@@ -67,6 +67,9 @@ public class Game implements ApplicationListener {
         cam = new OrthographicCamera(gameData.getDisplayWidth(), gameData.getDisplayHeight());
         cam.translate(gameData.getDisplayWidth() / 2, gameData.getDisplayHeight() / 2);
         cam.update();
+        render = new Renderer(gameData);
+        menu = new MenuHandler();
+
 
         for (IServiceInitializer i : Lookup.getDefault().lookupAll(IServiceInitializer.class)) {
             i.start(gameData, world);
@@ -75,9 +78,6 @@ public class Game implements ApplicationListener {
         Gdx.input.setInputProcessor(
                 new InputController(gameData)
         );
-
-        render = new Renderer(gameData);
-        menu = new MenuHandler();
 
     }
 

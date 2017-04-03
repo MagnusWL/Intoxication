@@ -51,6 +51,11 @@ public final class Assets {
         return filePaths;
     }
 
+    public Map<String, Sprite> getAllSprites()    
+    {
+        return sprites;
+    }
+    
     public static void load() {
         for (AssetDescriptor<Sound> soundFile : soundAssets) {
             manager.load(soundFile);
@@ -74,8 +79,6 @@ public final class Assets {
         String fileName = filePathSplit[filePathSplit.length - 1];
         textureAssets.add(textureAsset);
         filePaths.put(fileName, path);
-        gameData.getSpriteInfo().put(fileName.substring(0, fileName.length() - 4), new int[]{textureAsset.getWidth(), textureAsset.getHeight()});
-
         sprites.put(fileName, new Sprite(textureAsset));
     }
 
