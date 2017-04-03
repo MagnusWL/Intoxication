@@ -2,6 +2,7 @@ package group04.movement;
 
 import group04.basecommon.BaseEntity;
 import group04.boostcommon.BoostEntity;
+import group04.boostcommon.IBoostService;
 import group04.collisioncommon.ICollisionService;
 import group04.common.Entity;
 import group04.common.EntityType;
@@ -51,7 +52,15 @@ public class Processor implements IMovementService {
                 for (Entity boost : world.getEntities(BoostEntity.class)) {
 
                     if (e.isEntitiesColliding(world, gameData, player, boost)) {
-                        gameData.addEvent(new Event(EventType.PICKUP_BOOST, boost.getID()));
+
+                        for (Entity entity : world.getEntities(PlayerEntity.class)) {
+                            PlayerEntity playerEntity = (PlayerEntity) entity;
+
+                            //PICKUP BOOST
+                            for (IBoostService b : Lookup.getDefault().lookupAll(IBoostService.class)) {
+                                b.pickUpBoost(world, playerEntity, boost);
+                            }
+                        }
                     }
                 }
 

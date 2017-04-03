@@ -122,7 +122,6 @@ public class Game implements ApplicationListener {
 
         playerProcess();
         enemyProcess();
-        boostProcess();
     }
 
     @Override
@@ -171,27 +170,6 @@ public class Game implements ApplicationListener {
                 }
             }
 
-        }
-    }
-
-    private void boostProcess() {
-        for (IBoostService e : Lookup.getDefault().lookupAll(IBoostService.class)) {
-
-            for (Event event : gameData.getEvents()) {
-                if (event.getType() == EventType.DROP_BOOST) {
-                    e.dropBoost(world.getEntity(event.getEntityID()));
-                    gameData.removeEvent(event);
-                }
-            }
-
-            for (Event event : gameData.getEvents()) {
-                if (event.getType() == EventType.PICKUP_BOOST) {
-                    world.removeEntity(world.getEntity(event.getEntityID()));
-                    gameData.removeEvent(event);
-
-                    e.pickUpBoost(world.getEntity(event.getEntityID()));
-                }
-            }
         }
     }
 

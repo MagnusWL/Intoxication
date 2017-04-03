@@ -1,5 +1,6 @@
 package group04.enemy;
 
+import group04.boostcommon.IBoostService;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
@@ -113,9 +114,14 @@ public class EnemySystem implements IEnemyService, IServiceInitializer {
             world.removeEntity(enemyHit.getWeaponOwned());
             world.removeEntity(enemyHit);
 
-            //DROPS ITEMS IF AN ENEMY IS DEAD
+            //DROPS CURRENCY
             for (ICurrencyService i : Lookup.getDefault().lookupAll(ICurrencyService.class)) {
                 i.dropCurrency(world, enemyHit.getX(), enemyHit.getY());
+            }
+            
+            //DROPS BOOST
+            for (IBoostService ibs : Lookup.getDefault().lookupAll(IBoostService.class)) {
+                ibs.dropBoost(world, enemyHit.getX(), enemyHit.getY());
             }
         }
     }
