@@ -97,8 +97,8 @@ public class PlayerSystem implements IServiceProcessor, IServiceInitializer {
         playerCharacter.setMaxLife(10000);
         playerCharacter.setLife(playerCharacter.getMaxLife());
         playerCharacter.setDrawable("player");
-        int spriteWidth = gameData.getSpriteInfo().get("player")[0];
-        int spriteHeight = gameData.getSpriteInfo().get("player")[1];
+        int spriteWidth = 25; //gameData.getSpriteInfo().get("player")[0];
+        int spriteHeight = 25; //gameData.getSpriteInfo().get("player")[1];
 
         playerCharacter.setShapeX(new float[]{-(spriteWidth / 2), -(spriteWidth / 2), spriteWidth / 2, spriteWidth / 2});
         playerCharacter.setShapeY(new float[]{-(spriteHeight / 2), spriteHeight / 2, spriteHeight / 2, -(spriteHeight / 2)});
