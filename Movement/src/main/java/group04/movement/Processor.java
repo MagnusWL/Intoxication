@@ -47,7 +47,7 @@ public class Processor implements IMovementService {
                         }
                     }
                 }
-
+                
                 for (Entity boost : world.getEntities(BoostEntity.class)) {
 
                     if (e.isEntitiesColliding(world, gameData, player, boost)) {
