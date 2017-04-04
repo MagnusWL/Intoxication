@@ -159,6 +159,7 @@ public class Renderer {
 //        animationsFlip.put(animationName, flipKeyFrames);
 //    }
     private void drawAnimations(GameData gameData, World world) {
+        
         for (Entity entity : world.getAllEntities()) {
             if (entity.isAnimateable() && entity.getCurrentAnimation() != null) {
 
@@ -183,6 +184,7 @@ public class Renderer {
                         playAnimation(gameData, world, assetManager.getAnimations(entity.getCurrentAnimation() + ".png"), entity, -assetManager.getAnimationSpeed(entity.getCurrentAnimation() + ".png"));
                     }
                 } else if (entity.isHit()) {
+                    
                     if (entity.getClass() != PlayerEntity.class) {
                         if (entity.getVelocity() <= 0) {
                             playAnimation(gameData, world, assetManager.getRedAnimationFlip(entity.getCurrentAnimation() + "_flipped.png"), entity, assetManager.getAnimationSpeed(entity.getCurrentAnimation() + ".png"));
@@ -432,9 +434,7 @@ public class Renderer {
 
     //Tilføj at halo skal skifte farve afhængigt af playerens liv.
     public void drawHalo(Sprite sprite) {
-        batch.setColor(new Color(1, 0, 0, 0.95f));
-        //sprite.setColor(Color.RED);
-        //sprite.setColor(new Color(1, 0, 0, 0.95f));
+        sprite.setColor(new Color(1, 0, 0, 0.95f));
         sprite.draw(batch);
     }
 
