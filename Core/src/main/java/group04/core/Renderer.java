@@ -68,7 +68,7 @@ public class Renderer {
         loadPNGAnimation("player_jump_animation.png", 110, 120, 5);
         loadPNGAnimation("enemybeer_run_animation.png", 142, 122, 5);
         loadPNGAnimation("currency_gold_animation.png", 44, 45, 5);
-        loadPNGAnimation("player_run_animation.png", 105, 132, 5);
+        loadPNGAnimation("player_run_animation.png", 105, 132, 10);
 //        loadPNGAnimation("player_idle_animation.png", 44, 45, 5);
 
         // loadPNGImages();
@@ -106,6 +106,7 @@ public class Renderer {
 //            assetManager.getAssetManager().load(thisSprite.toString() + "_flipped", Sprite.class);
 //        }
 //    }
+    
     public void render(GameData gameData, World world) {
         sr.begin(ShapeType.Filled);
         sr.setAutoShapeType(true);
@@ -131,6 +132,7 @@ public class Renderer {
         drawScore(gameData, world);
         drawWaveCount(gameData, world);
         drawFPS(gameData);
+        drawInventory(gameData);
         batch.end();
 
         //Layer beetween foreground and middleground: The frontside of the enemyspawner:
@@ -157,24 +159,44 @@ public class Renderer {
     private void drawAnimations(GameData gameData, World world) {
         for (Entity entity : world.getAllEntities()) {
             if (entity.isAnimateable() && entity.getCurrentAnimation() != null) {
-                if ((entity.getVelocity() <= 0 && entity.getClass() != PlayerEntity.class) || (gameData.getMouseX() < entity.getX() - gameData.getCameraX() && entity.getClass() == PlayerEntity.class)) {
-                    playAnimation(gameData, world, assetManager.getAnimationsFlip(entity.getCurrentAnimation() + "_flipped.png"), entity, assetManager.getAnimationSpeed(entity.getCurrentAnimation() + ".png"));
-                } else {
+                if (entity.getClass() != PlayerEntity.class) {
+                    if (entity.getVelocity() <= 0) {
+                        playAnimation(gameData, world, assetManager.getAnimationsFlip(entity.getCurrentAnimation() + "_flipped.png"), entity, assetManager.getAnimationSpeed(entity.getCurrentAnimation() + ".png"));
+                    } else {
+                        playAnimation(gameData, world, assetManager.getAnimations(entity.getCurrentAnimation() + ".png"), entity, assetManager.getAnimationSpeed(entity.getCurrentAnimation() + ".png"));
+                    }
+                } else if (gameData.getMouseX() < entity.getX() - gameData.getCameraX()) {
+
+                    if (entity.getVelocity() > 0) {
+                        playAnimation(gameData, world, assetManager.getAnimationsFlip(entity.getCurrentAnimation() + "_flipped.png"), entity, -assetManager.getAnimationSpeed(entity.getCurrentAnimation() + ".png"));
+                    } else {
+                        playAnimation(gameData, world, assetManager.getAnimationsFlip(entity.getCurrentAnimation() + "_flipped.png"), entity, assetManager.getAnimationSpeed(entity.getCurrentAnimation() + ".png"));
+                    }
+
+                } else if (entity.getVelocity() > 0) {
                     playAnimation(gameData, world, assetManager.getAnimations(entity.getCurrentAnimation() + ".png"), entity, assetManager.getAnimationSpeed(entity.getCurrentAnimation() + ".png"));
+                } else {
+                    playAnimation(gameData, world, assetManager.getAnimations(entity.getCurrentAnimation() + ".png"), entity, -assetManager.getAnimationSpeed(entity.getCurrentAnimation() + ".png"));
                 }
             }
         }
     }
 
     private void playAnimation(GameData gameData, World world, ArrayList<Sprite> animation, Entity entity, double animationSpeed) {
+
         drawSprite(gameData, world, entity, animation.get((int) entity.getCurrentFrame()));
 
-        if (entity.getCurrentFrame() < (animation.size()) - 1) {
+        if (animationSpeed > 0) {
+            if (entity.getCurrentFrame() < (animation.size()) - 1 + (1 / animationSpeed)) {
+                entity.setCurrentFrame(entity.getCurrentFrame() + (1 / animationSpeed));
+            } else {
+                entity.setCurrentFrame(0);
+            }
+        } else if (entity.getCurrentFrame() > (1 / animationSpeed)) {
             entity.setCurrentFrame(entity.getCurrentFrame() + (1 / animationSpeed));
         } else {
-            entity.setCurrentFrame(0);
+            entity.setCurrentFrame(animation.size() - 1);
         }
-
     }
 
     private void drawSprites(GameData gameData, World world) {
@@ -285,7 +307,6 @@ public class Renderer {
                 sr.rect(entity.getX() - gameData.getCameraX() - healthWidth / 2.0f, entity.getY() - gameData.getCameraY() + healthOffset, ((float) entity.getLife() / (float) entity.getMaxLife()) * healthWidth, 5);
             }
         }
-
     }
 
     private void drawSprite(GameData gameData, World world, Entity entity, Sprite sprite) {
@@ -383,5 +404,14 @@ public class Renderer {
             sprite.setX(i * sprite.getWidth() - gameData.getCameraX() * mov);
             sprite.draw(batch);
         }
+    }
+
+    private void drawInventory(GameData gameData) {
+
+        assetManager.getSprites("inventoryspace1.png").setX((gameData.getDisplayWidth() - 124));
+        assetManager.getSprites("inventoryspace1.png").setY((gameData.getDisplayHeight() - 70));
+        assetManager.getSprites("inventoryspace1.png").draw(batch);
+        System.out.println(assetManager.getSprites("inventoryspace1.png"));
+
     }
 }

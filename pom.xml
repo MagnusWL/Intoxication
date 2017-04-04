@@ -89,6 +89,8 @@
         <module>UpgradeCommon</module>
         <module>Platform</module>
         <module>PlatformCommon</module>
+        <module>Inventory</module>
+        <module>InventoryCommon</module>
     </modules>
 
     <properties>
