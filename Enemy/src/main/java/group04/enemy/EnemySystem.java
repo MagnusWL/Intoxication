@@ -60,7 +60,7 @@ public class EnemySystem implements IEnemyService, IServiceInitializer {
             spriteHeight / 2 * gameData.getHitBoxScale(), -(spriteHeight / 2 * gameData.getHitBoxScale())});
 
         enemyCharacter.setAnimateable(true);
-        enemyCharacter.setEntityType(EntityType.ENEMY);
+        enemyCharacter.setEntityType(EntityType.ENEMY); 
         enemyCharacter.setX(x);
         enemyCharacter.setY(y);
 

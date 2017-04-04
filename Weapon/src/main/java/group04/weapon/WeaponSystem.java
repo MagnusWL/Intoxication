@@ -103,8 +103,8 @@ public class WeaponSystem implements IWeaponService, IServiceInitializer {
         weapon.setDamage(15);
         weapon.setWeaponCarrier(e.getID());
         weapon.setWeaponType(type);
-        weapon.setShapeX(new float[]{-30, -30, 30, 30});
-        weapon.setShapeY(new float[]{30, -30, -30, 30});
+        weapon.setShapeX(new float[]{-60, -60, 60, 60});
+        weapon.setShapeY(new float[]{60, -60, -60, 60});
         world.addEntity(weapon);
         if(e.getClass() == PlayerEntity.class)
         {
