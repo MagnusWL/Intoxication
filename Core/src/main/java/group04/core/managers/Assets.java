@@ -118,20 +118,24 @@ public final class Assets {
         }
     }
 
+    public float getAnimationSpeed(String key) {
+        return animations.get(key).getAnimationSpeed();
+    }
+
     public ArrayList<Sprite> getAnimations(String key) {
-        return ((Animation)animations.get(key)).getSprites();
+        return animations.get(key).getSprites();
     }
 
     public void setAnimations(String key, ArrayList<Sprite> animation) {
-        ((Animation)this.animations.get(key)).setSprites(animation);
+        this.animations.get(key).setSprites(animation);
     }
 
     public ArrayList<Sprite> getAnimationsFlip(String key) {
-        return ((Animation)animationsFlip.get(key)).getSprites();
+        return animationsFlip.get(key).getSprites();
     }
 
     public void setAnimationsFlip(String key, ArrayList<Sprite> animation) {
-        ((Animation)this.animationsFlip.get(key)).setSprites(animation);
+        this.animationsFlip.get(key).setSprites(animation);
     }
 
     public void makeAnimation(String animationName, Texture spriteSheet, int spriteSizeX, int spriteSizeY, float animationSpeed) {
@@ -150,7 +154,6 @@ public final class Assets {
 
         animations.put(animationName, new Animation(keyFrames, spriteSizeX, spriteSizeY, animationSpeed));
         animationsFlip.put(animationName.substring(0, animationName.length() - 4) + "_flipped.png", new Animation(flipKeyFrames, spriteSizeX, spriteSizeY, animationSpeed));
-        //System.out.println(animationName.substring(0, animationName.length() - 4) + "_flipped.png");
     }
 
     public Sprite getSprites(String key) {

@@ -169,8 +169,8 @@ public class WeaponSystem implements IWeaponService, IServiceInitializer {
 
         Entity carrier = world.getEntity(weapon.getWeaponCarrier());
 
-        float angle1 = (float) Math.atan2(gameData.getMouseY() - (carrier.getY() + 15 - gameData.getCameraY()) + 45, gameData.getMouseX() - (carrier.getX() + 15 - gameData.getCameraX()) - 45);
-        float angle2 = (float) Math.atan2(gameData.getMouseY() - (carrier.getY() + 15 - gameData.getCameraY()) - 45, gameData.getMouseX() - (carrier.getX() + 15 - gameData.getCameraX()) - 45);
+//        float angle1 = (float) Math.atan2(gameData.getMouseY() - (carrier.getY() - gameData.getCameraY()), gameData.getMouseX() - (carrier.getX() - gameData.getCameraX()));
+//        float angle2 = (float) Math.atan2(gameData.getMouseY() - (carrier.getY() - gameData.getCameraY()), gameData.getMouseX() - (carrier.getX() - gameData.getCameraX()));
         //swinging(angle1, angle2, weapon, weaponContainer, (ImageContainer) weapon.getContainer(ImageContainer.class));
 
         if (player.getVelocity() < 0) {
@@ -198,11 +198,12 @@ public class WeaponSystem implements IWeaponService, IServiceInitializer {
     @Override
     public void enemyAttack(GameData gameData, World world, Entity enemy, Entity playerEntity, Entity base) {
         PlayerEntity player = (PlayerEntity) playerEntity;
-        WeaponEntity weapon = (WeaponEntity) player.getWeaponOwned();
+        EnemyEntity enemyEntity = (EnemyEntity) enemy;
+        WeaponEntity weapon = (WeaponEntity) enemyEntity.getWeaponOwned();
         Entity carrier = world.getEntity(weapon.getWeaponCarrier());
 
-        float angle1 = (float) Math.atan2(gameData.getMouseY() - (carrier.getY() + 15 - gameData.getCameraY()) + 45, gameData.getMouseX() - (carrier.getX() + 15 - gameData.getCameraX()) - 45);
-        float angle2 = (float) Math.atan2(gameData.getMouseY() - (carrier.getY() + 15 - gameData.getCameraY()) - 45, gameData.getMouseX() - (carrier.getX() + 15 - gameData.getCameraX()) - 45);
+//        float angle1 = (float) Math.atan2(player.getY() - carrier.getY(), player.getX() - carrier.getX());
+//        float angle2 = (float) Math.atan2(player.getY() - carrier.getY(), player.getX() - carrier.getX());
 //        swinging(angle1, angle2, weapon, weapon, (ImageContainer) weapon.getContainer(ImageContainer.class));
         if (player.getVelocity() < 0) {
             weapon.setX(carrier.getX() - 20);

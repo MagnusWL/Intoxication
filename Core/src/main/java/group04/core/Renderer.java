@@ -64,7 +64,7 @@ public class Renderer {
         loadPNGAnimation("player_jump_animation.png", 75, 80, 5);
         loadPNGAnimation("enemybeer_run_animation.png", 142, 122, 5);
         loadPNGAnimation("currency_gold_animation.png", 44, 45, 5);
-        loadPNGAnimation("player_run_animation.png", 106, 132, 5);
+        loadPNGAnimation("player_run_animation.png", 105, 132, 5);
 //        loadPNGAnimation("player_idle_animation.png", 44, 45, 5);
 
         // loadPNGImages();
@@ -153,10 +153,10 @@ public class Renderer {
     private void drawAnimations(GameData gameData, World world) {
         for (Entity entity : world.getAllEntities()) {
             if (entity.isAnimateable() && entity.getCurrentAnimation() != null) {
-                if ((entity.getVelocity() <= 0 && entity.getClass() != PlayerEntity.class) || (gameData.getMouseX() > entity.getX() && entity.getClass() == PlayerEntity.class)) {
-                    playAnimation(gameData, world, assetManager.getAnimationsFlip(entity.getCurrentAnimation() + "_flipped.png"), entity, 5);
+                if ((entity.getVelocity() <= 0 && entity.getClass() != PlayerEntity.class) || (gameData.getMouseX() < entity.getX() - gameData.getCameraX() && entity.getClass() == PlayerEntity.class)) {
+                    playAnimation(gameData, world, assetManager.getAnimationsFlip(entity.getCurrentAnimation() + "_flipped.png"), entity, assetManager.getAnimationSpeed(entity.getCurrentAnimation() + ".png"));
                 } else {
-                    playAnimation(gameData, world, assetManager.getAnimations(entity.getCurrentAnimation() + ".png"), entity, 5);
+                    playAnimation(gameData, world, assetManager.getAnimations(entity.getCurrentAnimation() + ".png"), entity, assetManager.getAnimationSpeed(entity.getCurrentAnimation() + ".png"));
                 }
             }
         }
@@ -191,11 +191,11 @@ public class Renderer {
                 drawSprite(gameData, world, entity, images.get(imageContainer.getSprite()), imageContainer);
             }
         }*/
-        for (Entity entity : world.getEntities(PlayerEntity.class)) {
+/*        for (Entity entity : world.getEntities(PlayerEntity.class)) {
             if (entity.getDrawable() != null) {
                 drawSprite(gameData, world, entity, assetManager.getSprites(entity.getDrawable() + ".png"));
             }
-        }
+        }*/
 
         for (Entity entity : world.getEntities(EnemyEntity.class)) {
             if (entity.getDrawable() != null) {

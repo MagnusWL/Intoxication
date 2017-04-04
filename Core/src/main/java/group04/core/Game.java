@@ -8,7 +8,7 @@ package group04.core;
 import group04.core.managers.InputController;
 import com.badlogic.gdx.ApplicationListener;
 import com.badlogic.gdx.Gdx;
-import com.badlogic.gdx.graphics.FPSLogger;
+import com.badlogic.gdx.graphics.FPSLogger; 
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import group04.basecommon.BaseEntity;
 import group04.boostcommon.IBoostService;
