@@ -204,8 +204,12 @@ public class Renderer {
                     } else {
                         playAnimation(gameData, world, assetManager.getRedAnimation(entity.getCurrentAnimation() + ".png"), entity, -assetManager.getAnimationSpeed(entity.getCurrentAnimation() + ".png"));
                     }
+                        entity.setHitCounter();
+                    if (entity.getHitCounter() == 0) {
+                        entity.setHit(false);
+                    } 
+                    
 
-                    //entity.setHit(false);
                 }
             }
         }
