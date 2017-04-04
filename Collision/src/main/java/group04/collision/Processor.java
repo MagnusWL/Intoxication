@@ -5,6 +5,8 @@ import group04.common.Entity;
 import group04.common.EntityType;
 import group04.common.GameData;
 import group04.common.World;
+import group04.common.events.Event;
+import group04.common.events.EventType;
 import group04.common.services.IServiceProcessor;
 import group04.mapcommon.MapEntity;
 
@@ -22,15 +24,14 @@ public class Processor implements ICollisionService, IServiceProcessor {
 
     @Override
     public boolean isColliding(World world, GameData gameData, Entity entity, float moveX, float moveY) {
-        
-        
+
         float[] shapex = entity.getShapeX();
         float[] shapey = entity.getShapeY();
         MapEntity mapEntity = null;
         for (Entity map : world.getEntities(MapEntity.class)) {
             mapEntity = (MapEntity) map;
         }
-        
+
         if (mapEntity != null && shapex != null && shapey != null) {
             for (int i = 0; i < shapex.length; i++) {
                 int x = (int) ((entity.getX() + shapex[i] + moveX) / gameData.getTileSize());
@@ -53,8 +54,7 @@ public class Processor implements ICollisionService, IServiceProcessor {
     public boolean isEntitiesColliding(World world, GameData gameData, Entity entity1, Entity entity2) {
         Polygon poly1 = new Polygon();
         Polygon poly2 = new Polygon();
-        
-        
+
         for (int i = 0; i < entity1.getShapeX().length; i++) {
             poly1.addPoint((int) (entity1.getShapeX()[i] + entity1.getX()), (int) (entity1.getShapeY()[i] + entity1.getY()));
         }
@@ -71,7 +71,7 @@ public class Processor implements ICollisionService, IServiceProcessor {
     @Override
     public void process(GameData gameData, World world) {
         for (Entity entity : world.getAllEntities()) {
-           
+
             if (entity != null) {
                 if (isColliding(world, gameData, entity, 0, -2)) {
                     entity.setGrounded(true);

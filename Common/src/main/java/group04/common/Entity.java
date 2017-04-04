@@ -17,11 +17,47 @@ public class Entity {
     private boolean hasGravity;
     private String drawable;
     private String currentAnimation;
+    private String runAnimation;
+    private String idleAnimation;
+    private String jumpAnimation;
+    private String attackAnimation;
     private boolean animateable = false;
     private double currentFrame;
     private boolean grounded;
     private int life;
     private int maxLife;    
+
+    public String getRunAnimation() {
+        return runAnimation;
+    }
+
+    public void setRunAnimation(String runAnimation) {
+        this.runAnimation = runAnimation;
+    }
+
+    public String getIdleAnimation() {
+        return idleAnimation;
+    }
+
+    public void setIdleAnimation(String idleAnimation) {
+        this.idleAnimation = idleAnimation;
+    }
+
+    public String getJumpAnimation() {
+        return jumpAnimation;
+    }
+
+    public void setJumpAnimation(String jumpAnimation) {
+        this.jumpAnimation = jumpAnimation;
+    }
+
+    public String getAttackAnimation() {
+        return attackAnimation;
+    }
+
+    public void setAttackAnimation(String attackAnimation) {
+        this.attackAnimation = attackAnimation;
+    }
 
     public int getLife() {
         return life;
