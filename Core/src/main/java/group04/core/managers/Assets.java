@@ -129,6 +129,14 @@ public final class Assets {
     public void setAnimations(String key, ArrayList<Sprite> animation) {
         this.animations.get(key).setSprites(animation);
     }
+    
+    public ArrayList<Sprite> getRedAnimation(String key) {
+        return animations.get(key).getRedSprites();
+    }
+    
+    public ArrayList<Sprite> getRedAnimationFlip(String key) {
+        return animationsFlip.get(key).getRedSprites();
+    }
 
     public ArrayList<Sprite> getAnimationsFlip(String key) {
         return animationsFlip.get(key).getSprites();
@@ -154,6 +162,7 @@ public final class Assets {
 
         animations.put(animationName, new Animation(keyFrames, spriteSizeX, spriteSizeY, animationSpeed));
         animationsFlip.put(animationName.substring(0, animationName.length() - 4) + "_flipped.png", new Animation(flipKeyFrames, spriteSizeX, spriteSizeY, animationSpeed));
+        
     }
 
     public Sprite getSprites(String key) {

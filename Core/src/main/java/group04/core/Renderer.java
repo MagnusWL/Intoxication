@@ -8,6 +8,7 @@ package group04.core;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.Texture;
+import com.badlogic.gdx.graphics.g2d.Batch;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
@@ -25,6 +26,7 @@ import group04.playercommon.PlayerEntity;
 import group04.projectilecommon.ProjectileEntity;
 import group04.spawnercommon.WaveSpawnerEntity;
 import group04.weaponcommon.WeaponEntity;
+import java.io.File;
 import java.util.ArrayList;
 import org.openide.util.Exceptions;
 import java.util.Map.Entry;
@@ -113,9 +115,9 @@ public class Renderer {
         //Total back (Background)
         batch.begin();
         drawBackground(gameData, world);
+        batch.end();
         drawSprites(gameData, world);
         drawAnimations(gameData, world);
-        batch.end();
 
         //Next layer: Still background
         sr.begin(ShapeType.Filled);
@@ -152,10 +154,6 @@ public class Renderer {
 //        animations.put(animationName, keyFrames);
 //        animationsFlip.put(animationName, flipKeyFrames);
 //    }
-    public void addShade() {
-
-    }
-
     private void drawAnimations(GameData gameData, World world) {
         for (Entity entity : world.getAllEntities()) {
             if (entity.isAnimateable() && entity.getCurrentAnimation() != null) {
@@ -277,16 +275,20 @@ public class Renderer {
     }
 
     private void drawSprite(GameData gameData, World world, Entity entity, Sprite sprite) {
+        batch.begin();
+
         if (entity.getClass() == ProjectileEntity.class) {
             ProjectileEntity projectile = (ProjectileEntity) entity;
             if (projectile.getAngle() != 0) {
                 sprite.setRotation((float) Math.toDegrees(projectile.getAngle()));
             }
         }
-
+        
         sprite.setX((float) (entity.getX() - sprite.getWidth() / 2.0 - gameData.getCameraX()));
         sprite.setY((float) (entity.getY() - sprite.getHeight() / 2.0 - gameData.getCameraY()));
         sprite.draw(batch);
+
+        batch.end();
     }
 
     float back1m = 1f;
@@ -311,7 +313,8 @@ public class Renderer {
         /*        Sprite sp = images.get("lightSource");
         sp.setX(i * sprite.getWidth() - gameData.getCameraX() * mov);
         sp.draw(batch);*/
-//        drawBackground(gameData, images.get("lightSource"), back5m);
+//        draw
+        //Background(gameData, images.get("lightSource"), back5m);
         drawBackground(gameData, assetManager.getSprites("middleground.png"), back3m);
         drawBackground(gameData, assetManager.getSprites("level_01_back.png"), back3m);
         drawBackground(gameData, assetManager.getSprites("level_03_back.png"), back3m);
