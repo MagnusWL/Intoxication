@@ -8,7 +8,7 @@ package group04.core;
 import group04.core.managers.InputController;
 import com.badlogic.gdx.ApplicationListener;
 import com.badlogic.gdx.Gdx;
-import com.badlogic.gdx.graphics.FPSLogger; 
+import com.badlogic.gdx.graphics.FPSLogger;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import group04.basecommon.BaseEntity;
 import group04.boostcommon.IBoostService;
@@ -70,7 +70,6 @@ public class Game implements ApplicationListener {
         render = new Renderer(gameData);
         menu = new MenuHandler();
 
-
         for (IServiceInitializer i : Lookup.getDefault().lookupAll(IServiceInitializer.class)) {
             i.start(gameData, world);
         }
@@ -107,13 +106,19 @@ public class Game implements ApplicationListener {
                 e.followEntity(gameData, world, player);
             }
         }
-        
+
         for (IServiceProcessor e : Lookup.getDefault().lookupAll(IServiceProcessor.class)) {
             e.process(gameData, world);
         }
-        
+
         for (IMovementService e : Lookup.getDefault().lookupAll(IMovementService.class)) {
             e.process(gameData, world);
+        }
+
+        for (ISpawnerService i : Lookup.getDefault().lookupAll(ISpawnerService.class)) {
+            for (Entity e : world.getEntities(WaveSpawnerEntity.class)) {
+                i.spawner(gameData, world, (WaveSpawnerEntity) e);
+            }
         }
 
         for (IWeaponService ips : Lookup.getDefault().lookupAll(IWeaponService.class)) {
@@ -142,6 +147,7 @@ public class Game implements ApplicationListener {
 
     private void playerProcess() {
         for (Entity p : world.getEntities(PlayerEntity.class)) {
+
             PlayerEntity player = (PlayerEntity) p;
 
             for (IWeaponService ips : Lookup.getDefault().lookupAll(IWeaponService.class)) {
@@ -174,13 +180,6 @@ public class Game implements ApplicationListener {
     }
 
     private void enemyProcess() {
-
-        for (ISpawnerService i : Lookup.getDefault().lookupAll(ISpawnerService.class)) {
-            for (Entity e : world.getEntities(WaveSpawnerEntity.class)) {
-                i.spawner(gameData, world, (WaveSpawnerEntity) e);
-            }
-        }
-
         for (IEnemyService i : Lookup.getDefault().lookupAll(IEnemyService.class)) {
             Entity player = null;
             Entity base = null;
@@ -210,8 +209,10 @@ public class Game implements ApplicationListener {
             for (Event ev : gameData.getAllEvents()) {
                 if (ev.getType() == EventType.ENTITY_HIT) {
                     Entity enemyHit = world.getEntity(ev.getEntityID());
-                    i.enemyHit(gameData, world, (EnemyEntity) enemyHit);
-                    gameData.removeEvent(ev);
+                    if (enemyHit.getClass() == EnemyEntity.class) {
+                        i.enemyHit(gameData, world, (EnemyEntity) enemyHit);
+                        gameData.removeEvent(ev);
+                    }
                 }
             }
 

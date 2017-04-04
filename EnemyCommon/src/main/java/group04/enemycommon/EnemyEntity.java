@@ -42,8 +42,4 @@ public class EnemyEntity extends Entity {
     public void setWeaponOwned(Entity weaponOwned) {
         this.weaponOwned = weaponOwned;
     }
-
-
-    
-    
 }
