@@ -23,6 +23,7 @@ import group04.enemycommon.EnemyEntity;
 import group04.playercommon.PlayerEntity;
 import group04.projectilecommon.ProjectileEntity;
 import group04.spawnercommon.WaveSpawnerEntity;
+import group04.upgradecommon.UpgradeEntity;
 import group04.weaponcommon.WeaponEntity;
 import java.util.ArrayList;
 import org.openide.util.Exceptions;
@@ -69,7 +70,7 @@ public class Renderer {
         for (Entry e : assetManager.getAllSprites().entrySet()) {
             fileName = (String) e.getKey();
             sprite = (Sprite) e.getValue();
-            gameData.getSpriteInfo().put(fileName.substring(0, fileName.length() - 4), new int[]{(int)sprite.getWidth(), (int)sprite.getHeight()});
+            gameData.getSpriteInfo().put(fileName.substring(0, fileName.length() - 4), new int[]{(int) sprite.getWidth(), (int) sprite.getHeight()});
         }
 
 //        assetManager.getAssetManager().get
@@ -77,7 +78,7 @@ public class Renderer {
     }
 
     public void loadPNGAnimation(String animationName, int spriteSizeX, int spriteSizeY) {
-        assetManager.makeAnimation(animationName, 
+        assetManager.makeAnimation(animationName,
                 assetManager.getAssetManager().get(assetManager.getFilePaths().get(animationName), Texture.class), spriteSizeX, spriteSizeY);
     }
 
@@ -209,6 +210,14 @@ public class Renderer {
                 drawSprite(gameData, world, entity, assetManager.getSprites(entity.getDrawable() + ".png"));
             }
         }
+
+        for (Entity entity : world.getEntities(UpgradeEntity.class)) {
+            UpgradeEntity e = (UpgradeEntity) entity;
+            if (entity.getDrawable() != null && e.isOpen()) {
+                //Draw menu
+                //Different sprites or just change text in code?
+            }
+        }
     }
 
     private void drawScore(GameData gameData, World world) {
@@ -251,9 +260,9 @@ public class Renderer {
                 healthOffset = maxY + 5;
 
                 sr.setColor(1f, 0f, 0, 1f);
-                sr.rect(entity.getX() - gameData.getCameraX() - healthWidth/2.0f, entity.getY() - gameData.getCameraY() + healthOffset, healthWidth, 5);
+                sr.rect(entity.getX() - gameData.getCameraX() - healthWidth / 2.0f, entity.getY() - gameData.getCameraY() + healthOffset, healthWidth, 5);
                 sr.setColor(0.0f, 1f, 0, 1f);
-                sr.rect(entity.getX() - gameData.getCameraX() - healthWidth/2.0f, entity.getY() - gameData.getCameraY() + healthOffset, ((float) entity.getLife() / (float) entity.getMaxLife()) * healthWidth, 5);
+                sr.rect(entity.getX() - gameData.getCameraX() - healthWidth / 2.0f, entity.getY() - gameData.getCameraY() + healthOffset, ((float) entity.getLife() / (float) entity.getMaxLife()) * healthWidth, 5);
             }
         }
 

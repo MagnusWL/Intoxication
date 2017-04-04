@@ -55,7 +55,7 @@ public class PlayerSystem implements IServiceProcessor, IServiceInitializer {
                     }
                 }
             }
-
+            
             if (!gameData.getKeys().isDown(GameKeys.A) && !gameData.getKeys().isDown(GameKeys.D)) {
                 playerEntity.setVelocity(0);
                 checkAnimation(playerEntity, "player_idle");
