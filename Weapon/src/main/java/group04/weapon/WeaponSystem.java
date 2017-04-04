@@ -91,6 +91,7 @@ public class WeaponSystem implements IWeaponService, IServiceInitializer {
         {
             EnemyEntity enemy = (EnemyEntity) e;
             enemy.setWeaponOwned(weapon);
+            weapon.setWeaponType(WeaponType.MELEE);
         }        
     }
 
