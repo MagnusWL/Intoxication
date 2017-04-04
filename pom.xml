@@ -86,6 +86,11 @@
         <module>CollisionCommon</module>
         <module>CameraCommon</module>
         <module>MovementCommon</module>
+        <module>UpgradeCommon</module>
+        <module>Platform</module>
+        <module>PlatformCommon</module>
+        <module>Inventory</module>
+        <module>InventoryCommon</module>
     </modules>
 
     <properties>

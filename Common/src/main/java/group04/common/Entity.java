@@ -21,7 +21,25 @@ public class Entity {
     private double currentFrame;
     private boolean grounded;
     private int life;
-    private int maxLife;    
+    private int maxLife;
+    private boolean hitable;
+    private boolean hit;
+
+    public boolean isHit() {
+        return hit;
+    }
+
+    public void setHit(boolean hit) {
+        this.hit = hit;
+    }
+
+    public boolean isHitable() {
+        return hitable;
+    }
+
+    public void setHitable(boolean hitable) {
+        this.hitable = hitable;
+    }
 
     public int getLife() {
         return life;

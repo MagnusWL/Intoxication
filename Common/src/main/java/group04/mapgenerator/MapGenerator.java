@@ -45,7 +45,7 @@ public class MapGenerator {
                 }
             }
 
-            FileOutputStream fout = new FileOutputStream("src\\main\\resources\\map.object");
+            FileOutputStream fout = new FileOutputStream("src\\main\\resources\\mapplat4.object");
 //            FileOutputStream fout = new FileOutputStream(this.getClass().getregetResource() "main\\resources\\map.object");
             ObjectOutputStream oos = new ObjectOutputStream(fout);
             oos.writeObject(newMapInt);

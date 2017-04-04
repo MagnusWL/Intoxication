@@ -17,15 +17,6 @@ public class EnemyEntity extends Entity {
     private float movementSpeed;
     private float jumpSpeed;
     private Entity weaponOwned;
-    private boolean isHit;
-
-    public boolean isHit() {
-        return isHit;
-    }
-
-    public void setIsHit(boolean isHit) {
-        this.isHit = isHit;
-    }
     
     public float getMovementSpeed() {
         return movementSpeed;

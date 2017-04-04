@@ -100,7 +100,7 @@ public class WeaponSystem implements IWeaponService, IServiceInitializer {
         weapon.setDrawable("sword");
         weapon.setAttackCooldown(3);
         weapon.setTimeSinceAttack(0);
-        weapon.setDamage(2);
+        weapon.setDamage(15);
         weapon.setWeaponCarrier(e.getID());
         weapon.setWeaponType(type);
         weapon.setShapeX(new float[]{2, 32, 8, 2});
@@ -214,6 +214,15 @@ public class WeaponSystem implements IWeaponService, IServiceInitializer {
             gameData.addEvent(new Event(EventType.ENEMY_SHOOT, weapon.getWeaponCarrier()));
             weapon.setTimeSinceAttack(0);
         }
+        
+        if (!enemyEntity.getCurrentAnimation().equals("enemybeer_attack_animation") && weapon.getWeaponType() == WeaponType.MELEE 
+                && enemyEntity.getEntityType() == enemy.getEntityType() && weapon.getTimeSinceAttack() > weapon.getAttackCooldown()
+                && Math.abs(enemyEntity.getX() - playerEntity.getX()) < 150) {
+            enemyEntity.setCurrentAnimation("enemybeer_attack_animation");
+            enemyEntity.setCurrentFrame(0);
+            gameData.addEvent(new Event(EventType.ENEMY_HIT, weapon.getWeaponCarrier()));
+            weapon.setTimeSinceAttack(0);
+        }
     }
 
     @Override
@@ -222,7 +231,15 @@ public class WeaponSystem implements IWeaponService, IServiceInitializer {
         // Muligvis en Eventtype der tillader at man sender et våben med
         for (Event e : gameData.getAllEvents()) {
             if (e.getType() == EventType.PICKUP_WEAPON) {
-                createWeapon(gameData, world, world.getEntity(e.getEntityID()), WeaponType.GUN);
+                if(world.getEntity(e.getEntityID()).getClass() == EnemyEntity.class)
+                {
+                    createMelee(gameData, world, world.getEntity(e.getEntityID()), WeaponType.MELEE);                    
+                }
+                else
+                {
+                    createWeapon(gameData, world, world.getEntity(e.getEntityID()), WeaponType.GUN);
+                }
+                
                 gameData.removeEvent(e);
             }
         }

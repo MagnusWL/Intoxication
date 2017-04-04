@@ -50,17 +50,20 @@ public class InputController extends InputAdapter
         if (k == Input.Keys.D) {
             gameData.getKeys().setKey(GameKeys.D, true);
         }
-        if (k == Input.Keys.ENTER) {
-            gameData.getKeys().setKey(GameKeys.ENTER, true);
+        if (k == Input.Keys.U) {
+            gameData.getKeys().setKey(GameKeys.U, true);
         }
-        if (k == Input.Keys.ESCAPE) {
-            gameData.getKeys().setKey(GameKeys.ESCAPE, true);
+        if (k == Input.Keys.I) {
+            gameData.getKeys().setKey(GameKeys.I, true);
+        }
+        if (k == Input.Keys.J) {
+            gameData.getKeys().setKey(GameKeys.J, true);
+        }
+        if (k == Input.Keys.K) {
+            gameData.getKeys().setKey(GameKeys.K, true);
         }
         if (k == Input.Keys.SPACE) {
             gameData.getKeys().setKey(GameKeys.SPACE, true);
-        }
-        if (k == Input.Keys.SHIFT_LEFT || k == Input.Keys.SHIFT_RIGHT) {
-            gameData.getKeys().setKey(GameKeys.SHIFT, true);
         }
         
         return true;
@@ -80,17 +83,20 @@ public class InputController extends InputAdapter
         if (k == Input.Keys.D) {
             gameData.getKeys().setKey(GameKeys.D, false);
         }
-        if (k == Input.Keys.ENTER) {
-            gameData.getKeys().setKey(GameKeys.ENTER, false);
+        if (k == Input.Keys.U) {
+            gameData.getKeys().setKey(GameKeys.U, false);
         }
-        if (k == Input.Keys.ESCAPE) {
-            gameData.getKeys().setKey(GameKeys.ESCAPE, false);
+        if (k == Input.Keys.I) {
+            gameData.getKeys().setKey(GameKeys.I, false);
+        }
+        if (k == Input.Keys.J) {
+            gameData.getKeys().setKey(GameKeys.J, false);
+        }
+        if (k == Input.Keys.K) {
+            gameData.getKeys().setKey(GameKeys.K, false);
         }
         if (k == Input.Keys.SPACE) {
             gameData.getKeys().setKey(GameKeys.SPACE, false);
-        }
-        if (k == Input.Keys.SHIFT_LEFT || k == Input.Keys.SHIFT_RIGHT) {
-            gameData.getKeys().setKey(GameKeys.SHIFT, false);
         }
        
         return true;

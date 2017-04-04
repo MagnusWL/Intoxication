@@ -10,6 +10,7 @@ import com.badlogic.gdx.assets.AssetManager;
 import com.badlogic.gdx.assets.AssetDescriptor;
 import com.badlogic.gdx.audio.Sound;
 import com.badlogic.gdx.files.FileHandle;
+import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
@@ -34,6 +35,8 @@ public final class Assets {
     private static List<Texture> textureAssets = new ArrayList<Texture>();
     private Map<String, Animation> animations = new HashMap<>();
     private Map<String, Animation> animationsFlip = new HashMap<>();
+    private Map<String, Animation> redAnimations = new HashMap<>();
+    private Map<String, Animation> redAnimationsFlip = new HashMap<>();
     private Map<String, Sprite> sprites = new HashMap<>();
     private GameData gameData;
 
@@ -52,11 +55,10 @@ public final class Assets {
         return filePaths;
     }
 
-    public Map<String, Sprite> getAllSprites()    
-    {
+    public Map<String, Sprite> getAllSprites() {
         return sprites;
     }
-    
+
     public static void load() {
         for (AssetDescriptor<Sound> soundFile : soundAssets) {
             manager.load(soundFile);
@@ -129,13 +131,13 @@ public final class Assets {
     public void setAnimations(String key, ArrayList<Sprite> animation) {
         this.animations.get(key).setSprites(animation);
     }
-    
+
     public ArrayList<Sprite> getRedAnimation(String key) {
-        return animations.get(key).getRedSprites();
+        return redAnimations.get(key).getSprites();
     }
-    
+
     public ArrayList<Sprite> getRedAnimationFlip(String key) {
-        return animationsFlip.get(key).getRedSprites();
+        return redAnimationsFlip.get(key).getSprites();
     }
 
     public ArrayList<Sprite> getAnimationsFlip(String key) {
@@ -145,24 +147,44 @@ public final class Assets {
     public void setAnimationsFlip(String key, ArrayList<Sprite> animation) {
         this.animationsFlip.get(key).setSprites(animation);
     }
-
-    public void makeAnimation(String animationName, Texture spriteSheet, int spriteSizeX, int spriteSizeY, float animationSpeed) {
-        ArrayList<Sprite> keyFrames = new ArrayList<>();
-        ArrayList<Sprite> flipKeyFrames = new ArrayList<>();
+    
+    public ArrayList<Sprite> addAnimation(ArrayList<Sprite> keyFrames, boolean flipped, boolean red, String animationName, Texture spriteSheet, int spriteSizeX, int spriteSizeY, float animationSpeed) {
+ 
         int numberOfSprites = (int) (spriteSheet.getWidth() / spriteSizeX);
         for (int i = 0; i < numberOfSprites; i++) {
             TextureRegion sprite = new TextureRegion(spriteSheet);
             sprite.setRegion(i * spriteSizeX, 0, spriteSizeX, spriteSizeY);
-            keyFrames.add(new Sprite(sprite));
+            Sprite s = new Sprite(sprite);
+            if(red)
+            {
+                s.setColor(new Color(1, 0, 0, 0.95f));
+            }
+            if(flipped)
+            {
+            s.flip(true, false);
+            keyFrames.add(s);
+            }
+            else
+            {         
+            keyFrames.add(s);
+            }        
+    }
+        
+        return keyFrames;
+    }
 
-            Sprite flip = new Sprite(sprite);
-            flip.flip(true, false);
-            flipKeyFrames.add(flip);
-        }
+    public void makeAnimation(String animationName, Texture spriteSheet, int spriteSizeX, int spriteSizeY, float animationSpeed) {
+       
+        ArrayList<Sprite> keyFrames = addAnimation(new ArrayList<Sprite>(), false, false, animationName,spriteSheet,spriteSizeX,spriteSizeY,animationSpeed);
+        ArrayList<Sprite> flipKeyFrames = addAnimation(new ArrayList<Sprite>(), true, false, animationName,spriteSheet,spriteSizeX,spriteSizeY,animationSpeed);
+        ArrayList<Sprite> redKeyFrames = addAnimation(new ArrayList<Sprite>(), false, true, animationName,spriteSheet,spriteSizeX,spriteSizeY,animationSpeed);
+        ArrayList<Sprite> redFlipKeyFrames = addAnimation(new ArrayList<Sprite>(), true, true, animationName,spriteSheet,spriteSizeX,spriteSizeY,animationSpeed);
+        
 
         animations.put(animationName, new Animation(keyFrames, spriteSizeX, spriteSizeY, animationSpeed));
         animationsFlip.put(animationName.substring(0, animationName.length() - 4) + "_flipped.png", new Animation(flipKeyFrames, spriteSizeX, spriteSizeY, animationSpeed));
-        
+        redAnimations.put(animationName, new Animation(redKeyFrames, spriteSizeX, spriteSizeY, animationSpeed));
+        redAnimationsFlip.put(animationName.substring(0, animationName.length() - 4) + "_flipped.png", new Animation(redFlipKeyFrames, spriteSizeX, spriteSizeY, animationSpeed));      
     }
 
     public Sprite getSprites(String key) {
