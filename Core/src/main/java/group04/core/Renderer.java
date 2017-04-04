@@ -162,7 +162,7 @@ public class Renderer {
         for (Entity entity : world.getAllEntities()) {
             if (entity.isAnimateable() && entity.getCurrentAnimation() != null) {
 
-                if (!entity.isHit) {
+                if (!entity.isHit()) {
                     if (entity.getClass() != PlayerEntity.class) {
                         if (entity.getVelocity() <= 0) {
                             playAnimation(gameData, world, assetManager.getAnimationsFlip(entity.getCurrentAnimation() + "_flipped.png"), entity, assetManager.getAnimationSpeed(entity.getCurrentAnimation() + ".png"));

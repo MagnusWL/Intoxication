@@ -51,7 +51,6 @@ public class EnemySystem implements IEnemyService, IServiceInitializer {
         enemyCharacter.setRunAnimation("enemynarko_run_animation");
         enemyCharacter.setAttackAnimation("enemynarko_attack_animation");
 
-        enemyCharacter.setCurrentAnimation("enemybeer_run_animation");
         enemyCharacter.setHitable(true);
         int spriteWidth = gameData.getSpriteInfo().get(enemyCharacter.getCurrentAnimation())[0];
         int spriteHeight = gameData.getSpriteInfo().get(enemyCharacter.getCurrentAnimation())[1];
