@@ -21,6 +21,7 @@ import group04.common.World;
 import group04.core.managers.Assets;
 import group04.enemycommon.EnemyEntity;
 import group04.inventorycommon.InventoryEntity;
+import group04.platformcommon.PlatformEntity;
 import group04.playercommon.PlayerEntity;
 import group04.projectilecommon.ProjectileEntity;
 import group04.spawnercommon.WaveSpawnerEntity;
@@ -29,6 +30,7 @@ import group04.weaponcommon.WeaponEntity;
 import java.util.ArrayList;
 import org.openide.util.Exceptions;
 import java.util.Map.Entry;
+import javafx.application.Platform;
 
 /**
  *
@@ -66,6 +68,7 @@ public class Renderer {
         loadPNGAnimation("player_idle_animation.png", 105, 132, 5);
         loadPNGAnimation("player_jump_animation.png", 110, 120, 5);
         loadPNGAnimation("enemybeer_run_animation.png", 142, 122, 5);
+        loadPNGAnimation("enemybeer_attack_animation.png", 128, 134, 20);
         loadPNGAnimation("currency_gold_animation.png", 44, 45, 5);
         loadPNGAnimation("player_run_animation.png", 105, 132, 10);
 //        loadPNGAnimation("player_idle_animation.png", 44, 45, 5);
@@ -105,6 +108,7 @@ public class Renderer {
 //            assetManager.getAssetManager().load(thisSprite.toString() + "_flipped", Sprite.class);
 //        }
 //    }
+    
     public void render(GameData gameData, World world) {
         sr.begin(ShapeType.Filled);
         sr.setAutoShapeType(true);
@@ -189,7 +193,9 @@ public class Renderer {
                 entity.setCurrentFrame(entity.getCurrentFrame() + (1 / animationSpeed));
             } else {
                 entity.setCurrentFrame(0);
-            }
+                if(entity.getClass() == EnemyEntity.class)
+                    entity.setCurrentAnimation("enemybeer_run_animation");
+                }
         } else if (entity.getCurrentFrame() > (1 / animationSpeed)) {
             entity.setCurrentFrame(entity.getCurrentFrame() + (1 / animationSpeed));
         } else {
@@ -220,6 +226,13 @@ public class Renderer {
                 drawSprite(gameData, world, entity, assetManager.getSprites(entity.getDrawable() + ".png"));
             }
         }*/
+ 
+        for (Entity entity : world.getEntities(PlatformEntity.class)) {
+            if (entity.getDrawable() != null) {
+                drawSprite(gameData, world, entity, assetManager.getSprites(entity.getDrawable() + ".png"));
+            }
+        }
+        
         for (Entity entity : world.getEntities(EnemyEntity.class)) {
             if (entity.getDrawable() != null) {
                 drawSprite(gameData, world, entity, assetManager.getSprites(entity.getDrawable() + ".png"));

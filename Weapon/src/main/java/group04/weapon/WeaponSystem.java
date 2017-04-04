@@ -91,6 +91,7 @@ public class WeaponSystem implements IWeaponService, IServiceInitializer {
         {
             EnemyEntity enemy = (EnemyEntity) e;
             enemy.setWeaponOwned(weapon);
+            weapon.setWeaponType(WeaponType.MELEE);
         }        
     }
 
@@ -212,6 +213,13 @@ public class WeaponSystem implements IWeaponService, IServiceInitializer {
 
         if (weapon.getWeaponType().toString().equals("GUN") && enemyEntity.getEntityType() == enemy.getEntityType() && weapon.getTimeSinceAttack() > weapon.getAttackCooldown()) {
             gameData.addEvent(new Event(EventType.ENEMY_SHOOT, weapon.getWeaponCarrier()));
+            weapon.setTimeSinceAttack(0);
+        }
+        
+        if (weapon.getWeaponType() == WeaponType.MELEE && enemyEntity.getEntityType() == enemy.getEntityType() && weapon.getTimeSinceAttack() > weapon.getAttackCooldown()) {
+            enemyEntity.setCurrentAnimation("enemybeer_attack_animation");
+            enemyEntity.setCurrentFrame(0);
+            gameData.addEvent(new Event(EventType.ENEMY_HIT, weapon.getWeaponCarrier()));
             weapon.setTimeSinceAttack(0);
         }
     }

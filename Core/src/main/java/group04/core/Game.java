@@ -27,6 +27,7 @@ import group04.common.services.IServiceProcessor;
 import group04.currencycommon.ICurrencyService;
 import group04.enemycommon.EnemyEntity;
 import group04.enemycommon.IEnemyService;
+import group04.mapcommon.IMapService;
 import group04.movementcommon.IMovementService;
 import group04.playercommon.PlayerEntity;
 import group04.spawnercommon.ISpawnerService;
@@ -125,6 +126,7 @@ public class Game implements ApplicationListener {
             ips.pickUpWeapon(gameData, world);
         }
 
+        platformProcess();
         playerProcess();
         enemyProcess();
     }
@@ -227,6 +229,33 @@ public class Game implements ApplicationListener {
                 }
             }
 
+        }
+    }
+
+    private void platformProcess() {
+        for (Event e : gameData.getAllEvents()) {
+            if (e.getType() == EventType.PLATFORM_SPAWN) {
+                for (IMapService i : Lookup.getDefault().lookupAll(IMapService.class)) {
+                    for (Entity ent : world.getEntities(BaseEntity.class)) {
+                        BaseEntity base = (BaseEntity) ent;
+                        if (base.getPlatformLevel() == 1) {
+                            i.process(gameData, "../../../Common/src/main/resources/mapplat1.object");
+                        }
+                        if (base.getPlatformLevel() == 2) {
+                            i.process(gameData, "../../../Common/src/main/resources/mapplat2.object");
+
+                        }
+                        if (base.getPlatformLevel() == 3) {
+                            i.process(gameData, "../../../Common/src/main/resources/mapplat3.object");
+
+                        }
+                        if (base.getPlatformLevel() == 4) {
+                            i.process(gameData, "../../../Common/src/main/resources/mapplat4.object");
+
+                        }
+                    }
+                }
+            }
         }
     }
 }
