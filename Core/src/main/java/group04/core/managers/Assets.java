@@ -74,7 +74,8 @@ public final class Assets {
         String fileName = filePathSplit[filePathSplit.length - 1];
         textureAssets.add(textureAsset);
         filePaths.put(fileName, path);
-        gameData.getSpriteInfo().put(fileName.substring(0, fileName.length() - 4), new int[]{textureAsset.getWidth(), textureAsset.getHeight()});
+        
+        //gameData.getSpriteInfo().put("player", new int[]{5, 5});
 
         sprites.put(fileName, new Sprite(textureAsset));
     }

@@ -25,6 +25,7 @@ import group04.projectilecommon.ProjectileEntity;
 import group04.spawnercommon.WaveSpawnerEntity;
 import group04.weaponcommon.WeaponEntity;
 import java.util.ArrayList;
+import org.openide.util.Exceptions;
 
 /**
  *
@@ -66,7 +67,8 @@ public class Renderer {
     }
 
     public void loadPNGAnimation(String animationName, int spriteSizeX, int spriteSizeY) {
-        assetManager.makeAnimation(animationName, assetManager.getAssetManager().get(assetManager.getFilePaths().get(animationName), Texture.class), spriteSizeX, spriteSizeY);
+        assetManager.makeAnimation(animationName, 
+                assetManager.getAssetManager().get(assetManager.getFilePaths().get(animationName), Texture.class), spriteSizeX, spriteSizeY);
     }
 
 //    public void loadPNGImages() {
