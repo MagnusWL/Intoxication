@@ -68,6 +68,8 @@ public class Renderer {
         loadPNGAnimation("player_jump_animation.png", 110, 120, 5);
         loadPNGAnimation("enemybeer_run_animation.png", 142, 122, 5);
         loadPNGAnimation("enemybeer_attack_animation.png", 128, 134, -3);
+        loadPNGAnimation("enemynarko_run_animation.png", 85, 107, 5);
+        loadPNGAnimation("enemynarko_attack_animation.png", 104, 109, 5);
         loadPNGAnimation("currency_gold_animation.png", 44, 45, 5);
         loadPNGAnimation("player_run_animation.png", 105, 132, 5);
 //        loadPNGAnimation("player_idle_animation.png", 44, 45, 5);
@@ -160,7 +162,27 @@ public class Renderer {
         for (Entity entity : world.getAllEntities()) {
             if (entity.isAnimateable() && entity.getCurrentAnimation() != null) {
 
-                if (entity.isHit()) {
+                if (!entity.isHit()) {
+                    if (entity.getClass() != PlayerEntity.class) {
+                        if (entity.getVelocity() <= 0) {
+                            playAnimation(gameData, world, assetManager.getAnimationsFlip(entity.getCurrentAnimation() + "_flipped.png"), entity, assetManager.getAnimationSpeed(entity.getCurrentAnimation() + ".png"));
+                        } else {
+                            playAnimation(gameData, world, assetManager.getAnimations(entity.getCurrentAnimation() + ".png"), entity, assetManager.getAnimationSpeed(entity.getCurrentAnimation() + ".png"));
+                        }
+                    } else if (gameData.getMouseX() < entity.getX() - gameData.getCameraX()) {
+
+                        if (entity.getVelocity() > 0) {
+                            playAnimation(gameData, world, assetManager.getAnimationsFlip(entity.getCurrentAnimation() + "_flipped.png"), entity, -assetManager.getAnimationSpeed(entity.getCurrentAnimation() + ".png"));
+                        } else {
+                            playAnimation(gameData, world, assetManager.getAnimationsFlip(entity.getCurrentAnimation() + "_flipped.png"), entity, assetManager.getAnimationSpeed(entity.getCurrentAnimation() + ".png"));
+                        }
+
+                    } else if (entity.getVelocity() > 0) {
+                        playAnimation(gameData, world, assetManager.getAnimations(entity.getCurrentAnimation() + ".png"), entity, assetManager.getAnimationSpeed(entity.getCurrentAnimation() + ".png"));
+                    } else {
+                        playAnimation(gameData, world, assetManager.getAnimations(entity.getCurrentAnimation() + ".png"), entity, -assetManager.getAnimationSpeed(entity.getCurrentAnimation() + ".png"));
+                    }
+                } else if (entity.isHit()) {
                     if (entity.getClass() != PlayerEntity.class) {
                         if (entity.getVelocity() <= 0) {
                             playAnimation(gameData, world, assetManager.getRedAnimationFlip(entity.getCurrentAnimation() + "_flipped.png"), entity, assetManager.getAnimationSpeed(entity.getCurrentAnimation() + ".png"));
@@ -180,29 +202,8 @@ public class Renderer {
                     } else {
                         playAnimation(gameData, world, assetManager.getRedAnimation(entity.getCurrentAnimation() + ".png"), entity, -assetManager.getAnimationSpeed(entity.getCurrentAnimation() + ".png"));
                     }
-                    
+
                     //entity.setHit(false);
-
-                }
-
-                if (entity.getClass() != PlayerEntity.class) {
-                    if (entity.getVelocity() <= 0) {
-                        playAnimation(gameData, world, assetManager.getAnimationsFlip(entity.getCurrentAnimation() + "_flipped.png"), entity, assetManager.getAnimationSpeed(entity.getCurrentAnimation() + ".png"));
-                    } else {
-                        playAnimation(gameData, world, assetManager.getAnimations(entity.getCurrentAnimation() + ".png"), entity, assetManager.getAnimationSpeed(entity.getCurrentAnimation() + ".png"));
-                    }
-                } else if (gameData.getMouseX() < entity.getX() - gameData.getCameraX()) {
-
-                    if (entity.getVelocity() > 0) {
-                        playAnimation(gameData, world, assetManager.getAnimationsFlip(entity.getCurrentAnimation() + "_flipped.png"), entity, -assetManager.getAnimationSpeed(entity.getCurrentAnimation() + ".png"));
-                    } else {
-                        playAnimation(gameData, world, assetManager.getAnimationsFlip(entity.getCurrentAnimation() + "_flipped.png"), entity, assetManager.getAnimationSpeed(entity.getCurrentAnimation() + ".png"));
-                    }
-
-                } else if (entity.getVelocity() > 0) {
-                    playAnimation(gameData, world, assetManager.getAnimations(entity.getCurrentAnimation() + ".png"), entity, assetManager.getAnimationSpeed(entity.getCurrentAnimation() + ".png"));
-                } else {
-                    playAnimation(gameData, world, assetManager.getAnimations(entity.getCurrentAnimation() + ".png"), entity, -assetManager.getAnimationSpeed(entity.getCurrentAnimation() + ".png"));
                 }
             }
         }
@@ -217,14 +218,19 @@ public class Renderer {
                 entity.setCurrentFrame(entity.getCurrentFrame() + (1 / animationSpeed));
             } else {
                 entity.setCurrentFrame(0);
-                if (entity.getClass() == EnemyEntity.class && entity.getCurrentAnimation().equals("enemybeer_attack_animation")) {
-                    entity.setCurrentAnimation("enemybeer_run_animation");
+                if (entity.getCurrentAnimation().equals(entity.getAttackAnimation())) {
+                    entity.setCurrentAnimation(entity.getRunAnimation());
+                    entity.setCurrentFrame(0);
                 }
             }
         } else if (entity.getCurrentFrame() > (1 / animationSpeed)) {
             entity.setCurrentFrame(entity.getCurrentFrame() + (1 / animationSpeed));
         } else {
             entity.setCurrentFrame(animation.size() - 1);
+            if (entity.getCurrentAnimation().equals(entity.getAttackAnimation())) {
+                entity.setCurrentAnimation(entity.getRunAnimation());
+                entity.setCurrentFrame(0);
+            }
         }
     }
 
@@ -348,8 +354,6 @@ public class Renderer {
                 sprite.setRotation((float) Math.toDegrees(projectile.getAngle()));
             }
         }
-        
-        
 
         sprite.setX((float) (entity.getX() - sprite.getWidth() / 2.0 - gameData.getCameraX()));
         sprite.setY((float) (entity.getY() - sprite.getHeight() / 2.0 - gameData.getCameraY()));
