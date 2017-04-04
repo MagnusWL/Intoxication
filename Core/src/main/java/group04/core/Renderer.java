@@ -20,6 +20,7 @@ import group04.common.GameData;
 import group04.common.World;
 import group04.core.managers.Assets;
 import group04.enemycommon.EnemyEntity;
+import group04.inventorycommon.InventoryEntity;
 import group04.playercommon.PlayerEntity;
 import group04.projectilecommon.ProjectileEntity;
 import group04.spawnercommon.WaveSpawnerEntity;
@@ -129,7 +130,7 @@ public class Renderer {
         drawScore(gameData, world);
         drawWaveCount(gameData, world);
         drawFPS(gameData);
-        drawInventory(gameData);
+        drawInventory(gameData, world);
         batch.end();
 
         //Layer beetween foreground and middleground: The frontside of the enemyspawner:
@@ -396,12 +397,21 @@ public class Renderer {
         }
     }
 
-    private void drawInventory(GameData gameData) {
+    private void drawInventory(GameData gameData, World world) {
 
         assetManager.getSprites("inventoryspace1.png").setX((gameData.getDisplayWidth() - 124));
         assetManager.getSprites("inventoryspace1.png").setY((gameData.getDisplayHeight() - 70));
         assetManager.getSprites("inventoryspace1.png").draw(batch);
-        System.out.println(assetManager.getSprites("inventoryspace1.png"));
+
+        for (Entity e : world.getEntities(WeaponEntity.class)) {
+
+            assetManager.getSprites(e.getDrawable() + ".png").setX((assetManager.getSprites("inventoryspace1.png").getX() + 76 / 2));
+            assetManager.getSprites(e.getDrawable() + ".png").setY((assetManager.getSprites("inventoryspace1.png").getY() + 50 / 2));
+            assetManager.getSprites(e.getDrawable() + ".png").draw(batch);
+            //drawSprite(gameData, world, e, assetManager.getSprites(e.getDrawable() + ".png"));
+
+        }
 
     }
+
 }
