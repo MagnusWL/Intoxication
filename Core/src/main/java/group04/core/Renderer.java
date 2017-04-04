@@ -59,11 +59,13 @@ public class Renderer {
 //            System.out.println(assetManager.getAssetManager().getProgress() * 100);
         }
         
-        loadPNGAnimation("player_run_animation.png", 75, 80, 5);
+//        loadPNGAnimation("player_run_animation2.png", 75, 80, 5);
         loadPNGAnimation("player_idle_animation.png", 75, 80, 5);
         loadPNGAnimation("player_jump_animation.png", 75, 80, 5);
         loadPNGAnimation("enemybeer_run_animation.png", 142, 122, 5);
         loadPNGAnimation("currency_gold_animation.png", 44, 45, 5);
+        loadPNGAnimation("player_run_animation.png", 106, 132, 5);
+//        loadPNGAnimation("player_idle_animation.png", 44, 45, 5);
 
         // loadPNGImages();
         String fileName;
