@@ -108,6 +108,7 @@ public class EnemySystem implements IEnemyService, IServiceInitializer {
     public void enemyHit(GameData gameData, World world, EnemyEntity enemyHit) {
 
         enemyHit.setLife(enemyHit.getLife() - 1);
+        enemyHit.setIsHit(true);
 
         //ENEMY DIES
         if (enemyHit.getLife() <= 0) {

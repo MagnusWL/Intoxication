@@ -11,6 +11,7 @@ import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+import com.badlogic.gdx.graphics.glutils.ShaderProgram;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer.ShapeType;
 import group04.basecommon.BaseEntity;
@@ -137,6 +138,9 @@ public class Renderer {
 //        animations.put(animationName, keyFrames);
 //        animationsFlip.put(animationName, flipKeyFrames);
 //    }
+    
+    
+    
     private void drawAnimations(GameData gameData, World world) {
         for (Entity entity : world.getAllEntities()) {
             if (entity.isAnimateable() && entity.getCurrentAnimation() != null) {
