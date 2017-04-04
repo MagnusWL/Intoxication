@@ -87,6 +87,8 @@
         <module>CameraCommon</module>
         <module>MovementCommon</module>
         <module>UpgradeCommon</module>
+        <module>Inventory</module>
+        <module>InventoryCommon</module>
     </modules>
 
     <properties>
