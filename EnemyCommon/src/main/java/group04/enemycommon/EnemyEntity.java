@@ -17,7 +17,7 @@ public class EnemyEntity extends Entity {
     private float movementSpeed;
     private float jumpSpeed;
     private Entity weaponOwned;
-
+    
     public float getMovementSpeed() {
         return movementSpeed;
     }

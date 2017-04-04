@@ -47,7 +47,7 @@ public class EnemySystem implements IEnemyService, IServiceInitializer {
         enemyCharacter.setLife(enemyCharacter.getMaxLife());
 
         enemyCharacter.setCurrentAnimation("enemybeer_run_animation");
-
+        enemyCharacter.setHitable(true);
         int spriteWidth = gameData.getSpriteInfo().get(enemyCharacter.getCurrentAnimation())[0];
         int spriteHeight = gameData.getSpriteInfo().get(enemyCharacter.getCurrentAnimation())[1];
         enemyCharacter.setShapeX(new float[]{-(spriteWidth / 2) * gameData.getHitBoxScale(), -(spriteWidth / 2) * gameData.getHitBoxScale(), 
@@ -112,7 +112,10 @@ public class EnemySystem implements IEnemyService, IServiceInitializer {
     @Override
     public void enemyHit(GameData gameData, World world, EnemyEntity enemyHit) {
 
+        if(enemyHit.isHitable()){
         enemyHit.setLife(enemyHit.getLife() - 1);
+        enemyHit.setHit(true);
+        }
 
         //ENEMY DIES
         if (enemyHit.getLife() <= 0) {
