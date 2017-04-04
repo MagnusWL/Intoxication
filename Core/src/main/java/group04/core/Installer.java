@@ -17,7 +17,7 @@ public class Installer extends ModuleInstall {
         LwjglApplicationConfiguration cfg
                 = new LwjglApplicationConfiguration();
 
-        cfg.title = "2D shooter game"; 
+        cfg.title = "Intoxication"; 
         cfg.width = 1280;
         cfg.height = 720;
         cfg.useGL30 = false;
