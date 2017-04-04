@@ -32,10 +32,6 @@ import org.openide.util.Exceptions;
 import java.util.Map.Entry;
 import javafx.application.Platform;
 
-/**
- *
- * @author Magnus
- */
 public class Renderer {
 
     private BitmapFont text;
@@ -108,7 +104,6 @@ public class Renderer {
 //            assetManager.getAssetManager().load(thisSprite.toString() + "_flipped", Sprite.class);
 //        }
 //    }
-    
     public void render(GameData gameData, World world) {
         sr.begin(ShapeType.Filled);
         sr.setAutoShapeType(true);
@@ -193,9 +188,10 @@ public class Renderer {
                 entity.setCurrentFrame(entity.getCurrentFrame() + (1 / animationSpeed));
             } else {
                 entity.setCurrentFrame(0);
-                if(entity.getClass() == EnemyEntity.class)
+                if (entity.getClass() == EnemyEntity.class && entity.getCurrentAnimation().equals("enemybeer_attack_animation")) {
                     entity.setCurrentAnimation("enemybeer_run_animation");
                 }
+            }
         } else if (entity.getCurrentFrame() > (1 / animationSpeed)) {
             entity.setCurrentFrame(entity.getCurrentFrame() + (1 / animationSpeed));
         } else {
@@ -226,13 +222,12 @@ public class Renderer {
                 drawSprite(gameData, world, entity, assetManager.getSprites(entity.getDrawable() + ".png"));
             }
         }*/
- 
         for (Entity entity : world.getEntities(PlatformEntity.class)) {
             if (entity.getDrawable() != null) {
                 drawSprite(gameData, world, entity, assetManager.getSprites(entity.getDrawable() + ".png"));
             }
         }
-        
+
         for (Entity entity : world.getEntities(EnemyEntity.class)) {
             if (entity.getDrawable() != null) {
                 drawSprite(gameData, world, entity, assetManager.getSprites(entity.getDrawable() + ".png"));
@@ -241,7 +236,9 @@ public class Renderer {
 
         for (Entity entity : world.getEntities(WeaponEntity.class)) {
             if (entity.getDrawable() != null) {
-                drawSprite(gameData, world, entity, assetManager.getSprites(entity.getDrawable() + ".png"));
+                if (world.getEntity(((WeaponEntity) entity).getWeaponCarrier()).getClass() != EnemyEntity.class) {
+                    drawSprite(gameData, world, entity, assetManager.getSprites(entity.getDrawable() + ".png"));
+                }
             }
         }
 

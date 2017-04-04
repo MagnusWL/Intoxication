@@ -215,7 +215,9 @@ public class WeaponSystem implements IWeaponService, IServiceInitializer {
             weapon.setTimeSinceAttack(0);
         }
         
-        if (enemyEntity.getCurrentAnimation() != "enemybeer_attack_animation" && weapon.getWeaponType() == WeaponType.MELEE && enemyEntity.getEntityType() == enemy.getEntityType() && weapon.getTimeSinceAttack() > weapon.getAttackCooldown()) {
+        if (!enemyEntity.getCurrentAnimation().equals("enemybeer_attack_animation") && weapon.getWeaponType() == WeaponType.MELEE 
+                && enemyEntity.getEntityType() == enemy.getEntityType() && weapon.getTimeSinceAttack() > weapon.getAttackCooldown()
+                && Math.abs(enemyEntity.getX() - playerEntity.getX()) < 150) {
             enemyEntity.setCurrentAnimation("enemybeer_attack_animation");
             enemyEntity.setCurrentFrame(0);
             gameData.addEvent(new Event(EventType.ENEMY_HIT, weapon.getWeaponCarrier()));
@@ -231,11 +233,11 @@ public class WeaponSystem implements IWeaponService, IServiceInitializer {
             if (e.getType() == EventType.PICKUP_WEAPON) {
                 if(world.getEntity(e.getEntityID()).getClass() == EnemyEntity.class)
                 {
-                    createWeapon(gameData, world, world.getEntity(e.getEntityID()), WeaponType.GUN);
+                    createMelee(gameData, world, world.getEntity(e.getEntityID()), WeaponType.MELEE);                    
                 }
                 else
                 {
-                    createMelee(gameData, world, world.getEntity(e.getEntityID()), WeaponType.MELEE);                    
+                    createWeapon(gameData, world, world.getEntity(e.getEntityID()), WeaponType.GUN);
                 }
                 
                 gameData.removeEvent(e);
