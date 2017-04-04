@@ -12,6 +12,7 @@ import group04.common.events.Event;
 import group04.common.events.EventType;
 import group04.common.services.IServiceInitializer;
 import group04.common.services.IServiceProcessor;
+import group04.platformcommon.PlatformEntity;
 import group04.playercommon.PlayerEntity;
 import group04.upgradecommon.UpgradeEntity;
 import group04.weaponcommon.WeaponEntity;
@@ -43,15 +44,18 @@ public class BaseSystem implements IServiceProcessor, IServiceInitializer {
                 }
             }
 
-            if (gameData.getKeys().isPressed(GameKeys.U)) {
-                //Open upgrade screen
-                for (Entity menu : world.getEntities(UpgradeEntity.class)) {
-                    UpgradeEntity e = (UpgradeEntity) menu;
-                    e.setOpen(!e.isOpen());
-                }
+            UpgradeEntity menu = null;
+
+            for (Entity e : world.getEntities(UpgradeEntity.class)) {
+                menu = (UpgradeEntity) e;
             }
 
-            if (gameData.getKeys().isPressed(GameKeys.I)) {
+            if (gameData.getKeys().isPressed(GameKeys.U)) {
+                //Open upgrade screen
+                menu.setOpen(!menu.isOpen());
+            }
+
+            if (gameData.getKeys().isPressed(GameKeys.I) && menu.isOpen()) {
                 //HP Upgrade
                 if (player.getMoney() > 100) {
                     base.setHpLevel(base.getHpLevel() + 1);
@@ -60,7 +64,7 @@ public class BaseSystem implements IServiceProcessor, IServiceInitializer {
                 }
             }
 
-            if (gameData.getKeys().isPressed(GameKeys.J)) {
+            if (gameData.getKeys().isPressed(GameKeys.J) && menu.isOpen()) {
                 if (player.getMoney() > 200) {
                     WeaponEntity turret = (WeaponEntity) base.getTurretOwned();
                     //Turret Upgrade
@@ -85,12 +89,14 @@ public class BaseSystem implements IServiceProcessor, IServiceInitializer {
                     player.setMoney(player.getMoney() - 200);
                 }
             }
-            if (gameData.getKeys().isPressed(GameKeys.K)) {
+            if (gameData.getKeys().isPressed(GameKeys.K) && menu.isOpen()) {
                 //Platform Upgrade
                 if (player.getMoney() > 50 && base.getPlatformLevel() < 5) {
                     base.setPlatformLevel(base.getPlatformLevel() + 1);
                     player.setMoney(player.getMoney() - 50);
                     //Create platforms
+                    PlatformEntity platform = new PlatformEntity();
+                    platform.setDrawable("base_platform");
                 }
             }
 

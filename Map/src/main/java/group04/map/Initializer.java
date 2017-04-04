@@ -6,6 +6,7 @@ import group04.common.EntityType;
 import group04.common.GameData;
 import group04.common.World;
 import group04.common.services.IServiceInitializer;
+import group04.mapcommon.IMapService;
 import group04.mapcommon.MapEntity;
 import java.io.File;
 import java.io.FileInputStream;
@@ -14,10 +15,14 @@ import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import org.openide.util.lookup.ServiceProviders;
 
-@ServiceProvider(service = IServiceInitializer.class)
+@ServiceProviders(value = {
+    @ServiceProvider(service = IServiceInitializer.class),
+    @ServiceProvider(service = IMapService.class)
+})
 
-public class Initializer implements IServiceInitializer {
+public class Initializer implements IServiceInitializer, IMapService {
 
     
 
@@ -27,7 +32,7 @@ public class Initializer implements IServiceInitializer {
     @Override
     public void start(GameData gameData, World world) {
 //        map = generateMap(gameData);
-        Entity map = loadMap(gameData);
+        Entity map = loadMap(gameData, "../../../Common/src/main/resources/map.object");
         world.addEntity(map);
     }
 
@@ -36,13 +41,13 @@ public class Initializer implements IServiceInitializer {
 
     }
 
-    private Entity loadMap(GameData gameData) {
+    private Entity loadMap(GameData gameData, String map) {
 
         
         FileInputStream fin = null;
         ObjectInputStream ois = null;
         try {
-            fin = new FileInputStream(new File("../../../Common/src/main/resources/map.object").getAbsolutePath());
+            fin = new FileInputStream(new File(map).getAbsolutePath());
             ois = new ObjectInputStream(fin);
         } catch (FileNotFoundException ex) {
             Logger.getLogger(Initializer.class.getName()).log(Level.SEVERE, null, ex);
@@ -75,5 +80,10 @@ public class Initializer implements IServiceInitializer {
         }
 
         return null;
+    }
+
+    @Override
+    public void process(GameData gameData, String map) {
+        loadMap(gameData, map);
     }
 }

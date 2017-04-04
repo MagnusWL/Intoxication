@@ -20,6 +20,7 @@ import group04.common.GameData;
 import group04.common.World;
 import group04.core.managers.Assets;
 import group04.enemycommon.EnemyEntity;
+import group04.platformcommon.PlatformEntity;
 import group04.playercommon.PlayerEntity;
 import group04.projectilecommon.ProjectileEntity;
 import group04.spawnercommon.WaveSpawnerEntity;
@@ -28,6 +29,7 @@ import group04.weaponcommon.WeaponEntity;
 import java.util.ArrayList;
 import org.openide.util.Exceptions;
 import java.util.Map.Entry;
+import javafx.application.Platform;
 
 /**
  *
@@ -59,14 +61,14 @@ public class Renderer {
         while (!assetManager.getAssetManager().update()) {
 //            System.out.println(assetManager.getAssetManager().getProgress() * 100);
         }
-        
+
 //        loadPNGAnimation("player_run_animation2.png", 75, 80, 5);
         //Animation speed += 1/animationspeed
         loadPNGAnimation("player_idle_animation.png", 105, 132, 5);
         loadPNGAnimation("player_jump_animation.png", 110, 120, 5);
         loadPNGAnimation("enemybeer_run_animation.png", 142, 122, 5);
         loadPNGAnimation("currency_gold_animation.png", 44, 45, 5);
-        loadPNGAnimation("player_run_animation.png", 105, 132, 5);
+        loadPNGAnimation("player_run_animation.png", 105, 132, 10);
 //        loadPNGAnimation("player_idle_animation.png", 44, 45, 5);
 
         // loadPNGImages();
@@ -77,12 +79,12 @@ public class Renderer {
             sprite = (Sprite) e.getValue();
             gameData.getSpriteInfo().put(fileName.substring(0, fileName.length() - 4), new int[]{(int) sprite.getWidth(), (int) sprite.getHeight()});
         }
-        
+
         Animation animation;
         for (Entry e : assetManager.getAllAnimations().entrySet()) {
             fileName = (String) e.getKey();
             animation = (Animation) e.getValue();
-            gameData.getSpriteInfo().put(fileName.substring(0, fileName.length() - 4), new int[]{(int)animation.getWidth(), (int)animation.getHeight()});
+            gameData.getSpriteInfo().put(fileName.substring(0, fileName.length() - 4), new int[]{(int) animation.getWidth(), (int) animation.getHeight()});
         }
 
 //        assetManager.getAssetManager().get
@@ -90,7 +92,7 @@ public class Renderer {
     }
 
     public void loadPNGAnimation(String animationName, int spriteSizeX, int spriteSizeY, float animationSpeed) {
-        assetManager.makeAnimation(animationName, assetManager.getAssetManager().get(assetManager.getFilePaths().get(animationName), 
+        assetManager.makeAnimation(animationName, assetManager.getAssetManager().get(assetManager.getFilePaths().get(animationName),
                 Texture.class), spriteSizeX, spriteSizeY, animationSpeed);
     }
 
@@ -104,6 +106,7 @@ public class Renderer {
 //            assetManager.getAssetManager().load(thisSprite.toString() + "_flipped", Sprite.class);
 //        }
 //    }
+    
     public void render(GameData gameData, World world) {
         sr.begin(ShapeType.Filled);
         sr.setAutoShapeType(true);
@@ -129,6 +132,7 @@ public class Renderer {
         drawScore(gameData, world);
         drawWaveCount(gameData, world);
         drawFPS(gameData);
+        drawInventory(gameData);
         batch.end();
 
         //Layer beetween foreground and middleground: The frontside of the enemyspawner:
@@ -155,24 +159,44 @@ public class Renderer {
     private void drawAnimations(GameData gameData, World world) {
         for (Entity entity : world.getAllEntities()) {
             if (entity.isAnimateable() && entity.getCurrentAnimation() != null) {
-                if ((entity.getVelocity() <= 0 && entity.getClass() != PlayerEntity.class) || (gameData.getMouseX() < entity.getX() - gameData.getCameraX() && entity.getClass() == PlayerEntity.class)) {
-                    playAnimation(gameData, world, assetManager.getAnimationsFlip(entity.getCurrentAnimation() + "_flipped.png"), entity, assetManager.getAnimationSpeed(entity.getCurrentAnimation() + ".png"));
-                } else {
+                if (entity.getClass() != PlayerEntity.class) {
+                    if (entity.getVelocity() <= 0) {
+                        playAnimation(gameData, world, assetManager.getAnimationsFlip(entity.getCurrentAnimation() + "_flipped.png"), entity, assetManager.getAnimationSpeed(entity.getCurrentAnimation() + ".png"));
+                    } else {
+                        playAnimation(gameData, world, assetManager.getAnimations(entity.getCurrentAnimation() + ".png"), entity, assetManager.getAnimationSpeed(entity.getCurrentAnimation() + ".png"));
+                    }
+                } else if (gameData.getMouseX() < entity.getX() - gameData.getCameraX()) {
+
+                    if (entity.getVelocity() > 0) {
+                        playAnimation(gameData, world, assetManager.getAnimationsFlip(entity.getCurrentAnimation() + "_flipped.png"), entity, -assetManager.getAnimationSpeed(entity.getCurrentAnimation() + ".png"));
+                    } else {
+                        playAnimation(gameData, world, assetManager.getAnimationsFlip(entity.getCurrentAnimation() + "_flipped.png"), entity, assetManager.getAnimationSpeed(entity.getCurrentAnimation() + ".png"));
+                    }
+
+                } else if (entity.getVelocity() > 0) {
                     playAnimation(gameData, world, assetManager.getAnimations(entity.getCurrentAnimation() + ".png"), entity, assetManager.getAnimationSpeed(entity.getCurrentAnimation() + ".png"));
+                } else {
+                    playAnimation(gameData, world, assetManager.getAnimations(entity.getCurrentAnimation() + ".png"), entity, -assetManager.getAnimationSpeed(entity.getCurrentAnimation() + ".png"));
                 }
             }
         }
     }
 
     private void playAnimation(GameData gameData, World world, ArrayList<Sprite> animation, Entity entity, double animationSpeed) {
+
         drawSprite(gameData, world, entity, animation.get((int) entity.getCurrentFrame()));
 
-        if (entity.getCurrentFrame() < (animation.size()) - 1) {
+        if (animationSpeed > 0) {
+            if (entity.getCurrentFrame() < (animation.size()) - 1 + (1 / animationSpeed)) {
+                entity.setCurrentFrame(entity.getCurrentFrame() + (1 / animationSpeed));
+            } else {
+                entity.setCurrentFrame(0);
+            }
+        } else if (entity.getCurrentFrame() > (1 / animationSpeed)) {
             entity.setCurrentFrame(entity.getCurrentFrame() + (1 / animationSpeed));
         } else {
-            entity.setCurrentFrame(0);
+            entity.setCurrentFrame(animation.size() - 1);
         }
-
     }
 
     private void drawSprites(GameData gameData, World world) {
@@ -193,12 +217,18 @@ public class Renderer {
                 drawSprite(gameData, world, entity, images.get(imageContainer.getSprite()), imageContainer);
             }
         }*/
-/*        for (Entity entity : world.getEntities(PlayerEntity.class)) {
+ /*        for (Entity entity : world.getEntities(PlayerEntity.class)) {
             if (entity.getDrawable() != null) {
                 drawSprite(gameData, world, entity, assetManager.getSprites(entity.getDrawable() + ".png"));
             }
         }*/
-
+ 
+        for (Entity entity : world.getEntities(PlatformEntity.class)) {
+            if (entity.getDrawable() != null) {
+                drawSprite(gameData, world, entity, assetManager.getSprites(entity.getDrawable() + ".png"));
+            }
+        }
+        
         for (Entity entity : world.getEntities(EnemyEntity.class)) {
             if (entity.getDrawable() != null) {
                 drawSprite(gameData, world, entity, assetManager.getSprites(entity.getDrawable() + ".png"));
@@ -277,7 +307,6 @@ public class Renderer {
                 sr.rect(entity.getX() - gameData.getCameraX() - healthWidth / 2.0f, entity.getY() - gameData.getCameraY() + healthOffset, ((float) entity.getLife() / (float) entity.getMaxLife()) * healthWidth, 5);
             }
         }
-
     }
 
     private void drawSprite(GameData gameData, World world, Entity entity, Sprite sprite) {
@@ -375,5 +404,14 @@ public class Renderer {
             sprite.setX(i * sprite.getWidth() - gameData.getCameraX() * mov);
             sprite.draw(batch);
         }
+    }
+
+    private void drawInventory(GameData gameData) {
+
+        assetManager.getSprites("inventoryspace1.png").setX((gameData.getDisplayWidth() - 124));
+        assetManager.getSprites("inventoryspace1.png").setY((gameData.getDisplayHeight() - 70));
+        assetManager.getSprites("inventoryspace1.png").draw(batch);
+        System.out.println(assetManager.getSprites("inventoryspace1.png"));
+
     }
 }
