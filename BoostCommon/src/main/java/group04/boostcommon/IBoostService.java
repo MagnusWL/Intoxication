@@ -10,7 +10,7 @@ import group04.common.World;
  */
 public interface IBoostService {
     
-    public void dropBoost(World world, float x, float y);
+    public void dropBoost(GameData gameData, World world, float x, float y);
     public void pickUpBoost(World world, Entity player, Entity boost);
     
 }

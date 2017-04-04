@@ -38,14 +38,14 @@ public class PlayerSystem implements IServiceProcessor, IServiceInitializer {
             if (gameData.getKeys().isDown(GameKeys.A)) {
                 //left
                 playerEntity.setVelocity(-movementSpeed);
-                checkAnimation(playerEntity, "player_run");
-                playerEntity.setCurrentAnimation("player_run");
+                checkAnimation(playerEntity, "player_run_animation");
+                playerEntity.setCurrentAnimation("player_run_animation");
             }
             if (gameData.getKeys().isDown(GameKeys.D)) {
                 //right
                 playerEntity.setVelocity(movementSpeed);
-                checkAnimation(playerEntity, "player_run");
-                playerEntity.setCurrentAnimation("player_run");
+                checkAnimation(playerEntity, "player_run_animation");
+                playerEntity.setCurrentAnimation("player_run_animation");
             }
 
             if (gameData.getKeys().isDown(GameKeys.SPACE)) {
@@ -58,13 +58,13 @@ public class PlayerSystem implements IServiceProcessor, IServiceInitializer {
             
             if (!gameData.getKeys().isDown(GameKeys.A) && !gameData.getKeys().isDown(GameKeys.D)) {
                 playerEntity.setVelocity(0);
-                checkAnimation(playerEntity, "player_idle");
-                playerEntity.setCurrentAnimation("player_idle");
+                checkAnimation(playerEntity, "player_idle_animation");
+                playerEntity.setCurrentAnimation("player_idle_animation");
             }
 
             if (!playerEntity.isGrounded()) {
-                checkAnimation(playerEntity, "player_jump");
-                playerEntity.setCurrentAnimation("player_jump");
+                checkAnimation(playerEntity, "player_jump_animation");
+                playerEntity.setCurrentAnimation("player_jump_animation");
             }
 
             for (Event e : gameData.getAllEvents()) {
@@ -96,9 +96,11 @@ public class PlayerSystem implements IServiceProcessor, IServiceInitializer {
         playerCharacter.setHasGravity(true);
         playerCharacter.setMaxLife(10000);
         playerCharacter.setLife(playerCharacter.getMaxLife());
-        playerCharacter.setDrawable("player");
-        int spriteWidth = gameData.getSpriteInfo().get(playerCharacter.getDrawable())[0];
-        int spriteHeight = gameData.getSpriteInfo().get(playerCharacter.getDrawable())[1];
+//        playerCharacter.setDrawable("player");
+        playerCharacter.setAnimateable(true);
+        playerCharacter.setCurrentAnimation("player_run_animation");
+        int spriteWidth = gameData.getSpriteInfo().get(playerCharacter.getCurrentAnimation())[0];
+        int spriteHeight = gameData.getSpriteInfo().get(playerCharacter.getCurrentAnimation())[1];
         playerCharacter.setShapeX(new float[]{-(spriteWidth / 2) * gameData.getHitBoxScale(), -(spriteWidth / 2) * gameData.getHitBoxScale(), 
                                                 spriteWidth / 2 * gameData.getHitBoxScale(), spriteWidth / 2 * gameData.getHitBoxScale()});
         playerCharacter.setShapeY(new float[]{-(spriteHeight / 2) * gameData.getHitBoxScale(), spriteHeight / 2 * gameData.getHitBoxScale(), 

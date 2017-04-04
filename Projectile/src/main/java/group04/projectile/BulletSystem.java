@@ -41,14 +41,18 @@ public class BulletSystem implements IServiceInitializer, IProjectileService {
         bullet.setVelocity((float) (350 * Math.cos(angle)));
         bullet.setVerticalVelocity((float) (350 * Math.sin(angle)));
 
-        bullet.setShapeX(new float[]{0, 5, 5, 0});
-        bullet.setShapeY(new float[]{5, 5, 0, 0});
+        int spriteWidth = gameData.getSpriteInfo().get(bullet.getDrawable())[0];
+        int spriteHeight = gameData.getSpriteInfo().get(bullet.getDrawable())[1];
+        bullet.setShapeX(new float[]{-(spriteWidth / 2) * gameData.getHitBoxScale(), -(spriteWidth / 2) * gameData.getHitBoxScale(), 
+                                                spriteWidth / 2 * gameData.getHitBoxScale(), spriteWidth / 2 * gameData.getHitBoxScale()});
+        bullet.setShapeY(new float[]{-(spriteHeight / 2) * gameData.getHitBoxScale(), spriteHeight / 2 * gameData.getHitBoxScale(), 
+                                                spriteHeight / 2 * gameData.getHitBoxScale(), -(spriteHeight / 2 * gameData.getHitBoxScale())});
 
         bullet.setShotFrom(entity.getEntityType());
         bullet.setExplosive(false);
 
-        bullet.setX(entity.getX() + 35 + ((float) Math.cos(angle) * 50));
-        bullet.setY(entity.getY() + 35 + ((float) Math.sin(angle) * 50));
+        bullet.setX(entity.getX());
+        bullet.setY(entity.getY());
 
         bullets.add(bullet);
         return bullet;
@@ -64,15 +68,19 @@ public class BulletSystem implements IServiceInitializer, IProjectileService {
         rocket.setVelocity((float) (350 * Math.cos(angle)));
         rocket.setVerticalVelocity((float) (350 * Math.sin(angle)));
 
-        rocket.setShapeX(new float[]{0, 5, 5, 0});
-        rocket.setShapeY(new float[]{5, 5, 0, 0});
+        int spriteWidth = gameData.getSpriteInfo().get(rocket.getDrawable())[0];
+        int spriteHeight = gameData.getSpriteInfo().get(rocket.getDrawable())[1];
+        rocket.setShapeX(new float[]{-(spriteWidth / 2) * gameData.getHitBoxScale(), -(spriteWidth / 2) * gameData.getHitBoxScale(), 
+                                                spriteWidth / 2 * gameData.getHitBoxScale(), spriteWidth / 2 * gameData.getHitBoxScale()});
+        rocket.setShapeY(new float[]{-(spriteHeight / 2) * gameData.getHitBoxScale(), spriteHeight / 2 * gameData.getHitBoxScale(), 
+                                                spriteHeight / 2 * gameData.getHitBoxScale(), -(spriteHeight / 2 * gameData.getHitBoxScale())});
 
         rocket.setShotFrom(entity.getEntityType());
         rocket.setExplosive(true);
         rocket.setExplosionRadius(40);
 
-        rocket.setX(entity.getX() + 35 + ((float) Math.cos(angle) * 50));
-        rocket.setY(entity.getY() + 35 + ((float) Math.sin(angle) * 50));
+        rocket.setX(entity.getX());
+        rocket.setY(entity.getY());
 
         bullets.add(rocket);
         return rocket;
@@ -126,20 +134,20 @@ public class BulletSystem implements IServiceInitializer, IProjectileService {
 
     private void shootDecision(Entity enemy, Entity target, World world, GameData gameData) {
 
-        float angle = (float) Math.atan2((target.getY() + 15) - (enemy.getY() + 15), (target.getX() + 15) - (enemy.getX() + 15));
+        float angle = (float) Math.atan2((target.getY()) - (enemy.getY()), (target.getX()) - (enemy.getX()));
         world.addEntity(createBullet(enemy, gameData, world, angle));
 
     }
 
     @Override
     public void playershootgun(GameData gameData, World world, Entity player, Entity playerWeapon) {
-        float angle = (float) Math.atan2(gameData.getMouseY() - (player.getY() + 15 - gameData.getCameraY()), gameData.getMouseX() - (player.getX() + 15 - gameData.getCameraX()));
+        float angle = (float) Math.atan2(gameData.getMouseY() - (player.getY() - gameData.getCameraY()), gameData.getMouseX() - (player.getX() - gameData.getCameraX()));
         world.addEntity(createBullet(player, gameData, world, angle));
     }
 
     @Override
     public void playershootrocket(GameData gameData, World world, Entity player, Entity playerWeapon) {
-        float angle = (float) Math.atan2(gameData.getMouseY() - (player.getY() + 15 - gameData.getCameraY()), gameData.getMouseX() - (player.getX() + 15 - gameData.getCameraX()));
+        float angle = (float) Math.atan2(gameData.getMouseY() - (player.getY() - gameData.getCameraY()), gameData.getMouseX() - (player.getX() - gameData.getCameraX()));
         world.addEntity(createRocket(playerWeapon, gameData, world, angle));
     }
 
@@ -151,7 +159,7 @@ public class BulletSystem implements IServiceInitializer, IProjectileService {
         distancePlayer = Math.abs(player.getX() - enemy.getX());
         distanceBase = Math.abs(base.getX() - enemy.getX());
 
-        if (enemy.getX() + 30 > gameData.getCameraX() && enemy.getX() + 30 < gameData.getCameraX() + gameData.getDisplayWidth()) {
+        if (enemy.getX() > gameData.getCameraX() && enemy.getX() < gameData.getCameraX() + gameData.getDisplayWidth()) {
 
             if (distancePlayer > distanceBase) {
                 
