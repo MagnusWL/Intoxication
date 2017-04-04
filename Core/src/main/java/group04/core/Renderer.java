@@ -423,11 +423,15 @@ public class Renderer {
         //Player        
         drawBackgroundNoRepeat(gameData, assetManager.getSprites("foreground_layer1.png"), back4m);
         drawBackground(gameData, assetManager.getSprites("foreground_layer2.png"), back5m);
-        drawHalo(gameData);
+        drawHalo(assetManager.getSprites("halo.png"));
     }
 
-    public void drawHalo(GameData gameData) {
-        assetManager.getSprites("halo.png").draw(batch);
+    //Tilføj at halo skal skifte farve afhængigt af playerens liv.
+    public void drawHalo(Sprite sprite) {
+        batch.setColor(new Color(1, 0, 0, 0.95f));
+        //sprite.setColor(Color.RED);
+        //sprite.setColor(new Color(1, 0, 0, 0.95f));
+        sprite.draw(batch);
     }
 
     private void drawBackgroundNoRepeat(GameData gameData, Sprite sprite, float mov) {
