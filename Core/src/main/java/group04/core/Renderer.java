@@ -59,7 +59,7 @@ public class Renderer {
         while (!assetManager.getAssetManager().update()) {
 //            System.out.println(assetManager.getAssetManager().getProgress() * 100);
         }
-        
+
 //        loadPNGAnimation("player_run_animation2.png", 75, 80, 5);
         loadPNGAnimation("player_idle_animation.png", 75, 80, 5);
         loadPNGAnimation("player_jump_animation.png", 75, 80, 5);
@@ -74,14 +74,14 @@ public class Renderer {
         for (Entry e : assetManager.getAllSprites().entrySet()) {
             fileName = (String) e.getKey();
             sprite = (Sprite) e.getValue();
-            gameData.getSpriteInfo().put(fileName.substring(0, fileName.length() - 4), new int[]{(int)sprite.getWidth(), (int)sprite.getHeight()});
+            gameData.getSpriteInfo().put(fileName.substring(0, fileName.length() - 4), new int[]{(int) sprite.getWidth(), (int) sprite.getHeight()});
         }
-        
+
         Animation animation;
         for (Entry e : assetManager.getAllAnimations().entrySet()) {
             fileName = (String) e.getKey();
             animation = (Animation) e.getValue();
-            gameData.getSpriteInfo().put(fileName.substring(0, fileName.length() - 4), new int[]{(int)animation.getWidth(), (int)animation.getHeight()});
+            gameData.getSpriteInfo().put(fileName.substring(0, fileName.length() - 4), new int[]{(int) animation.getWidth(), (int) animation.getHeight()});
         }
 
 //        assetManager.getAssetManager().get
@@ -89,7 +89,7 @@ public class Renderer {
     }
 
     public void loadPNGAnimation(String animationName, int spriteSizeX, int spriteSizeY, float animationSpeed) {
-        assetManager.makeAnimation(animationName, assetManager.getAssetManager().get(assetManager.getFilePaths().get(animationName), 
+        assetManager.makeAnimation(animationName, assetManager.getAssetManager().get(assetManager.getFilePaths().get(animationName),
                 Texture.class), spriteSizeX, spriteSizeY, animationSpeed);
     }
 
@@ -151,9 +151,10 @@ public class Renderer {
 //        animations.put(animationName, keyFrames);
 //        animationsFlip.put(animationName, flipKeyFrames);
 //    }
-    
-    
-    
+    public void addShade() {
+
+    }
+
     private void drawAnimations(GameData gameData, World world) {
         for (Entity entity : world.getAllEntities()) {
             if (entity.isAnimateable() && entity.getCurrentAnimation() != null) {
@@ -167,6 +168,7 @@ public class Renderer {
     }
 
     private void playAnimation(GameData gameData, World world, ArrayList<Sprite> animation, Entity entity, double animationSpeed) {
+
         drawSprite(gameData, world, entity, animation.get((int) entity.getCurrentFrame()));
 
         if (entity.getCurrentFrame() < (animation.size()) - 1) {
@@ -195,12 +197,11 @@ public class Renderer {
                 drawSprite(gameData, world, entity, images.get(imageContainer.getSprite()), imageContainer);
             }
         }*/
-/*        for (Entity entity : world.getEntities(PlayerEntity.class)) {
+ /*        for (Entity entity : world.getEntities(PlayerEntity.class)) {
             if (entity.getDrawable() != null) {
                 drawSprite(gameData, world, entity, assetManager.getSprites(entity.getDrawable() + ".png"));
             }
         }*/
-
         for (Entity entity : world.getEntities(EnemyEntity.class)) {
             if (entity.getDrawable() != null) {
                 drawSprite(gameData, world, entity, assetManager.getSprites(entity.getDrawable() + ".png"));
@@ -266,9 +267,9 @@ public class Renderer {
                 healthOffset = maxY + 5;
 
                 sr.setColor(1f, 0f, 0, 1f);
-                sr.rect(entity.getX() - gameData.getCameraX() - healthWidth/2.0f, entity.getY() - gameData.getCameraY() + healthOffset, healthWidth, 5);
+                sr.rect(entity.getX() - gameData.getCameraX() - healthWidth / 2.0f, entity.getY() - gameData.getCameraY() + healthOffset, healthWidth, 5);
                 sr.setColor(0.0f, 1f, 0, 1f);
-                sr.rect(entity.getX() - gameData.getCameraX() - healthWidth/2.0f, entity.getY() - gameData.getCameraY() + healthOffset, ((float) entity.getLife() / (float) entity.getMaxLife()) * healthWidth, 5);
+                sr.rect(entity.getX() - gameData.getCameraX() - healthWidth / 2.0f, entity.getY() - gameData.getCameraY() + healthOffset, ((float) entity.getLife() / (float) entity.getMaxLife()) * healthWidth, 5);
             }
         }
 
