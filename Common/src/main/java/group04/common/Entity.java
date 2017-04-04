@@ -1,6 +1,5 @@
 package group04.common;
 
-
 import java.util.HashMap;
 import java.util.UUID;
 
@@ -28,6 +27,19 @@ public class Entity {
     private int maxLife;
     private boolean hitable = false;
     private boolean hit = false;
+    private int hitCounter = 8;
+
+    public int getHitCounter() {
+        return hitCounter;
+    }
+
+    public void setHitCounter() {
+
+        if (hitCounter == 0) {
+            hitCounter = 8;
+        }
+        hitCounter--;
+    }
 
     public boolean isHit() {
         return hit;
@@ -102,10 +114,11 @@ public class Entity {
     }
 
     public String getCurrentAnimation() {
-        if(currentAnimation != null)
+        if (currentAnimation != null) {
             return currentAnimation.toLowerCase();
-        else
+        } else {
             return null;
+        }
     }
 
     public void setCurrentAnimation(String currentAnimation) {
@@ -129,10 +142,11 @@ public class Entity {
     }
 
     public String getDrawable() {
-        if(drawable != null)
+        if (drawable != null) {
             return drawable.toLowerCase();
-        else
+        } else {
             return null;
+        }
     }
 
     public void setDrawable(String drawable) {
