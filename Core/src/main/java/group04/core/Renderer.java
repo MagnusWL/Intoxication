@@ -20,6 +20,7 @@ import group04.common.GameData;
 import group04.common.World;
 import group04.core.managers.Assets;
 import group04.enemycommon.EnemyEntity;
+import group04.platformcommon.PlatformEntity;
 import group04.playercommon.PlayerEntity;
 import group04.projectilecommon.ProjectileEntity;
 import group04.spawnercommon.WaveSpawnerEntity;
@@ -28,6 +29,7 @@ import group04.weaponcommon.WeaponEntity;
 import java.util.ArrayList;
 import org.openide.util.Exceptions;
 import java.util.Map.Entry;
+import javafx.application.Platform;
 
 /**
  *
@@ -59,7 +61,7 @@ public class Renderer {
         while (!assetManager.getAssetManager().update()) {
 //            System.out.println(assetManager.getAssetManager().getProgress() * 100);
         }
-        
+
 //        loadPNGAnimation("player_run_animation2.png", 75, 80, 5);
         //Animation speed += 1/animationspeed
         loadPNGAnimation("player_idle_animation.png", 105, 132, 5);
@@ -77,12 +79,12 @@ public class Renderer {
             sprite = (Sprite) e.getValue();
             gameData.getSpriteInfo().put(fileName.substring(0, fileName.length() - 4), new int[]{(int) sprite.getWidth(), (int) sprite.getHeight()});
         }
-        
+
         Animation animation;
         for (Entry e : assetManager.getAllAnimations().entrySet()) {
             fileName = (String) e.getKey();
             animation = (Animation) e.getValue();
-            gameData.getSpriteInfo().put(fileName.substring(0, fileName.length() - 4), new int[]{(int)animation.getWidth(), (int)animation.getHeight()});
+            gameData.getSpriteInfo().put(fileName.substring(0, fileName.length() - 4), new int[]{(int) animation.getWidth(), (int) animation.getHeight()});
         }
 
 //        assetManager.getAssetManager().get
@@ -90,7 +92,7 @@ public class Renderer {
     }
 
     public void loadPNGAnimation(String animationName, int spriteSizeX, int spriteSizeY, float animationSpeed) {
-        assetManager.makeAnimation(animationName, assetManager.getAssetManager().get(assetManager.getFilePaths().get(animationName), 
+        assetManager.makeAnimation(animationName, assetManager.getAssetManager().get(assetManager.getFilePaths().get(animationName),
                 Texture.class), spriteSizeX, spriteSizeY, animationSpeed);
     }
 
@@ -193,12 +195,18 @@ public class Renderer {
                 drawSprite(gameData, world, entity, images.get(imageContainer.getSprite()), imageContainer);
             }
         }*/
-/*        for (Entity entity : world.getEntities(PlayerEntity.class)) {
+ /*        for (Entity entity : world.getEntities(PlayerEntity.class)) {
             if (entity.getDrawable() != null) {
                 drawSprite(gameData, world, entity, assetManager.getSprites(entity.getDrawable() + ".png"));
             }
         }*/
-
+ 
+        for (Entity entity : world.getEntities(PlatformEntity.class)) {
+            if (entity.getDrawable() != null) {
+                drawSprite(gameData, world, entity, assetManager.getSprites(entity.getDrawable() + ".png"));
+            }
+        }
+        
         for (Entity entity : world.getEntities(EnemyEntity.class)) {
             if (entity.getDrawable() != null) {
                 drawSprite(gameData, world, entity, assetManager.getSprites(entity.getDrawable() + ".png"));
