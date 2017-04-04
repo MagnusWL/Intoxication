@@ -160,7 +160,27 @@ public class Renderer {
         for (Entity entity : world.getAllEntities()) {
             if (entity.isAnimateable() && entity.getCurrentAnimation() != null) {
 
-                if (entity.isHit()) {
+                if (!entity.isHit) {
+                    if (entity.getClass() != PlayerEntity.class) {
+                        if (entity.getVelocity() <= 0) {
+                            playAnimation(gameData, world, assetManager.getAnimationsFlip(entity.getCurrentAnimation() + "_flipped.png"), entity, assetManager.getAnimationSpeed(entity.getCurrentAnimation() + ".png"));
+                        } else {
+                            playAnimation(gameData, world, assetManager.getAnimations(entity.getCurrentAnimation() + ".png"), entity, assetManager.getAnimationSpeed(entity.getCurrentAnimation() + ".png"));
+                        }
+                    } else if (gameData.getMouseX() < entity.getX() - gameData.getCameraX()) {
+
+                        if (entity.getVelocity() > 0) {
+                            playAnimation(gameData, world, assetManager.getAnimationsFlip(entity.getCurrentAnimation() + "_flipped.png"), entity, -assetManager.getAnimationSpeed(entity.getCurrentAnimation() + ".png"));
+                        } else {
+                            playAnimation(gameData, world, assetManager.getAnimationsFlip(entity.getCurrentAnimation() + "_flipped.png"), entity, assetManager.getAnimationSpeed(entity.getCurrentAnimation() + ".png"));
+                        }
+
+                    } else if (entity.getVelocity() > 0) {
+                        playAnimation(gameData, world, assetManager.getAnimations(entity.getCurrentAnimation() + ".png"), entity, assetManager.getAnimationSpeed(entity.getCurrentAnimation() + ".png"));
+                    } else {
+                        playAnimation(gameData, world, assetManager.getAnimations(entity.getCurrentAnimation() + ".png"), entity, -assetManager.getAnimationSpeed(entity.getCurrentAnimation() + ".png"));
+                    }
+                } else if (entity.isHit()) {
                     if (entity.getClass() != PlayerEntity.class) {
                         if (entity.getVelocity() <= 0) {
                             playAnimation(gameData, world, assetManager.getRedAnimationFlip(entity.getCurrentAnimation() + "_flipped.png"), entity, assetManager.getAnimationSpeed(entity.getCurrentAnimation() + ".png"));
@@ -180,29 +200,8 @@ public class Renderer {
                     } else {
                         playAnimation(gameData, world, assetManager.getRedAnimation(entity.getCurrentAnimation() + ".png"), entity, -assetManager.getAnimationSpeed(entity.getCurrentAnimation() + ".png"));
                     }
-                    
+
                     //entity.setHit(false);
-
-                }
-
-                if (entity.getClass() != PlayerEntity.class) {
-                    if (entity.getVelocity() <= 0) {
-                        playAnimation(gameData, world, assetManager.getAnimationsFlip(entity.getCurrentAnimation() + "_flipped.png"), entity, assetManager.getAnimationSpeed(entity.getCurrentAnimation() + ".png"));
-                    } else {
-                        playAnimation(gameData, world, assetManager.getAnimations(entity.getCurrentAnimation() + ".png"), entity, assetManager.getAnimationSpeed(entity.getCurrentAnimation() + ".png"));
-                    }
-                } else if (gameData.getMouseX() < entity.getX() - gameData.getCameraX()) {
-
-                    if (entity.getVelocity() > 0) {
-                        playAnimation(gameData, world, assetManager.getAnimationsFlip(entity.getCurrentAnimation() + "_flipped.png"), entity, -assetManager.getAnimationSpeed(entity.getCurrentAnimation() + ".png"));
-                    } else {
-                        playAnimation(gameData, world, assetManager.getAnimationsFlip(entity.getCurrentAnimation() + "_flipped.png"), entity, assetManager.getAnimationSpeed(entity.getCurrentAnimation() + ".png"));
-                    }
-
-                } else if (entity.getVelocity() > 0) {
-                    playAnimation(gameData, world, assetManager.getAnimations(entity.getCurrentAnimation() + ".png"), entity, assetManager.getAnimationSpeed(entity.getCurrentAnimation() + ".png"));
-                } else {
-                    playAnimation(gameData, world, assetManager.getAnimations(entity.getCurrentAnimation() + ".png"), entity, -assetManager.getAnimationSpeed(entity.getCurrentAnimation() + ".png"));
                 }
             }
         }
@@ -348,8 +347,6 @@ public class Renderer {
                 sprite.setRotation((float) Math.toDegrees(projectile.getAngle()));
             }
         }
-        
-        
 
         sprite.setX((float) (entity.getX() - sprite.getWidth() / 2.0 - gameData.getCameraX()));
         sprite.setY((float) (entity.getY() - sprite.getHeight() / 2.0 - gameData.getCameraY()));

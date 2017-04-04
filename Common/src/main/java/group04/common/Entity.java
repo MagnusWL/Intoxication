@@ -22,8 +22,8 @@ public class Entity {
     private boolean grounded;
     private int life;
     private int maxLife;
-    private boolean hitable;
-    private boolean hit;
+    private boolean hitable = false;
+    private boolean hit = false;
 
     public boolean isHit() {
         return hit;
