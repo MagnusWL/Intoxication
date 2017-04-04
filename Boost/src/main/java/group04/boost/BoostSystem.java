@@ -39,29 +39,22 @@ public class BoostSystem implements IServiceInitializer, IBoostService {
     }
 
     @Override
-    public void dropBoost(World world, float x, float y) {
+    public void dropBoost(GameData gameData, World world, float x, float y) {
         BoostEntity boost = new BoostEntity();
         boost.setX(x);
         boost.setY(y);
         boost.setEntityType(BOOST);
         boost.setHasGravity(true);
         boost.setDrawable("pill");
-        //boost.setCurrentAnimation("pill");
         boosts.add(boost);
         
 
-        
-        boost.setShapeX(new float[]{
-            1,
-            1,
-            39,
-            39});
-
-        boost.setShapeY(new float[]{
-            1,
-            39,
-            39,
-            1});
+        int spriteWidth = gameData.getSpriteInfo().get(boost.getDrawable())[0];
+        int spriteHeight = gameData.getSpriteInfo().get(boost.getDrawable())[1];
+        boost.setShapeX(new float[]{-(spriteWidth / 2) * gameData.getHitBoxScale(), -(spriteWidth / 2) * gameData.getHitBoxScale(), 
+                                                spriteWidth / 2 * gameData.getHitBoxScale(), spriteWidth / 2 * gameData.getHitBoxScale()});
+        boost.setShapeY(new float[]{-(spriteHeight / 2) * gameData.getHitBoxScale(), spriteHeight / 2 * gameData.getHitBoxScale(), 
+                                                spriteHeight / 2 * gameData.getHitBoxScale(), -(spriteHeight / 2 * gameData.getHitBoxScale())});
         
         world.addEntity(boost);
     }

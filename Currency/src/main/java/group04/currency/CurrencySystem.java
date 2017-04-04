@@ -46,7 +46,7 @@ public class CurrencySystem implements IServiceInitializer, ICurrencyService {
     }
 
     @Override
-    public void dropCurrency(World world, float x, float y) {
+    public void dropCurrency(GameData gameData, World world, float x, float y) {
         CurrencyEntity currency = new CurrencyEntity();
         currency.setX(x);
         currency.setY(y);
@@ -54,17 +54,13 @@ public class CurrencySystem implements IServiceInitializer, ICurrencyService {
         currency.setHasGravity(true);
         currency.setAnimateable(true);
         currency.setCurrentAnimation("currency_gold_animation");
-        currency.setShapeX(new float[]{
-            1,
-            1,
-            39,
-            39});
 
-        currency.setShapeY(new float[]{
-            1,
-            39,
-            39,
-            1});
+        int spriteWidth = gameData.getSpriteInfo().get(currency.getCurrentAnimation())[0];
+        int spriteHeight = gameData.getSpriteInfo().get(currency.getCurrentAnimation())[1];
+        currency.setShapeX(new float[]{-(spriteWidth / 2) * gameData.getHitBoxScale(), -(spriteWidth / 2) * gameData.getHitBoxScale(), 
+                                                spriteWidth / 2 * gameData.getHitBoxScale(), spriteWidth / 2 * gameData.getHitBoxScale()});
+        currency.setShapeY(new float[]{-(spriteHeight / 2) * gameData.getHitBoxScale(), spriteHeight / 2 * gameData.getHitBoxScale(), 
+                                                spriteHeight / 2 * gameData.getHitBoxScale(), -(spriteHeight / 2 * gameData.getHitBoxScale())});
 
         currencies.add(currency);
         world.addEntity(currency);
