@@ -91,7 +91,6 @@ public class WeaponSystem implements IWeaponService, IServiceInitializer {
         {
             EnemyEntity enemy = (EnemyEntity) e;
             enemy.setWeaponOwned(weapon);
-            weapon.setWeaponType(WeaponType.MELEE);
         }        
     }
 
@@ -101,7 +100,7 @@ public class WeaponSystem implements IWeaponService, IServiceInitializer {
         weapon.setDrawable("sword");
         weapon.setAttackCooldown(3);
         weapon.setTimeSinceAttack(0);
-        weapon.setDamage(2);
+        weapon.setDamage(15);
         weapon.setWeaponCarrier(e.getID());
         weapon.setWeaponType(type);
         weapon.setShapeX(new float[]{2, 32, 8, 2});
@@ -216,7 +215,7 @@ public class WeaponSystem implements IWeaponService, IServiceInitializer {
             weapon.setTimeSinceAttack(0);
         }
         
-        if (weapon.getWeaponType() == WeaponType.MELEE && enemyEntity.getEntityType() == enemy.getEntityType() && weapon.getTimeSinceAttack() > weapon.getAttackCooldown()) {
+        if (enemyEntity.getCurrentAnimation() != "enemybeer_attack_animation" && weapon.getWeaponType() == WeaponType.MELEE && enemyEntity.getEntityType() == enemy.getEntityType() && weapon.getTimeSinceAttack() > weapon.getAttackCooldown()) {
             enemyEntity.setCurrentAnimation("enemybeer_attack_animation");
             enemyEntity.setCurrentFrame(0);
             gameData.addEvent(new Event(EventType.ENEMY_HIT, weapon.getWeaponCarrier()));
@@ -230,7 +229,15 @@ public class WeaponSystem implements IWeaponService, IServiceInitializer {
         // Muligvis en Eventtype der tillader at man sender et våben med
         for (Event e : gameData.getAllEvents()) {
             if (e.getType() == EventType.PICKUP_WEAPON) {
-                createWeapon(gameData, world, world.getEntity(e.getEntityID()), WeaponType.GUN);
+                if(world.getEntity(e.getEntityID()).getClass() == EnemyEntity.class)
+                {
+                    createWeapon(gameData, world, world.getEntity(e.getEntityID()), WeaponType.GUN);
+                }
+                else
+                {
+                    createWeapon(gameData, world, world.getEntity(e.getEntityID()), WeaponType.MELEE);                    
+                }
+                
                 gameData.removeEvent(e);
             }
         }

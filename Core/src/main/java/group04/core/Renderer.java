@@ -67,9 +67,9 @@ public class Renderer {
         loadPNGAnimation("player_idle_animation.png", 105, 132, 5);
         loadPNGAnimation("player_jump_animation.png", 110, 120, 5);
         loadPNGAnimation("enemybeer_run_animation.png", 142, 122, 5);
-        loadPNGAnimation("enemybeer_attack_animation.png", 128, 134, 20);
+        loadPNGAnimation("enemybeer_attack_animation.png", 128, 134, -3);
         loadPNGAnimation("currency_gold_animation.png", 44, 45, 5);
-        loadPNGAnimation("player_run_animation.png", 105, 132, 10);
+        loadPNGAnimation("player_run_animation.png", 104, 132, 5);
 //        loadPNGAnimation("player_idle_animation.png", 44, 45, 5);
 
         // loadPNGImages();
