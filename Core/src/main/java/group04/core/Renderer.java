@@ -61,8 +61,9 @@ public class Renderer {
         }
 
 //        loadPNGAnimation("player_run_animation2.png", 75, 80, 5);
-        loadPNGAnimation("player_idle_animation.png", 75, 80, 5);
-        loadPNGAnimation("player_jump_animation.png", 75, 80, 5);
+        //Animation speed += 1/animationspeed
+        loadPNGAnimation("player_idle_animation.png", 105, 132, 5);
+        loadPNGAnimation("player_jump_animation.png", 110, 120, 5);
         loadPNGAnimation("enemybeer_run_animation.png", 142, 122, 5);
         loadPNGAnimation("currency_gold_animation.png", 44, 45, 5);
         loadPNGAnimation("player_run_animation.png", 105, 132, 5);
@@ -323,7 +324,7 @@ public class Renderer {
         float playerX = 0;
         float playerY = 80;
         for (Entity player : world.getEntities(PlayerEntity.class)) {
-            playerX = (float) (player.getX() + assetManager.getSprites("player.png").getWidth() / 2.0);
+            playerX = player.getX();
             playerY = player.getY();
         }
 
