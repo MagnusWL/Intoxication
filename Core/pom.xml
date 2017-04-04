@@ -273,6 +273,9 @@
             <version>${project.version}</version>
         </dependency>
         <dependency>
+            <groupId>group04</groupId>
+            <artifactId>InventoryCommon</artifactId>
+            <version>1.0-SNAPSHOT</version>
             <groupId>${project.groupId}</groupId>
             <artifactId>Platform</artifactId>
             <version>${project.version}</version>
