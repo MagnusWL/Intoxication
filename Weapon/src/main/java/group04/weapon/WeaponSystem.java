@@ -235,7 +235,7 @@ public class WeaponSystem implements IWeaponService, IServiceInitializer {
                 }
                 else
                 {
-                    createWeapon(gameData, world, world.getEntity(e.getEntityID()), WeaponType.MELEE);                    
+                    createMelee(gameData, world, world.getEntity(e.getEntityID()), WeaponType.MELEE);                    
                 }
                 
                 gameData.removeEvent(e);
