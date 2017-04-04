@@ -104,6 +104,7 @@ public class Renderer {
 //            assetManager.getAssetManager().load(thisSprite.toString() + "_flipped", Sprite.class);
 //        }
 //    }
+    
     public void render(GameData gameData, World world) {
         sr.begin(ShapeType.Filled);
         sr.setAutoShapeType(true);
