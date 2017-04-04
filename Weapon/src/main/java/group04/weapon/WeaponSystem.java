@@ -215,6 +215,13 @@ public class WeaponSystem implements IWeaponService, IServiceInitializer {
             gameData.addEvent(new Event(EventType.ENEMY_SHOOT, weapon.getWeaponCarrier()));
             weapon.setTimeSinceAttack(0);
         }
+        
+        if (weapon.getWeaponType() == WeaponType.MELEE && enemyEntity.getEntityType() == enemy.getEntityType() && weapon.getTimeSinceAttack() > weapon.getAttackCooldown()) {
+            enemyEntity.setCurrentAnimation("enemybeer_attack_animation");
+            enemyEntity.setCurrentFrame(0);
+            gameData.addEvent(new Event(EventType.ENEMY_HIT, weapon.getWeaponCarrier()));
+            weapon.setTimeSinceAttack(0);
+        }
     }
 
     @Override
