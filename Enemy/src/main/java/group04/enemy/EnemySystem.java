@@ -36,24 +36,57 @@ public class EnemySystem implements IEnemyService, IServiceInitializer {
 
     @Override
     public void createEnemy(GameData gameData, World world, int x, int y) {
-        EnemyEntity enemyCharacter = new EnemyEntity();
+//        createBeerEnemy(gameData, world, x, y);
+        createNeedleEnemy(gameData, world, x, y);
+    }
 
+    private void createNeedleEnemy(GameData gameData, World world, int x, int y) {
+        EnemyEntity enemyCharacter = new EnemyEntity();
         enemyCharacter.setJumpSpeed(300);
         enemyCharacter.setMovementSpeed(85);
-
         enemyCharacter.setHasGravity(true);
-
         enemyCharacter.setMaxLife(5);
         enemyCharacter.setLife(enemyCharacter.getMaxLife());
+        enemyCharacter.setCurrentAnimation("enemynarko_run_animation");
+        enemyCharacter.setRunAnimation("enemynarko_run_animation");
+        enemyCharacter.setAttackAnimation("enemynarko_attack_animation");
 
         enemyCharacter.setCurrentAnimation("enemybeer_run_animation");
         enemyCharacter.setHitable(true);
         int spriteWidth = gameData.getSpriteInfo().get(enemyCharacter.getCurrentAnimation())[0];
         int spriteHeight = gameData.getSpriteInfo().get(enemyCharacter.getCurrentAnimation())[1];
-        enemyCharacter.setShapeX(new float[]{-(spriteWidth / 2) * gameData.getHitBoxScale(), -(spriteWidth / 2) * gameData.getHitBoxScale(), 
-                                                spriteWidth / 2 * gameData.getHitBoxScale(), spriteWidth / 2 * gameData.getHitBoxScale()});
-        enemyCharacter.setShapeY(new float[]{-(spriteHeight / 2) * gameData.getHitBoxScale(), spriteHeight / 2 * gameData.getHitBoxScale(), 
-                                                spriteHeight / 2 * gameData.getHitBoxScale(), -(spriteHeight / 2 * gameData.getHitBoxScale())});
+        enemyCharacter.setShapeX(new float[]{-(spriteWidth / 2) * gameData.getHitBoxScale(), -(spriteWidth / 2) * gameData.getHitBoxScale(),
+            spriteWidth / 2 * gameData.getHitBoxScale(), spriteWidth / 2 * gameData.getHitBoxScale()});
+        enemyCharacter.setShapeY(new float[]{-(spriteHeight / 2) * gameData.getHitBoxScale(), spriteHeight / 2 * gameData.getHitBoxScale(),
+            spriteHeight / 2 * gameData.getHitBoxScale(), -(spriteHeight / 2 * gameData.getHitBoxScale())});
+
+        enemyCharacter.setAnimateable(true);
+        enemyCharacter.setEntityType(EntityType.ENEMY);
+        enemyCharacter.setX(x);
+        enemyCharacter.setY(y);
+
+        gameData.addEvent(new Event(EventType.PICKUP_WEAPON, enemyCharacter.getID()));
+
+        enemies.add(enemyCharacter);
+        world.addEntity(enemyCharacter);
+    }
+
+    private void createBeerEnemy(GameData gameData, World world, int x, int y) {
+        EnemyEntity enemyCharacter = new EnemyEntity();
+        enemyCharacter.setJumpSpeed(300);
+        enemyCharacter.setMovementSpeed(85);
+        enemyCharacter.setHasGravity(true);
+        enemyCharacter.setMaxLife(5);
+        enemyCharacter.setLife(enemyCharacter.getMaxLife());
+        enemyCharacter.setCurrentAnimation("enemybeer_run_animation");
+        enemyCharacter.setRunAnimation("enemybeer_run_animation");
+        enemyCharacter.setAttackAnimation("enemybeer_attack_animation");
+        int spriteWidth = gameData.getSpriteInfo().get(enemyCharacter.getCurrentAnimation())[0];
+        int spriteHeight = gameData.getSpriteInfo().get(enemyCharacter.getCurrentAnimation())[1];
+        enemyCharacter.setShapeX(new float[]{-(spriteWidth / 2) * gameData.getHitBoxScale(), -(spriteWidth / 2) * gameData.getHitBoxScale(),
+            spriteWidth / 2 * gameData.getHitBoxScale(), spriteWidth / 2 * gameData.getHitBoxScale()});
+        enemyCharacter.setShapeY(new float[]{-(spriteHeight / 2) * gameData.getHitBoxScale(), spriteHeight / 2 * gameData.getHitBoxScale(),
+            spriteHeight / 2 * gameData.getHitBoxScale(), -(spriteHeight / 2 * gameData.getHitBoxScale())});
 
         enemyCharacter.setAnimateable(true);
         enemyCharacter.setEntityType(EntityType.ENEMY);
@@ -126,7 +159,7 @@ public class EnemySystem implements IEnemyService, IServiceInitializer {
             for (ICurrencyService i : Lookup.getDefault().lookupAll(ICurrencyService.class)) {
                 i.dropCurrency(gameData, world, enemyHit.getX(), enemyHit.getY());
             }
-            
+
             //DROPS BOOST
             for (IBoostService ibs : Lookup.getDefault().lookupAll(IBoostService.class)) {
                 ibs.dropBoost(gameData, world, enemyHit.getX(), enemyHit.getY());

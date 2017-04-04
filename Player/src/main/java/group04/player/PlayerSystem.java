@@ -38,14 +38,14 @@ public class PlayerSystem implements IServiceProcessor, IServiceInitializer {
             if (gameData.getKeys().isDown(GameKeys.A)) {
                 //left
                 playerEntity.setVelocity(-movementSpeed);
-                checkAnimation(playerEntity, "player_run_animation");
-                playerEntity.setCurrentAnimation("player_run_animation");
+                checkAnimation(playerEntity, playerEntity.getRunAnimation());
+                playerEntity.setCurrentAnimation(playerEntity.getRunAnimation());
             }
             if (gameData.getKeys().isDown(GameKeys.D)) {
                 //right
                 playerEntity.setVelocity(movementSpeed);
-                checkAnimation(playerEntity, "player_run_animation");
-                playerEntity.setCurrentAnimation("player_run_animation");
+                checkAnimation(playerEntity, playerEntity.getRunAnimation());
+                playerEntity.setCurrentAnimation(playerEntity.getRunAnimation());
             }
 
             if (gameData.getKeys().isDown(GameKeys.SPACE)) {
@@ -55,16 +55,16 @@ public class PlayerSystem implements IServiceProcessor, IServiceInitializer {
                     }
                 }
             }
-            
+
             if (!gameData.getKeys().isDown(GameKeys.A) && !gameData.getKeys().isDown(GameKeys.D)) {
                 playerEntity.setVelocity(0);
-                checkAnimation(playerEntity, "player_idle_animation");
-                playerEntity.setCurrentAnimation("player_idle_animation");
+                checkAnimation(playerEntity, playerEntity.getIdleAnimation());
+                playerEntity.setCurrentAnimation(playerEntity.getIdleAnimation());
             }
 
             if (!playerEntity.isGrounded()) {
-                checkAnimation(playerEntity, "player_jump_animation");
-                playerEntity.setCurrentAnimation("player_jump_animation");
+                checkAnimation(playerEntity, playerEntity.getJumpAnimation());
+                playerEntity.setCurrentAnimation(playerEntity.getJumpAnimation());
             }
 
             for (Event e : gameData.getAllEvents()) {
@@ -77,8 +77,6 @@ public class PlayerSystem implements IServiceProcessor, IServiceInitializer {
                     gameData.removeEvent(e);
                 }
             }
-            
-            
         }
     }
 
@@ -90,21 +88,22 @@ public class PlayerSystem implements IServiceProcessor, IServiceInitializer {
 
     private Entity createPlayer(GameData gameData, World world) {
         PlayerEntity playerCharacter = new PlayerEntity();
-
         playerCharacter.setJumpSpeed(400);
         playerCharacter.setMovementSpeed(150);
         playerCharacter.setHasGravity(true);
         playerCharacter.setMaxLife(10000);
         playerCharacter.setLife(playerCharacter.getMaxLife());
-//        playerCharacter.setDrawable("player");
         playerCharacter.setAnimateable(true);
         playerCharacter.setCurrentAnimation("player_run_animation");
+        playerCharacter.setRunAnimation("player_run_animation");
+        playerCharacter.setJumpAnimation("player_jump_animation");
+        playerCharacter.setIdleAnimation("player_idle_animation");
         int spriteWidth = gameData.getSpriteInfo().get(playerCharacter.getCurrentAnimation())[0];
         int spriteHeight = gameData.getSpriteInfo().get(playerCharacter.getCurrentAnimation())[1];
-        playerCharacter.setShapeX(new float[]{-(spriteWidth / 2) * gameData.getHitBoxScale(), -(spriteWidth / 2) * gameData.getHitBoxScale(), 
-                                                spriteWidth / 2 * gameData.getHitBoxScale(), spriteWidth / 2 * gameData.getHitBoxScale()});
-        playerCharacter.setShapeY(new float[]{-(spriteHeight / 2) * gameData.getHitBoxScale(), spriteHeight / 2 * gameData.getHitBoxScale(), 
-                                                spriteHeight / 2 * gameData.getHitBoxScale(), -(spriteHeight / 2 * gameData.getHitBoxScale())});
+        playerCharacter.setShapeX(new float[]{-(spriteWidth / 2) * gameData.getHitBoxScale(), -(spriteWidth / 2) * gameData.getHitBoxScale(),
+            spriteWidth / 2 * gameData.getHitBoxScale(), spriteWidth / 2 * gameData.getHitBoxScale()});
+        playerCharacter.setShapeY(new float[]{-(spriteHeight / 2) * gameData.getHitBoxScale(), spriteHeight / 2 * gameData.getHitBoxScale(),
+            spriteHeight / 2 * gameData.getHitBoxScale(), -(spriteHeight / 2 * gameData.getHitBoxScale())});
 
         playerCharacter.setEntityType(EntityType.PLAYER);
         playerCharacter.setX((int) (gameData.getDisplayWidth() * 0.5));

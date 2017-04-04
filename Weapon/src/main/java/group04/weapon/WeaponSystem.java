@@ -103,8 +103,8 @@ public class WeaponSystem implements IWeaponService, IServiceInitializer {
         weapon.setDamage(15);
         weapon.setWeaponCarrier(e.getID());
         weapon.setWeaponType(type);
-        weapon.setShapeX(new float[]{2, 32, 8, 2});
-        weapon.setShapeY(new float[]{4, 36, 36, 4});
+        weapon.setShapeX(new float[]{-30, -30, 30, 30});
+        weapon.setShapeY(new float[]{30, -30, -30, 30});
         world.addEntity(weapon);
         if(e.getClass() == PlayerEntity.class)
         {
@@ -215,12 +215,12 @@ public class WeaponSystem implements IWeaponService, IServiceInitializer {
             weapon.setTimeSinceAttack(0);
         }
         
-        if (!enemyEntity.getCurrentAnimation().equals("enemybeer_attack_animation") && weapon.getWeaponType() == WeaponType.MELEE 
+        if (!enemyEntity.getCurrentAnimation().equals(enemyEntity.getAttackAnimation()) && weapon.getWeaponType() == WeaponType.MELEE 
                 && enemyEntity.getEntityType() == enemy.getEntityType() && weapon.getTimeSinceAttack() > weapon.getAttackCooldown()
-                && Math.abs(enemyEntity.getX() - playerEntity.getX()) < 150) {
-            enemyEntity.setCurrentAnimation("enemybeer_attack_animation");
-            enemyEntity.setCurrentFrame(0);
-            gameData.addEvent(new Event(EventType.ENEMY_HIT, weapon.getWeaponCarrier()));
+                && Math.abs(enemyEntity.getX() - playerEntity.getX()) < 100) {
+            enemyEntity.setCurrentAnimation(enemyEntity.getAttackAnimation());
+//            enemyEntity.setCurrentFrame(10);
+            gameData.addEvent(new Event(EventType.ENEMY_SWING, weapon.getWeaponCarrier()));
             weapon.setTimeSinceAttack(0);
         }
     }

@@ -13,6 +13,7 @@ import com.badlogic.gdx.graphics.OrthographicCamera;
 import group04.basecommon.BaseEntity;
 import group04.boostcommon.IBoostService;
 import group04.cameracommon.ICameraService;
+import group04.collisioncommon.ICollisionService;
 import group04.common.Entity;
 import group04.common.EntityType;
 import org.openide.util.Lookup;
@@ -177,7 +178,6 @@ public class Game implements ApplicationListener {
                     }
                 }
             }
-
         }
     }
 
@@ -194,6 +194,22 @@ public class Game implements ApplicationListener {
             }
             for (Entity e : world.getEntities(EnemyEntity.class)) {
                 enemies.add((EnemyEntity) e);
+            }
+
+            for (Event ev : gameData.getAllEvents()) {
+                if (ev.getType() == EventType.ENEMY_SWING) {
+                    Entity weapon = world.getEntity(ev.getEntityID());
+                    gameData.removeEvent(ev);
+                    for (ICollisionService serv : Lookup.getDefault().lookupAll(ICollisionService.class)) {
+                        for (Entity e : world.getAllEntities()) {
+                            if (e.getLife() > 0) {
+                                if (serv.isEntitiesColliding(world, gameData, player, weapon)) {
+                                    e.setLife((int) (e.getLife() * 0.5f));
+                                }
+                            }
+                        }
+                    }
+                }
             }
 
             for (IWeaponService ips : Lookup.getDefault().lookupAll(IWeaponService.class)) {
