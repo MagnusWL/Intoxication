@@ -67,6 +67,9 @@ public class Game implements ApplicationListener {
         cam = new OrthographicCamera(gameData.getDisplayWidth(), gameData.getDisplayHeight());
         cam.translate(gameData.getDisplayWidth() / 2, gameData.getDisplayHeight() / 2);
         cam.update();
+        render = new Renderer(gameData);
+        menu = new MenuHandler();
+
 
         for (IServiceInitializer i : Lookup.getDefault().lookupAll(IServiceInitializer.class)) {
             i.start(gameData, world);
@@ -75,9 +78,6 @@ public class Game implements ApplicationListener {
         Gdx.input.setInputProcessor(
                 new InputController(gameData)
         );
-
-        render = new Renderer(gameData);
-        menu = new MenuHandler();
 
     }
 
@@ -122,8 +122,6 @@ public class Game implements ApplicationListener {
 
         playerProcess();
         enemyProcess();
-        currencyProcess();
-        boostProcess();
     }
 
     @Override
@@ -172,54 +170,6 @@ public class Game implements ApplicationListener {
                 }
             }
 
-        }
-    }
-
-    private void boostProcess() {
-        for (IBoostService e : Lookup.getDefault().lookupAll(IBoostService.class)) {
-
-            for (Event event : gameData.getEvents()) {
-                if (event.getType() == EventType.DROP_BOOST) {
-                    e.dropBoost(world.getEntity(event.getEntityID()));
-                    gameData.removeEvent(event);
-                }
-            }
-
-            for (Event event : gameData.getEvents()) {
-                if (event.getType() == EventType.PICKUP_BOOST) {
-                    world.removeEntity(world.getEntity(event.getEntityID()));
-                    gameData.removeEvent(event);
-
-                    e.pickUpBoost(world.getEntity(event.getEntityID()));
-                }
-            }
-        }
-    }
-
-    private void currencyProcess() {
-
-        for (ICurrencyService e : Lookup.getDefault().lookupAll(ICurrencyService.class)) {
-
-            for (Event event : gameData.getEvents()) {
-                if (event.getType() == EventType.DROP_CURRENCY) {
-                    e.dropCurrency(world.getEntity(event.getEntityID()));
-                    gameData.removeEvent(event);
-                }
-            }
-
-            for (Event event : gameData.getEvents()) {
-
-                if (event.getType() == EventType.PICKUP_CURRENCY) {
-
-                    world.removeEntity(world.getEntity(event.getEntityID()));
-                    gameData.removeEvent(event);
-
-                    for (Entity player : world.getEntities(PlayerEntity.class)) {
-
-                        e.pickUpCurrency(player);
-                    }
-                }
-            }
         }
     }
 

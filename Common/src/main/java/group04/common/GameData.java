@@ -23,7 +23,13 @@ public class GameData {
     private Map<String, int[]> spriteInfo = new HashMap<>();
     private int mapHeight;
     private final GameKeys keys = new GameKeys();
+    private final float hitBoxScale = 0.7f;
 
+    public float getHitBoxScale()
+    {
+        return hitBoxScale;
+    }
+    
     public Map<String, int[]> getSpriteInfo() {
         return spriteInfo;
     }

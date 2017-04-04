@@ -1,5 +1,6 @@
 package group04.enemy;
 
+import group04.boostcommon.IBoostService;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
@@ -13,7 +14,9 @@ import group04.common.events.Event;
 import group04.common.events.EventType;
 import group04.enemycommon.IEnemyService;
 import group04.common.services.IServiceInitializer;
+import group04.currencycommon.ICurrencyService;
 import group04.enemycommon.EnemyEntity;
+import org.openide.util.Lookup;
 
 @ServiceProviders(value = {
     @ServiceProvider(service = IEnemyService.class),
@@ -111,10 +114,15 @@ public class EnemySystem implements IEnemyService, IServiceInitializer {
             world.removeEntity(enemyHit.getWeaponOwned());
             world.removeEntity(enemyHit);
 
-            Entity currency = new Entity();
-            Entity boost = new Entity();
-            dropItem(currency, enemyHit, world, gameData, EventType.DROP_CURRENCY);
-            dropItem(boost, enemyHit, world, gameData, EventType.DROP_BOOST);
+            //DROPS CURRENCY
+            for (ICurrencyService i : Lookup.getDefault().lookupAll(ICurrencyService.class)) {
+                i.dropCurrency(world, enemyHit.getX(), enemyHit.getY());
+            }
+            
+            //DROPS BOOST
+            for (IBoostService ibs : Lookup.getDefault().lookupAll(IBoostService.class)) {
+                ibs.dropBoost(world, enemyHit.getX(), enemyHit.getY());
+            }
         }
     }
 

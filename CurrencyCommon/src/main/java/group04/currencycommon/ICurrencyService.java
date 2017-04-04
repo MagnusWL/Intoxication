@@ -10,7 +10,7 @@ import group04.common.World;
  */
 public interface ICurrencyService {
     
-    public Entity dropCurrency(Entity currency);
-    public void pickUpCurrency(Entity player);
+    public void dropCurrency(World world, float x, float y);
+    public void pickUpCurrency(World world, Entity player, Entity currency);
     
 }

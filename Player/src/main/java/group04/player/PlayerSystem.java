@@ -9,7 +9,9 @@ import group04.common.events.Event;
 import group04.common.events.EventType;
 import group04.common.services.IServiceInitializer;
 import group04.common.services.IServiceProcessor;
+import group04.currencycommon.ICurrencyService;
 import group04.playercommon.PlayerEntity;
+import org.openide.util.Lookup;
 import org.openide.util.lookup.ServiceProvider;
 import org.openide.util.lookup.ServiceProviders;
 
@@ -75,6 +77,8 @@ public class PlayerSystem implements IServiceProcessor, IServiceInitializer {
                     gameData.removeEvent(e);
                 }
             }
+            
+            
         }
     }
 
@@ -93,17 +97,16 @@ public class PlayerSystem implements IServiceProcessor, IServiceInitializer {
         playerCharacter.setMaxLife(10000);
         playerCharacter.setLife(playerCharacter.getMaxLife());
         playerCharacter.setDrawable("player");
-//        int spriteWidth = gameData.getSpriteInfo().get("player")[0];
-//        int spriteHeight = gameData.getSpriteInfo().get("player")[1];
-        int spriteWidth = 5;
-        int spriteHeight = 5;
-
-        playerCharacter.setShapeX(new float[]{-(spriteWidth / 2), -(spriteWidth / 2), spriteWidth / 2, spriteWidth / 2});
-        playerCharacter.setShapeY(new float[]{-(spriteHeight / 2), spriteHeight / 2, spriteHeight / 2, -(spriteHeight / 2)});
+        int spriteWidth = gameData.getSpriteInfo().get(playerCharacter.getDrawable())[0];
+        int spriteHeight = gameData.getSpriteInfo().get(playerCharacter.getDrawable())[1];
+        playerCharacter.setShapeX(new float[]{-(spriteWidth / 2) * gameData.getHitBoxScale(), -(spriteWidth / 2) * gameData.getHitBoxScale(), 
+                                                spriteWidth / 2 * gameData.getHitBoxScale(), spriteWidth / 2 * gameData.getHitBoxScale()});
+        playerCharacter.setShapeY(new float[]{-(spriteHeight / 2) * gameData.getHitBoxScale(), spriteHeight / 2 * gameData.getHitBoxScale(), 
+                                                spriteHeight / 2 * gameData.getHitBoxScale(), -(spriteHeight / 2 * gameData.getHitBoxScale())});
 
         playerCharacter.setEntityType(EntityType.PLAYER);
         playerCharacter.setX((int) (gameData.getDisplayWidth() * 0.5));
-        playerCharacter.setY((int) (gameData.getDisplayHeight() * 0.15));
+        playerCharacter.setY((int) (gameData.getDisplayHeight() * 0.3));
 
         gameData.addEvent(new Event(EventType.PICKUP_WEAPON, playerCharacter.getID()));
 

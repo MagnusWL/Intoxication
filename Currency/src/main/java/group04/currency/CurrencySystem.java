@@ -38,14 +38,18 @@ public class CurrencySystem implements IServiceInitializer, ICurrencyService {
     }
 
     @Override
-    public void pickUpCurrency(Entity player) {
+    public void pickUpCurrency(World world, Entity player, Entity currency) {
         PlayerEntity entity = (PlayerEntity) player;
+        CurrencyEntity cur = (CurrencyEntity) currency;
         entity.setMoney(entity.getMoney() + 10);
+        world.removeEntity(world.getEntity(currency.getID()));
     }
 
     @Override
-    public Entity dropCurrency(Entity currency) {
-        
+    public void dropCurrency(World world, float x, float y) {
+        CurrencyEntity currency = new CurrencyEntity();
+        currency.setX(x);
+        currency.setY(y);
         currency.setEntityType(CURRENCY);
         currency.setHasGravity(true);
         currency.setAnimateable(true);
@@ -63,8 +67,6 @@ public class CurrencySystem implements IServiceInitializer, ICurrencyService {
             1});
 
         currencies.add(currency);
-
-        return currency;
-
+        world.addEntity(currency);
     }
 }

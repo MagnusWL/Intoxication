@@ -1,5 +1,6 @@
 package group04.boost;
 
+import group04.boostcommon.BoostEntity;
 import group04.boostcommon.IBoostService;
 import group04.common.BoostType;
 import group04.common.Entity;
@@ -38,12 +39,16 @@ public class BoostSystem implements IServiceInitializer, IBoostService {
     }
 
     @Override
-    public Entity dropBoost(Entity boost) {
+    public void dropBoost(World world, float x, float y) {
+        BoostEntity boost = new BoostEntity();
+        boost.setX(x);
+        boost.setY(y);
         boost.setEntityType(BOOST);
-        
         boost.setHasGravity(true);
         boost.setDrawable("pill");
+        //boost.setCurrentAnimation("pill");
         boosts.add(boost);
+        
 
         
         boost.setShapeX(new float[]{
@@ -57,13 +62,14 @@ public class BoostSystem implements IServiceInitializer, IBoostService {
             39,
             39,
             1});
-
-        return boost;
+        
+        world.addEntity(boost);
     }
 
     @Override
-    public void pickUpBoost(Entity player) {
+    public void pickUpBoost(World world, Entity player, Entity boost) {
         PlayerEntity entity = (PlayerEntity) player;
         entity.setLife(entity.getLife() + 10);
+        world.removeEntity(world.getEntity(boost.getID()));
     }
 }

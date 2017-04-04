@@ -26,6 +26,7 @@ import group04.spawnercommon.WaveSpawnerEntity;
 import group04.weaponcommon.WeaponEntity;
 import java.util.ArrayList;
 import org.openide.util.Exceptions;
+import java.util.Map.Entry;
 
 /**
  *
@@ -63,7 +64,16 @@ public class Renderer {
         loadPNGAnimation("enemybeer_run_animation.png", 142, 122);
         loadPNGAnimation("currency_gold_animation.png", 44, 45);
         // loadPNGImages();
+        String fileName;
+        Sprite sprite;
+        for (Entry e : assetManager.getAllSprites().entrySet()) {
+            fileName = (String) e.getKey();
+            sprite = (Sprite) e.getValue();
+            gameData.getSpriteInfo().put(fileName.substring(0, fileName.length() - 4), new int[]{(int)sprite.getWidth(), (int)sprite.getHeight()});
+        }
 
+//        assetManager.getAssetManager().get
+//        gameData.getSpriteInfo().put(fileName.substring(0, fileName.length() - 4), new int[]{textureAsset.getWidth(), textureAsset.getHeight()});
     }
 
     public void loadPNGAnimation(String animationName, int spriteSizeX, int spriteSizeY) {
@@ -132,7 +142,7 @@ public class Renderer {
     private void drawAnimations(GameData gameData, World world) {
         for (Entity entity : world.getAllEntities()) {
             if (entity.isAnimateable() && entity.getCurrentAnimation() != null) {
-                if (entity.getVelocity() < 0) {
+                if ((entity.getVelocity() < 0 && entity.getClass() != PlayerEntity.class) || (gameData.getMouseX() > entity.getX() && entity.getClass() == PlayerEntity.class)) {
                     playAnimation(gameData, world, assetManager.getAnimationsFlip(entity.getCurrentAnimation() + "_flipped.png"), entity, 5);
                 } else {
                     playAnimation(gameData, world, assetManager.getAnimations(entity.getCurrentAnimation() + ".png"), entity, 5);
@@ -226,8 +236,8 @@ public class Renderer {
 
         for (Entity entity : world.getAllEntities()) {
 
-            int max = 0;
-            int maxY = 0;
+            int max = Integer.MIN_VALUE;
+            int maxY = Integer.MIN_VALUE;
             int min = Integer.MAX_VALUE;
 
             if (entity.getMaxLife() != 0) {
@@ -241,9 +251,9 @@ public class Renderer {
                 healthOffset = maxY + 5;
 
                 sr.setColor(1f, 0f, 0, 1f);
-                sr.rect(entity.getX() - gameData.getCameraX(), entity.getY() - gameData.getCameraY() + healthOffset, healthWidth, 5);
+                sr.rect(entity.getX() - gameData.getCameraX() - healthWidth/2.0f, entity.getY() - gameData.getCameraY() + healthOffset, healthWidth, 5);
                 sr.setColor(0.0f, 1f, 0, 1f);
-                sr.rect(entity.getX() - gameData.getCameraX(), entity.getY() - gameData.getCameraY() + healthOffset, ((float) entity.getLife() / (float) entity.getMaxLife()) * healthWidth, 5);
+                sr.rect(entity.getX() - gameData.getCameraX() - healthWidth/2.0f, entity.getY() - gameData.getCameraY() + healthOffset, ((float) entity.getLife() / (float) entity.getMaxLife()) * healthWidth, 5);
             }
         }
 
@@ -257,8 +267,8 @@ public class Renderer {
             }
         }
 
-        sprite.setX((float) (entity.getX() - sprite.getWidth()/2.0 - gameData.getCameraX()));
-        sprite.setY((float) (entity.getY() - sprite.getHeight()/2.0 - gameData.getCameraY()));
+        sprite.setX((float) (entity.getX() - sprite.getWidth() / 2.0 - gameData.getCameraX()));
+        sprite.setY((float) (entity.getY() - sprite.getHeight() / 2.0 - gameData.getCameraY()));
         sprite.draw(batch);
     }
 
@@ -334,7 +344,7 @@ public class Renderer {
     }
 
     private void drawBackgroundNoRepeat(GameData gameData, Sprite sprite, float mov) {
-        sprite.setX( - gameData.getCameraX() * mov);
+        sprite.setX(-gameData.getCameraX() * mov);
         sprite.draw(batch);
     }
 
