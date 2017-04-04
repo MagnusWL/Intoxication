@@ -23,6 +23,7 @@ import group04.enemycommon.EnemyEntity;
 import group04.playercommon.PlayerEntity;
 import group04.projectilecommon.ProjectileEntity;
 import group04.spawnercommon.WaveSpawnerEntity;
+import group04.upgradecommon.UpgradeEntity;
 import group04.weaponcommon.WeaponEntity;
 import java.util.ArrayList;
 import org.openide.util.Exceptions;
@@ -242,6 +243,14 @@ public class Renderer {
         for (Entity entity : world.getEntities(BoostEntity.class)) {
             if (entity.getDrawable() != null) {
                 drawSprite(gameData, world, entity, assetManager.getSprites(entity.getDrawable() + ".png"));
+            }
+        }
+
+        for (Entity entity : world.getEntities(UpgradeEntity.class)) {
+            UpgradeEntity e = (UpgradeEntity) entity;
+            if (entity.getDrawable() != null && e.isOpen()) {
+                //Draw menu
+                //Different sprites or just change text in code?
             }
         }
     }

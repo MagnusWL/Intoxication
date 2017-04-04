@@ -86,6 +86,7 @@
         <module>CollisionCommon</module>
         <module>CameraCommon</module>
         <module>MovementCommon</module>
+        <module>UpgradeCommon</module>
     </modules>
 
     <properties>
