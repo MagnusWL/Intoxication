@@ -129,6 +129,7 @@ public class Renderer {
         drawScore(gameData, world);
         drawWaveCount(gameData, world);
         drawFPS(gameData);
+        drawInventory(gameData);
         batch.end();
 
         //Layer beetween foreground and middleground: The frontside of the enemyspawner:
@@ -179,7 +180,7 @@ public class Renderer {
     }
 
     private void playAnimation(GameData gameData, World world, ArrayList<Sprite> animation, Entity entity, double animationSpeed) {
-                        
+
         drawSprite(gameData, world, entity, animation.get((int) entity.getCurrentFrame()));
 
         if (animationSpeed > 0) {
@@ -188,14 +189,10 @@ public class Renderer {
             } else {
                 entity.setCurrentFrame(0);
             }
-        }
-        else
-        {
-            if (entity.getCurrentFrame() > (1 / animationSpeed)) {
-                entity.setCurrentFrame(entity.getCurrentFrame() + (1 / animationSpeed));
-            } else {
-                entity.setCurrentFrame(animation.size() - 1);
-            }            
+        } else if (entity.getCurrentFrame() > (1 / animationSpeed)) {
+            entity.setCurrentFrame(entity.getCurrentFrame() + (1 / animationSpeed));
+        } else {
+            entity.setCurrentFrame(animation.size() - 1);
         }
     }
 
@@ -309,7 +306,7 @@ public class Renderer {
                 sprite.setRotation((float) Math.toDegrees(projectile.getAngle()));
             }
         }
-        
+
         sprite.setX((float) (entity.getX() - sprite.getWidth() / 2.0 - gameData.getCameraX()));
         sprite.setY((float) (entity.getY() - sprite.getHeight() / 2.0 - gameData.getCameraY()));
         sprite.draw(batch);
@@ -397,5 +394,14 @@ public class Renderer {
             sprite.setX(i * sprite.getWidth() - gameData.getCameraX() * mov);
             sprite.draw(batch);
         }
+    }
+
+    private void drawInventory(GameData gameData) {
+
+        assetManager.getSprites("inventoryspace1.png").setX((gameData.getDisplayWidth() - 124));
+        assetManager.getSprites("inventoryspace1.png").setY((gameData.getDisplayHeight() - 70));
+        assetManager.getSprites("inventoryspace1.png").draw(batch);
+        System.out.println(assetManager.getSprites("inventoryspace1.png"));
+
     }
 }
