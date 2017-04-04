@@ -15,6 +15,7 @@ import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.graphics.glutils.FileTextureData;
 import group04.common.GameData;
+import group04.core.Animation;
 import java.io.File;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -31,8 +32,8 @@ public final class Assets {
     private static AssetManager manager;
     private static List<AssetDescriptor<Sound>> soundAssets = new ArrayList<AssetDescriptor<Sound>>();
     private static List<Texture> textureAssets = new ArrayList<Texture>();
-    private Map<String, ArrayList<Sprite>> animations = new HashMap<>();
-    private Map<String, ArrayList<Sprite>> animationsFlip = new HashMap<>();
+    private Map<String, Animation> animations = new HashMap<>();
+    private Map<String, Animation> animationsFlip = new HashMap<>();
     private Map<String, Sprite> sprites = new HashMap<>();
     private GameData gameData;
 
@@ -118,22 +119,22 @@ public final class Assets {
     }
 
     public ArrayList<Sprite> getAnimations(String key) {
-        return animations.get(key);
+        return ((Animation)animations.get(key)).getSprites();
     }
 
     public void setAnimations(String key, ArrayList<Sprite> animation) {
-        this.animations.put(key, animation);
+        ((Animation)this.animations.get(key)).setSprites(animation);
     }
 
     public ArrayList<Sprite> getAnimationsFlip(String key) {
-        return animationsFlip.get(key);
+        return ((Animation)animationsFlip.get(key)).getSprites();
     }
 
     public void setAnimationsFlip(String key, ArrayList<Sprite> animation) {
-        this.animations.put(key, animation);
+        ((Animation)this.animationsFlip.get(key)).setSprites(animation);
     }
 
-    public void makeAnimation(String animationName, Texture spriteSheet, int spriteSizeX, int spriteSizeY) {
+    public void makeAnimation(String animationName, Texture spriteSheet, int spriteSizeX, int spriteSizeY, float animationSpeed) {
         ArrayList<Sprite> keyFrames = new ArrayList<>();
         ArrayList<Sprite> flipKeyFrames = new ArrayList<>();
         int numberOfSprites = (int) (spriteSheet.getWidth() / spriteSizeX);
@@ -147,13 +148,17 @@ public final class Assets {
             flipKeyFrames.add(flip);
         }
 
-        animations.put(animationName, keyFrames);
-        animationsFlip.put(animationName.substring(0, animationName.length() - 4) + "_flipped.png", flipKeyFrames);
+        animations.put(animationName, new Animation(keyFrames, spriteSizeX, spriteSizeY, animationSpeed));
+        animationsFlip.put(animationName.substring(0, animationName.length() - 4) + "_flipped.png", new Animation(flipKeyFrames, spriteSizeX, spriteSizeY, animationSpeed));
         //System.out.println(animationName.substring(0, animationName.length() - 4) + "_flipped.png");
     }
 
     public Sprite getSprites(String key) {
         return sprites.get(key);
+    }
+
+    public Map<String, Animation> getAllAnimations() {
+        return animations;
     }
 
 }

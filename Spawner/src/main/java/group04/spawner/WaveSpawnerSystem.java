@@ -49,7 +49,7 @@ public class WaveSpawnerSystem implements ISpawnerService, IServiceInitializer {
             if (waveSpawner.getSpawnTimer() - waveSpawner.getSpawnTimerMax() > timePerMob * waveSpawner.getMobsSpawned() && waveSpawner.getMobsSpawned() < waveSpawner.getMobsSpawnedMax()) {
                 waveSpawner.setMobsSpawned(waveSpawner.getMobsSpawned() + 1);
                 for (IEnemyService e : Lookup.getDefault().lookupAll(IEnemyService.class)) {
-                        e.createEnemy(gameData, world, (int) (gameData.getTileSize() * gameData.getMapWidth() * 0.95), (int) (gameData.getDisplayHeight() * 0.15));
+                        e.createEnemy(gameData, world, (int) (gameData.getTileSize() * gameData.getMapWidth() * 0.95), (int) (gameData.getDisplayHeight() * 0.25));
                 }
             }
 

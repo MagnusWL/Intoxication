@@ -46,11 +46,16 @@ public class EnemySystem implements IEnemyService, IServiceInitializer {
         enemyCharacter.setMaxLife(5);
         enemyCharacter.setLife(enemyCharacter.getMaxLife());
 
-        enemyCharacter.setShapeX(new float[]{120, 120, 20, 20});
-        enemyCharacter.setShapeY(new float[]{0, 100, 100, 0});
+        enemyCharacter.setCurrentAnimation("enemybeer_run_animation");
+
+        int spriteWidth = gameData.getSpriteInfo().get(enemyCharacter.getCurrentAnimation())[0];
+        int spriteHeight = gameData.getSpriteInfo().get(enemyCharacter.getCurrentAnimation())[1];
+        enemyCharacter.setShapeX(new float[]{-(spriteWidth / 2) * gameData.getHitBoxScale(), -(spriteWidth / 2) * gameData.getHitBoxScale(), 
+                                                spriteWidth / 2 * gameData.getHitBoxScale(), spriteWidth / 2 * gameData.getHitBoxScale()});
+        enemyCharacter.setShapeY(new float[]{-(spriteHeight / 2) * gameData.getHitBoxScale(), spriteHeight / 2 * gameData.getHitBoxScale(), 
+                                                spriteHeight / 2 * gameData.getHitBoxScale(), -(spriteHeight / 2 * gameData.getHitBoxScale())});
 
         enemyCharacter.setAnimateable(true);
-        enemyCharacter.setCurrentAnimation("enemybeer_run_animation");
         enemyCharacter.setEntityType(EntityType.ENEMY);
         enemyCharacter.setX(x);
         enemyCharacter.setY(y);
@@ -116,12 +121,12 @@ public class EnemySystem implements IEnemyService, IServiceInitializer {
 
             //DROPS CURRENCY
             for (ICurrencyService i : Lookup.getDefault().lookupAll(ICurrencyService.class)) {
-                i.dropCurrency(world, enemyHit.getX(), enemyHit.getY());
+                i.dropCurrency(gameData, world, enemyHit.getX(), enemyHit.getY());
             }
             
             //DROPS BOOST
             for (IBoostService ibs : Lookup.getDefault().lookupAll(IBoostService.class)) {
-                ibs.dropBoost(world, enemyHit.getX(), enemyHit.getY());
+                ibs.dropBoost(gameData, world, enemyHit.getX(), enemyHit.getY());
             }
         }
     }
