@@ -263,6 +263,7 @@ public class Renderer {
         }*/
         for (Entity entity : world.getEntities(PlatformEntity.class)) {
             if (entity.getDrawable() != null) {
+                System.out.println(entity.getDrawable());
                 drawSprite(gameData, world, entity, assetManager.getSprites(entity.getDrawable() + ".png"));
             }
         }

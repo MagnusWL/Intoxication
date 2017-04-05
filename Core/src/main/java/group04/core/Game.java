@@ -84,7 +84,6 @@ public class Game implements ApplicationListener {
 
     @Override
     public void render() {
-        gameData.getKeys().update();
         gameData.setMouseX(Gdx.input.getX());
         gameData.setMouseY(gameData.getDisplayHeight() - Gdx.input.getY());
         if (menu.getGameState() == 1) {
@@ -98,6 +97,8 @@ public class Game implements ApplicationListener {
         } else if (menu.getGameState() == 3) {
             menu.renderExit(gameData);
         }
+        gameData.getKeys().update();
+
     }
 
     private void update() {
