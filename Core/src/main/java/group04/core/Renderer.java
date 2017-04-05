@@ -72,6 +72,11 @@ public class Renderer {
         loadPNGAnimation("enemynarko_attack_animation.png", 103, 109, 5);
         loadPNGAnimation("currency_gold_animation.png", 44, 45, 5);
         loadPNGAnimation("player_run_animation.png", 105, 132, 5);
+
+        loadPNGAnimation("player_weapon_melee_champaign_attack_animation.png", 110, 166, 5);
+        loadPNGAnimation("player_weapon_melee_champaign_run_animation.png", 108, 100, 5);
+        loadPNGAnimation("player_weapon_ranged_champaign_attack_animation.png", 105, 132, 5);
+        loadPNGAnimation("player_weapon_ranged_throwBottle_attack_animation.png", 111, 66, 5);
 //        loadPNGAnimation("player_idle_animation.png", 44, 45, 5);
 
         // loadPNGImages();

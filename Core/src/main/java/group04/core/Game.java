@@ -200,7 +200,8 @@ public class Game implements ApplicationListener {
                 if (ev.getType() == EventType.ENEMY_SWING) {
                     Entity weapon = world.getEntity(ev.getEntityID());
                     gameData.removeEvent(ev);
-                    for (ICollisionService serv : Lookup.getDefault().lookupAll(ICollisionService.class)) {
+                    if(weapon != null)
+                        for (ICollisionService serv : Lookup.getDefault().lookupAll(ICollisionService.class)) {
                             if (serv.isEntitiesColliding(world, gameData, player, weapon)) {
                                 player.setLife((int) (player.getLife() * 0.5f));
                             }
