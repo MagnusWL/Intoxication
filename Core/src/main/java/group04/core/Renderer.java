@@ -148,10 +148,10 @@ public class Renderer {
         drawWaveCount(gameData, world);
         drawFPS(gameData);
         drawInventory(gameData, world);
-        shader = new FisheyeShader();
-        ShaderProgram fishEyeShader = shader.drawShader();
-        fishEyeShader.begin();
-        batch.setShader(fishEyeShader);
+//        shader = new FisheyeShader();
+//        ShaderProgram fishEyeShader = shader.drawShader();
+//        fishEyeShader.begin();
+//        batch.setShader(fishEyeShader);
         batch.end();
 
         //Layer beetween foreground and middleground: The frontside of the enemyspawner:
