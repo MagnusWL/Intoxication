@@ -47,7 +47,7 @@ public class Renderer {
     private Color startColor;
     private BitmapFont text;
     private SpriteBatch batch;
-    private ShapeRenderer sr;   
+    private ShapeRenderer sr;
     private shaderInterface shader;
 
 //    private Map<String, ArrayList<Sprite>> animations = new HashMap<>();
@@ -187,12 +187,19 @@ public class Renderer {
             if (entity.isAnimateable() && entity.getCurrentAnimation() != null) {
                 boolean flipped = false;
                 boolean reversed = false;
+                float angle = 0;
+                float xCenter = 0;
+                float yCenter = 0;
 
                 if (entity.getClass() != PlayerEntity.class) {
                     if (entity.getClass() == WeaponEntity.class && player != null) {
                         if (world.getEntity(((WeaponEntity) entity).getWeaponCarrier()).getClass() == PlayerEntity.class) {
-                            if (gameData.getMouseX() < entity.getX() - gameData.getCameraX()) {
+                            angle = (float) Math.atan2(gameData.getMouseY() - player.getY(), gameData.getMouseX() - (player.getX() - gameData.getCameraX()));
+                            xCenter = player.getX() - gameData.getCameraX();
+                            yCenter = player.getY();
+                            if (gameData.getMouseX() < player.getX() - gameData.getCameraX()) {
                                 flipped = true;
+                                angle += Math.PI;
                             }
 
                         }
@@ -229,12 +236,12 @@ public class Renderer {
                     animationSpeed = -animationSpeed;
                 }
 
-                playAnimation(gameData, world, assetManager.getAnimations(animationName + ".png"), entity, animationSpeed);
+                playAnimation(gameData, world, assetManager.getAnimations(animationName + ".png"), entity, animationSpeed, angle, xCenter, yCenter);
             }
         }
     }
 
-    private void playAnimation(GameData gameData, World world, ArrayList<Sprite> animation, Entity entity, double animationSpeed) {
+    private void playAnimation(GameData gameData, World world, ArrayList<Sprite> animation, Entity entity, double animationSpeed, float angle, float xCenter, float yCenter) {
         boolean draw = true;
         if (entity.getClass() == WeaponEntity.class) {
             if (world.getEntity(((WeaponEntity) entity).getWeaponCarrier()).getClass() == EnemyEntity.class) {
@@ -243,7 +250,7 @@ public class Renderer {
         }
 
         if (draw) {
-            drawSprite(gameData, world, entity, animation.get((int) entity.getCurrentFrame()), 0);
+            drawSprite(gameData, world, entity, animation.get((int) entity.getCurrentFrame()), angle, xCenter, yCenter);
 
             if (animationSpeed > 0) {
                 if (entity.getCurrentFrame() < (animation.size()) - 1 + (1 / animationSpeed)) {
@@ -270,31 +277,31 @@ public class Renderer {
     private void drawSprites(GameData gameData, World world) {
         for (Entity entity : world.getEntities(BaseEntity.class)) {
             if (entity.getDrawable() != null) {
-                drawSprite(gameData, world, entity, assetManager.getSprites(entity.getDrawable() + ".png"), 0);
+                drawSprite(gameData, world, entity, assetManager.getSprites(entity.getDrawable() + ".png"), 0, 0, 0);
             }
         }
-        
+
         for (Entity entity : world.getEntities(PlatformEntity.class)) {
             if (entity.getDrawable() != null) {
-                drawSprite(gameData, world, entity, assetManager.getSprites(entity.getDrawable() + ".png"), 0);
+                drawSprite(gameData, world, entity, assetManager.getSprites(entity.getDrawable() + ".png"), 0, 0, 0);
             }
         }
 
         for (Entity entity : world.getEntities(EnemyEntity.class)) {
             if (entity.getDrawable() != null) {
-                drawSprite(gameData, world, entity, assetManager.getSprites(entity.getDrawable() + ".png"), 0);
+                drawSprite(gameData, world, entity, assetManager.getSprites(entity.getDrawable() + ".png"), 0, 0, 0);
             }
         }
 
         for (Entity entity : world.getEntities(ProjectileEntity.class)) {
             if (entity.getDrawable() != null) {
-                drawSprite(gameData, world, entity, assetManager.getSprites(entity.getDrawable() + ".png"), ((ProjectileEntity) entity).getAngle());
+                drawSprite(gameData, world, entity, assetManager.getSprites(entity.getDrawable() + ".png"), ((ProjectileEntity) entity).getAngle(), 0, 0);
             }
         }
 
         for (Entity entity : world.getEntities(BoostEntity.class)) {
             if (entity.getDrawable() != null) {
-                drawSprite(gameData, world, entity, assetManager.getSprites(entity.getDrawable() + ".png"), 0);
+                drawSprite(gameData, world, entity, assetManager.getSprites(entity.getDrawable() + ".png"), 0, 0, 0);
             }
         }
 
@@ -354,10 +361,11 @@ public class Renderer {
         }
     }
 
-    private void drawSprite(GameData gameData, World world, Entity entity, Sprite sprite, float angle) {
+    private void drawSprite(GameData gameData, World world, Entity entity, Sprite sprite, float angle, float xCenter, float yCenter) {
         batch.begin();
 
         if (angle != 0) {
+            sprite.setOrigin(xCenter, yCenter);
             sprite.setRotation((float) Math.toDegrees(angle));
         }
 
