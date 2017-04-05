@@ -33,10 +33,16 @@ import java.io.File;
 import java.util.ArrayList;
 import org.openide.util.Exceptions;
 import java.util.Map.Entry;
+import java.util.Random;
 import javafx.application.Platform;
 
 public class Renderer {
 
+    private float counter = 0;
+    private float r = 1;
+    private float g = 1;
+    private float b = 1;
+    private Color startColor;
     private BitmapFont text;
     private SpriteBatch batch;
     private ShapeRenderer sr;
@@ -159,7 +165,7 @@ public class Renderer {
 //        animationsFlip.put(animationName, flipKeyFrames);
 //    }
     private void drawAnimations(GameData gameData, World world) {
-        
+
         for (Entity entity : world.getAllEntities()) {
             if (entity.isAnimateable() && entity.getCurrentAnimation() != null) {
 
@@ -184,7 +190,7 @@ public class Renderer {
                         playAnimation(gameData, world, assetManager.getAnimations(entity.getCurrentAnimation() + ".png"), entity, -assetManager.getAnimationSpeed(entity.getCurrentAnimation() + ".png"));
                     }
                 } else if (entity.isHit()) {
-                    
+
                     if (entity.getClass() != PlayerEntity.class) {
                         if (entity.getVelocity() <= 0) {
                             playAnimation(gameData, world, assetManager.getRedAnimationFlip(entity.getCurrentAnimation() + "_flipped.png"), entity, assetManager.getAnimationSpeed(entity.getCurrentAnimation() + ".png"));
@@ -204,7 +210,7 @@ public class Renderer {
                     } else {
                         playAnimation(gameData, world, assetManager.getRedAnimation(entity.getCurrentAnimation() + ".png"), entity, -assetManager.getAnimationSpeed(entity.getCurrentAnimation() + ".png"));
                     }
-                        entity.setHitCounter();
+                    entity.setHitCounter();
                     if (entity.getHitCounter() == 0) {
                         entity.setHit(false);
                     }
@@ -420,7 +426,43 @@ public class Renderer {
         pupil.setY(yTranslate);
         pupil.setScale((float) ((1 - Math.abs(d))), 1);
         pupil.setRotation(-d * 20);
+        colorPupil(world, pupil);
+        //start
         pupil.draw(batch);
+        //end
+    }
+    
+    public void setRGB() {
+
+        counter += 0.01;
+
+        r = (float) Math.abs(Math.sin(counter));
+        g = (float) Math.abs(Math.sin(counter * 2.573758));
+        b = (float) Math.abs(Math.sin(counter * 3.357285));
+
+    }
+
+    private void colorPupil(World world, Sprite pupil) {
+        if (startColor == null) {
+            startColor = pupil.getColor();
+        }
+
+        setRGB();
+
+        for (Entity e : world.getEntities(PlayerEntity.class)) {
+            PlayerEntity entity = (PlayerEntity) e;
+
+            if (entity.getLsdTimer() > 0) {
+                Color color = new Color(r, g, b, 1);
+                pupil.setColor(color);
+                entity.subtractLsdTimer();
+            }
+
+            if (entity.getLsdTimer() == 0) {
+                pupil.setColor(startColor);
+
+            }
+        }
     }
 
     private void drawForeground(GameData gameData) {
