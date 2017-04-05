@@ -84,7 +84,7 @@ public class Renderer {
         loadPNGAnimation("player_weapon_melee_champaign_attack_animation.png", 110, 166, 5);
         loadPNGAnimation("player_weapon_melee_champaign_run_animation.png", 108, 100, 5);
         loadPNGAnimation("player_weapon_ranged_champaign_attack_animation.png", 105, 132, 5);
-        loadPNGAnimation("player_weapon_ranged_throwbottle_attack_animation.png", 111, 66, 5);
+        loadPNGAnimation("player_weapon_ranged_throwbottle_attack_animation.png", 111, 66, 2);
 //        loadPNGAnimation("player_idle_animation.png", 44, 45, 5);
 
         // loadPNGImages();
@@ -195,9 +195,10 @@ public class Renderer {
                     if (entity.getClass() == WeaponEntity.class && player != null) {
                         if (world.getEntity(((WeaponEntity) entity).getWeaponCarrier()).getClass() == PlayerEntity.class) {
                             angle = (float) Math.atan2(gameData.getMouseY() - player.getY(), gameData.getMouseX() - (player.getX() - gameData.getCameraX()));
-                            xCenter = player.getX() - gameData.getCameraX();
-                            yCenter = player.getY();
+                            xCenter = 0;
+                            yCenter = 20;// assetManager.getAnimation(entity.getCurrentAnimation() + ".png").getHeight()/2.0f;
                             if (gameData.getMouseX() < player.getX() - gameData.getCameraX()) {
+                                xCenter = assetManager.getAnimation(entity.getCurrentAnimation() + ".png").getWidth();
                                 flipped = true;
                                 angle += Math.PI;
                             }
@@ -244,7 +245,8 @@ public class Renderer {
     private void playAnimation(GameData gameData, World world, ArrayList<Sprite> animation, Entity entity, double animationSpeed, float angle, float xCenter, float yCenter) {
         boolean draw = true;
         if (entity.getClass() == WeaponEntity.class) {
-            if (world.getEntity(((WeaponEntity) entity).getWeaponCarrier()).getClass() == EnemyEntity.class) {
+            if (world.getEntity(((WeaponEntity) entity).getWeaponCarrier()).getClass() == EnemyEntity.class
+                ) {
                 draw = false;
             }
         }

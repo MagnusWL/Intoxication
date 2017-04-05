@@ -117,6 +117,10 @@ public final class Assets {
         }
     }
 
+    public Animation getAnimation(String key) {
+        return animations.get(key);
+    }
+    
     public float getAnimationSpeed(String key) {
         return animations.get(key).getAnimationSpeed();
     }

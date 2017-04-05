@@ -14,6 +14,7 @@ import group04.common.World;
 import group04.common.services.IServiceInitializer;
 import group04.common.Entity;
 import group04.common.EntityType;
+import group04.common.services.IServiceProcessor;
 import group04.playercommon.PlayerEntity;
 import group04.projectilecommon.IProjectileService;
 import group04.projectilecommon.ProjectileEntity;
@@ -23,11 +24,11 @@ import group04.projectilecommon.ProjectileEntity;
  * @author burno
  */
 @ServiceProviders(value = {
-    /* @ServiceProvider(service = IServiceProcessor.class ) , */
+     @ServiceProvider(service = IServiceProcessor.class ) , 
     @ServiceProvider(service = IServiceInitializer.class),
     @ServiceProvider(service = IProjectileService.class)})
 
-public class BulletSystem implements IServiceInitializer, IProjectileService {
+public class BulletSystem implements IServiceInitializer, IProjectileService, IServiceProcessor {
 
     private ArrayList<Entity> bullets = new ArrayList<>();
 
@@ -35,7 +36,7 @@ public class BulletSystem implements IServiceInitializer, IProjectileService {
         ProjectileEntity bullet = new ProjectileEntity();
         bullet.setEntityType(EntityType.PROJECTILE);
 
-        bullet.setDrawable("bullet");
+        bullet.setDrawable("beerbottle");
         bullet.setAngle(angle);
 
         bullet.setVelocity((float) (850 * Math.cos(angle)));
@@ -174,6 +175,15 @@ public class BulletSystem implements IServiceInitializer, IProjectileService {
                 }
                 
             }
+        }
+    }
+
+    @Override
+    public void process(GameData gameData, World world) {
+        for(Entity e: world.getEntities(ProjectileEntity.class))
+        {
+            ProjectileEntity projectile = (ProjectileEntity) e;
+            projectile.setAngle((float) Math.atan2(projectile.getVerticalVelocity(), projectile.getVelocity()));
         }
     }
 
