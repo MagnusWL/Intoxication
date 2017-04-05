@@ -52,6 +52,7 @@ public class BaseSystem implements IServiceProcessor, IServiceInitializer {
 
             if (gameData.getKeys().isPressed(GameKeys.U)) {
                 //Open upgrade screen
+                System.out.println("Opening menu");
                 menu.setOpen(!menu.isOpen());
             }
 
@@ -91,12 +92,19 @@ public class BaseSystem implements IServiceProcessor, IServiceInitializer {
             }
             if (gameData.getKeys().isPressed(GameKeys.K) && menu.isOpen()) {
                 //Platform Upgrade
-                if (player.getMoney() > 50 && base.getPlatformLevel() < 5) {
+                if (true) {
+                    System.out.println("Adding platform");
+                    //if (player.getMoney() > 50 && base.getPlatformLevel() < 5) {
                     base.setPlatformLevel(base.getPlatformLevel() + 1);
                     player.setMoney(player.getMoney() - 50);
                     //Create platforms
                     PlatformEntity platform = new PlatformEntity();
                     platform.setDrawable("base_platform");
+//                    platform.setX(690);
+//                    platform.setY(370);
+                    platform.setX(900);
+                    platform.setY(150);
+                    world.addEntity(platform);
                 }
             }
 
@@ -107,6 +115,7 @@ public class BaseSystem implements IServiceProcessor, IServiceInitializer {
     public void start(GameData gameData, World world) {
         base = createBase(gameData, world);
         world.addEntity(base);
+        world.addEntity(new UpgradeEntity());
     }
 
     private Entity createBase(GameData gameData, World world) {
