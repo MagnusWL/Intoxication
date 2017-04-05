@@ -66,80 +66,82 @@ public class Processor implements IMovementService {
 
             }
 
-            for (Entity entity : world.getEntities(PlayerEntity.class, EnemyEntity.class, ProjectileEntity.class, CurrencyEntity.class)) {
+            for (Entity entity : world.getAllEntities()) {
+                if (entity.isHasGravity()) {
 //                MovementContainer movementContainer = ((MovementContainer) entity.getContainer(MovementContainer.class));
-                steps = (int) (Math.ceil(Math.abs(entity.getVelocity())) + Math.ceil(Math.abs(entity.getVerticalVelocity())));
-                if (steps > 5) {
-                    steps = 5;
-                }
-                for (int i = 0; i < steps; i++) {
-                    //X
-                    if (!e.isColliding(world, gameData, entity, entity.getVelocity() * gameData.getDelta() * (1.0f / steps), 0)) {
-                        entity.setX(entity.getX() + entity.getVelocity() * gameData.getDelta() * (1.0f / steps));
-                    } else {
-                        entity.setVelocity(0);
-                        if (entity.getEntityType() == EntityType.PROJECTILE) {
-                            world.removeEntity(entity);
+                    steps = (int) (Math.ceil(Math.abs(entity.getVelocity())) + Math.ceil(Math.abs(entity.getVerticalVelocity())));
+                    if (steps > 5) {
+                        steps = 5;
+                    }
+                    for (int i = 0; i < steps; i++) {
+                        //X
+                        if (!e.isColliding(world, gameData, entity, entity.getVelocity() * gameData.getDelta() * (1.0f / steps), 0)) {
+                            entity.setX(entity.getX() + entity.getVelocity() * gameData.getDelta() * (1.0f / steps));
+                        } else {
+                            entity.setVelocity(0);
+                            if (entity.getEntityType() == EntityType.PROJECTILE) {
+                                world.removeEntity(entity);
+                            }
+                        }
+
+                        //Y
+                        if (!e.isColliding(world, gameData, entity, 0, entity.getVerticalVelocity() * gameData.getDelta() * (1.0f / steps))) {
+                            entity.setY(entity.getY() + entity.getVerticalVelocity() * gameData.getDelta() * (1.0f / steps));
+                        } else {
+                            entity.setVerticalVelocity(0);
+
+                            if (entity.getEntityType() == EntityType.PROJECTILE) {
+                                world.removeEntity(entity);
+                            }
                         }
                     }
 
-                    //Y
-                    if (!e.isColliding(world, gameData, entity, 0, entity.getVerticalVelocity() * gameData.getDelta() * (1.0f / steps))) {
-                        entity.setY(entity.getY() + entity.getVerticalVelocity() * gameData.getDelta() * (1.0f / steps));
-                    } else {
-                        entity.setVerticalVelocity(0);
-
-                        if (entity.getEntityType() == EntityType.PROJECTILE) {
-                            world.removeEntity(entity);
-                        }
-                    }
-                }
-
-                if (entity.getEntityType() == EntityType.PROJECTILE) {
+                    if (entity.getEntityType() == EntityType.PROJECTILE) {
 //                    ProjectileContainer projectileContainer = ((ProjectileContainer) entity.getContainer(ProjectileContainer.class));
-                    ProjectileEntity bullet = (ProjectileEntity) entity;
-                    if (!bullet.isExplosive()) {
-                        for (Entity entityHit : world.getEntities(PlayerEntity.class, EnemyEntity.class, BaseEntity.class)) {
-                            if (entityHit.getEntityType() != bullet.getShotFrom()
-                                    && !(entityHit.getEntityType() == EntityType.BASE && bullet.getShotFrom() == EntityType.PLAYER)) {
-                                if (e.isEntitiesColliding(world, gameData, entity, entityHit)) {
-                                    gameData.addEvent(new Event(EventType.ENTITY_HIT, entityHit.getID()));
-                                    world.removeEntity(entity);
-                                    break;
+                        ProjectileEntity bullet = (ProjectileEntity) entity;
+                        if (!bullet.isExplosive()) {
+                            for (Entity entityHit : world.getEntities(PlayerEntity.class, EnemyEntity.class, BaseEntity.class)) {
+                                if (entityHit.getEntityType() != bullet.getShotFrom()
+                                        && !(entityHit.getEntityType() == EntityType.BASE && bullet.getShotFrom() == EntityType.PLAYER)) {
+                                    if (e.isEntitiesColliding(world, gameData, entity, entityHit)) {
+                                        gameData.addEvent(new Event(EventType.ENTITY_HIT, entityHit.getID()));
+                                        world.removeEntity(entity);
+                                        break;
+                                    }
                                 }
                             }
-                        }
-                    } else {
-                        for (Entity entityHit : world.getEntities(PlayerEntity.class, EnemyEntity.class, BaseEntity.class)) {
-                            if (entityHit.getEntityType() != bullet.getShotFrom()
-                                    && !(entityHit.getEntityType() == EntityType.BASE && bullet.getShotFrom() == EntityType.PLAYER)) {
-                                if (e.isEntitiesColliding(world, gameData, entity, entityHit)) {
-                                    gameData.addEvent(new Event(EventType.ROCKET_HIT, entityHit.getID()));
-                                    world.removeEntity(entity);
-                                    break;
+                        } else {
+                            for (Entity entityHit : world.getEntities(PlayerEntity.class, EnemyEntity.class, BaseEntity.class)) {
+                                if (entityHit.getEntityType() != bullet.getShotFrom()
+                                        && !(entityHit.getEntityType() == EntityType.BASE && bullet.getShotFrom() == EntityType.PLAYER)) {
+                                    if (e.isEntitiesColliding(world, gameData, entity, entityHit)) {
+                                        gameData.addEvent(new Event(EventType.ROCKET_HIT, entityHit.getID()));
+                                        world.removeEntity(entity);
+                                        break;
+                                    }
                                 }
                             }
                         }
                     }
-                }
 
-                if (entity.getEntityType() == EntityType.EXPLOSION) {
-                    for (Entity entityHit : world.getEntities(PlayerEntity.class, EnemyEntity.class, BaseEntity.class)) {
-                        if (e.isEntitiesColliding(world, gameData, entity, entityHit)) {
-                            gameData.addEvent(new Event(EventType.ENTITY_HIT, entityHit.getID()));
-                            world.removeEntity(entity);
-                            break;
-                        }
-                    }
-                }
-
-                if (entity.getEntityType() == EntityType.WEAPON) {
-                    WeaponEntity weapon = (WeaponEntity) entity;
-                    if (weapon.getWeaponType() == WeaponType.MELEE) {
-                        for (Entity entityHit : world.getEntities(EnemyEntity.class, PlayerEntity.class, BaseEntity.class)) {
+                    if (entity.getEntityType() == EntityType.EXPLOSION) {
+                        for (Entity entityHit : world.getEntities(PlayerEntity.class, EnemyEntity.class, BaseEntity.class)) {
                             if (e.isEntitiesColliding(world, gameData, entity, entityHit)) {
                                 gameData.addEvent(new Event(EventType.ENTITY_HIT, entityHit.getID()));
+                                world.removeEntity(entity);
                                 break;
+                            }
+                        }
+                    }
+
+                    if (entity.getEntityType() == EntityType.WEAPON) {
+                        WeaponEntity weapon = (WeaponEntity) entity;
+                        if (weapon.getWeaponType() == WeaponType.MELEE) {
+                            for (Entity entityHit : world.getEntities(EnemyEntity.class, PlayerEntity.class, BaseEntity.class)) {
+                                if (e.isEntitiesColliding(world, gameData, entity, entityHit)) {
+                                    gameData.addEvent(new Event(EventType.ENTITY_HIT, entityHit.getID()));
+                                    break;
+                                }
                             }
                         }
                     }
