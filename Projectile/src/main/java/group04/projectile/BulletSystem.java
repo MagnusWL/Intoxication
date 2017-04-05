@@ -38,9 +38,10 @@ public class BulletSystem implements IServiceInitializer, IProjectileService {
         bullet.setDrawable("bullet");
         bullet.setAngle(angle);
 
-        bullet.setVelocity((float) (350 * Math.cos(angle)));
-        bullet.setVerticalVelocity((float) (350 * Math.sin(angle)));
+        bullet.setVelocity((float) (850 * Math.cos(angle)));
+        bullet.setVerticalVelocity((float) (850 * Math.sin(angle)));
 
+        bullet.setHasGravity(true);
         int spriteWidth = gameData.getSpriteInfo().get(bullet.getDrawable())[0];
         int spriteHeight = gameData.getSpriteInfo().get(bullet.getDrawable())[1];
         bullet.setShapeX(new float[]{-(spriteWidth / 2) * gameData.getHitBoxScale(), -(spriteWidth / 2) * gameData.getHitBoxScale(), 
