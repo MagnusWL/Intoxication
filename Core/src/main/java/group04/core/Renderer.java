@@ -21,6 +21,8 @@ import group04.common.Entity;
 import group04.common.GameData;
 import group04.common.World;
 import group04.core.managers.Assets;
+import group04.core.shaders.fisheye.FisheyeShader;
+import group04.core.shaders.shaderInterface;
 import group04.enemycommon.EnemyEntity;
 import group04.inventorycommon.InventoryEntity;
 import group04.platformcommon.PlatformEntity;
@@ -45,7 +47,8 @@ public class Renderer {
     private Color startColor;
     private BitmapFont text;
     private SpriteBatch batch;
-    private ShapeRenderer sr;
+    private ShapeRenderer sr;   
+    private shaderInterface shader;
 
 //    private Map<String, ArrayList<Sprite>> animations = new HashMap<>();
 //    private Map<String, Sprite> images = new HashMap<>();
@@ -145,6 +148,10 @@ public class Renderer {
         drawWaveCount(gameData, world);
         drawFPS(gameData);
         drawInventory(gameData, world);
+        shader = new FisheyeShader();
+        ShaderProgram fishEyeShader = shader.drawShader();
+        fishEyeShader.begin();
+        batch.setShader(fishEyeShader);
         batch.end();
 
         //Layer beetween foreground and middleground: The frontside of the enemyspawner:
