@@ -98,13 +98,35 @@ public class BaseSystem implements IServiceProcessor, IServiceInitializer {
                     base.setPlatformLevel(base.getPlatformLevel() + 1);
                     player.setMoney(player.getMoney() - 50);
                     //Create platforms
-                    PlatformEntity platform = new PlatformEntity();
-                    platform.setDrawable("base_platform");
-//                    platform.setX(690);
-//                    platform.setY(370);
-                    platform.setX(900);
-                    platform.setY(150);
-                    world.addEntity(platform);
+                    if (base.getPlatformLevel() == 1) {
+                        PlatformEntity platform = new PlatformEntity();
+                        platform.setDrawable("base_platform");
+                        platform.setX(984);
+                        platform.setY(229);
+                        world.addEntity(platform);
+                    }
+                    if (base.getPlatformLevel() == 2) {
+                        PlatformEntity platform = new PlatformEntity();
+                        platform.setDrawable("base_platform");
+                        platform.setX(680);
+                        platform.setY(274);
+                        world.addEntity(platform);
+                    }
+                    if (base.getPlatformLevel() == 3) {
+                        PlatformEntity platform = new PlatformEntity();
+                        platform.setDrawable("base_platform");
+                        platform.setX(1268);
+                        platform.setY(264);
+                        world.addEntity(platform);
+                    }
+                    if (base.getPlatformLevel() == 4) {
+                        PlatformEntity platform = new PlatformEntity();
+                        platform.setDrawable("base_platform");
+                        platform.setX(501);
+                        platform.setY(382);
+                        world.addEntity(platform);
+                    }
+
                 }
             }
 
