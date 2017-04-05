@@ -207,9 +207,7 @@ public class Renderer {
                         entity.setHitCounter();
                     if (entity.getHitCounter() == 0) {
                         entity.setHit(false);
-                    } 
-                    
-
+                    }
                 }
             }
         }
