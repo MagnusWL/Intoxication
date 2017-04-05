@@ -10,6 +10,7 @@ import com.badlogic.gdx.ApplicationListener;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.FPSLogger;
 import com.badlogic.gdx.graphics.OrthographicCamera;
+import com.badlogic.gdx.maps.tiled.renderers.OrthogonalTiledMapRenderer;
 import group04.basecommon.BaseEntity;
 import group04.boostcommon.IBoostService;
 import group04.cameracommon.ICameraService;
@@ -65,12 +66,12 @@ public class Game implements ApplicationListener {
         gameData.setTileSize(16);
         /*        gameData.setMapWidth(gameData.getDisplayWidth() / gameData.getTileSize() * 2);
         gameData.setMapHeight(gameData.getDisplayHeight() / gameData.getTileSize());*/
-
         cam = new OrthographicCamera(gameData.getDisplayWidth(), gameData.getDisplayHeight());
         cam.translate(gameData.getDisplayWidth() / 2, gameData.getDisplayHeight() / 2);
         cam.update();
         render = new Renderer(gameData);
         menu = new MenuHandler();
+        
 
         for (IServiceInitializer i : Lookup.getDefault().lookupAll(IServiceInitializer.class)) {
             i.start(gameData, world);
@@ -84,7 +85,6 @@ public class Game implements ApplicationListener {
 
     @Override
     public void render() {
-        gameData.getKeys().update();
         gameData.setMouseX(Gdx.input.getX());
         gameData.setMouseY(gameData.getDisplayHeight() - Gdx.input.getY());
         if (menu.getGameState() == 1) {
@@ -98,6 +98,8 @@ public class Game implements ApplicationListener {
         } else if (menu.getGameState() == 3) {
             menu.renderExit(gameData);
         }
+        gameData.getKeys().update();
+
     }
 
     private void update() {
