@@ -74,7 +74,14 @@ public class WeaponSystem implements IWeaponService, IServiceInitializer {
     public void createGun(GameData gameData, World world, Entity e, WeaponType type) {
         WeaponEntity weapon = new WeaponEntity();
         weapon.setEntityType(EntityType.WEAPON);
-        weapon.setDrawable("gun");
+
+/*        loadPNGAnimation("player_weapon_melee_champaign_attack_animation.png", 110, 166, 5);
+        loadPNGAnimation("player_weapon_melee_champaign_run_animation.png", 108, 100, 5);
+        loadPNGAnimation("player_weapon_ranged_champaign_attack_animation.png", 105, 132, 5);
+        loadPNGAnimation("player_weapon_ranged_throwBottle_attack_animation.png", 111, 66, 5);
+*/        
+        weapon.setAnimateable(true);
+        weapon.setCurrentAnimation("player_weapon_ranged_throwBottle_attack_animation");
         weapon.setAttackCooldown(5);
         weapon.setTimeSinceAttack(0);
         weapon.setWeaponCarrier(e.getID());
@@ -97,14 +104,15 @@ public class WeaponSystem implements IWeaponService, IServiceInitializer {
     private void createMelee(GameData gameData, World world, Entity e, WeaponType type) {
         WeaponEntity weapon = new WeaponEntity();
         weapon.setEntityType(EntityType.WEAPON);
-        weapon.setDrawable("sword");
+        weapon.setAnimateable(true);
+        weapon.setCurrentAnimation("player_weapon_melee_champaign_attack_animation");
         weapon.setAttackCooldown(3);
         weapon.setTimeSinceAttack(0);
         weapon.setDamage(15);
         weapon.setWeaponCarrier(e.getID());
         weapon.setWeaponType(type);
-        weapon.setShapeX(new float[]{-30, -30, 30, 30});
-        weapon.setShapeY(new float[]{30, -30, -30, 30});
+        weapon.setShapeX(new float[]{-60, -60, 60, 60});
+        weapon.setShapeY(new float[]{60, -60, -60, 60});
         world.addEntity(weapon);
         if(e.getClass() == PlayerEntity.class)
         {
@@ -120,7 +128,8 @@ public class WeaponSystem implements IWeaponService, IServiceInitializer {
 
     private void createRocket(GameData gameData, World world, Entity e, WeaponType type) {
         WeaponEntity weapon = new WeaponEntity();
-        weapon.setDrawable("gun");
+        weapon.setAnimateable(true);
+        weapon.setCurrentAnimation("player_weapon_ranged_throwbottle_attack_animation");
         weapon.setAttackCooldown(8);
         weapon.setTimeSinceAttack(0);
         weapon.setDamage(2);

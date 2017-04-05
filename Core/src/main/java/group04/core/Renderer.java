@@ -33,10 +33,16 @@ import java.io.File;
 import java.util.ArrayList;
 import org.openide.util.Exceptions;
 import java.util.Map.Entry;
+import java.util.Random;
 import javafx.application.Platform;
 
 public class Renderer {
 
+    private float counter = 0;
+    private float r = 1;
+    private float g = 1;
+    private float b = 1;
+    private Color startColor;
     private BitmapFont text;
     private SpriteBatch batch;
     private ShapeRenderer sr;
@@ -69,9 +75,13 @@ public class Renderer {
         loadPNGAnimation("enemybeer_run_animation.png", 142, 122, 5);
         loadPNGAnimation("enemybeer_attack_animation.png", 128, 134, -3);
         loadPNGAnimation("enemynarko_run_animation.png", 85, 107, 5);
-        loadPNGAnimation("enemynarko_attack_animation.png", 104, 109, 5);
+        loadPNGAnimation("enemynarko_attack_animation.png", 103, 109, 5);
         loadPNGAnimation("currency_gold_animation.png", 44, 45, 5);
         loadPNGAnimation("player_run_animation.png", 105, 132, 5);
+        loadPNGAnimation("player_weapon_melee_champaign_attack_animation.png", 110, 166, 5);
+        loadPNGAnimation("player_weapon_melee_champaign_run_animation.png", 108, 100, 5);
+        loadPNGAnimation("player_weapon_ranged_champaign_attack_animation.png", 105, 132, 5);
+        loadPNGAnimation("player_weapon_ranged_throwbottle_attack_animation.png", 111, 66, 5);
 //        loadPNGAnimation("player_idle_animation.png", 44, 45, 5);
 
         // loadPNGImages();
@@ -159,7 +169,7 @@ public class Renderer {
 //        animationsFlip.put(animationName, flipKeyFrames);
 //    }
     private void drawAnimations(GameData gameData, World world) {
-        
+
         for (Entity entity : world.getAllEntities()) {
             if (entity.isAnimateable() && entity.getCurrentAnimation() != null) {
 
@@ -184,7 +194,6 @@ public class Renderer {
                         playAnimation(gameData, world, assetManager.getAnimations(entity.getCurrentAnimation() + ".png"), entity, -assetManager.getAnimationSpeed(entity.getCurrentAnimation() + ".png"));
                     }
                 } else if (entity.isHit()) {
-                    
                     if (entity.getClass() != PlayerEntity.class) {
                         if (entity.getVelocity() <= 0) {
                             playAnimation(gameData, world, assetManager.getRedAnimationFlip(entity.getCurrentAnimation() + "_flipped.png"), entity, assetManager.getAnimationSpeed(entity.getCurrentAnimation() + ".png"));
@@ -204,7 +213,7 @@ public class Renderer {
                     } else {
                         playAnimation(gameData, world, assetManager.getRedAnimation(entity.getCurrentAnimation() + ".png"), entity, -assetManager.getAnimationSpeed(entity.getCurrentAnimation() + ".png"));
                     }
-                        entity.setHitCounter();
+                    entity.setHitCounter();
                     if (entity.getHitCounter() == 0) {
                         entity.setHit(false);
                     }
@@ -213,27 +222,54 @@ public class Renderer {
         }
     }
 
+    private void chooseAnimation(GameData gameData, World world, Entity entity, double animationSpeed, boolean flip, boolean red, boolean reverse) {
+        if(reverse)
+            animationSpeed = -animationSpeed;
+        if(red)
+        {
+            if(flip)
+                playAnimation(gameData, world, assetManager.getRedAnimationFlip(entity.getCurrentAnimation() + "_flipped.png"), entity, assetManager.getAnimationSpeed(entity.getCurrentAnimation() + ".png"));
+            else
+                playAnimation(gameData, world, assetManager.getRedAnimation(entity.getCurrentAnimation() + ".png"), entity, assetManager.getAnimationSpeed(entity.getCurrentAnimation() + ".png"));
+        }
+        else
+        {
+            if(flip)
+                playAnimation(gameData, world, assetManager.getAnimationsFlip(entity.getCurrentAnimation() + "_flipped.png"), entity, assetManager.getAnimationSpeed(entity.getCurrentAnimation() + ".png"));
+            else
+                playAnimation(gameData, world, assetManager.getAnimations(entity.getCurrentAnimation() + ".png"), entity, assetManager.getAnimationSpeed(entity.getCurrentAnimation() + ".png"));            
+        }
+    }
+
     private void playAnimation(GameData gameData, World world, ArrayList<Sprite> animation, Entity entity, double animationSpeed) {
+        boolean draw = true;
+        if (entity.getClass() == WeaponEntity.class) {
+            if (world.getEntity(((WeaponEntity) entity).getWeaponCarrier()).getClass() == EnemyEntity.class) {
+                draw = false;
+            }
+        }
 
-        drawSprite(gameData, world, entity, animation.get((int) entity.getCurrentFrame()));
+        if (draw) {
+            drawSprite(gameData, world, entity, animation.get((int) entity.getCurrentFrame()));
 
-        if (animationSpeed > 0) {
-            if (entity.getCurrentFrame() < (animation.size()) - 1 + (1 / animationSpeed)) {
+            if (animationSpeed > 0) {
+                if (entity.getCurrentFrame() < (animation.size()) - 1 + (1 / animationSpeed)) {
+                    entity.setCurrentFrame(entity.getCurrentFrame() + (1 / animationSpeed));
+                } else {
+                    entity.setCurrentFrame(0);
+                    if (entity.getCurrentAnimation().equals(entity.getAttackAnimation())) {
+                        entity.setCurrentAnimation(entity.getRunAnimation());
+                        entity.setCurrentFrame(0);
+                    }
+                }
+            } else if (entity.getCurrentFrame() > (1 / animationSpeed)) {
                 entity.setCurrentFrame(entity.getCurrentFrame() + (1 / animationSpeed));
             } else {
-                entity.setCurrentFrame(0);
+                entity.setCurrentFrame(animation.size() - 1);
                 if (entity.getCurrentAnimation().equals(entity.getAttackAnimation())) {
                     entity.setCurrentAnimation(entity.getRunAnimation());
                     entity.setCurrentFrame(0);
                 }
-            }
-        } else if (entity.getCurrentFrame() > (1 / animationSpeed)) {
-            entity.setCurrentFrame(entity.getCurrentFrame() + (1 / animationSpeed));
-        } else {
-            entity.setCurrentFrame(animation.size() - 1);
-            if (entity.getCurrentAnimation().equals(entity.getAttackAnimation())) {
-                entity.setCurrentAnimation(entity.getRunAnimation());
-                entity.setCurrentFrame(0);
             }
         }
     }
@@ -274,14 +310,13 @@ public class Renderer {
             }
         }
 
-        for (Entity entity : world.getEntities(WeaponEntity.class)) {
+        /*for (Entity entity : world.getEntities(WeaponEntity.class)) {
             if (entity.getDrawable() != null) {
                 if (world.getEntity(((WeaponEntity) entity).getWeaponCarrier()).getClass() != EnemyEntity.class) {
                     drawSprite(gameData, world, entity, assetManager.getSprites(entity.getDrawable() + ".png"));
                 }
             }
-        }
-
+        }*/
         for (Entity entity : world.getEntities(ProjectileEntity.class)) {
             if (entity.getDrawable() != null) {
                 drawSprite(gameData, world, entity, assetManager.getSprites(entity.getDrawable() + ".png"));
@@ -421,7 +456,43 @@ public class Renderer {
         pupil.setY(yTranslate);
         pupil.setScale((float) ((1 - Math.abs(d))), 1);
         pupil.setRotation(-d * 20);
+        colorPupil(world, pupil);
+        //start
         pupil.draw(batch);
+        //end
+    }
+    
+    public void setRGB() {
+
+        counter += 0.01;
+
+        r = (float) Math.abs(Math.sin(counter));
+        g = (float) Math.abs(Math.sin(counter * 2.573758));
+        b = (float) Math.abs(Math.sin(counter * 3.357285));
+
+    }
+
+    private void colorPupil(World world, Sprite pupil) {
+        if (startColor == null) {
+            startColor = pupil.getColor();
+        }
+
+        setRGB();
+
+        for (Entity e : world.getEntities(PlayerEntity.class)) {
+            PlayerEntity entity = (PlayerEntity) e;
+
+            if (entity.getLsdTimer() > 0) {
+                Color color = new Color(r, g, b, 1);
+                pupil.setColor(color);
+                entity.subtractLsdTimer();
+            }
+
+            if (entity.getLsdTimer() == 0) {
+                pupil.setColor(startColor);
+
+            }
+        }
     }
 
     private void drawForeground(GameData gameData) {
@@ -462,11 +533,11 @@ public class Renderer {
 
         for (Entity e : world.getEntities(WeaponEntity.class)) {
 
-            assetManager.getSprites(e.getDrawable() + ".png").setX((assetManager.getSprites("inventoryspace1.png").getX() + 76 / 2));
+            //BUGGER HVIS DER IKKE ER DRAWABLE MEN BARE ANIMATION, SORRY LARS - MAGNUS
+            /*      assetManager.getSprites(e.getDrawable() + ".png").setX((assetManager.getSprites("inventoryspace1.png").getX() + 76 / 2));
             assetManager.getSprites(e.getDrawable() + ".png").setY((assetManager.getSprites("inventoryspace1.png").getY() + 50 / 2));
-            assetManager.getSprites(e.getDrawable() + ".png").draw(batch);
+            assetManager.getSprites(e.getDrawable() + ".png").draw(batch);*/
             //drawSprite(gameData, world, e, assetManager.getSprites(e.getDrawable() + ".png"));
-
         }
 
     }

@@ -201,59 +201,61 @@ public class Game implements ApplicationListener {
                 if (ev.getType() == EventType.ENEMY_SWING) {
                     Entity weapon = world.getEntity(ev.getEntityID());
                     gameData.removeEvent(ev);
-                    for (ICollisionService serv : Lookup.getDefault().lookupAll(ICollisionService.class)) {
-                        for (Entity e : world.getAllEntities()) {
-                            if (e.getLife() > 0) {
-                                if (serv.isEntitiesColliding(world, gameData, player, weapon)) {
-                                    e.setLife((int) (e.getLife() * 0.5f));
-                                }
+                    if(weapon != null)
+                        for (ICollisionService serv : Lookup.getDefault().lookupAll(ICollisionService.class)) {
+                            if (serv.isEntitiesColliding(world, gameData, player, weapon)) {
+                                player.setLife((int) (player.getLife() * 0.5f));
                             }
                         }
                     }
                 }
-            }
 
-            for (IWeaponService ips : Lookup.getDefault().lookupAll(IWeaponService.class)) {
-                for (Entity enemy : world.getEntities(EnemyEntity.class)) {
-                    ips.enemyAttack(gameData, world, enemy, player, base);
-                }
+        for (IWeaponService ips : Lookup.getDefault().lookupAll(IWeaponService.class)) {
+            for (Entity enemy : world.getEntities(EnemyEntity.class)) {
+                ips.enemyAttack(gameData, world, enemy, player, base);
             }
-
-            try {
-                i.controller(gameData, world, player, base, enemies);
-            } catch (NullPointerException e) {
-                System.out.println("Base or player is null");
-            }
-
-            for (Event ev : gameData.getAllEvents()) {
-                if (ev.getType() == EventType.ENTITY_HIT) {
-                    Entity enemyHit = world.getEntity(ev.getEntityID());
-                    if (enemyHit.getClass() == EnemyEntity.class) {
-                        i.enemyHit(gameData, world, (EnemyEntity) enemyHit);
-                        gameData.removeEvent(ev);
-                    }
-                }
-            }
-
-            for (IProjectileService ips : Lookup.getDefault().lookupAll(IProjectileService.class)) {
-                for (Entity enemy : world.getEntities(EnemyEntity.class)) {
-                    for (Event e : gameData.getAllEvents()) {
-                        if (e.getType() == EventType.ENEMY_SHOOT && e.getEntityID().equals(enemy.getID())) {
-                            ips.enemyshoot(gameData, world, enemy, base, player);
-                            gameData.removeEvent(e);
-                        }
-                    }
-                }
-            }
-
         }
-    }
 
-    private void platformProcess() {
+        try {
+            i.controller(gameData, world, player, base, enemies);
+        } catch (NullPointerException e) {
+            System.out.println("Base or player is null");
+        }
+
+        for (Event ev : gameData.getAllEvents()) {
+            if (ev.getType() == EventType.ENTITY_HIT) {
+                Entity enemyHit = world.getEntity(ev.getEntityID());
+                if (enemyHit.getClass() == EnemyEntity.class) {
+                    i.enemyHit(gameData, world, (EnemyEntity) enemyHit);
+                    gameData.removeEvent(ev);
+                }
+            }
+        }
+
+        for (IProjectileService ips : Lookup.getDefault().lookupAll(IProjectileService.class)) {
+            for (Entity enemy : world.getEntities(EnemyEntity.class)) {
+                for (Event e : gameData.getAllEvents()) {
+                    if (e.getType() == EventType.ENEMY_SHOOT && e.getEntityID().equals(enemy.getID())) {
+                        ips.enemyshoot(gameData, world, enemy, base, player);
+                        gameData.removeEvent(e);
+                    }
+                }
+            }
+        }
+
+    }
+}
+
+private 
+
+void platformProcess() {
         for (Event e : gameData.getAllEvents()) {
             if (e.getType() == EventType.PLATFORM_SPAWN) {
-                for (IMapService i : Lookup.getDefault().lookupAll(IMapService.class)) {
-                    for (Entity ent : world.getEntities(BaseEntity.class)) {
+                for (IMapService i : Lookup.getDefault().lookupAll(IMapService.class
+
+)) {
+                    for (Entity ent : world.getEntities(BaseEntity.class
+)) {
                         BaseEntity base = (BaseEntity) ent;
                         if (base.getPlatformLevel() == 1) {
                             i.process(gameData, "../../../Common/src/main/resources/mapplat1.object");

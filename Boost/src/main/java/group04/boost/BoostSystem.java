@@ -23,21 +23,21 @@ import java.util.List;
     @ServiceProvider(service = IBoostService.class)})
 
 public class BoostSystem implements IServiceInitializer, IBoostService {
-
+    
     private List<Entity> boosts;
-
+    
     @Override
     public void start(GameData gameData, World world) {
         boosts = new ArrayList<>();
     }
-
+    
     @Override
     public void stop(GameData gameData, World world) {
         for (Entity b : boosts) {
             world.removeEntity(b);
         }
     }
-
+    
     @Override
     public void dropBoost(GameData gameData, World world, float x, float y) {
         BoostEntity boost = new BoostEntity();
@@ -47,21 +47,22 @@ public class BoostSystem implements IServiceInitializer, IBoostService {
         boost.setEntityType(BOOST);
         boost.setDrawable("pill");
         boosts.add(boost);
-
+        
         int spriteWidth = gameData.getSpriteInfo().get(boost.getDrawable())[0];
         int spriteHeight = gameData.getSpriteInfo().get(boost.getDrawable())[1];
         boost.setShapeX(new float[]{-(spriteWidth / 2) * gameData.getHitBoxScale(), -(spriteWidth / 2) * gameData.getHitBoxScale(),
             spriteWidth / 2 * gameData.getHitBoxScale(), spriteWidth / 2 * gameData.getHitBoxScale()});
         boost.setShapeY(new float[]{-(spriteHeight / 2) * gameData.getHitBoxScale(), spriteHeight / 2 * gameData.getHitBoxScale(),
             spriteHeight / 2 * gameData.getHitBoxScale(), -(spriteHeight / 2 * gameData.getHitBoxScale())});
-
+        
         world.addEntity(boost);
     }
-
+    
     @Override
     public void pickUpBoost(World world, Entity player, Entity boost) {
         PlayerEntity entity = (PlayerEntity) player;
         entity.setLife(entity.getLife() + 10);
+        entity.setLsdTimer(entity.getLsdTimer() + entity.getLsdAmount());
         world.removeEntity(world.getEntity(boost.getID()));
     }
 }

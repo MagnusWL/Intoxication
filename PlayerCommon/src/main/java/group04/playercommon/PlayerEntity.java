@@ -13,10 +13,32 @@ import group04.weaponcommon.WeaponEntity;
  * @author burno
  */
 public class PlayerEntity extends Entity {
+
+    private int lsdTimer;
+    private int lsdAmount = 60 * 5;
     private int money;
     private float movementSpeed;
     private float jumpSpeed;
     private Entity weaponOwned;
+    //private boolean intoxicated;
+
+    public int getLsdTimer() {
+        return lsdTimer;
+    }
+
+    public void setLsdTimer(int lsdTimer) {
+        this.lsdTimer = lsdTimer;
+    }
+
+    public int getLsdAmount() {
+        return lsdAmount;
+    }
+
+    public void subtractLsdTimer() {
+        if (lsdTimer != 0 ) {
+            lsdTimer--;
+        }
+    }
 
     public Entity getWeaponOwned() {
         return weaponOwned;
