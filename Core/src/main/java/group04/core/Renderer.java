@@ -188,7 +188,6 @@ public class Renderer {
                         playAnimation(gameData, world, assetManager.getAnimations(entity.getCurrentAnimation() + ".png"), entity, -assetManager.getAnimationSpeed(entity.getCurrentAnimation() + ".png"));
                     }
                 } else if (entity.isHit()) {
-
                     if (entity.getClass() != PlayerEntity.class) {
                         if (entity.getVelocity() <= 0) {
                             playAnimation(gameData, world, assetManager.getRedAnimationFlip(entity.getCurrentAnimation() + "_flipped.png"), entity, assetManager.getAnimationSpeed(entity.getCurrentAnimation() + ".png"));
@@ -216,7 +215,26 @@ public class Renderer {
             }
         }
     }
-    
+
+    private void chooseAnimation(GameData gameData, World world, Entity entity, double animationSpeed, boolean flip, boolean red, boolean reverse) {
+        if(reverse)
+            animationSpeed = -animationSpeed;
+        if(red)
+        {
+            if(flip)
+                playAnimation(gameData, world, assetManager.getRedAnimationFlip(entity.getCurrentAnimation() + "_flipped.png"), entity, assetManager.getAnimationSpeed(entity.getCurrentAnimation() + ".png"));
+            else
+                playAnimation(gameData, world, assetManager.getRedAnimation(entity.getCurrentAnimation() + ".png"), entity, assetManager.getAnimationSpeed(entity.getCurrentAnimation() + ".png"));
+        }
+        else
+        {
+            if(flip)
+                playAnimation(gameData, world, assetManager.getAnimationsFlip(entity.getCurrentAnimation() + "_flipped.png"), entity, assetManager.getAnimationSpeed(entity.getCurrentAnimation() + ".png"));
+            else
+                playAnimation(gameData, world, assetManager.getAnimations(entity.getCurrentAnimation() + ".png"), entity, assetManager.getAnimationSpeed(entity.getCurrentAnimation() + ".png"));            
+        }
+    }
+
     private void playAnimation(GameData gameData, World world, ArrayList<Sprite> animation, Entity entity, double animationSpeed) {
         boolean draw = true;
         if (entity.getClass() == WeaponEntity.class) {
@@ -224,7 +242,7 @@ public class Renderer {
                 draw = false;
             }
         }
-        
+
         if (draw) {
             drawSprite(gameData, world, entity, animation.get((int) entity.getCurrentFrame()));
 
@@ -473,11 +491,10 @@ public class Renderer {
         for (Entity e : world.getEntities(WeaponEntity.class)) {
 
             //BUGGER HVIS DER IKKE ER DRAWABLE MEN BARE ANIMATION, SORRY LARS - MAGNUS
-      /*      assetManager.getSprites(e.getDrawable() + ".png").setX((assetManager.getSprites("inventoryspace1.png").getX() + 76 / 2));
+            /*      assetManager.getSprites(e.getDrawable() + ".png").setX((assetManager.getSprites("inventoryspace1.png").getX() + 76 / 2));
             assetManager.getSprites(e.getDrawable() + ".png").setY((assetManager.getSprites("inventoryspace1.png").getY() + 50 / 2));
             assetManager.getSprites(e.getDrawable() + ".png").draw(batch);*/
             //drawSprite(gameData, world, e, assetManager.getSprites(e.getDrawable() + ".png"));
-
         }
 
     }
