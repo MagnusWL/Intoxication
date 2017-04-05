@@ -159,6 +159,7 @@ public class Renderer {
 //        animationsFlip.put(animationName, flipKeyFrames);
 //    }
     private void drawAnimations(GameData gameData, World world) {
+        
         for (Entity entity : world.getAllEntities()) {
             if (entity.isAnimateable() && entity.getCurrentAnimation() != null) {
 
@@ -183,6 +184,7 @@ public class Renderer {
                         playAnimation(gameData, world, assetManager.getAnimations(entity.getCurrentAnimation() + ".png"), entity, -assetManager.getAnimationSpeed(entity.getCurrentAnimation() + ".png"));
                     }
                 } else if (entity.isHit()) {
+                    
                     if (entity.getClass() != PlayerEntity.class) {
                         if (entity.getVelocity() <= 0) {
                             playAnimation(gameData, world, assetManager.getRedAnimationFlip(entity.getCurrentAnimation() + "_flipped.png"), entity, assetManager.getAnimationSpeed(entity.getCurrentAnimation() + ".png"));
@@ -205,9 +207,7 @@ public class Renderer {
                         entity.setHitCounter();
                     if (entity.getHitCounter() == 0) {
                         entity.setHit(false);
-                    } 
-                    
-
+                    }
                 }
             }
         }
@@ -431,11 +431,13 @@ public class Renderer {
         //Player        
         drawBackgroundNoRepeat(gameData, assetManager.getSprites("foreground_layer1.png"), back4m);
         drawBackground(gameData, assetManager.getSprites("foreground_layer2.png"), back5m);
-        drawHalo(gameData);
+        drawHalo(assetManager.getSprites("halo.png"));
     }
 
-    public void drawHalo(GameData gameData) {
-        assetManager.getSprites("halo.png").draw(batch);
+    //Tilføj at halo skal skifte farve afhængigt af playerens liv.
+    public void drawHalo(Sprite sprite) {
+        sprite.setColor(new Color(1, 0, 0, 0.95f));
+        sprite.draw(batch);
     }
 
     private void drawBackgroundNoRepeat(GameData gameData, Sprite sprite, float mov) {

@@ -13,7 +13,6 @@ import group04.weaponcommon.WeaponEntity;
  * @author burno
  */
 public class PlayerEntity extends Entity {
-
     private int money;
     private float movementSpeed;
     private float jumpSpeed;
