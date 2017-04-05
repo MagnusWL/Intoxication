@@ -280,23 +280,7 @@ public class Renderer {
                 drawSprite(gameData, world, entity, assetManager.getSprites(entity.getDrawable() + ".png"));
             }
         }
-
-//        for (Entity entity : world.getEntities(EntityType.ENEMY)) {
-//            drawSprite(gameData, world, entity, images.get(entity.getSprite()), true);
-//        }
-        /*for (Entity entity : world.getEntities(EntityType.PLAYER)) {
-            ImageContainer imageContainer = (ImageContainer) entity.getContainer(ImageContainer.class);
-            if (gameData.getMouseX() < (entity.getX() - gameData.getCameraX())) {
-                drawSprite(gameData, world, entity, imagesFlip.get(imageContainer.getSprite()), imageContainer);
-            } else {
-                drawSprite(gameData, world, entity, images.get(imageContainer.getSprite()), imageContainer);
-            }
-        }*/
- /*        for (Entity entity : world.getEntities(PlayerEntity.class)) {
-            if (entity.getDrawable() != null) {
-                drawSprite(gameData, world, entity, assetManager.getSprites(entity.getDrawable() + ".png"));
-            }
-        }*/
+        
         for (Entity entity : world.getEntities(PlatformEntity.class)) {
             if (entity.getDrawable() != null) {
                 System.out.println(entity.getDrawable());
@@ -310,13 +294,6 @@ public class Renderer {
             }
         }
 
-        /*for (Entity entity : world.getEntities(WeaponEntity.class)) {
-            if (entity.getDrawable() != null) {
-                if (world.getEntity(((WeaponEntity) entity).getWeaponCarrier()).getClass() != EnemyEntity.class) {
-                    drawSprite(gameData, world, entity, assetManager.getSprites(entity.getDrawable() + ".png"));
-                }
-            }
-        }*/
         for (Entity entity : world.getEntities(ProjectileEntity.class)) {
             if (entity.getDrawable() != null) {
                 drawSprite(gameData, world, entity, assetManager.getSprites(entity.getDrawable() + ".png"));
@@ -417,20 +394,10 @@ public class Renderer {
         drawBackground(gameData, assetManager.getSprites("eye_withoutpupil.png"), back1m);
         drawPupil(gameData, world, assetManager.getSprites("pupil.png"), back1m);
         drawBackground(gameData, assetManager.getSprites("background_layer1.png"), back1m);
-        //pupil
-        //drawBackground(gameData, images.get("pupil"), back3m);
         drawBackground(gameData, assetManager.getSprites("background_layer2.png"), back2m);
-
-        /*        Sprite sp = images.get("lightSource");
-        sp.setX(i * sprite.getWidth() - gameData.getCameraX() * mov);
-        sp.draw(batch);*/
-//        draw
-        //Background(gameData, images.get("lightSource"), back5m);
         drawBackground(gameData, assetManager.getSprites("middleground.png"), back3m);
         drawBackground(gameData, assetManager.getSprites("level_01_back.png"), back3m);
         drawBackground(gameData, assetManager.getSprites("level_03_back.png"), back3m);
-//        drawBackground(gameData, images.get("Eye_withoutpupil"), back3m);101
-
     }
 
     public void drawPupil(GameData gameData, World world, Sprite pupil, float mov) {
@@ -457,9 +424,7 @@ public class Renderer {
         pupil.setScale((float) ((1 - Math.abs(d))), 1);
         pupil.setRotation(-d * 20);
         colorPupil(world, pupil);
-        //start
         pupil.draw(batch);
-        //end
     }
     
     public void setRGB() {
