@@ -246,7 +246,7 @@ public class Renderer {
         boolean draw = true;
         if (entity.getClass() == WeaponEntity.class) {
             if (world.getEntity(((WeaponEntity) entity).getWeaponCarrier()).getClass() == EnemyEntity.class
-                ) {
+              || entity.getCurrentFrame() >= (animation.size()) - 1 + (1 / animationSpeed)) {
                 draw = false;
             }
         }
@@ -367,7 +367,12 @@ public class Renderer {
         batch.begin();
 
         if (angle != 0) {
-            sprite.setOrigin(xCenter, yCenter);
+    
+            if(xCenter == 0 && yCenter == 0)
+                sprite.setOriginCenter();
+            else
+                sprite.setOrigin(xCenter, yCenter);
+            
             sprite.setRotation((float) Math.toDegrees(angle));
         }
 
