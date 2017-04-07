@@ -22,8 +22,8 @@ import group04.common.Entity;
 import group04.common.GameData;
 import group04.common.World;
 import group04.core.managers.Assets;
-import group04.core.shaders.fisheye.FisheyeShader;
-import group04.core.shaders.shaderInterface;
+import group04.core.shaders.BlurShader;
+import group04.core.shaders.InvertionShader;
 import group04.enemycommon.EnemyEntity;
 import group04.inventorycommon.InventoryEntity;
 import group04.platformcommon.PlatformEntity;
@@ -38,6 +38,8 @@ import org.openide.util.Exceptions;
 import java.util.Map.Entry;
 import java.util.Random;
 import javafx.application.Platform;
+import group04.core.shaders.ShaderInterface;
+import group04.core.shaders.VignetteShader;
 
 public class Renderer {
 
@@ -49,7 +51,7 @@ public class Renderer {
     private BitmapFont text;
     private SpriteBatch batch;
     private ShapeRenderer sr;
-    private shaderInterface shader;
+    private ShaderInterface shader;
 
 //    private Map<String, ArrayList<Sprite>> animations = new HashMap<>();
 //    private Map<String, Sprite> images = new HashMap<>();
@@ -148,10 +150,15 @@ public class Renderer {
         drawWaveCount(gameData, world);
         drawFPS(gameData);
         drawInventory(gameData, world);
-//        shader = new FisheyeShader();
-//        ShaderProgram fishEyeShader = shader.drawShader();
-//        fishEyeShader.begin();
-//        batch.setShader(fishEyeShader);
+        shader = new VignetteShader();
+        //ShaderProgram.pedantic = false;    
+        //ShaderProgram vignetteShader = shader.drawShader();
+       // System.out.println(fishEyeShader.isCompiled() ? "shader compiled" : fishEyeShader.getLog());
+        //vignetteShader.begin();
+
+        //batch.setShader(vignetteShader);
+        //vignetteShader.setUniformf("u_resolution", gameData.getDisplayWidth(), gameData.getDisplayHeight());
+
         batch.end();
 
         //Layer beetween foreground and middleground: The frontside of the enemyspawner:
