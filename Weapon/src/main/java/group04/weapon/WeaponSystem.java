@@ -189,6 +189,7 @@ public class WeaponSystem implements IWeaponService, IServiceInitializer {
         } else {
             weapon.setX(carrier.getX() + 75);
             weapon.setY(carrier.getY() + 30);
+            
         }
 
         weapon.setTimeSinceAttack(weapon.getTimeSinceAttack() + 10 * gameData.getDelta());
