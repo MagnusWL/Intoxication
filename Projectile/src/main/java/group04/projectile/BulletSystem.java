@@ -87,41 +87,20 @@ public class BulletSystem implements IServiceInitializer, IProjectileService, IS
         bullets.add(rocket);
         return rocket;
     }
-
-    /**
-     * @Override public void process(GameData gameData, World world, Entity
-     * player, Entity base) { for (Event e : gameData.getAllEvents()) { if
-     * (e.getType() == EventType.PLAYER_SHOOT) { player =
-     * world.getEntity(e.getEntityID()); Entity playerWeapon =
-     * world.getEntity(((HealthContainer)
-     * player.getContainer(HealthContainer.class)).getWeaponOwned());
-     * WeaponContainer weaponContainer = ((WeaponContainer)
-     * playerWeapon.getContainer(WeaponContainer.class));
-     *
-     * float angle = (float) Math.atan2(gameData.getMouseY() - (player.getY() +
-     * 15 - gameData.getCameraY()), gameData.getMouseX() - (player.getX() + 15 -
-     * gameData.getCameraX()));
-     *
-     * if (weaponContainer.getWeaponType() == WeaponType.ROCKET) {
-     * world.addEntity(createRocket(playerWeapon, gameData, world, angle)); } if
-     * (weaponContainer.getWeaponType() == WeaponType.GUN) {
-     * world.addEntity(createBullet(playerWeapon, gameData, world, angle)); }
-     * gameData.removeEvent(e); }
-     *
-     * if (e.getType() == EventType.ENEMY_SHOOT) { Entity enemyWeapon =
-     * world.getEntity(e.getEntityID()); float distancePlayer = Float.MAX_VALUE;
-     * float distanceBase = Float.MAX_VALUE;
-     *
-     * distancePlayer = Math.abs(player.getX() - enemyWeapon.getX());
-     * distanceBase = Math.abs(base.getX() - enemyWeapon.getX());
-     *
-     * if (enemyWeapon.getX() + 30 > gameData.getCameraX() && enemyWeapon.getX()
-     * + 30 < gameData.getCameraX() + gameData.getDisplayWidth()) {
-     *
-     * if (distancePlayer > distanceBase) { shootDecision(enemyWeapon,
-     * EntityType.BASE, world, gameData); } else { shootDecision(enemyWeapon,
-     * EntityType.PLAYER, world, gameData); } } gameData.removeEvent(e); } } }
-     */
+    
+    private Entity createMeleeHit(Entity entity, GameData gameData, World world, float x, float y) {
+        ProjectileEntity melee = new ProjectileEntity();
+        melee.setEntityType(EntityType.PROJECTILE);
+        melee.setHasGravity(true);
+        melee.setShapeX(new float[]{-45, -45, 45, 45});
+        melee.setShapeY(new float[]{45, -45, -45, 45});
+        melee.setShotFrom(entity.getEntityType());
+        melee.setX(x);
+        melee.setY(y);
+        bullets.add(melee);
+        return melee;
+    }
+    
     @Override
     public void start(GameData gameData, World world) {
 
@@ -140,7 +119,15 @@ public class BulletSystem implements IServiceInitializer, IProjectileService, IS
         world.addEntity(createBullet(enemy, gameData, world, angle));
 
     }
-
+    
+    @Override
+    public void playermeleeattack(GameData gameData, World world, Entity player, Entity playerWeapon) {
+        float angle = (float) Math.atan2(gameData.getMouseY() - player.getY(), gameData.getMouseX() - (player.getX() - gameData.getCameraX()));
+        float x = (float) (player.getX() + 80 * Math.cos(angle));
+        float y = (float) (player.getY() + 80 * Math.sin(angle));
+        world.addEntity(createMeleeHit(player, gameData, world, x, y));
+    }
+    
     @Override
     public void playershootgun(GameData gameData, World world, Entity player, Entity playerWeapon) {
         float angle = (float) Math.atan2(gameData.getMouseY() - (player.getY() - gameData.getCameraY()), gameData.getMouseX() - (player.getX() - gameData.getCameraX()));

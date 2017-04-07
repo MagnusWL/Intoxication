@@ -134,7 +134,7 @@ public class Renderer {
         //Total back (Background)
         batch.begin();
         drawBackground(gameData, world);
-        
+
         batch.end();
         drawSprites(gameData, world);
         drawAnimations(gameData, world);
@@ -154,12 +154,11 @@ public class Renderer {
         shader = new VignetteShader();
         //ShaderProgram.pedantic = false;    
         //ShaderProgram vignetteShader = shader.drawShader();
-       // System.out.println(fishEyeShader.isCompiled() ? "shader compiled" : fishEyeShader.getLog());
+        // System.out.println(fishEyeShader.isCompiled() ? "shader compiled" : fishEyeShader.getLog());
         //vignetteShader.begin();
 
         //batch.setShader(vignetteShader);
         //vignetteShader.setUniformf("u_resolution", gameData.getDisplayWidth(), gameData.getDisplayHeight());
-
         batch.end();
 
         //Layer beetween foreground and middleground: The frontside of the enemyspawner:
@@ -203,10 +202,10 @@ public class Renderer {
                     if (entity.getClass() == WeaponEntity.class && player != null) {
                         if (world.getEntity(((WeaponEntity) entity).getWeaponCarrier()).getClass() == PlayerEntity.class) {
                             angle = (float) Math.atan2(gameData.getMouseY() - player.getY(), gameData.getMouseX() - (player.getX() - gameData.getCameraX()));
-                            xCenter = 0;
-                            yCenter = 20;// assetManager.getAnimation(entity.getCurrentAnimation() + ".png").getHeight()/2.0f;
+                            xCenter = entity.getxCenter();
+                            yCenter = entity.getyCenter();// assetManager.getAnimation(entity.getCurrentAnimation() + ".png").getHeight()/2.0f;
                             if (gameData.getMouseX() < player.getX() - gameData.getCameraX()) {
-                                xCenter = assetManager.getAnimation(entity.getCurrentAnimation() + ".png").getWidth();
+                                xCenter = assetManager.getAnimation(entity.getCurrentAnimation() + ".png").getWidth() - entity.getxCenter();
                                 flipped = true;
                                 angle += Math.PI;
                             }
@@ -254,7 +253,7 @@ public class Renderer {
         boolean draw = true;
         if (entity.getClass() == WeaponEntity.class) {
             if (world.getEntity(((WeaponEntity) entity).getWeaponCarrier()).getClass() == EnemyEntity.class
-              || entity.getCurrentFrame() >= (animation.size()) - 1 + (1 / animationSpeed)) {
+                    || entity.getCurrentFrame() >= (animation.size()) - 1 + (1 / animationSpeed)) {
                 draw = false;
             }
         }
@@ -375,12 +374,13 @@ public class Renderer {
         batch.begin();
 
         if (angle != 0) {
-    
-            if(xCenter == 0 && yCenter == 0)
+
+            if (xCenter == 0 && yCenter == 0) {
                 sprite.setOriginCenter();
-            else
+            } else {
                 sprite.setOrigin(xCenter, yCenter);
-            
+            }
+
             sprite.setRotation((float) Math.toDegrees(angle));
         }
 
@@ -514,7 +514,5 @@ public class Renderer {
         }
 
     }
-
-    
 
 }
