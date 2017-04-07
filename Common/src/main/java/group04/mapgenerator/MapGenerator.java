@@ -18,7 +18,7 @@ public class MapGenerator {
 
         BufferedImage img = null;
         try {
-            img = ImageIO.read(new File("src\\main\\resources\\test1plat.png"));
+            img = ImageIO.read(new File("src\\main\\resources\\test4plat.png"));
         } catch (IOException e) {
         }
 
@@ -45,7 +45,7 @@ public class MapGenerator {
                 }
             }
 
-            FileOutputStream fout = new FileOutputStream("src\\main\\resources\\mapplat1.object");
+            FileOutputStream fout = new FileOutputStream("src\\main\\resources\\mapplat4.object");
 //            FileOutputStream fout = new FileOutputStream(this.getClass().getregetResource() "main\\resources\\map.object");
             ObjectOutputStream oos = new ObjectOutputStream(fout);
             oos.writeObject(newMapInt);

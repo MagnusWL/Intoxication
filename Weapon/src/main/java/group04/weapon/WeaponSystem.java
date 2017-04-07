@@ -182,12 +182,14 @@ public class WeaponSystem implements IWeaponService, IServiceInitializer {
 //        float angle2 = (float) Math.atan2(gameData.getMouseY() - (carrier.getY() - gameData.getCameraY()), gameData.getMouseX() - (carrier.getX() - gameData.getCameraX()));
         //swinging(angle1, angle2, weapon, weaponContainer, (ImageContainer) weapon.getContainer(ImageContainer.class));
 
-        if (player.getVelocity() < 0) {
-            weapon.setX(carrier.getX() - 20);
+        if (gameData.getMouseX() < player.getX() - gameData.getCameraX()) {
+            //FLIP
+            weapon.setX(carrier.getX() - 75);
             weapon.setY(carrier.getY() + 30);
         } else {
-            weapon.setX(carrier.getX() + 60);
+            weapon.setX(carrier.getX() + 75);
             weapon.setY(carrier.getY() + 30);
+            
         }
 
         weapon.setTimeSinceAttack(weapon.getTimeSinceAttack() + 10 * gameData.getDelta());
