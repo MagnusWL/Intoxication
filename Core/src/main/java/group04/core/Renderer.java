@@ -20,6 +20,7 @@ import group04.basecommon.BaseEntity;
 import group04.boostcommon.BoostEntity;
 import group04.common.Entity;
 import group04.common.GameData;
+import group04.common.WeaponType;
 import group04.common.World;
 import group04.core.managers.Assets;
 import group04.core.shaders.BlurShader;
@@ -134,7 +135,7 @@ public class Renderer {
         //Total back (Background)
         batch.begin();
         drawBackground(gameData, world);
-        
+
         batch.end();
         drawSprites(gameData, world);
         drawAnimations(gameData, world);
@@ -154,12 +155,11 @@ public class Renderer {
         shader = new VignetteShader();
         //ShaderProgram.pedantic = false;    
         //ShaderProgram vignetteShader = shader.drawShader();
-       // System.out.println(fishEyeShader.isCompiled() ? "shader compiled" : fishEyeShader.getLog());
+        // System.out.println(fishEyeShader.isCompiled() ? "shader compiled" : fishEyeShader.getLog());
         //vignetteShader.begin();
 
         //batch.setShader(vignetteShader);
         //vignetteShader.setUniformf("u_resolution", gameData.getDisplayWidth(), gameData.getDisplayHeight());
-
         batch.end();
 
         //Layer beetween foreground and middleground: The frontside of the enemyspawner:
@@ -254,7 +254,7 @@ public class Renderer {
         boolean draw = true;
         if (entity.getClass() == WeaponEntity.class) {
             if (world.getEntity(((WeaponEntity) entity).getWeaponCarrier()).getClass() == EnemyEntity.class
-              || entity.getCurrentFrame() >= (animation.size()) - 1 + (1 / animationSpeed)) {
+                    || entity.getCurrentFrame() >= (animation.size()) - 1 + (1 / animationSpeed)) {
                 draw = false;
             }
         }
@@ -375,12 +375,13 @@ public class Renderer {
         batch.begin();
 
         if (angle != 0) {
-    
-            if(xCenter == 0 && yCenter == 0)
+
+            if (xCenter == 0 && yCenter == 0) {
                 sprite.setOriginCenter();
-            else
+            } else {
                 sprite.setOrigin(xCenter, yCenter);
-            
+            }
+
             sprite.setRotation((float) Math.toDegrees(angle));
         }
 
@@ -499,22 +500,33 @@ public class Renderer {
     }
 
     private void drawInventory(GameData gameData, World world) {
-
-        assetManager.getSprites("inventoryspace1.png").setX((gameData.getDisplayWidth() - 124));
-        assetManager.getSprites("inventoryspace1.png").setY((gameData.getDisplayHeight() - 70));
+        int x = gameData.getDisplayWidth() - 124;
+        int y = gameData.getDisplayHeight() - 70;
+        assetManager.getSprites("inventoryspace1.png").setX((x - assetManager.getSprites("inventoryspace1.png").getWidth() / 2.0f));
+        assetManager.getSprites("inventoryspace1.png").setY((y - assetManager.getSprites("inventoryspace1.png").getHeight() / 2.0f));
         assetManager.getSprites("inventoryspace1.png").draw(batch);
 
-        for (Entity e : world.getEntities(WeaponEntity.class)) {
+//        tjek player for weapon
+        for (Entity e : world.getEntities(PlayerEntity.class)) {
 
             //BUGGER HVIS DER IKKE ER DRAWABLE MEN BARE ANIMATION, SORRY LARS - MAGNUS
-            /*      assetManager.getSprites(e.getDrawable() + ".png").setX((assetManager.getSprites("inventoryspace1.png").getX() + 76 / 2));
-            assetManager.getSprites(e.getDrawable() + ".png").setY((assetManager.getSprites("inventoryspace1.png").getY() + 50 / 2));
-            assetManager.getSprites(e.getDrawable() + ".png").draw(batch);*/
+            PlayerEntity playerEntity = (PlayerEntity) e;
+
+            if (((WeaponEntity) playerEntity.getWeaponOwned()).getWeaponType() == WeaponType.GUN) {
+
+                assetManager.getSprites("beerbottle.png").setX(x - assetManager.getSprites("beerbottle.png").getWidth() / 2.0f);
+                assetManager.getSprites("beerbottle.png").setY(y - assetManager.getSprites("beerbottle.png").getHeight() / 2.0f);
+                assetManager.getSprites("beerbottle.png").setRotation(0);
+                assetManager.getSprites("beerbottle.png").draw(batch);
+                
+            } else if (((WeaponEntity) playerEntity.getWeaponOwned()).getWeaponType() == WeaponType.MELEE) {
+                assetManager.getSprites("player_weapon_melee_champaign_run_animation.png").setX(x - assetManager.getSprites("beerbottle.png").getWidth() / 2.0f);
+                assetManager.getSprites("player_weapon_melee_champaign_run_animation.png").setY(y - assetManager.getSprites("beerbottle.png").getHeight() / 2.0f);
+                assetManager.getSprites("player_weapon_melee_champaign_run_animation.png").draw(batch);
+            }
             //drawSprite(gameData, world, e, assetManager.getSprites(e.getDrawable() + ".png"));
         }
 
     }
-
-    
 
 }
