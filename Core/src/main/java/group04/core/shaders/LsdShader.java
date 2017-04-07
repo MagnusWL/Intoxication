@@ -11,7 +11,7 @@ import com.badlogic.gdx.graphics.glutils.ShaderProgram;
  *
  * @author Mathias
  */
-public class LsdShader implements ShaderInterface {
+public class LsdShader implements IShaderInterface {
 
     @Override
     public ShaderProgram drawShader(float r, float g, float b) {

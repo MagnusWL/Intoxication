@@ -9,8 +9,8 @@ import com.badlogic.gdx.graphics.glutils.ShaderProgram;
 
 /**
  *
- * @author Josan gamle stodder
+ * @author Mathias
  */
-public interface shaderInterface {
-    public ShaderProgram drawShader();
+public interface IShaderInterface {
+    public ShaderProgram drawShader(float r, float g, float b);
 }

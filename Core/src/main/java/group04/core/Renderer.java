@@ -23,6 +23,7 @@ import group04.common.GameData;
 import group04.common.World;
 import group04.core.managers.Assets;
 import group04.core.shaders.BlurShader;
+import group04.core.shaders.IShaderInterface;
 import group04.core.shaders.InvertionShader;
 import group04.core.shaders.LsdShader;
 import group04.enemycommon.EnemyEntity;
@@ -39,7 +40,6 @@ import org.openide.util.Exceptions;
 import java.util.Map.Entry;
 import java.util.Random;
 import javafx.application.Platform;
-import group04.core.shaders.ShaderInterface;
 import group04.core.shaders.VignetteShader;
 
 public class Renderer {
@@ -52,7 +52,7 @@ public class Renderer {
     private BitmapFont text;
     private SpriteBatch batch;
     private ShapeRenderer sr;
-    private ShaderInterface shader;
+    private IShaderInterface shader;
 
 //    private Map<String, ArrayList<Sprite>> animations = new HashMap<>();
 //    private Map<String, Sprite> images = new HashMap<>();

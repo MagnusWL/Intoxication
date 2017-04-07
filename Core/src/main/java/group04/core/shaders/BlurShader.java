@@ -6,13 +6,12 @@
 package group04.core.shaders;
 
 import com.badlogic.gdx.graphics.glutils.ShaderProgram;
-import group04.core.shaders.ShaderInterface;
 
 /**
  *
  * @author Josan gamle stodder
  */
-public class BlurShader implements ShaderInterface {
+public class BlurShader implements IShaderInterface {
 
     @Override
     public ShaderProgram drawShader(float r, float g, float b) {
