@@ -11,10 +11,10 @@ import com.badlogic.gdx.graphics.glutils.ShaderProgram;
  *
  * @author Josan gamle stodder
  */
-public class VignetteShader implements ShaderInterface {
+public class VignetteShader implements IShaderInterface {
 
     @Override
-    public ShaderProgram drawShader() {
+    public ShaderProgram drawShader(float r, float g, float b) {
         String vertexShader
                 = "attribute vec3 a_position;\n"
                 + "attribute vec4 a_color;\n"

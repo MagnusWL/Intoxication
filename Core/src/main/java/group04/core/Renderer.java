@@ -8,6 +8,7 @@ package group04.core;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.Texture;
+import com.badlogic.gdx.graphics.VertexAttribute;
 import com.badlogic.gdx.graphics.g2d.Batch;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.Sprite;
@@ -22,7 +23,9 @@ import group04.common.GameData;
 import group04.common.World;
 import group04.core.managers.Assets;
 import group04.core.shaders.BlurShader;
+import group04.core.shaders.IShaderInterface;
 import group04.core.shaders.InvertionShader;
+import group04.core.shaders.LsdShader;
 import group04.enemycommon.EnemyEntity;
 import group04.inventorycommon.InventoryEntity;
 import group04.platformcommon.PlatformEntity;
@@ -37,7 +40,6 @@ import org.openide.util.Exceptions;
 import java.util.Map.Entry;
 import java.util.Random;
 import javafx.application.Platform;
-import group04.core.shaders.ShaderInterface;
 import group04.core.shaders.VignetteShader;
 
 public class Renderer {
@@ -50,7 +52,7 @@ public class Renderer {
     private BitmapFont text;
     private SpriteBatch batch;
     private ShapeRenderer sr;
-    private ShaderInterface shader;
+    private IShaderInterface shader;
 
 //    private Map<String, ArrayList<Sprite>> animations = new HashMap<>();
 //    private Map<String, Sprite> images = new HashMap<>();
@@ -65,7 +67,6 @@ public class Renderer {
         text = new BitmapFont();
         batch = new SpriteBatch();
         sr = new ShapeRenderer();
-
         assetManager = new Assets(gameData);
 
         assetManager.load();
@@ -83,8 +84,8 @@ public class Renderer {
         loadPNGAnimation("enemynarko_attack_animation.png", 103, 109, 5);
         loadPNGAnimation("currency_gold_animation.png", 44, 45, 5);
         loadPNGAnimation("player_run_animation.png", 105, 132, 5);
-        loadPNGAnimation("player_weapon_melee_champaign_attack_animation.png", 110, 166, 5);
-        loadPNGAnimation("player_weapon_melee_champaign_run_animation.png", 108, 100, 5);
+        loadPNGAnimation("player_weapon_melee_champaign_attack_animation.png", 110, 166, 3);
+        loadPNGAnimation("player_weapon_melee_champaign_run_animation.png", 108, 100, 3);
         loadPNGAnimation("player_weapon_ranged_champaign_attack_animation.png", 105, 132, 5);
         loadPNGAnimation("player_weapon_ranged_throwbottle_attack_animation.png", 111, 66, 2);
 //        loadPNGAnimation("player_idle_animation.png", 44, 45, 5);
@@ -133,6 +134,7 @@ public class Renderer {
         //Total back (Background)
         batch.begin();
         drawBackground(gameData, world);
+
         batch.end();
         drawSprites(gameData, world);
         drawAnimations(gameData, world);
@@ -145,7 +147,6 @@ public class Renderer {
         //Middle layer: Where entities is:
         batch.begin();
         drawForeground(gameData);
-
         drawScore(gameData, world);
         drawWaveCount(gameData, world);
         drawFPS(gameData);
@@ -153,12 +154,11 @@ public class Renderer {
         shader = new VignetteShader();
         //ShaderProgram.pedantic = false;    
         //ShaderProgram vignetteShader = shader.drawShader();
-       // System.out.println(fishEyeShader.isCompiled() ? "shader compiled" : fishEyeShader.getLog());
+        // System.out.println(fishEyeShader.isCompiled() ? "shader compiled" : fishEyeShader.getLog());
         //vignetteShader.begin();
 
         //batch.setShader(vignetteShader);
         //vignetteShader.setUniformf("u_resolution", gameData.getDisplayWidth(), gameData.getDisplayHeight());
-
         batch.end();
 
         //Layer beetween foreground and middleground: The frontside of the enemyspawner:
@@ -202,10 +202,10 @@ public class Renderer {
                     if (entity.getClass() == WeaponEntity.class && player != null) {
                         if (world.getEntity(((WeaponEntity) entity).getWeaponCarrier()).getClass() == PlayerEntity.class) {
                             angle = (float) Math.atan2(gameData.getMouseY() - player.getY(), gameData.getMouseX() - (player.getX() - gameData.getCameraX()));
-                            xCenter = 0;
-                            yCenter = 20;// assetManager.getAnimation(entity.getCurrentAnimation() + ".png").getHeight()/2.0f;
+                            xCenter = entity.getxCenter();
+                            yCenter = entity.getyCenter();// assetManager.getAnimation(entity.getCurrentAnimation() + ".png").getHeight()/2.0f;
                             if (gameData.getMouseX() < player.getX() - gameData.getCameraX()) {
-                                xCenter = assetManager.getAnimation(entity.getCurrentAnimation() + ".png").getWidth();
+                                xCenter = assetManager.getAnimation(entity.getCurrentAnimation() + ".png").getWidth() - entity.getxCenter();
                                 flipped = true;
                                 angle += Math.PI;
                             }
@@ -253,7 +253,7 @@ public class Renderer {
         boolean draw = true;
         if (entity.getClass() == WeaponEntity.class) {
             if (world.getEntity(((WeaponEntity) entity).getWeaponCarrier()).getClass() == EnemyEntity.class
-              || entity.getCurrentFrame() >= (animation.size()) - 1 + (1 / animationSpeed)) {
+                    || entity.getCurrentFrame() >= (animation.size()) - 1 + (1 / animationSpeed)) {
                 draw = false;
             }
         }
@@ -374,12 +374,13 @@ public class Renderer {
         batch.begin();
 
         if (angle != 0) {
-    
-            if(xCenter == 0 && yCenter == 0)
+
+            if (xCenter == 0 && yCenter == 0) {
                 sprite.setOriginCenter();
-            else
+            } else {
                 sprite.setOrigin(xCenter, yCenter);
-            
+            }
+
             sprite.setRotation((float) Math.toDegrees(angle));
         }
 
@@ -438,7 +439,10 @@ public class Renderer {
         pupil.draw(batch);
     }
 
-    public void setRGB() {
+    private void colorPupil(World world, Sprite pupil) {
+        if (startColor == null) {
+            startColor = pupil.getColor();
+        }
 
         counter += 0.01;
 
@@ -446,27 +450,20 @@ public class Renderer {
         g = (float) Math.abs(Math.sin(counter * 2.573758));
         b = (float) Math.abs(Math.sin(counter * 3.357285));
 
-    }
-
-    private void colorPupil(World world, Sprite pupil) {
-        if (startColor == null) {
-            startColor = pupil.getColor();
-        }
-
-        setRGB();
-
         for (Entity e : world.getEntities(PlayerEntity.class)) {
             PlayerEntity entity = (PlayerEntity) e;
 
             if (entity.getLsdTimer() > 0) {
                 Color color = new Color(r, g, b, 1);
                 pupil.setColor(color);
+                shader = new LsdShader();
+                batch.setShader(shader.drawShader(r, g, b));
                 entity.subtractLsdTimer();
             }
 
             if (entity.getLsdTimer() == 0) {
                 pupil.setColor(startColor);
-
+                batch.setShader(null);
             }
         }
     }

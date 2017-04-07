@@ -6,15 +6,14 @@
 package group04.core.shaders;
 
 import com.badlogic.gdx.graphics.glutils.ShaderProgram;
-import group04.core.shaders.ShaderInterface;
 
 /**
  *
  * @author Josan gamle stodder
  */
-public class InvertionShader implements ShaderInterface {
+public class InvertionShader implements IShaderInterface {
 
-    public ShaderProgram drawShader() {
+    public ShaderProgram drawShader(float r, float g, float b) {
         String vertexShader = "attribute vec4 a_position;\n"
                 + "attribute vec4 a_color;\n"
                 + "attribute vec2 a_texCoord0;\n"
