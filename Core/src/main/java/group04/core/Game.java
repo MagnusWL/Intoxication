@@ -164,9 +164,7 @@ public class Game implements ApplicationListener {
                 for (Event e : gameData.getAllEvents()) {
                     if (e.getType() == EventType.PLAYER_SHOOT_GUN) {
                         WeaponEntity weapon = (WeaponEntity) player.getWeaponOwned();
-
                         if (weapon.getWeaponType() == WeaponType.GUN) {
-                            weapon.setCurrentAnimation("player_weapon_ranged_throwBottle_attack_animation");
                             weapon.setCurrentFrame(0);
                             ips.playershootgun(gameData, world, p, weapon);
                         }
@@ -176,6 +174,13 @@ public class Game implements ApplicationListener {
                         if (weapon.getWeaponType() == WeaponType.ROCKET) {
                             ips.playershootrocket(gameData, world, p, weapon);
 
+                        }
+                        gameData.removeEvent(e);
+                    } else if (e.getType() == EventType.PLAYER_SWING) {
+                        WeaponEntity weapon = (WeaponEntity) player.getWeaponOwned();
+                        if (weapon.getWeaponType() == WeaponType.MELEE) {
+                            ips.playershootgun(gameData, world, p, weapon);
+                            weapon.setCurrentFrame(0);
                         }
                         gameData.removeEvent(e);
                     }
