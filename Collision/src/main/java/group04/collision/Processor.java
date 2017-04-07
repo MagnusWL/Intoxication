@@ -2,11 +2,8 @@ package group04.collision;
 
 import group04.collisioncommon.ICollisionService;
 import group04.common.Entity;
-import group04.common.EntityType;
 import group04.common.GameData;
 import group04.common.World;
-import group04.common.events.Event;
-import group04.common.events.EventType;
 import group04.common.services.IServiceProcessor;
 import group04.mapcommon.MapEntity;
 
@@ -36,13 +33,16 @@ public class Processor implements ICollisionService, IServiceProcessor {
             for (int i = 0; i < shapex.length; i++) {
                 int x = (int) ((entity.getX() + shapex[i] + moveX) / gameData.getTileSize());
                 int y = (int) ((entity.getY() + shapey[i] + moveY) / gameData.getTileSize());
-                if (x >= 0 && y >= 0 && x < gameData.getMapWidth() && y < gameData.getMapHeight()) {
-                    if (mapEntity.getMap()[x][y] == 1) {
+
+                if (shapey[i] < 0) {
+                    if (x >= 0 && y >= 0 && x < gameData.getMapWidth() && y < gameData.getMapHeight()) {
+                        if (mapEntity.getMap()[x][y] == 1 && entity.getVerticalVelocity() < 0) {
+                            return true;
+                        }
+
+                    } else {
                         return true;
                     }
-
-                } else {
-                    return true;
                 }
             }
         }

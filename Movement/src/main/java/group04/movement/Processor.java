@@ -11,7 +11,6 @@ import group04.common.WeaponType;
 import group04.common.World;
 import group04.common.events.Event;
 import group04.common.events.EventType;
-import group04.common.services.IServiceProcessor;
 import group04.currencycommon.CurrencyEntity;
 import group04.currencycommon.ICurrencyService;
 import group04.enemycommon.EnemyEntity;
@@ -68,7 +67,6 @@ public class Processor implements IMovementService {
 
             for (Entity entity : world.getAllEntities()) {
                 if (entity.isHasGravity()) {
-//                MovementContainer movementContainer = ((MovementContainer) entity.getContainer(MovementContainer.class));
                     steps = (int) (Math.ceil(Math.abs(entity.getVelocity())) + Math.ceil(Math.abs(entity.getVerticalVelocity())));
                     if (steps > 5) {
                         steps = 5;
@@ -97,7 +95,6 @@ public class Processor implements IMovementService {
                     }
 
                     if (entity.getEntityType() == EntityType.PROJECTILE) {
-//                    ProjectileContainer projectileContainer = ((ProjectileContainer) entity.getContainer(ProjectileContainer.class));
                         ProjectileEntity bullet = (ProjectileEntity) entity;
                         if (!bullet.isExplosive()) {
                             for (Entity entityHit : world.getEntities(PlayerEntity.class, EnemyEntity.class, BaseEntity.class)) {
