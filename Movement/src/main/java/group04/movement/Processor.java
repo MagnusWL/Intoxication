@@ -15,6 +15,8 @@ import group04.common.services.IServiceProcessor;
 import group04.currencycommon.CurrencyEntity;
 import group04.currencycommon.ICurrencyService;
 import group04.enemycommon.EnemyEntity;
+import group04.itemdropscommon.IDropService;
+import group04.itemdropscommon.ItemEntity;
 import group04.movementcommon.IMovementService;
 import group04.playercommon.PlayerEntity;
 import group04.projectilecommon.ProjectileEntity;
@@ -34,41 +36,25 @@ public class Processor implements IMovementService {
 
             for (Entity player : world.getEntities(PlayerEntity.class)) {
 
-                for (Entity loot : world.getEntities(CurrencyEntity.class)) {
+                for (Entity loot : world.getEntities(ItemEntity.class)) {
 
                     if (e.isEntitiesColliding(world, gameData, player, loot)) {
-
                         for (Entity entity : world.getEntities(PlayerEntity.class)) {
                             PlayerEntity playerEntity = (PlayerEntity) entity;
 
-                            //PICKUP CURRENCY
-                            for (ICurrencyService i : Lookup.getDefault().lookupAll(ICurrencyService.class)) {
-                                i.pickUpCurrency(world, playerEntity, loot);
+                            for (IDropService i : Lookup.getDefault().lookupAll(IDropService.class)) {
+                                i.pickUpItem(world, playerEntity, loot);
                             }
                         }
+
                     }
+
                 }
-
-                for (Entity boost : world.getEntities(BoostEntity.class)) {
-
-                    if (e.isEntitiesColliding(world, gameData, player, boost)) {
-
-                        for (Entity entity : world.getEntities(PlayerEntity.class)) {
-                            PlayerEntity playerEntity = (PlayerEntity) entity;
-
-                            //PICKUP BOOST
-                            for (IBoostService b : Lookup.getDefault().lookupAll(IBoostService.class)) {
-                                b.pickUpBoost(world, playerEntity, boost);
-                            }
-                        }
-                    }
-                }
-
             }
-
+            
             for (Entity entity : world.getAllEntities()) {
                 if (entity.isHasGravity()) {
-//                MovementContainer movementContainer = ((MovementContainer) entity.getContainer(MovementContainer.class));
+
                     steps = (int) (Math.ceil(Math.abs(entity.getVelocity())) + Math.ceil(Math.abs(entity.getVerticalVelocity())));
                     if (steps > 5) {
                         steps = 5;

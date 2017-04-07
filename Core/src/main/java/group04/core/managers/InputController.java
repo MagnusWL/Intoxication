@@ -101,7 +101,7 @@ public class InputController extends InputAdapter {
             gameData.getKeys().setKey(GameKeys.SPACE, false);
         }
         if (k == Input.Keys.Q) {
-            gameData.getKeys().setKey(GameKeys.Q, true);
+            gameData.getKeys().setKey(GameKeys.Q, false);
         }
         
 

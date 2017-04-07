@@ -126,6 +126,11 @@ public class Game implements ApplicationListener {
 
         for (IWeaponService ips : Lookup.getDefault().lookupAll(IWeaponService.class)) {
             ips.pickUpWeapon(gameData, world);
+            for(Entity e : world.getEntities(PlayerEntity.class)) {
+            ips.switchWeapon(gameData, world, (PlayerEntity) e);    
+            }
+            
+            
         }
 
         platformProcess();
