@@ -18,7 +18,16 @@ public class ProjectileEntity extends Entity {
     private int explosionRadius;
     private EntityType shotFrom;
     private float angle;
+    private float destructionTimer;
 
+    public float getDestructionTimer() {
+        return destructionTimer;
+    }
+
+    public void setDestructionTimer(float destructionTimer) {
+        this.destructionTimer = destructionTimer;
+    }
+    
     public float getAngle() {
         return angle;
     }
