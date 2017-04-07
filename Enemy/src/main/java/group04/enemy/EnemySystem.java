@@ -16,6 +16,7 @@ import group04.enemycommon.IEnemyService;
 import group04.common.services.IServiceInitializer;
 import group04.currencycommon.ICurrencyService;
 import group04.enemycommon.EnemyEntity;
+import group04.itemdropscommon.IDropService;
 import org.openide.util.Lookup;
 
 @ServiceProviders(value = {
@@ -153,16 +154,21 @@ public class EnemySystem implements IEnemyService, IServiceInitializer {
         if (enemyHit.getLife() <= 0) {
             world.removeEntity(enemyHit.getWeaponOwned());
             world.removeEntity(enemyHit);
-
-            //DROPS CURRENCY
-            for (ICurrencyService i : Lookup.getDefault().lookupAll(ICurrencyService.class)) {
-                i.dropCurrency(gameData, world, enemyHit.getX(), enemyHit.getY());
+            
+            //Drop item
+            for(IDropService i : Lookup.getDefault().lookupAll(IDropService.class)) {
+                i.dropItem(gameData, world, enemyHit.getX(), enemyHit.getY());
             }
 
-            //DROPS BOOST
-            for (IBoostService ibs : Lookup.getDefault().lookupAll(IBoostService.class)) {
-                ibs.dropBoost(gameData, world, enemyHit.getX(), enemyHit.getY());
-            }
+//            //DROPS CURRENCY
+//            for (ICurrencyService i : Lookup.getDefault().lookupAll(ICurrencyService.class)) {
+//                i.dropCurrency(gameData, world, enemyHit.getX(), enemyHit.getY());
+//            }
+
+//            //DROPS BOOST
+//            for (IBoostService ibs : Lookup.getDefault().lookupAll(IBoostService.class)) {
+//                ibs.dropBoost(gameData, world, enemyHit.getX(), enemyHit.getY());
+//            }
         }
     }
 
