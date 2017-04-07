@@ -242,24 +242,7 @@ public class Renderer {
         }
     }
 
-    private void chooseAnimation(GameData gameData, World world, Entity entity, double animationSpeed, boolean flip, boolean red, boolean reverse) {
-        if (reverse) {
-            animationSpeed = -animationSpeed;
-        }
-        if (red) {
-            if (flip) {
-                playAnimation(gameData, world, assetManager.getRedAnimationFlip(entity.getCurrentAnimation() + "_flipped.png"), entity, assetManager.getAnimationSpeed(entity.getCurrentAnimation() + ".png"));
-            } else {
-                playAnimation(gameData, world, assetManager.getRedAnimation(entity.getCurrentAnimation() + ".png"), entity, assetManager.getAnimationSpeed(entity.getCurrentAnimation() + ".png"));
-            }
-        } else if (flip) {
-            playAnimation(gameData, world, assetManager.getAnimationsFlip(entity.getCurrentAnimation() + "_flipped.png"), entity, assetManager.getAnimationSpeed(entity.getCurrentAnimation() + ".png"));
-        } else {
-            playAnimation(gameData, world, assetManager.getAnimations(entity.getCurrentAnimation() + ".png"), entity, assetManager.getAnimationSpeed(entity.getCurrentAnimation() + ".png"));
-        }
-    }
-
-    private void playAnimation(GameData gameData, World world, ArrayList<Sprite> animation, Entity entity, double animationSpeed) {
+    private void playAnimation(GameData gameData, World world, ArrayList<Sprite> animation, Entity entity, double animationSpeed, float angle, float xCenter, float yCenter) {
         boolean draw = true;
         if (entity.getClass() == WeaponEntity.class) {
             if (world.getEntity(((WeaponEntity) entity).getWeaponCarrier()).getClass() == EnemyEntity.class
