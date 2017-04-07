@@ -25,6 +25,7 @@ public class GameKeys {
     public static final int K = 7;
     public static final int SPACE = 8;
     public static final int MOUSE0 = 9;
+    public static final int Q = 11;
 
     public GameKeys() {
         keys = new boolean[NUM_KEYS];

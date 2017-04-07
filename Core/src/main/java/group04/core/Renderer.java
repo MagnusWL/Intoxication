@@ -514,17 +514,17 @@ public class Renderer {
 
             if (((WeaponEntity) playerEntity.getWeaponOwned()).getWeaponType() == WeaponType.GUN) {
 
-                assetManager.getSprites("beerbottle.png").setX(x - assetManager.getSprites("beerbottle.png").getWidth() / 2.0f);
-                assetManager.getSprites("beerbottle.png").setY(y - assetManager.getSprites("beerbottle.png").getHeight() / 2.0f);
-                assetManager.getSprites("beerbottle.png").setRotation(0);
-                assetManager.getSprites("beerbottle.png").draw(batch);
+                assetManager.getSprites("inventory_beerbottle.png").setX(x - assetManager.getSprites("inventory_beerbottle.png").getWidth() / 2.0f);
+                assetManager.getSprites("inventory_beerbottle.png").setY(y - assetManager.getSprites("inventory_beerbottle.png").getHeight() / 2.0f);
+                assetManager.getSprites("inventory_beerbottle.png").setRotation(0);
+                assetManager.getSprites("inventory_beerbottle.png").draw(batch);
                 
             } else if (((WeaponEntity) playerEntity.getWeaponOwned()).getWeaponType() == WeaponType.MELEE) {
-                assetManager.getSprites("player_weapon_melee_champaign_run_animation.png").setX(x - assetManager.getSprites("beerbottle.png").getWidth() / 2.0f);
-                assetManager.getSprites("player_weapon_melee_champaign_run_animation.png").setY(y - assetManager.getSprites("beerbottle.png").getHeight() / 2.0f);
-                assetManager.getSprites("player_weapon_melee_champaign_run_animation.png").draw(batch);
+                assetManager.getSprites("inventory_champaign.png").setX(x - assetManager.getSprites("inventory_beerbottle.png").getWidth() / 2.0f);
+                assetManager.getSprites("inventory_champaign.png").setY(y - assetManager.getSprites("inventory_beerbottle.png").getHeight() / 2.0f);
+                assetManager.getSprites("inventory_champaign.png").draw(batch);
             }
-            //drawSprite(gameData, world, e, assetManager.getSprites(e.getDrawable() + ".png"));
+            
         }
 
     }
