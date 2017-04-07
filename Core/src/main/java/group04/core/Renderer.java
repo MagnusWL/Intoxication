@@ -20,6 +20,7 @@ import group04.basecommon.BaseEntity;
 import group04.boostcommon.BoostEntity;
 import group04.common.Entity;
 import group04.common.GameData;
+import group04.common.WeaponType;
 import group04.common.World;
 import group04.core.managers.Assets;
 import group04.core.shaders.BlurShader;
@@ -252,9 +253,11 @@ public class Renderer {
     private void playAnimation(GameData gameData, World world, ArrayList<Sprite> animation, Entity entity, double animationSpeed, float angle, float xCenter, float yCenter) {
         boolean draw = true;
         if (entity.getClass() == WeaponEntity.class) {
-            if (world.getEntity(((WeaponEntity) entity).getWeaponCarrier()).getClass() == EnemyEntity.class
-                    || entity.getCurrentFrame() >= (animation.size()) - 1 + (1 / animationSpeed)) {
+            if (world.getEntity(((WeaponEntity) entity).getWeaponCarrier()).getClass() == EnemyEntity.class) {
                 draw = false;
+            } else if (entity.getCurrentFrame() >= (animation.size()) - 1 + (1 / animationSpeed)) {
+                entity.setCurrentFrame(0);
+                entity.setCurrentAnimation(entity.getIdleAnimation());
             }
         }
 
