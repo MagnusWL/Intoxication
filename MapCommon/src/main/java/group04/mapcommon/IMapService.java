@@ -6,11 +6,12 @@
 package group04.mapcommon;
 
 import group04.common.GameData;
+import group04.common.World;
 
 /**
  *
  * @author Michael-PC
  */
 public interface IMapService {
-    public void process(GameData gameData, String map);
+    public void process(GameData gameData, World world, String map);
 }

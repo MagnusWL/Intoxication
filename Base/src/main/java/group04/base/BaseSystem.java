@@ -101,29 +101,29 @@ public class BaseSystem implements IServiceProcessor, IServiceInitializer {
                     if (base.getPlatformLevel() == 1) {
                         PlatformEntity platform = new PlatformEntity();
                         platform.setDrawable("base_platform");
-                        platform.setX(984);
-                        platform.setY(229);
+                        platform.setX(1070.5f);
+                        platform.setY(237f);
                         world.addEntity(platform);
                     }
                     if (base.getPlatformLevel() == 2) {
                         PlatformEntity platform = new PlatformEntity();
                         platform.setDrawable("base_platform");
-                        platform.setX(680);
-                        platform.setY(274);
+                        platform.setX(766.5f);
+                        platform.setY(282f);
                         world.addEntity(platform);
                     }
                     if (base.getPlatformLevel() == 3) {
                         PlatformEntity platform = new PlatformEntity();
                         platform.setDrawable("base_platform");
-                        platform.setX(1268);
-                        platform.setY(264);
+                        platform.setX(1354.5f);
+                        platform.setY(272f);
                         world.addEntity(platform);
                     }
                     if (base.getPlatformLevel() == 4) {
                         PlatformEntity platform = new PlatformEntity();
                         platform.setDrawable("base_platform");
-                        platform.setX(501);
-                        platform.setY(382);
+                        platform.setX(587.5f);
+                        platform.setY(390f);
                         world.addEntity(platform);
                     }
 

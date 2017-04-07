@@ -24,15 +24,13 @@ import org.openide.util.lookup.ServiceProviders;
 
 public class Initializer implements IServiceInitializer, IMapService {
 
-    
-
     public Initializer() {
     }
 
     @Override
     public void start(GameData gameData, World world) {
 //        map = generateMap(gameData);
-        Entity map = loadMap(gameData, "../../../Common/src/main/resources/map.object");
+        MapEntity map = (MapEntity) loadMap(gameData, "../../../Common/src/main/resources/map.object");
         world.addEntity(map);
     }
 
@@ -43,7 +41,6 @@ public class Initializer implements IServiceInitializer, IMapService {
 
     private Entity loadMap(GameData gameData, String map) {
 
-        
         FileInputStream fin = null;
         ObjectInputStream ois = null;
         try {
@@ -61,7 +58,7 @@ public class Initializer implements IServiceInitializer, IMapService {
             int[][] newMapInt;
 
             try {
-                
+
                 newMapInt = (int[][]) ois.readObject();
                 gameData.setMapHeight(newMapInt[0].length);
                 gameData.setMapWidth(newMapInt.length);
@@ -78,12 +75,20 @@ public class Initializer implements IServiceInitializer, IMapService {
         if (newMap != null) {
             return newMap;
         }
-
         return null;
     }
 
     @Override
-    public void process(GameData gameData, String map) {
-        loadMap(gameData, map);
+    public void process(GameData gameData, World world, String map) {
+        MapEntity currentMap = null;
+        for (Entity e : world.getEntities(MapEntity.class)) {
+            currentMap = (MapEntity) e;
+        }
+        if (map != currentMap.getCurrentPath()) {
+            world.removeEntity(currentMap);
+            currentMap = (MapEntity) loadMap(gameData, map);
+            currentMap.setCurrentPath(map);
+            world.addEntity(currentMap);
+        }
     }
 }
