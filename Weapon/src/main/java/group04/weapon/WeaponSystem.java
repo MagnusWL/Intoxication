@@ -251,4 +251,15 @@ public class WeaponSystem implements IWeaponService, IServiceInitializer {
         }
     }
 
+    @Override
+    public void switchWeapon(GameData gameData, World world, Entity player) {
+        PlayerEntity playerEntity = (PlayerEntity) player;
+        
+        if (gameData.getKeys().isDown(GameKeys.Q) && ((WeaponEntity) playerEntity.getWeaponOwned()).getWeaponType() == WeaponType.GUN) {
+            createWeapon(gameData, world, playerEntity, WeaponType.MELEE);
+
+        } else if (gameData.getKeys().isDown(GameKeys.Q) && ((WeaponEntity) playerEntity.getWeaponOwned()).getWeaponType() == WeaponType.MELEE) {
+            createWeapon(gameData, world, playerEntity, WeaponType.GUN);
+        }
+    }
 }
