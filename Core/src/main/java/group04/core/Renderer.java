@@ -8,6 +8,7 @@ package group04.core;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.Texture;
+import com.badlogic.gdx.graphics.VertexAttribute;
 import com.badlogic.gdx.graphics.g2d.Batch;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.Sprite;
@@ -60,7 +61,6 @@ public class Renderer {
         text = new BitmapFont();
         batch = new SpriteBatch();
         sr = new ShapeRenderer();
-
         assetManager = new Assets(gameData);
 
         assetManager.load();
@@ -128,6 +128,7 @@ public class Renderer {
         //Total back (Background)
         batch.begin();
         drawBackground(gameData, world);
+        
         batch.end();
         drawSprites(gameData, world);
         drawAnimations(gameData, world);
@@ -140,11 +141,11 @@ public class Renderer {
         //Middle layer: Where entities is:
         batch.begin();
         drawForeground(gameData);
-
         drawScore(gameData, world);
         drawWaveCount(gameData, world);
         drawFPS(gameData);
         drawInventory(gameData, world);
+
         batch.end();
 
         //Layer beetween foreground and middleground: The frontside of the enemyspawner:
@@ -223,21 +224,19 @@ public class Renderer {
     }
 
     private void chooseAnimation(GameData gameData, World world, Entity entity, double animationSpeed, boolean flip, boolean red, boolean reverse) {
-        if(reverse)
+        if (reverse) {
             animationSpeed = -animationSpeed;
-        if(red)
-        {
-            if(flip)
-                playAnimation(gameData, world, assetManager.getRedAnimationFlip(entity.getCurrentAnimation() + "_flipped.png"), entity, assetManager.getAnimationSpeed(entity.getCurrentAnimation() + ".png"));
-            else
-                playAnimation(gameData, world, assetManager.getRedAnimation(entity.getCurrentAnimation() + ".png"), entity, assetManager.getAnimationSpeed(entity.getCurrentAnimation() + ".png"));
         }
-        else
-        {
-            if(flip)
-                playAnimation(gameData, world, assetManager.getAnimationsFlip(entity.getCurrentAnimation() + "_flipped.png"), entity, assetManager.getAnimationSpeed(entity.getCurrentAnimation() + ".png"));
-            else
-                playAnimation(gameData, world, assetManager.getAnimations(entity.getCurrentAnimation() + ".png"), entity, assetManager.getAnimationSpeed(entity.getCurrentAnimation() + ".png"));            
+        if (red) {
+            if (flip) {
+                playAnimation(gameData, world, assetManager.getRedAnimationFlip(entity.getCurrentAnimation() + "_flipped.png"), entity, assetManager.getAnimationSpeed(entity.getCurrentAnimation() + ".png"));
+            } else {
+                playAnimation(gameData, world, assetManager.getRedAnimation(entity.getCurrentAnimation() + ".png"), entity, assetManager.getAnimationSpeed(entity.getCurrentAnimation() + ".png"));
+            }
+        } else if (flip) {
+            playAnimation(gameData, world, assetManager.getAnimationsFlip(entity.getCurrentAnimation() + "_flipped.png"), entity, assetManager.getAnimationSpeed(entity.getCurrentAnimation() + ".png"));
+        } else {
+            playAnimation(gameData, world, assetManager.getAnimations(entity.getCurrentAnimation() + ".png"), entity, assetManager.getAnimationSpeed(entity.getCurrentAnimation() + ".png"));
         }
     }
 
@@ -280,7 +279,7 @@ public class Renderer {
                 drawSprite(gameData, world, entity, assetManager.getSprites(entity.getDrawable() + ".png"));
             }
         }
-        
+
         for (Entity entity : world.getEntities(PlatformEntity.class)) {
             if (entity.getDrawable() != null) {
                 System.out.println(entity.getDrawable());
@@ -426,7 +425,7 @@ public class Renderer {
         colorPupil(world, pupil);
         pupil.draw(batch);
     }
-    
+
     public void setRGB() {
 
         counter += 0.01;
@@ -455,7 +454,7 @@ public class Renderer {
 
             if (entity.getLsdTimer() == 0) {
                 pupil.setColor(startColor);
-
+                batch.setShader(null);
             }
         }
     }
@@ -506,5 +505,7 @@ public class Renderer {
         }
 
     }
+
+    
 
 }
