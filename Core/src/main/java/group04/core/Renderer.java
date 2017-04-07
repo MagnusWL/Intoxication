@@ -91,9 +91,8 @@ public class Renderer {
         loadPNGAnimation("player_weapon_ranged_throwbottle_attack_animation.png", 111, 66, 2);
         loadPNGAnimation("pill.png", 25, 12, 1000);
         loadPNGAnimation("player_weapon_ranged_throwbottle_run_animation.png", 111, 66, 2);
-        
-//        loadPNGAnimation("player_idle_animation.png", 44, 45, 5);
 
+//        loadPNGAnimation("player_idle_animation.png", 44, 45, 5);
         // loadPNGImages();
         String fileName;
         Sprite sprite;
@@ -505,8 +504,8 @@ public class Renderer {
     }
 
     private void drawInventory(GameData gameData, World world) {
-        int x = gameData.getDisplayWidth() - 124;
-        int y = gameData.getDisplayHeight() - 70;
+        int x = gameData.getDisplayWidth() - (((gameData.getDisplayWidth() * 10)) / 100);
+        int y = gameData.getDisplayHeight() - (((gameData.getDisplayHeight() * 15)) / 100);
         assetManager.getSprites("inventoryspace1.png").setX((x - assetManager.getSprites("inventoryspace1.png").getWidth() / 2.0f));
         assetManager.getSprites("inventoryspace1.png").setY((y - assetManager.getSprites("inventoryspace1.png").getHeight() / 2.0f));
         assetManager.getSprites("inventoryspace1.png").draw(batch);
@@ -519,17 +518,17 @@ public class Renderer {
 
             if (((WeaponEntity) playerEntity.getWeaponOwned()).getWeaponType() == WeaponType.GUN) {
 
-                assetManager.getSprites("inventory_beerbottle.png").setX(x - assetManager.getSprites("inventory_beerbottle.png").getWidth() / 2.0f);
-                assetManager.getSprites("inventory_beerbottle.png").setY(y - assetManager.getSprites("inventory_beerbottle.png").getHeight() / 2.0f);
+                assetManager.getSprites("inventory_beerbottle.png").setX(x - assetManager.getSprites("inventory_beerbottle.png").getWidth() / 2.0f + 15);
+                assetManager.getSprites("inventory_beerbottle.png").setY(y - assetManager.getSprites("inventory_beerbottle.png").getHeight() / 2.0f + 7.5f);
                 assetManager.getSprites("inventory_beerbottle.png").setRotation(0);
                 assetManager.getSprites("inventory_beerbottle.png").draw(batch);
-                
+
             } else if (((WeaponEntity) playerEntity.getWeaponOwned()).getWeaponType() == WeaponType.MELEE) {
-                assetManager.getSprites("inventory_champaign.png").setX(x - assetManager.getSprites("inventory_beerbottle.png").getWidth() / 2.0f);
-                assetManager.getSprites("inventory_champaign.png").setY(y - assetManager.getSprites("inventory_beerbottle.png").getHeight() / 2.0f);
+                assetManager.getSprites("inventory_champaign.png").setX(x - assetManager.getSprites("inventory_beerbottle.png").getWidth() / 2.0f + 30);
+                assetManager.getSprites("inventory_champaign.png").setY(y - assetManager.getSprites("inventory_beerbottle.png").getHeight() / 2.0f - 25);
                 assetManager.getSprites("inventory_champaign.png").draw(batch);
             }
-            
+
         }
 
     }
