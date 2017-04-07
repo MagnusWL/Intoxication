@@ -159,16 +159,6 @@ public class EnemySystem implements IEnemyService, IServiceInitializer {
             for(IDropService i : Lookup.getDefault().lookupAll(IDropService.class)) {
                 i.dropItem(gameData, world, enemyHit.getX(), enemyHit.getY());
             }
-
-//            //DROPS CURRENCY
-//            for (ICurrencyService i : Lookup.getDefault().lookupAll(ICurrencyService.class)) {
-//                i.dropCurrency(gameData, world, enemyHit.getX(), enemyHit.getY());
-//            }
-
-//            //DROPS BOOST
-//            for (IBoostService ibs : Lookup.getDefault().lookupAll(IBoostService.class)) {
-//                ibs.dropBoost(gameData, world, enemyHit.getX(), enemyHit.getY());
-//            }
         }
     }
 
