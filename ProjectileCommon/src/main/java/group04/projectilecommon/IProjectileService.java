@@ -19,5 +19,5 @@ public interface IProjectileService {
     public void playershootgun(GameData gameData, World world, Entity player, Entity playerWeapon);
     public void playershootrocket(GameData gameData, World world, Entity player, Entity playerWeapon);
     public void enemyshoot(GameData gameData, World world, Entity enemy, Entity base, Entity player);
-    
+    public void playermeleeattack(GameData gameData, World world, Entity player, Entity playerWeapon);    
 }

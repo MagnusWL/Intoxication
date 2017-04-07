@@ -27,7 +27,7 @@ public class VignetteShader implements IShaderInterface {
                 + "void main() {\n"
                 + "    v_color = a_color;\n"
                 + "    v_texCoord0 = a_texCoord0;\n"
-                + "    gl_Position =  u_projTrans * (a_position,1);\n"
+                + "    gl_Position =  u_projTrans * vec4(a_position,1);\n"
                 + "}";
         String fragmentShader
                 = "in vec3 Color;\n"
