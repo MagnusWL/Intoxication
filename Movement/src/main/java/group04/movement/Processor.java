@@ -46,9 +46,7 @@ public class Processor implements IMovementService {
                                 i.pickUpItem(world, playerEntity, loot);
                             }
                         }
-
                     }
-
                 }
             }
             
