@@ -262,8 +262,10 @@ public class WeaponSystem implements IWeaponService, IServiceInitializer {
 
         if (gameData.getKeys().isPressed(GameKeys.Q)) {
             if (((WeaponEntity) playerEntity.getWeaponOwned()).getWeaponType() == WeaponType.GUN) {
+                world.removeEntity(playerEntity.getWeaponOwned());
                 createWeapon(gameData, world, playerEntity, WeaponType.MELEE);
             } else if (((WeaponEntity) playerEntity.getWeaponOwned()).getWeaponType() == WeaponType.MELEE) {
+                world.removeEntity(playerEntity.getWeaponOwned());
                 createWeapon(gameData, world, playerEntity, WeaponType.GUN);
             }
         }
