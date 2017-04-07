@@ -82,6 +82,8 @@ public class WeaponSystem implements IWeaponService, IServiceInitializer {
          */
         weapon.setAnimateable(true);
         weapon.setCurrentAnimation("player_weapon_ranged_throwBottle_attack_animation");
+        weapon.setIdleAnimation("player_weapon_ranged_throwbottle_run_animation");
+        weapon.setAttackAnimation("player_weapon_ranged_throwbottle_attack_animation");
         weapon.setCurrentFrame(10);
         weapon.setAttackCooldown(5);
         weapon.setTimeSinceAttack(0);
@@ -106,6 +108,8 @@ public class WeaponSystem implements IWeaponService, IServiceInitializer {
         weapon.setEntityType(EntityType.WEAPON);
         weapon.setAnimateable(true);
         weapon.setCurrentAnimation("player_weapon_melee_champaign_attack_animation");
+        weapon.setIdleAnimation("player_weapon_melee_champaign_run_animation");
+        weapon.setAttackAnimation("player_weapon_melee_champaign_attack_animation");
         weapon.setAttackCooldown(3);
         weapon.setTimeSinceAttack(0);
         weapon.setCurrentFrame(6);
@@ -131,6 +135,7 @@ public class WeaponSystem implements IWeaponService, IServiceInitializer {
         WeaponEntity weapon = new WeaponEntity();
         weapon.setAnimateable(true);
         weapon.setCurrentAnimation("player_weapon_ranged_throwbottle_attack_animation");
+        weapon.setAttackAnimation("player_weapon_ranged_throwbottle_attack_animation");
         weapon.setAttackCooldown(8);
         weapon.setTimeSinceAttack(0);
         weapon.setDamage(2);
@@ -243,7 +248,7 @@ public class WeaponSystem implements IWeaponService, IServiceInitializer {
                 if (world.getEntity(e.getEntityID()).getClass() == EnemyEntity.class) {
                     createWeapon(gameData, world, world.getEntity(e.getEntityID()), WeaponType.MELEE);
                 } else {
-                    createWeapon(gameData, world, world.getEntity(e.getEntityID()), WeaponType.MELEE);
+                    createWeapon(gameData, world, world.getEntity(e.getEntityID()), WeaponType.GUN);
                 }
 
                 gameData.removeEvent(e);
