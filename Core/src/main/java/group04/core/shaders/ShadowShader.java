@@ -14,7 +14,7 @@ import com.badlogic.gdx.graphics.glutils.ShaderProgram;
 public class ShadowShader implements ShaderInterface {
 
     @Override
-    public ShaderProgram drawShader() {
+    public ShaderProgram drawShader(float r, float g, float b) {
         String vertexShader
                 = "attribute vec4 a_position;\n"
                 + "attribute vec4 a_color;\n"

@@ -15,7 +15,7 @@ import group04.core.shaders.ShaderInterface;
 public class BlurShader implements ShaderInterface {
 
     @Override
-    public ShaderProgram drawShader() {
+    public ShaderProgram drawShader(float r, float g, float b) {
         String vertexShader = "attribute vec4 " + ShaderProgram.POSITION_ATTRIBUTE + ";\n"
                 + "attribute vec4 " + ShaderProgram.COLOR_ATTRIBUTE + ";\n"
                 + "attribute vec2 " + ShaderProgram.TEXCOORD_ATTRIBUTE + "0;\n"

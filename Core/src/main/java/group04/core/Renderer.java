@@ -24,6 +24,7 @@ import group04.common.World;
 import group04.core.managers.Assets;
 import group04.core.shaders.BlurShader;
 import group04.core.shaders.InvertionShader;
+import group04.core.shaders.LsdShader;
 import group04.enemycommon.EnemyEntity;
 import group04.inventorycommon.InventoryEntity;
 import group04.platformcommon.PlatformEntity;
@@ -438,7 +439,10 @@ public class Renderer {
         pupil.draw(batch);
     }
 
-    public void setRGB() {
+    private void colorPupil(World world, Sprite pupil) {
+        if (startColor == null) {
+            startColor = pupil.getColor();
+        }
 
         counter += 0.01;
 
@@ -446,21 +450,14 @@ public class Renderer {
         g = (float) Math.abs(Math.sin(counter * 2.573758));
         b = (float) Math.abs(Math.sin(counter * 3.357285));
 
-    }
-
-    private void colorPupil(World world, Sprite pupil) {
-        if (startColor == null) {
-            startColor = pupil.getColor();
-        }
-
-        setRGB();
-
         for (Entity e : world.getEntities(PlayerEntity.class)) {
             PlayerEntity entity = (PlayerEntity) e;
 
             if (entity.getLsdTimer() > 0) {
                 Color color = new Color(r, g, b, 1);
                 pupil.setColor(color);
+                shader = new LsdShader();
+                batch.setShader(shader.drawShader(r, g, b));
                 entity.subtractLsdTimer();
             }
 
