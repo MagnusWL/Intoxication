@@ -51,42 +51,10 @@ public class Processor implements IMovementService {
 
                 }
             }
-
-//            for (Entity player : world.getEntities(PlayerEntity.class)) {
-//
-//                for (Entity loot : world.getEntities(CurrencyEntity.class)) {
-//
-//                    if (e.isEntitiesColliding(world, gameData, player, loot)) {
-//
-//                        for (Entity entity : world.getEntities(PlayerEntity.class)) {
-//                            PlayerEntity playerEntity = (PlayerEntity) entity;
-//
-//                            //PICKUP CURRENCY
-//                            for (ICurrencyService i : Lookup.getDefault().lookupAll(ICurrencyService.class)) {
-//                                i.pickUpCurrency(world, playerEntity, loot);
-//                            }
-//                        }
-//                    }
-//                }
-//                for (Entity boost : world.getEntities(BoostEntity.class)) {
-//
-//                    if (e.isEntitiesColliding(world, gameData, player, boost)) {
-//
-//                        for (Entity entity : world.getEntities(PlayerEntity.class)) {
-//                            PlayerEntity playerEntity = (PlayerEntity) entity;
-//
-//                            //PICKUP BOOST
-//                            for (IBoostService b : Lookup.getDefault().lookupAll(IBoostService.class)) {
-//                                b.pickUpBoost(world, playerEntity, boost);
-//                            }
-//                        }
-//                    }
-//                }
-//
-//            }
+            
             for (Entity entity : world.getAllEntities()) {
                 if (entity.isHasGravity()) {
-//                MovementContainer movementContainer = ((MovementContainer) entity.getContainer(MovementContainer.class));
+
                     steps = (int) (Math.ceil(Math.abs(entity.getVelocity())) + Math.ceil(Math.abs(entity.getVerticalVelocity())));
                     if (steps > 5) {
                         steps = 5;
