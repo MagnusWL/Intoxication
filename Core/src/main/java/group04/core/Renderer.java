@@ -203,10 +203,10 @@ public class Renderer {
                     if (entity.getClass() == WeaponEntity.class && player != null) {
                         if (world.getEntity(((WeaponEntity) entity).getWeaponCarrier()).getClass() == PlayerEntity.class) {
                             angle = (float) Math.atan2(gameData.getMouseY() - player.getY(), gameData.getMouseX() - (player.getX() - gameData.getCameraX()));
-                            xCenter = 0;
-                            yCenter = 20;// assetManager.getAnimation(entity.getCurrentAnimation() + ".png").getHeight()/2.0f;
+                            xCenter = entity.getxCenter();
+                            yCenter = entity.getyCenter();// assetManager.getAnimation(entity.getCurrentAnimation() + ".png").getHeight()/2.0f;
                             if (gameData.getMouseX() < player.getX() - gameData.getCameraX()) {
-                                xCenter = assetManager.getAnimation(entity.getCurrentAnimation() + ".png").getWidth();
+                                xCenter = assetManager.getAnimation(entity.getCurrentAnimation() + ".png").getWidth() - entity.getxCenter();
                                 flipped = true;
                                 angle += Math.PI;
                             }

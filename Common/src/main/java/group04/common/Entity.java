@@ -28,6 +28,24 @@ public class Entity {
     private boolean hitable = false;
     private boolean hit = false;
     private int hitCounter = 8;
+    private int xCenter;
+    private int yCenter;    
+
+    public int getxCenter() {
+        return xCenter;
+    }
+
+    public void setxCenter(int xCenter) {
+        this.xCenter = xCenter;
+    }
+
+    public int getyCenter() {
+        return yCenter;
+    }
+
+    public void setyCenter(int yCenter) {
+        this.yCenter = yCenter;
+    }
 
     public int getHitCounter() {
         return hitCounter;
