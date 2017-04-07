@@ -82,6 +82,7 @@ public class WeaponSystem implements IWeaponService, IServiceInitializer {
          */
         weapon.setAnimateable(true);
         weapon.setCurrentAnimation("player_weapon_ranged_throwBottle_attack_animation");
+        weapon.setIdleAnimation("player_weapon_ranged_throwbottle_run_animation");
         weapon.setAttackAnimation("player_weapon_ranged_throwbottle_attack_animation");
         weapon.setCurrentFrame(10);
         weapon.setAttackCooldown(5);
@@ -247,7 +248,7 @@ public class WeaponSystem implements IWeaponService, IServiceInitializer {
                 if (world.getEntity(e.getEntityID()).getClass() == EnemyEntity.class) {
                     createWeapon(gameData, world, world.getEntity(e.getEntityID()), WeaponType.MELEE);
                 } else {
-                    createWeapon(gameData, world, world.getEntity(e.getEntityID()), WeaponType.MELEE);
+                    createWeapon(gameData, world, world.getEntity(e.getEntityID()), WeaponType.GUN);
                 }
 
                 gameData.removeEvent(e);
