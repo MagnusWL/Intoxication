@@ -16,7 +16,7 @@ public class Installer extends ModuleInstall {
     public void restored() {
         LwjglApplicationConfiguration cfg
                 = new LwjglApplicationConfiguration();
-
+        cfg.useGL30 = true;
         cfg.title = "Intoxication";
         cfg.width = 1280;
         cfg.height = 720;
