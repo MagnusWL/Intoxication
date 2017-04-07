@@ -34,4 +34,5 @@
 /Platform/target/
 /InventoryCommon/target/
 /Inventory/target/
-/Projectile/src/main/resources/beerBottle.png
+/ItemDrops/target/
+/ItemDropsCommon/target/
