@@ -21,7 +21,7 @@ import org.openide.util.lookup.ServiceProviders;
     @ServiceProvider(service = IDropService.class)})
 
 public class ItemSystem implements IServiceInitializer, IDropService {
-
+    
     private Entity createItem(World world, GameData gameData, float x, float y, String animation, ItemType type) {
         ItemEntity item = new ItemEntity();
         item.setX(x);
@@ -43,18 +43,20 @@ public class ItemSystem implements IServiceInitializer, IDropService {
 
     @Override
     public void dropItem(GameData gameData, World world, float x, float y) {
-
-        Random rand = new Random();
+        
         float dropChance = (float) Math.random();
         
         if (dropChance < 0.25) {
             world.addEntity(createItem(world, gameData, x, y, "currency_gold_animation", ItemType.CURRENCY));
         } 
         
-        if (dropChance > 0.75) {
+        if (dropChance < 0.95 && dropChance > 0.75) {
             world.addEntity(createItem(world, gameData, x, y, "pill", ItemType.PILL));
         }
-
+        
+        if (dropChance > 0.01) {
+            world.addEntity(createItem(world, gameData, x, y, "beerbottle", ItemType.BEERBOTTLE_WEAPON));
+        }
     }
 
     @Override
@@ -69,6 +71,11 @@ public class ItemSystem implements IServiceInitializer, IDropService {
         
         if (ItemType.CURRENCY == itemEntity.getType()) {
             playerEntity.setMoney(playerEntity.getMoney() + 10);
+        }
+        
+        if (ItemType.BEERBOTTLE_WEAPON == itemEntity.getType()) {
+            //do stuff
+            //pick up the weapon
         }
 
         world.removeEntity(world.getEntity(itemEntity.getID()));

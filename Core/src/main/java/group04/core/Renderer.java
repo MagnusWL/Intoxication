@@ -91,6 +91,9 @@ public class Renderer {
         loadPNGAnimation("player_weapon_ranged_throwbottle_attack_animation.png", 111, 66, 2);
         loadPNGAnimation("pill.png", 25, 12, 1000);
         loadPNGAnimation("player_weapon_ranged_throwbottle_run_animation.png", 111, 66, 2);
+        loadPNGAnimation("beerbottle.png", 34, 16, 1000);
+        
+//        loadPNGAnimation("player_idle_animation.png", 44, 45, 5);
 
 //        loadPNGAnimation("player_idle_animation.png", 44, 45, 5);
         // loadPNGImages();
