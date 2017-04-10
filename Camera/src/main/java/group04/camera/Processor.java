@@ -13,7 +13,7 @@ public class Processor implements ICameraService {
 
     @Override
     public void followEntity(GameData gameData, World world, Entity entity) {
-        gameData.setCameraX((int) (entity.getX() + 180 - gameData.getDisplayWidth() / 2.0));
+        gameData.setCameraX((int) (entity.getX() - gameData.getDisplayWidth() / 2.0));
         gameData.setCameraY((int) (entity.getY() - gameData.getDisplayHeight() / 2.0));
         checkBlankSpace(gameData);
     }

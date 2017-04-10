@@ -335,6 +335,7 @@ public class Renderer {
         for (Entity entity : world.getEntities(PlayerEntity.class)) {
             PlayerEntity player = (PlayerEntity) entity;
             text.draw(batch, "Drug money: " + Integer.toString(player.getMoney()), 40, gameData.getDisplayHeight() - 30);
+            text.draw(batch, "XPOS: " + Integer.toString((int) player.getX()), 40, gameData.getDisplayHeight() - 10);
         }
     }
 
@@ -420,8 +421,9 @@ public class Renderer {
         drawBackground(gameData, assetManager.getSprites("level_03_back.png"), back3m);
     }
 
+    double actualD = 0;
     public void drawPupil(GameData gameData, World world, Sprite pupil, float mov) {
-        float eyeX = 1818;
+        /*float eyeX = 1818;
         float playerX = 0;
         float playerY = 80;
         for (Entity player : world.getEntities(PlayerEntity.class)) {
@@ -435,14 +437,30 @@ public class Renderer {
             d = -d * d * 2;
         } else {
             d = d * d * 2;
+        }*/
+        double playerX = 0;
+        double playerY = 80;
+        for (Entity player : world.getEntities(PlayerEntity.class)) {
+            playerX = player.getX();
+            playerY = player.getY();
         }
+        
+        double ratio01 = (playerX - 646) / (2936 - 646);
+        if(ratio01 < 0)
+            ratio01 = 0;
+        if(ratio01 > 1)
+            ratio01 = 1;
+        double eyeX = 1818;
+        double d = (ratio01 - 0.5f)*1.2;
+        
+        actualD += (d - actualD) * 0.05;
 
-        int xTranslate = (int) (200 * d);
-        int yTranslate = (int) (50 * Math.abs(d) + (playerY - 80) * 0.2);
+        double xTranslate = (200 * actualD);
+        double yTranslate = (50 * Math.abs(actualD) + (playerY - 80) * 0.2);
         pupil.setX((float) (-pupil.getWidth() / 2.0 + eyeX - gameData.getCameraX() * mov + xTranslate * 3.5));
-        pupil.setY(yTranslate);
-        pupil.setScale((float) ((1 - Math.abs(d))), 1);
-        pupil.setRotation(-d * 20);
+        pupil.setY((float) yTranslate);
+        pupil.setScale((float) ((1 - Math.abs(actualD))), 1);
+        pupil.setRotation((float) (-actualD * 30));
         colorPupil(world, pupil);
         pupil.draw(batch);
     }
