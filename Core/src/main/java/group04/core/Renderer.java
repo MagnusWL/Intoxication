@@ -336,9 +336,6 @@ public class Renderer {
         for (Entity entity : world.getEntities(PlayerEntity.class)) {
             PlayerEntity player = (PlayerEntity) entity;
             text.draw(batch, "Drug money: " + Integer.toString(player.getMoney()), 40, gameData.getDisplayHeight() - 30);
-            if(Gdx.input.isTouched(Input.Buttons.LEFT))
-              text.draw(batch, "XPOS: " + Integer.toString((int) player.getX()), 40, gameData.getDisplayHeight() - 10);
-        }
     }
 
     private void drawFPS(GameData gameData) {
