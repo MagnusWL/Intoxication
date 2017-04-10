@@ -56,7 +56,7 @@ public class Game implements ApplicationListener {
     public Game() {
 
     }
-    
+
     Assets assetManager;
 
     @Override

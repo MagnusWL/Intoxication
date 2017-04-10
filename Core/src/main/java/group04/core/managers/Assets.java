@@ -22,6 +22,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Map.Entry;
 import org.apache.commons.io.FilenameUtils;
 
 /**
@@ -31,7 +32,7 @@ import org.apache.commons.io.FilenameUtils;
 public final class Assets {
 
     private static AssetManager manager;
-    private static List<AssetDescriptor<Sound>> soundAssets = new ArrayList<AssetDescriptor<Sound>>();
+    private static Map<String, AssetDescriptor<Sound>> soundAssets = new HashMap<String, AssetDescriptor<Sound>>();
     private static List<Texture> textureAssets = new ArrayList<Texture>();
     private Map<String, Animation> animations = new HashMap<>();
     private Map<String, Sprite> sprites = new HashMap<>();
@@ -57,8 +58,10 @@ public final class Assets {
     }
 
     public static void load() {
-        for (AssetDescriptor<Sound> soundFile : soundAssets) {
-            manager.load(soundFile);
+//        AssetDescriptor<Sound> soundFile : soundAssets.values()) {
+        for (Entry e: soundAssets.entrySet()){
+            manager.load(( AssetDescriptor<Sound>)e.getValue());
+  
         }
         for (Texture texture : textureAssets) {
 
@@ -70,7 +73,7 @@ public final class Assets {
     }
 
     public void addSoundAsset(String soundAssetName) {
-        soundAssets.add(new AssetDescriptor<>(soundAssetName, Sound.class));
+        soundAssets.put(soundAssetName, new AssetDescriptor<>(soundAssetName, Sound.class));
     }
 
     public void addImageAsset(Texture textureAsset) {
@@ -178,6 +181,10 @@ public final class Assets {
 
     public Map<String, Animation> getAllAnimations() {
         return animations;
+    }
+
+    public Sound getSound(String name) {
+         return manager.get(name);
     }
 
 }
