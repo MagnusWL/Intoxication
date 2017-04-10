@@ -6,6 +6,7 @@
 package group04.core;
 
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.Input;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.VertexAttribute;
@@ -335,7 +336,8 @@ public class Renderer {
         for (Entity entity : world.getEntities(PlayerEntity.class)) {
             PlayerEntity player = (PlayerEntity) entity;
             text.draw(batch, "Drug money: " + Integer.toString(player.getMoney()), 40, gameData.getDisplayHeight() - 30);
-            text.draw(batch, "XPOS: " + Integer.toString((int) player.getX()), 40, gameData.getDisplayHeight() - 10);
+            if(Gdx.input.isTouched(Input.Buttons.LEFT))
+              text.draw(batch, "XPOS: " + Integer.toString((int) player.getX()), 40, gameData.getDisplayHeight() - 10);
         }
     }
 
