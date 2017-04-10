@@ -65,17 +65,12 @@ public class Renderer {
 
     private Assets assetManager;
 
-    public Renderer(GameData gameData) {
+    public Renderer(GameData gameData, Assets assets) {
         text = new BitmapFont();
         batch = new SpriteBatch();
         sr = new ShapeRenderer();
-        assetManager = new Assets(gameData);
-
-        assetManager.load();
-        while (!assetManager.getAssetManager().update()) {
-//            System.out.println(assetManager.getAssetManager().getProgress() * 100);
-        }
-
+        this.assetManager = assets;
+        
 //        loadPNGAnimation("player_run_animation2.png", 75, 80, 5);
         //Animation speed += 1/animationspeed
         loadPNGAnimation("player_idle_animation.png", 105, 132, 5);
@@ -336,6 +331,7 @@ public class Renderer {
         for (Entity entity : world.getEntities(PlayerEntity.class)) {
             PlayerEntity player = (PlayerEntity) entity;
             text.draw(batch, "Drug money: " + Integer.toString(player.getMoney()), 40, gameData.getDisplayHeight() - 30);
+        }
     }
 
     private void drawFPS(GameData gameData) {

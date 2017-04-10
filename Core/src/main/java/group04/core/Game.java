@@ -26,6 +26,7 @@ import group04.common.events.EventType;
 import group04.projectilecommon.IProjectileService;
 import group04.common.services.IServiceInitializer;
 import group04.common.services.IServiceProcessor;
+import group04.core.managers.Assets;
 import group04.currencycommon.ICurrencyService;
 import group04.enemycommon.EnemyEntity;
 import group04.enemycommon.IEnemyService;
@@ -55,6 +56,8 @@ public class Game implements ApplicationListener {
     public Game() {
 
     }
+    
+    Assets assetManager;
 
     @Override
     public void create() {
@@ -69,7 +72,15 @@ public class Game implements ApplicationListener {
         cam = new OrthographicCamera(gameData.getDisplayWidth(), gameData.getDisplayHeight());
         cam.translate(gameData.getDisplayWidth() / 2, gameData.getDisplayHeight() / 2);
         cam.update();
-        render = new Renderer(gameData);
+
+        assetManager = new Assets(gameData);
+
+        assetManager.load();
+        while (!assetManager.getAssetManager().update()) {
+//            System.out.println(assetManager.getAssetManager().getProgress() * 100);
+        }
+
+        render = new Renderer(gameData, assetManager);
         menu = new MenuHandler();
 
         for (IServiceInitializer i : Lookup.getDefault().lookupAll(IServiceInitializer.class)) {
@@ -126,11 +137,10 @@ public class Game implements ApplicationListener {
 
         for (IWeaponService ips : Lookup.getDefault().lookupAll(IWeaponService.class)) {
             ips.pickUpWeapon(gameData, world);
-            for(Entity e : world.getEntities(PlayerEntity.class)) {
-            ips.switchWeapon(gameData, world, (PlayerEntity) e);    
+            for (Entity e : world.getEntities(PlayerEntity.class)) {
+                ips.switchWeapon(gameData, world, (PlayerEntity) e);
             }
-            
-            
+
         }
 
         platformProcess();
