@@ -1,18 +1,9 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package group04.playercommon;
 
 import group04.common.Entity;
 import group04.weaponcommon.WeaponEntity;
 
-/**
- *
- * @author burno
- */
-public class PlayerEntity extends Entity {
+public class PlayerEntity extends Entity{
 
     private int lsdTimer;
     private int lsdAmount = 60 * 5;
@@ -20,7 +11,6 @@ public class PlayerEntity extends Entity {
     private float movementSpeed;
     private float jumpSpeed;
     private Entity weaponOwned;
-    //private boolean intoxicated;
 
     public int getLsdTimer() {
         return lsdTimer;

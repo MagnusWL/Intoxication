@@ -1,9 +1,10 @@
 package group04.common;
 
+import java.io.Serializable;
 import java.util.HashMap;
 import java.util.UUID;
 
-public class Entity {
+public class Entity implements Serializable {
 
     private EntityType entityType;
     private float x;

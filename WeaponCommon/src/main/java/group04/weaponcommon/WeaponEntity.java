@@ -1,18 +1,9 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package group04.weaponcommon;
 
 import group04.common.Entity;
 import group04.common.WeaponType;
 
-/**
- *
- * @author Magnus
- */
-public class WeaponEntity extends Entity {
+public class WeaponEntity extends Entity{
 
     private String weaponCarrier;
     private int damage;
