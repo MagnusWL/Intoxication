@@ -166,12 +166,12 @@ public class Game implements ApplicationListener {
     private void update() {
         gameData.setDelta(Gdx.graphics.getDeltaTime());
 
-        if(gameData.getKeys().isDown(GameKeys.J)) 
+        if(gameData.getKeys().isDown(GameKeys.O)) 
         {
             saveWorld();
         }
 
-        if(gameData.getKeys().isDown(GameKeys.K)) 
+        if(gameData.getKeys().isDown(GameKeys.L)) 
         {
             loadWorld();
         }

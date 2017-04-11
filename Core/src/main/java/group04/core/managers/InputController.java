@@ -56,6 +56,13 @@ public class InputController extends InputAdapter {
         if (k == Input.Keys.K) {
             gameData.getKeys().setKey(GameKeys.K, true);
         }
+        if (k == Input.Keys.L) {
+            gameData.getKeys().setKey(GameKeys.L, true);
+        }
+        if (k == Input.Keys.O) {
+            gameData.getKeys().setKey(GameKeys.O, true);
+        }
+
         if (k == Input.Keys.SPACE) {
             gameData.getKeys().setKey(GameKeys.SPACE, true);
         }
@@ -92,6 +99,13 @@ public class InputController extends InputAdapter {
         if (k == Input.Keys.K) {
             gameData.getKeys().setKey(GameKeys.K, false);
         }
+        if (k == Input.Keys.L) {
+            gameData.getKeys().setKey(GameKeys.L, false);
+        }
+        if (k == Input.Keys.O) {
+            gameData.getKeys().setKey(GameKeys.O, false);
+        }
+
         if (k == Input.Keys.SPACE) {
             gameData.getKeys().setKey(GameKeys.SPACE, false);
         }
