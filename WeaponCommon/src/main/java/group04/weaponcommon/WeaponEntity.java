@@ -11,6 +11,12 @@ public class WeaponEntity extends Entity{
     private float attackCooldown;
     private float timeSinceAttack;
     private boolean swinging;
+    
+    //Audio:
+    
+    private String attackAudio;
+    private String pickUpAudio;
+    private String outOfProjectileAudio;
 
     public int getDamage() {
         return damage;
@@ -59,4 +65,31 @@ public class WeaponEntity extends Entity{
     public void setSwinging(boolean swinging) {
         this.swinging = swinging;
     }
+    
+    //Audio methods:
+
+    public String getAttackAudio() {
+        return attackAudio;
+    }
+
+    public void setAttackAudio(String attackAudio) {
+        this.attackAudio = attackAudio;
+    }
+
+    public String getPickUpAudio() {
+        return pickUpAudio;
+    }
+
+    public void setPickUpAudio(String pickUpAudio) {
+        this.pickUpAudio = pickUpAudio;
+    }
+
+    public String getOutOfProjectileAudio() {
+        return outOfProjectileAudio;
+    }
+
+    public void setOutOfProjectileAudio(String outOfProjectileAudio) {
+        this.outOfProjectileAudio = outOfProjectileAudio;
+    }
+    
 }

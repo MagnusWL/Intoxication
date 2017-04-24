@@ -81,6 +81,8 @@ public class Renderer {
         loadPNGAnimation("enemynarko_attack_animation.png", 103, 109, 5);
         loadPNGAnimation("currency_gold_animation.png", 44, 45, 5);
         loadPNGAnimation("player_run_animation.png", 105, 132, 5);
+        loadPNGAnimation("enemyboss_run_animation.png", 238, 290,5);
+        loadPNGAnimation("enemyboss_attack_animation.png", 238, 290,5);
         loadPNGAnimation("player_weapon_melee_champaign_attack_animation.png", 110, 166, 3);
         loadPNGAnimation("player_weapon_melee_champaign_run_animation.png", 110, 166, 3);
         loadPNGAnimation("player_weapon_ranged_champaign_attack_animation.png", 105, 132, 5);
@@ -344,6 +346,11 @@ public class Renderer {
             WaveSpawnerEntity wave = (WaveSpawnerEntity) entity;
             text.draw(batch, "Next wave: " + Integer.toString(Math.max(0, (wave.getSpawnTimerMax() - wave.getSpawnTimer()) / 60)) + " seconds", 40, gameData.getDisplayHeight() - 50);
         }
+    }
+    
+    private void drawHealthBar(GameData gameData, World world)
+    {
+        
     }
 
     private void drawHealthBars(GameData gameData, World world) {

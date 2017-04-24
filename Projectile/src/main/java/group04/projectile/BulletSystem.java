@@ -37,6 +37,7 @@ public class BulletSystem implements IServiceInitializer, IProjectileService, IS
         bullet.setEntityType(EntityType.PROJECTILE);
 
         bullet.setDrawable("beerbottle");
+        bullet.setDestroyProjectileAudio("bottle_destroy");
         bullet.setAngle(angle);
 
         bullet.setVelocity((float) (850 * Math.cos(angle)));

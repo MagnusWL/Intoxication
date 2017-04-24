@@ -64,6 +64,7 @@ public class Game implements ApplicationListener {
     Renderer render;
     MenuHandler menu;
     private FPSLogger fps = new FPSLogger();
+    private AudioController audio;
 
     public Game() {
 
@@ -130,8 +131,9 @@ public class Game implements ApplicationListener {
         while (!assetManager.getAssetManager().update()) {
 //            System.out.println(assetManager.getAssetManager().getProgress() * 100);
         }
-
+        
         render = new Renderer(gameData, assetManager);
+        audio = new AudioController(gameData, assetManager);
         menu = new MenuHandler();
 
         for (IServiceInitializer i : Lookup.getDefault().lookupAll(IServiceInitializer.class)) {
@@ -203,7 +205,7 @@ public class Game implements ApplicationListener {
             }
 
         }
-
+        audio.update();
         platformProcess();
         playerProcess();
         enemyProcess();
@@ -244,6 +246,7 @@ public class Game implements ApplicationListener {
                             weapon.setCurrentFrame(0);
                             ips.playershootgun(gameData, world, p, weapon);
                         }
+                        audio.PlayAudio(weapon.getAttackAudio() + ".wav", 0.4f);
                         gameData.removeEvent(e);
                     } else if (e.getType() == EventType.PLAYER_SHOOT_ROCKET) {
                         WeaponEntity weapon = (WeaponEntity) player.getWeaponOwned();
@@ -260,6 +263,7 @@ public class Game implements ApplicationListener {
                             ips.playermeleeattack(gameData, world, p, weapon);
                             weapon.setCurrentFrame(0);
                         }
+                        audio.PlayAudio(weapon.getAttackAudio() + ".mp3",0.4f);
                         gameData.removeEvent(e);
                     }
                 }

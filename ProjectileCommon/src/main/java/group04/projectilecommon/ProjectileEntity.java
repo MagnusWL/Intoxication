@@ -10,6 +10,8 @@ public class ProjectileEntity extends Entity {
     private EntityType shotFrom;
     private float angle;
     private float destructionTimer;
+    // Audio
+    private String destroyProjectileAudio;
 
     public float getDestructionTimer() {
         return destructionTimer;
@@ -18,7 +20,7 @@ public class ProjectileEntity extends Entity {
     public void setDestructionTimer(float destructionTimer) {
         this.destructionTimer = destructionTimer;
     }
-    
+
     public float getAngle() {
         return angle;
     }
@@ -49,6 +51,14 @@ public class ProjectileEntity extends Entity {
 
     public void setExplosionRadius(int explosionRadius) {
         this.explosionRadius = explosionRadius;
+    }
+
+    public String getDestroyProjectileAudio() {
+        return destroyProjectileAudio;
+    }
+
+    public void setDestroyProjectileAudio(String destroyProjectileAudio) {
+        this.destroyProjectileAudio = destroyProjectileAudio;
     }
 
 }

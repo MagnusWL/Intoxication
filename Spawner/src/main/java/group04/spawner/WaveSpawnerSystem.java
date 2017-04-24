@@ -11,6 +11,7 @@ import group04.common.GameData;
 import group04.common.World;
 import group04.common.services.IServiceInitializer;
 import group04.enemycommon.EnemyEntity;
+import group04.enemycommon.EnemyType;
 import group04.enemycommon.IEnemyService;
 import group04.spawnercommon.ISpawnerService;
 import group04.spawnercommon.WaveSpawnerEntity;
@@ -29,13 +30,22 @@ import org.openide.util.lookup.ServiceProviders;
 
 public class WaveSpawnerSystem implements ISpawnerService, IServiceInitializer {
 
+    private double portalOneSpawn = 0.95;
+    private double portalTwoSpawnX = 0.85;
+    private double portalTwoSpawnY = 0.5;
+    private double portalThreeSpawn = 0.72;
+    
+    private double bossSpawnHeight = 0.6;
+    
     private void createWaveSpawner(GameData gameData, World world) {
         WaveSpawnerEntity waveSpawner = new WaveSpawnerEntity();
         waveSpawner.setEntityType(EntityType.WAVE_SPAWNER);
 
         waveSpawner.setSpawnTimerMax(600);
-        waveSpawner.setMobsSpawnedMax(5);
-        waveSpawner.setSpawnDuration(500);
+        //Sets mob spawned for level 1:
+        waveSpawner.setMobsSpawnedMax(1);
+        waveSpawner.setSpawnDuration(100);
+        waveSpawner.setCurrentLevel(1);
 
         world.addEntity(waveSpawner);
     }
@@ -49,20 +59,36 @@ public class WaveSpawnerSystem implements ISpawnerService, IServiceInitializer {
             if (waveSpawner.getSpawnTimer() - waveSpawner.getSpawnTimerMax() > timePerMob * waveSpawner.getMobsSpawned() && waveSpawner.getMobsSpawned() < waveSpawner.getMobsSpawnedMax()) {
                 waveSpawner.setMobsSpawned(waveSpawner.getMobsSpawned() + 1);
                 for (IEnemyService e : Lookup.getDefault().lookupAll(IEnemyService.class)) {
-                        e.createEnemy(gameData, world, (int) (gameData.getTileSize() * gameData.getMapWidth() * 0.95), (int) (gameData.getDisplayHeight() * 0.25));
+                    switch (waveSpawner.getCurrentLevel()) {
+                        case 1: // level 1:
+                            e.createEnemy(gameData, world, (int) (gameData.getTileSize() * gameData.getMapWidth() * portalOneSpawn-0.10), (int) (gameData.getDisplayHeight() * bossSpawnHeight), EnemyType.BOSS, waveSpawner.getCurrentLevel());
+                            break;
+                        case 2: // level 2:
+                            waveSpawner.setMobsSpawnedMax(10);
+                            waveSpawner.setSpawnDuration(200);
+                            e.createEnemy(gameData, world, (int) (gameData.getTileSize() * gameData.getMapWidth() * portalThreeSpawn), (int) (gameData.getDisplayHeight() * 0.25), EnemyType.BEER, waveSpawner.getCurrentLevel());
+                            break;
+                        case 3: //level 3:
+                            waveSpawner.setMobsSpawnedMax(10);
+                            waveSpawner.setSpawnDuration(1000);
+                            e.createEnemy(gameData, world, (int) (gameData.getTileSize() * gameData.getMapWidth() * portalThreeSpawn), (int) (gameData.getDisplayHeight() * 0.25), EnemyType.NARKO, waveSpawner.getCurrentLevel());
+                            e.createEnemy(gameData, world, (int) (gameData.getTileSize() * gameData.getMapWidth() * portalOneSpawn), (int) (gameData.getDisplayHeight() * 0.25), EnemyType.BEER, waveSpawner.getCurrentLevel());
+                            break; 
+                        //Insert more levels here
+                    }
                 }
             }
 
             boolean enemiesLeft = false;
-            for(Entity enemy: world.getEntities(EnemyEntity.class))
-            {
+            for (Entity enemy : world.getEntities(EnemyEntity.class)) {
                 enemiesLeft = true;
                 break;
             }
-            
+
             if (waveSpawner.getSpawnTimer() > waveSpawner.getSpawnTimerMax() + waveSpawner.getSpawnDuration() && !enemiesLeft) {
                 waveSpawner.setSpawnTimer(0);
                 waveSpawner.setMobsSpawned(0);
+                waveSpawner.setCurrentLevel(waveSpawner.getCurrentLevel() + 1);
             }
         }
     }

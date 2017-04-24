@@ -9,6 +9,18 @@ public class WaveSpawnerEntity extends Entity {
     private int spawnDuration;
     private int spawnTimer;
     private int mobsSpawned;
+    private int currentLevel;
+    private boolean isBossLevel = false;
+    private int bossPositionX;
+    private int bossPositionY;
+
+    public int getCurrentLevel() {
+        return currentLevel;
+    }
+
+    public void setCurrentLevel(int currentLevel) {
+        this.currentLevel = currentLevel;
+    }
 
     public int getMobsSpawned() {
         return mobsSpawned;

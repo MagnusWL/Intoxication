@@ -7,6 +7,8 @@ import java.util.UUID;
 public class Entity implements Serializable {
 
     private EntityType entityType;
+    //Tag er tilføjet, hvis man gerne vil finde en entity by tag
+    private String tag;
     private float x;
     private float y;
     private UUID ID = UUID.randomUUID();
@@ -31,6 +33,14 @@ public class Entity implements Serializable {
     private int hitCounter = 8;
     private int xCenter;
     private int yCenter;    
+
+    public String getTag() {
+        return tag;
+    }
+
+    public void setTag(String tag) {
+        this.tag = tag;
+    }
 
     public int getxCenter() {
         return xCenter;
