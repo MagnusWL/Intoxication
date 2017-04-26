@@ -78,10 +78,10 @@ public class MenuHandler {
             setGameState(1);
         }
         if (gameData.getKeys().isDown(GameKeys.MOUSE0)
-                && gameData.getMouseX() > images.get("exit").getX()
-                && gameData.getMouseX() < (images.get("exit").getX() + images.get("exit").getWidth())
-                && gameData.getMouseY() > images.get("exit").getY()
-                && gameData.getMouseY() < (images.get("exit").getY() + images.get("exit").getHeight())) {
+                && gameData.getMouseX() > images.get("quit").getX()
+                && gameData.getMouseX() < (images.get("quit").getX() + images.get("quit").getWidth())
+                && gameData.getMouseY() > images.get("quit").getY()
+                && gameData.getMouseY() < (images.get("quit").getY() + images.get("quit").getHeight())) {
             setGameState(3);
         }
         if (gameData.getKeys().isDown(GameKeys.MOUSE0)
@@ -97,12 +97,12 @@ public class MenuHandler {
     private void drawExitMenuSprites(int width, int height) {
         batch.begin();
         drawSprite(images.get("menu"), 0, 0);
-        drawSprite(images.get("exitquestion"), (int) ((width / 2) - (images.get("exitquestion").getWidth() / 2)),
-                (int) ((height / 2) - (images.get("exitquestion").getHeight() / 2) + 250));
-        drawSprite(images.get("yesexit"), (int) (((width / 2) - (images.get("yesexit").getWidth() / 2)) - 50),
-                (int) ((height / 2) - (images.get("yesexit").getHeight() / 2) + 150));
-        drawSprite(images.get("noexit"), (int) (((width / 2) - (images.get("noexit").getWidth() / 2)) + 50),
-                (int) ((height / 2) - (images.get("noexit").getHeight() / 2) + 150));
+        drawSprite(images.get("exitquestion"), (int) ((width / 5.8) - (images.get("exitquestion").getWidth() / 2)),
+                (int) ((height / 1.6) - (images.get("exitquestion").getHeight() / 2) + 100));
+        drawSprite(images.get("yesexit"), (int) (((width / 5.8) - (images.get("yesexit").getWidth() / 2))),
+                (int) ((height / 1.945) - (images.get("yesexit").getHeight() / 2) ));
+        drawSprite(images.get("noexit"), (int) (((width / 6.4) - (images.get("noexit").getWidth() / 2))),
+                (int) ((height / 2.15) - (images.get("noexit").getHeight() / 2)- 100));
         batch.end();
     }
 
@@ -119,14 +119,14 @@ public class MenuHandler {
         batch.begin();
         drawSprite(images.get("menu"), 0, 0);
         // Start button
-        drawSprite(images.get("start"), (int) ((width / 2) - (images.get("start").getWidth() / 2)),
-                (int) ((height / 2) - (images.get("start").getHeight() / 2) + 100));
+        drawSprite(images.get("start"), (int) ((width / 5.8) - (images.get("start").getWidth() / 2)),
+                (int) ((height / 1.6) - (images.get("start").getHeight() / 2) + 100));
         // Exit button
-        drawSprite(images.get("exit"), (int) ((width / 2) - (images.get("exit").getWidth() / 2)),
-                (int) ((height / 2) - (images.get("exit").getHeight() / 2) - 100));
+        drawSprite(images.get("quit"), (int) ((width / 6.4) - (images.get("quit").getWidth() / 2)),
+                (int) ((height / 2.15) - (images.get("quit").getHeight() / 2) - 100));
         //Options button
-        drawSprite(images.get("options"), (int) ((width / 2) - (images.get("options").getWidth() / 2)),
-                (int) ((height / 2) - (images.get("options").getHeight() / 2)));
+        drawSprite(images.get("options"), (int) ((width / 5.8) - (images.get("options").getWidth() / 2)),
+                (int) ((height / 1.945) - (images.get("options").getHeight() / 2)));
 
         batch.end();
     }
@@ -147,14 +147,14 @@ public class MenuHandler {
 
     public void addEnvironment() {
         //Images: 
-        Texture tex = new Texture(Gdx.files.internal("menubackground.png"));
+        Texture tex = new Texture(Gdx.files.internal("menu.png"));
         images.put("menu", new Sprite(tex));
         tex = new Texture(Gdx.files.internal("start.png"));
         images.put("start", new Sprite(tex));
         tex = new Texture(Gdx.files.internal("options.png"));
         images.put("options", new Sprite(tex));
-        tex = new Texture(Gdx.files.internal("exit.png"));
-        images.put("exit", new Sprite(tex));
+        tex = new Texture(Gdx.files.internal("quit.png"));
+        images.put("quit", new Sprite(tex));
         tex = new Texture(Gdx.files.internal("exitquestion.png"));
         images.put("exitquestion", new Sprite(tex));
         tex = new Texture(Gdx.files.internal("yesexit.png"));

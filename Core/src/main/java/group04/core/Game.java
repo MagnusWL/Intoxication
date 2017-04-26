@@ -8,6 +8,7 @@ package group04.core;
 import group04.core.managers.InputController;
 import com.badlogic.gdx.ApplicationListener;
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.Input;
 import com.badlogic.gdx.graphics.FPSLogger;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.maps.tiled.renderers.OrthogonalTiledMapRenderer;
@@ -19,6 +20,7 @@ import group04.common.Entity;
 import group04.common.EntityType;
 import org.openide.util.Lookup;
 import group04.common.GameData;
+import group04.common.GameKeys;
 import group04.common.WeaponType;
 import group04.common.World;
 import group04.common.events.Event;
@@ -26,6 +28,7 @@ import group04.common.events.EventType;
 import group04.projectilecommon.IProjectileService;
 import group04.common.services.IServiceInitializer;
 import group04.common.services.IServiceProcessor;
+import group04.core.managers.Assets;
 import group04.currencycommon.ICurrencyService;
 import group04.enemycommon.EnemyEntity;
 import group04.enemycommon.IEnemyService;
@@ -36,7 +39,17 @@ import group04.spawnercommon.ISpawnerService;
 import group04.spawnercommon.WaveSpawnerEntity;
 import group04.weaponcommon.IWeaponService;
 import group04.weaponcommon.WeaponEntity;
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.io.ObjectInputStream;
+import java.io.ObjectOutputStream;
 import java.util.ArrayList;
+import java.util.Map;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import sun.nio.cs.ext.ISCII91;
 
 /**
@@ -51,9 +64,51 @@ public class Game implements ApplicationListener {
     Renderer render;
     MenuHandler menu;
     private FPSLogger fps = new FPSLogger();
+    private AudioController audio;
 
     public Game() {
 
+    }
+
+    Assets assetManager;
+    
+    public void loadWorld() {
+        FileInputStream fin = null;
+        ObjectInputStream ois = null;
+        try {
+            fin = new FileInputStream(new File("../../../Common/src/main/resources/save.object").getAbsolutePath());
+            ois = new ObjectInputStream(fin);
+        } catch (FileNotFoundException ex) {
+            Logger.getLogger(World.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (IOException ex) {
+            Logger.getLogger(World.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        
+        if (ois != null) {
+            try {
+                world.setMap((Map<String, Entity>) ois.readObject());
+                
+            } catch (IOException ex) {
+                Logger.getLogger(World.class.getName()).log(Level.SEVERE, null, ex);
+            } catch (ClassNotFoundException ex) {
+                Logger.getLogger(World.class.getName()).log(Level.SEVERE, null, ex);
+            }
+        }
+
+    }
+
+    public void saveWorld() {
+
+        FileOutputStream fout;
+        try {
+            fout = new FileOutputStream(new File("../../../Common/src/main/resources/save.object").getAbsolutePath());
+            ObjectOutputStream oos = new ObjectOutputStream(fout);
+            oos.writeObject(world.getMap());
+        } catch (FileNotFoundException ex) {
+            Logger.getLogger(World.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (IOException ex) {
+            Logger.getLogger(World.class.getName()).log(Level.SEVERE, null, ex);
+        }
     }
 
     @Override
@@ -69,7 +124,16 @@ public class Game implements ApplicationListener {
         cam = new OrthographicCamera(gameData.getDisplayWidth(), gameData.getDisplayHeight());
         cam.translate(gameData.getDisplayWidth() / 2, gameData.getDisplayHeight() / 2);
         cam.update();
-        render = new Renderer(gameData);
+
+        assetManager = new Assets(gameData);
+
+        assetManager.load();
+        while (!assetManager.getAssetManager().update()) {
+//            System.out.println(assetManager.getAssetManager().getProgress() * 100);
+        }
+        
+        render = new Renderer(gameData, assetManager);
+        audio = new AudioController(gameData, assetManager);
         menu = new MenuHandler();
 
         for (IServiceInitializer i : Lookup.getDefault().lookupAll(IServiceInitializer.class)) {
@@ -104,6 +168,16 @@ public class Game implements ApplicationListener {
     private void update() {
         gameData.setDelta(Gdx.graphics.getDeltaTime());
 
+        if(gameData.getKeys().isDown(GameKeys.O)) 
+        {
+            saveWorld();
+        }
+
+        if(gameData.getKeys().isDown(GameKeys.L)) 
+        {
+            loadWorld();
+        }
+        
         for (ICameraService e : Lookup.getDefault().lookupAll(ICameraService.class)) {
             for (Entity player : world.getEntities(PlayerEntity.class)) {
                 e.followEntity(gameData, world, player);
@@ -126,13 +200,12 @@ public class Game implements ApplicationListener {
 
         for (IWeaponService ips : Lookup.getDefault().lookupAll(IWeaponService.class)) {
             ips.pickUpWeapon(gameData, world);
-            for(Entity e : world.getEntities(PlayerEntity.class)) {
-            ips.switchWeapon(gameData, world, (PlayerEntity) e);    
+            for (Entity e : world.getEntities(PlayerEntity.class)) {
+                ips.switchWeapon(gameData, world, (PlayerEntity) e);
             }
-            
-            
-        }
 
+        }
+        audio.update();
         platformProcess();
         playerProcess();
         enemyProcess();
@@ -173,6 +246,7 @@ public class Game implements ApplicationListener {
                             weapon.setCurrentFrame(0);
                             ips.playershootgun(gameData, world, p, weapon);
                         }
+                        audio.PlayAudio(weapon.getAttackAudio() + ".wav", 0.4f);
                         gameData.removeEvent(e);
                     } else if (e.getType() == EventType.PLAYER_SHOOT_ROCKET) {
                         WeaponEntity weapon = (WeaponEntity) player.getWeaponOwned();
@@ -189,6 +263,7 @@ public class Game implements ApplicationListener {
                             ips.playermeleeattack(gameData, world, p, weapon);
                             weapon.setCurrentFrame(0);
                         }
+                        audio.PlayAudio(weapon.getAttackAudio() + ".mp3",0.4f);
                         gameData.removeEvent(e);
                     }
                 }

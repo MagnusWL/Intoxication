@@ -1,16 +1,7 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package group04.spawnercommon;
 
 import group04.common.Entity;
 
-/**
- *
- * @author Michael-PC
- */
 public class WaveSpawnerEntity extends Entity {
     
     private int spawnTimerMax;
@@ -18,6 +9,18 @@ public class WaveSpawnerEntity extends Entity {
     private int spawnDuration;
     private int spawnTimer;
     private int mobsSpawned;
+    private int currentLevel;
+    private boolean isBossLevel = false;
+    private int bossPositionX;
+    private int bossPositionY;
+
+    public int getCurrentLevel() {
+        return currentLevel;
+    }
+
+    public void setCurrentLevel(int currentLevel) {
+        this.currentLevel = currentLevel;
+    }
 
     public int getMobsSpawned() {
         return mobsSpawned;

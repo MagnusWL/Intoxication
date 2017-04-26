@@ -1,23 +1,25 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package group04.projectilecommon;
 
 import group04.common.Entity;
 import group04.common.EntityType;
 
-/**
- *
- * @author burno
- */
 public class ProjectileEntity extends Entity {
 
     private boolean explosive;
     private int explosionRadius;
     private EntityType shotFrom;
     private float angle;
+    private float destructionTimer;
+    // Audio
+    private String destroyProjectileAudio;
+
+    public float getDestructionTimer() {
+        return destructionTimer;
+    }
+
+    public void setDestructionTimer(float destructionTimer) {
+        this.destructionTimer = destructionTimer;
+    }
 
     public float getAngle() {
         return angle;
@@ -49,6 +51,14 @@ public class ProjectileEntity extends Entity {
 
     public void setExplosionRadius(int explosionRadius) {
         this.explosionRadius = explosionRadius;
+    }
+
+    public String getDestroyProjectileAudio() {
+        return destroyProjectileAudio;
+    }
+
+    public void setDestroyProjectileAudio(String destroyProjectileAudio) {
+        this.destroyProjectileAudio = destroyProjectileAudio;
     }
 
 }

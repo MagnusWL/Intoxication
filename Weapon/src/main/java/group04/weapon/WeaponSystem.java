@@ -84,6 +84,7 @@ public class WeaponSystem implements IWeaponService, IServiceInitializer {
         weapon.setCurrentAnimation("player_weapon_ranged_throwBottle_attack_animation");
         weapon.setIdleAnimation("player_weapon_ranged_throwbottle_run_animation");
         weapon.setAttackAnimation("player_weapon_ranged_throwbottle_attack_animation");
+        weapon.setAttackAudio("throw_attack");
         weapon.setCurrentFrame(10);
         weapon.setAttackCooldown(5);
         weapon.setTimeSinceAttack(0);
@@ -110,6 +111,7 @@ public class WeaponSystem implements IWeaponService, IServiceInitializer {
         weapon.setCurrentAnimation("player_weapon_melee_champaign_attack_animation");
         weapon.setIdleAnimation("player_weapon_melee_champaign_run_animation");
         weapon.setAttackAnimation("player_weapon_melee_champaign_attack_animation");
+        weapon.setAttackAudio("champagne_attack");
         weapon.setAttackCooldown(3);
         weapon.setTimeSinceAttack(0);
         weapon.setCurrentFrame(6);

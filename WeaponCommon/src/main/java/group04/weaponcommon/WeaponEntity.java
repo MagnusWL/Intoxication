@@ -1,18 +1,9 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package group04.weaponcommon;
 
 import group04.common.Entity;
 import group04.common.WeaponType;
 
-/**
- *
- * @author Magnus
- */
-public class WeaponEntity extends Entity {
+public class WeaponEntity extends Entity{
 
     private String weaponCarrier;
     private int damage;
@@ -20,6 +11,12 @@ public class WeaponEntity extends Entity {
     private float attackCooldown;
     private float timeSinceAttack;
     private boolean swinging;
+    
+    //Audio:
+    
+    private String attackAudio;
+    private String pickUpAudio;
+    private String outOfProjectileAudio;
 
     public int getDamage() {
         return damage;
@@ -68,4 +65,31 @@ public class WeaponEntity extends Entity {
     public void setSwinging(boolean swinging) {
         this.swinging = swinging;
     }
+    
+    //Audio methods:
+
+    public String getAttackAudio() {
+        return attackAudio;
+    }
+
+    public void setAttackAudio(String attackAudio) {
+        this.attackAudio = attackAudio;
+    }
+
+    public String getPickUpAudio() {
+        return pickUpAudio;
+    }
+
+    public void setPickUpAudio(String pickUpAudio) {
+        this.pickUpAudio = pickUpAudio;
+    }
+
+    public String getOutOfProjectileAudio() {
+        return outOfProjectileAudio;
+    }
+
+    public void setOutOfProjectileAudio(String outOfProjectileAudio) {
+        this.outOfProjectileAudio = outOfProjectileAudio;
+    }
+    
 }

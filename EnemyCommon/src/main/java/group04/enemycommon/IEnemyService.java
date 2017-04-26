@@ -22,5 +22,5 @@ public interface IEnemyService {
     
     public void enemyHit(GameData gameData, World world, EnemyEntity enemyHit);
     
-    public void createEnemy(GameData gameData, World world, int x, int y);
+    public void createEnemy(GameData gameData, World world, int x, int y, EnemyType enemyType, int currentLevel);
 }

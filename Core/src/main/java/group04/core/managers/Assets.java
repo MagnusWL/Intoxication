@@ -5,6 +5,7 @@
  */
 package group04.core.managers;
 
+import com.badlogic.gdx.Files;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.assets.AssetManager;
 import com.badlogic.gdx.assets.AssetDescriptor;
@@ -22,6 +23,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Map.Entry;
 import org.apache.commons.io.FilenameUtils;
 
 /**
@@ -31,10 +33,11 @@ import org.apache.commons.io.FilenameUtils;
 public final class Assets {
 
     private static AssetManager manager;
-    private static List<AssetDescriptor<Sound>> soundAssets = new ArrayList<AssetDescriptor<Sound>>();
+    private static List<Sound> soundAssets = new ArrayList<Sound>();
     private static List<Texture> textureAssets = new ArrayList<Texture>();
     private Map<String, Animation> animations = new HashMap<>();
     private Map<String, Sprite> sprites = new HashMap<>();
+    private static Map<String, Sound> sounds = new HashMap<>();
     private GameData gameData;
 
     private static Map<String, String> filePaths = new HashMap<>();
@@ -57,9 +60,16 @@ public final class Assets {
     }
 
     public static void load() {
-        for (AssetDescriptor<Sound> soundFile : soundAssets) {
-            manager.load(soundFile);
+//        AssetDescriptor<Sound> soundFile : soundAssets.values()) {
+        for (Map.Entry<String, Sound> entry : sounds.entrySet()) {
+            String path = entry.getKey();
+            Sound sound = entry.getValue();
+            System.out.println(path);
+            // do something with key and/or tab
+             manager.load(path, Sound.class);
         }
+       
+
         for (Texture texture : textureAssets) {
 
             String path = ((FileTextureData) texture.getTextureData()).getFileHandle().path();
@@ -67,10 +77,6 @@ public final class Assets {
         }
         textureAssets.clear();
         soundAssets.clear();
-    }
-
-    public void addSoundAsset(String soundAssetName) {
-        soundAssets.add(new AssetDescriptor<>(soundAssetName, Sound.class));
     }
 
     public void addImageAsset(Texture textureAsset) {
@@ -111,8 +117,15 @@ public final class Assets {
             } else if (fileType.equals("png")) {
                 addImageAsset(new Texture(folder.getAbsolutePath() + "/" + fileEntry.getName()));
 
-            } else if (fileType.equals("wav")) {
-                addSoundAsset(folder.getAbsolutePath() + "/" + fileEntry.getName());
+            } else if (fileType.equals("wav") || fileType.equals("mp3")) {
+                FileHandle fh = new FileHandle(folder.getAbsolutePath() + "/" + fileEntry.getName());
+                Sound sound = Gdx.audio.newSound(fh);
+                soundAssets.add(sound);
+                String[] filePathSplit = fh.path().split("/");
+                String fileName = filePathSplit[filePathSplit.length - 1];
+                filePaths.put(fileName, fh.path());
+                sounds.put(fh.path(), sound);
+
             }
         }
     }
@@ -120,7 +133,7 @@ public final class Assets {
     public Animation getAnimation(String key) {
         return animations.get(key);
     }
-    
+
     public float getAnimationSpeed(String key) {
         return animations.get(key).getAnimationSpeed();
     }
@@ -132,44 +145,39 @@ public final class Assets {
     public void setAnimations(String key, ArrayList<Sprite> animation) {
         this.animations.get(key).setSprites(animation);
     }
-    
+
     public ArrayList<Sprite> addAnimation(ArrayList<Sprite> keyFrames, boolean flipped, boolean red, String animationName, Texture spriteSheet, int spriteSizeX, int spriteSizeY, float animationSpeed) {
- 
+
         int numberOfSprites = (int) (spriteSheet.getWidth() / spriteSizeX);
         for (int i = 0; i < numberOfSprites; i++) {
             TextureRegion sprite = new TextureRegion(spriteSheet);
             sprite.setRegion(i * spriteSizeX, 0, spriteSizeX, spriteSizeY);
             Sprite s = new Sprite(sprite);
-            if(red)
-            {
+            if (red) {
                 s.setColor(new Color(1, 0, 0, 0.95f));
             }
-            if(flipped)
-            {
-            s.flip(true, false);
-            keyFrames.add(s);
+            if (flipped) {
+                s.flip(true, false);
+                keyFrames.add(s);
+            } else {
+                keyFrames.add(s);
             }
-            else
-            {         
-            keyFrames.add(s);
-            }        
-    }
-        
+        }
+
         return keyFrames;
     }
 
     public void makeAnimation(String animationName, Texture spriteSheet, int spriteSizeX, int spriteSizeY, float animationSpeed) {
-       
-        ArrayList<Sprite> keyFrames = addAnimation(new ArrayList<Sprite>(), false, false, animationName,spriteSheet,spriteSizeX,spriteSizeY,animationSpeed);
-        ArrayList<Sprite> flipKeyFrames = addAnimation(new ArrayList<Sprite>(), true, false, animationName,spriteSheet,spriteSizeX,spriteSizeY,animationSpeed);
-        ArrayList<Sprite> redKeyFrames = addAnimation(new ArrayList<Sprite>(), false, true, animationName,spriteSheet,spriteSizeX,spriteSizeY,animationSpeed);
-        ArrayList<Sprite> redFlipKeyFrames = addAnimation(new ArrayList<Sprite>(), true, true, animationName,spriteSheet,spriteSizeX,spriteSizeY,animationSpeed);
-        
+
+        ArrayList<Sprite> keyFrames = addAnimation(new ArrayList<Sprite>(), false, false, animationName, spriteSheet, spriteSizeX, spriteSizeY, animationSpeed);
+        ArrayList<Sprite> flipKeyFrames = addAnimation(new ArrayList<Sprite>(), true, false, animationName, spriteSheet, spriteSizeX, spriteSizeY, animationSpeed);
+        ArrayList<Sprite> redKeyFrames = addAnimation(new ArrayList<Sprite>(), false, true, animationName, spriteSheet, spriteSizeX, spriteSizeY, animationSpeed);
+        ArrayList<Sprite> redFlipKeyFrames = addAnimation(new ArrayList<Sprite>(), true, true, animationName, spriteSheet, spriteSizeX, spriteSizeY, animationSpeed);
 
         animations.put(animationName, new Animation(keyFrames, spriteSizeX, spriteSizeY, animationSpeed));
         animations.put(animationName.substring(0, animationName.length() - 4) + "_flipped.png", new Animation(flipKeyFrames, spriteSizeX, spriteSizeY, animationSpeed));
         animations.put(animationName.substring(0, animationName.length() - 4) + "_red.png", new Animation(redKeyFrames, spriteSizeX, spriteSizeY, animationSpeed));
-        animations.put(animationName.substring(0, animationName.length() - 4) + "_red_flipped.png", new Animation(redFlipKeyFrames, spriteSizeX, spriteSizeY, animationSpeed));      
+        animations.put(animationName.substring(0, animationName.length() - 4) + "_red_flipped.png", new Animation(redFlipKeyFrames, spriteSizeX, spriteSizeY, animationSpeed));
     }
 
     public Sprite getSprites(String key) {
@@ -178,6 +186,10 @@ public final class Assets {
 
     public Map<String, Animation> getAllAnimations() {
         return animations;
+    }
+
+    public Sound getSound(String name) {
+        return sounds.get(name);
     }
 
 }

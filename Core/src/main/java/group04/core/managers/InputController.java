@@ -1,5 +1,6 @@
 package group04.core.managers;
 
+import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
 import com.badlogic.gdx.InputAdapter;
 import group04.common.GameData;
@@ -15,23 +16,17 @@ public class InputController extends InputAdapter {
 
     @Override
     public boolean touchDown(int screenX, int screenY, int pointer, int button) {
-        gameData.getKeys().setKey(GameKeys.MOUSE0, true);
-//        System.out.println("BEFORE DOWN");
-//        if (Gdx.input.isButtonPressed(Input.Buttons.LEFT)) {
-//            System.out.println("DOWN");
-//            gameData.getKeys().setKey(GameKeys.MOUSE0, true);
-//        }
+        if (button == Input.Buttons.LEFT) {
+            gameData.getKeys().setKey(GameKeys.MOUSE0, true);
+        }
         return true;
     }
 
     @Override
     public boolean touchUp(int screenX, int screenY, int pointer, int button) {
-        gameData.getKeys().setKey(GameKeys.MOUSE0, false);
-//        System.out.println("BEFORE UP");
-//        if (!Gdx.input.isButtonPressed(Input.Buttons.LEFT)) {
-//            System.out.println("UP");
-//            gameData.getKeys().setKey(GameKeys.MOUSE0, false);
-//        }
+        if (button == Input.Buttons.LEFT) {
+            gameData.getKeys().setKey(GameKeys.MOUSE0, false);
+        }
         return true;
     }
 
@@ -61,6 +56,13 @@ public class InputController extends InputAdapter {
         if (k == Input.Keys.K) {
             gameData.getKeys().setKey(GameKeys.K, true);
         }
+        if (k == Input.Keys.L) {
+            gameData.getKeys().setKey(GameKeys.L, true);
+        }
+        if (k == Input.Keys.O) {
+            gameData.getKeys().setKey(GameKeys.O, true);
+        }
+
         if (k == Input.Keys.SPACE) {
             gameData.getKeys().setKey(GameKeys.SPACE, true);
         }
@@ -97,13 +99,19 @@ public class InputController extends InputAdapter {
         if (k == Input.Keys.K) {
             gameData.getKeys().setKey(GameKeys.K, false);
         }
+        if (k == Input.Keys.L) {
+            gameData.getKeys().setKey(GameKeys.L, false);
+        }
+        if (k == Input.Keys.O) {
+            gameData.getKeys().setKey(GameKeys.O, false);
+        }
+
         if (k == Input.Keys.SPACE) {
             gameData.getKeys().setKey(GameKeys.SPACE, false);
         }
         if (k == Input.Keys.Q) {
             gameData.getKeys().setKey(GameKeys.Q, false);
         }
-        
 
         return true;
     }

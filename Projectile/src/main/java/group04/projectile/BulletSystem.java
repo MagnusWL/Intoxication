@@ -37,6 +37,7 @@ public class BulletSystem implements IServiceInitializer, IProjectileService, IS
         bullet.setEntityType(EntityType.PROJECTILE);
 
         bullet.setDrawable("beerbottle");
+        bullet.setDestroyProjectileAudio("bottle_destroy");
         bullet.setAngle(angle);
 
         bullet.setVelocity((float) (850 * Math.cos(angle)));
@@ -95,6 +96,7 @@ public class BulletSystem implements IServiceInitializer, IProjectileService, IS
         melee.setShapeX(new float[]{-45, -45, 45, 45});
         melee.setShapeY(new float[]{45, -45, -45, 45});
         melee.setShotFrom(entity.getEntityType());
+        melee.setDestructionTimer(30);
         melee.setX(x);
         melee.setY(y);
         bullets.add(melee);
@@ -171,6 +173,12 @@ public class BulletSystem implements IServiceInitializer, IProjectileService, IS
         {
             ProjectileEntity projectile = (ProjectileEntity) e;
             projectile.setAngle((float) Math.atan2(projectile.getVerticalVelocity(), projectile.getVelocity()));
+            if(projectile.getDestructionTimer() > 0)
+            {
+                projectile.setDestructionTimer(projectile.getDestructionTimer() - 1);
+                if(projectile.getDestructionTimer() == 0)
+                    world.removeEntity(projectile);
+            }
         }
     }
 

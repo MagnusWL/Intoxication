@@ -6,6 +6,7 @@
 package group04.core;
 
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.Input;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.VertexAttribute;
@@ -64,17 +65,12 @@ public class Renderer {
 
     private Assets assetManager;
 
-    public Renderer(GameData gameData) {
+    public Renderer(GameData gameData, Assets assets) {
         text = new BitmapFont();
         batch = new SpriteBatch();
         sr = new ShapeRenderer();
-        assetManager = new Assets(gameData);
-
-        assetManager.load();
-        while (!assetManager.getAssetManager().update()) {
-//            System.out.println(assetManager.getAssetManager().getProgress() * 100);
-        }
-
+        this.assetManager = assets;
+        
 //        loadPNGAnimation("player_run_animation2.png", 75, 80, 5);
         //Animation speed += 1/animationspeed
         loadPNGAnimation("player_idle_animation.png", 105, 132, 5);
@@ -85,15 +81,19 @@ public class Renderer {
         loadPNGAnimation("enemynarko_attack_animation.png", 103, 109, 5);
         loadPNGAnimation("currency_gold_animation.png", 44, 45, 5);
         loadPNGAnimation("player_run_animation.png", 105, 132, 5);
+        loadPNGAnimation("enemyboss_run_animation.png", 238, 290,5);
+        loadPNGAnimation("enemyboss_attack_animation.png", 238, 290,5);
         loadPNGAnimation("player_weapon_melee_champaign_attack_animation.png", 110, 166, 3);
         loadPNGAnimation("player_weapon_melee_champaign_run_animation.png", 110, 166, 3);
         loadPNGAnimation("player_weapon_ranged_champaign_attack_animation.png", 105, 132, 5);
         loadPNGAnimation("player_weapon_ranged_throwbottle_attack_animation.png", 111, 66, 2);
         loadPNGAnimation("pill.png", 25, 12, 1000);
         loadPNGAnimation("player_weapon_ranged_throwbottle_run_animation.png", 111, 66, 2);
+        loadPNGAnimation("beerbottle.png", 34, 16, 1000);
         
 //        loadPNGAnimation("player_idle_animation.png", 44, 45, 5);
 
+//        loadPNGAnimation("player_idle_animation.png", 44, 45, 5);
         // loadPNGImages();
         String fileName;
         Sprite sprite;
@@ -347,6 +347,11 @@ public class Renderer {
             text.draw(batch, "Next wave: " + Integer.toString(Math.max(0, (wave.getSpawnTimerMax() - wave.getSpawnTimer()) / 60)) + " seconds", 40, gameData.getDisplayHeight() - 50);
         }
     }
+    
+    private void drawHealthBar(GameData gameData, World world)
+    {
+        
+    }
 
     private void drawHealthBars(GameData gameData, World world) {
         int healthOffset = 0;
@@ -418,8 +423,9 @@ public class Renderer {
         drawBackground(gameData, assetManager.getSprites("level_03_back.png"), back3m);
     }
 
+    double actualD = 0;
     public void drawPupil(GameData gameData, World world, Sprite pupil, float mov) {
-        float eyeX = 1818;
+        /*float eyeX = 1818;
         float playerX = 0;
         float playerY = 80;
         for (Entity player : world.getEntities(PlayerEntity.class)) {
@@ -433,14 +439,30 @@ public class Renderer {
             d = -d * d * 2;
         } else {
             d = d * d * 2;
+        }*/
+        double playerX = 0;
+        double playerY = 80;
+        for (Entity player : world.getEntities(PlayerEntity.class)) {
+            playerX = player.getX();
+            playerY = player.getY();
         }
+        
+        double ratio01 = (playerX - 646) / (2936 - 646);
+        if(ratio01 < 0)
+            ratio01 = 0;
+        if(ratio01 > 1)
+            ratio01 = 1;
+        double eyeX = 1818;
+        double d = (ratio01 - 0.5f)*1.2;
+        
+        actualD += (d - actualD) * 0.05;
 
-        int xTranslate = (int) (200 * d);
-        int yTranslate = (int) (50 * Math.abs(d) + (playerY - 80) * 0.2);
+        double xTranslate = (200 * actualD);
+        double yTranslate = (50 * Math.abs(actualD) + (playerY - 80) * 0.2);
         pupil.setX((float) (-pupil.getWidth() / 2.0 + eyeX - gameData.getCameraX() * mov + xTranslate * 3.5));
-        pupil.setY(yTranslate);
-        pupil.setScale((float) ((1 - Math.abs(d))), 1);
-        pupil.setRotation(-d * 20);
+        pupil.setY((float) yTranslate);
+        pupil.setScale((float) ((1 - Math.abs(actualD))), 1);
+        pupil.setRotation((float) (-actualD * 30));
         colorPupil(world, pupil);
         pupil.draw(batch);
     }
@@ -505,8 +527,8 @@ public class Renderer {
     }
 
     private void drawInventory(GameData gameData, World world) {
-        int x = gameData.getDisplayWidth() - 124;
-        int y = gameData.getDisplayHeight() - 70;
+        int x = gameData.getDisplayWidth() - (((gameData.getDisplayWidth() * 10)) / 100);
+        int y = gameData.getDisplayHeight() - (((gameData.getDisplayHeight() * 15)) / 100);
         assetManager.getSprites("inventoryspace1.png").setX((x - assetManager.getSprites("inventoryspace1.png").getWidth() / 2.0f));
         assetManager.getSprites("inventoryspace1.png").setY((y - assetManager.getSprites("inventoryspace1.png").getHeight() / 2.0f));
         assetManager.getSprites("inventoryspace1.png").draw(batch);
@@ -519,17 +541,17 @@ public class Renderer {
 
             if (((WeaponEntity) playerEntity.getWeaponOwned()).getWeaponType() == WeaponType.GUN) {
 
-                assetManager.getSprites("inventory_beerbottle.png").setX(x - assetManager.getSprites("inventory_beerbottle.png").getWidth() / 2.0f);
-                assetManager.getSprites("inventory_beerbottle.png").setY(y - assetManager.getSprites("inventory_beerbottle.png").getHeight() / 2.0f);
+                assetManager.getSprites("inventory_beerbottle.png").setX(x - assetManager.getSprites("inventory_beerbottle.png").getWidth() / 2.0f + 15);
+                assetManager.getSprites("inventory_beerbottle.png").setY(y - assetManager.getSprites("inventory_beerbottle.png").getHeight() / 2.0f + 7.5f);
                 assetManager.getSprites("inventory_beerbottle.png").setRotation(0);
                 assetManager.getSprites("inventory_beerbottle.png").draw(batch);
-                
+
             } else if (((WeaponEntity) playerEntity.getWeaponOwned()).getWeaponType() == WeaponType.MELEE) {
-                assetManager.getSprites("inventory_champaign.png").setX(x - assetManager.getSprites("inventory_beerbottle.png").getWidth() / 2.0f);
-                assetManager.getSprites("inventory_champaign.png").setY(y - assetManager.getSprites("inventory_beerbottle.png").getHeight() / 2.0f);
+                assetManager.getSprites("inventory_champaign.png").setX(x - assetManager.getSprites("inventory_beerbottle.png").getWidth() / 2.0f + 30);
+                assetManager.getSprites("inventory_champaign.png").setY(y - assetManager.getSprites("inventory_beerbottle.png").getHeight() / 2.0f - 25);
                 assetManager.getSprites("inventory_champaign.png").draw(batch);
             }
-            
+
         }
 
     }
