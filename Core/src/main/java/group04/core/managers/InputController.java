@@ -5,15 +5,14 @@ import com.badlogic.gdx.InputAdapter;
 import group04.common.GameData;
 import group04.common.GameKeys;
 
-public class InputController extends InputAdapter
-{
+public class InputController extends InputAdapter {
 
     private final GameData gameData;
 
     public InputController(GameData gameData) {
         this.gameData = gameData;
     }
-    
+
     @Override
     public boolean touchDown(int screenX, int screenY, int pointer, int button) {
         gameData.getKeys().setKey(GameKeys.MOUSE0, true);
@@ -24,7 +23,7 @@ public class InputController extends InputAdapter
 //        }
         return true;
     }
-    
+
     @Override
     public boolean touchUp(int screenX, int screenY, int pointer, int button) {
         gameData.getKeys().setKey(GameKeys.MOUSE0, false);
@@ -65,7 +64,10 @@ public class InputController extends InputAdapter
         if (k == Input.Keys.SPACE) {
             gameData.getKeys().setKey(GameKeys.SPACE, true);
         }
-        
+        if (k == Input.Keys.Q) {
+            gameData.getKeys().setKey(GameKeys.Q, true);
+        }
+
         return true;
     }
 
@@ -98,7 +100,11 @@ public class InputController extends InputAdapter
         if (k == Input.Keys.SPACE) {
             gameData.getKeys().setKey(GameKeys.SPACE, false);
         }
-       
+        if (k == Input.Keys.Q) {
+            gameData.getKeys().setKey(GameKeys.Q, false);
+        }
+        
+
         return true;
     }
 

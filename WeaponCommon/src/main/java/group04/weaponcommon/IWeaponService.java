@@ -20,4 +20,6 @@ public interface IWeaponService {
     public void enemyAttack(GameData gameData, World world, Entity enemy, Entity player, Entity base);
     
     public void pickUpWeapon(GameData gameData, World world);
+    
+    public void switchWeapon(GameData gameData, World world, Entity player);
 }

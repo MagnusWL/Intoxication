@@ -86,9 +86,12 @@ public class Renderer {
         loadPNGAnimation("currency_gold_animation.png", 44, 45, 5);
         loadPNGAnimation("player_run_animation.png", 105, 132, 5);
         loadPNGAnimation("player_weapon_melee_champaign_attack_animation.png", 110, 166, 3);
-        loadPNGAnimation("player_weapon_melee_champaign_run_animation.png", 108, 100, 3);
+        loadPNGAnimation("player_weapon_melee_champaign_run_animation.png", 110, 166, 3);
         loadPNGAnimation("player_weapon_ranged_champaign_attack_animation.png", 105, 132, 5);
         loadPNGAnimation("player_weapon_ranged_throwbottle_attack_animation.png", 111, 66, 2);
+        loadPNGAnimation("pill.png", 25, 12, 1000);
+        loadPNGAnimation("player_weapon_ranged_throwbottle_run_animation.png", 111, 66, 2);
+        
 //        loadPNGAnimation("player_idle_animation.png", 44, 45, 5);
 
         // loadPNGImages();
@@ -253,9 +256,11 @@ public class Renderer {
     private void playAnimation(GameData gameData, World world, ArrayList<Sprite> animation, Entity entity, double animationSpeed, float angle, float xCenter, float yCenter) {
         boolean draw = true;
         if (entity.getClass() == WeaponEntity.class) {
-            if (world.getEntity(((WeaponEntity) entity).getWeaponCarrier()).getClass() == EnemyEntity.class
-                    || entity.getCurrentFrame() >= (animation.size()) - 1 + (1 / animationSpeed)) {
+            if (world.getEntity(((WeaponEntity) entity).getWeaponCarrier()).getClass() == EnemyEntity.class) {
                 draw = false;
+            } else if (entity.getCurrentFrame() >= (animation.size()) - 1 + (1 / animationSpeed)) {
+                entity.setCurrentFrame(0);
+                entity.setCurrentAnimation(entity.getIdleAnimation());
             }
         }
 
@@ -514,17 +519,17 @@ public class Renderer {
 
             if (((WeaponEntity) playerEntity.getWeaponOwned()).getWeaponType() == WeaponType.GUN) {
 
-                assetManager.getSprites("beerbottle.png").setX(x - assetManager.getSprites("beerbottle.png").getWidth() / 2.0f);
-                assetManager.getSprites("beerbottle.png").setY(y - assetManager.getSprites("beerbottle.png").getHeight() / 2.0f);
-                assetManager.getSprites("beerbottle.png").setRotation(0);
-                assetManager.getSprites("beerbottle.png").draw(batch);
+                assetManager.getSprites("inventory_beerbottle.png").setX(x - assetManager.getSprites("inventory_beerbottle.png").getWidth() / 2.0f);
+                assetManager.getSprites("inventory_beerbottle.png").setY(y - assetManager.getSprites("inventory_beerbottle.png").getHeight() / 2.0f);
+                assetManager.getSprites("inventory_beerbottle.png").setRotation(0);
+                assetManager.getSprites("inventory_beerbottle.png").draw(batch);
                 
             } else if (((WeaponEntity) playerEntity.getWeaponOwned()).getWeaponType() == WeaponType.MELEE) {
-                assetManager.getSprites("player_weapon_melee_champaign_run_animation.png").setX(x - assetManager.getSprites("beerbottle.png").getWidth() / 2.0f);
-                assetManager.getSprites("player_weapon_melee_champaign_run_animation.png").setY(y - assetManager.getSprites("beerbottle.png").getHeight() / 2.0f);
-                assetManager.getSprites("player_weapon_melee_champaign_run_animation.png").draw(batch);
+                assetManager.getSprites("inventory_champaign.png").setX(x - assetManager.getSprites("inventory_beerbottle.png").getWidth() / 2.0f);
+                assetManager.getSprites("inventory_champaign.png").setY(y - assetManager.getSprites("inventory_beerbottle.png").getHeight() / 2.0f);
+                assetManager.getSprites("inventory_champaign.png").draw(batch);
             }
-            //drawSprite(gameData, world, e, assetManager.getSprites(e.getDrawable() + ".png"));
+            
         }
 
     }
