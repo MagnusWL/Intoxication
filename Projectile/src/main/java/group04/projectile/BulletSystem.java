@@ -115,11 +115,16 @@ public class BulletSystem implements IServiceInitializer, IProjectileService, IS
         }
     }
 
-    private void shootDecision(Entity enemy, Entity target, World world, GameData gameData) {
+    private void shootDecision(Entity enemy, Entity target, World world, GameData gameData, double k1, double k2, double k3, double k4, double k1e, double k2e, double k3e, double k4e) {
+//      GENETIC AI
+        double xdif = target.getX() - enemy.getX();
+        double ydif = target.getX() - enemy.getX();
+        
+        float angle = (float) (xdif * k1 + xdif * k1e * k1e + ydif * k2 + ydif * k2e * k2e + target.getVelocity() * k3 + target.getVelocity() * k3e * k3e + target.getVerticalVelocity() * k4 + target.getVerticalVelocity() * k4e * k4e );        
 
-        float angle = (float) Math.atan2((target.getY()) - (enemy.getY()), (target.getX()) - (enemy.getX()));
+//      Direct aim
+//      float angle = (float) Math.atan2((target.getY()) - (enemy.getY()), (target.getX()) - (enemy.getX()));        
         world.addEntity(createBullet(enemy, gameData, world, angle));
-
     }
     
     @Override
@@ -143,7 +148,7 @@ public class BulletSystem implements IServiceInitializer, IProjectileService, IS
     }
 
     @Override
-    public void enemyshoot(GameData gameData, World world, Entity enemy, Entity base, Entity player) {
+    public void enemyshoot(GameData gameData, World world, Entity enemy, Entity base, Entity player, double k1, double k2, double k3, double k4, double k1e, double k2e, double k3e, double k4e) {
         float distancePlayer = Float.MAX_VALUE;
         float distanceBase = Float.MAX_VALUE;
 
@@ -155,12 +160,12 @@ public class BulletSystem implements IServiceInitializer, IProjectileService, IS
             if (distancePlayer > distanceBase) {
                 
                 for(Entity baseEntity : world.getEntities(BaseEntity.class)) {
-                    shootDecision(enemy, baseEntity, world, gameData);
+                    shootDecision(enemy, baseEntity, world, gameData, k1, k2, k3, k4, k1e, k2e, k3e, k4e);
                 }
                 
             } else {
                 for(Entity playerEntity : world.getEntities(PlayerEntity.class)) {
-                    shootDecision(enemy, playerEntity, world, gameData);
+                    shootDecision(enemy, playerEntity, world, gameData, k1, k2, k3, k4, k1e, k2e, k3e, k4e);
                 }
                 
             }

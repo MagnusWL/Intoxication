@@ -18,6 +18,6 @@ public interface IProjectileService {
   //  public void process(GameData gameData, World world, Entity player, Entity base);
     public void playershootgun(GameData gameData, World world, Entity player, Entity playerWeapon);
     public void playershootrocket(GameData gameData, World world, Entity player, Entity playerWeapon);
-    public void enemyshoot(GameData gameData, World world, Entity enemy, Entity base, Entity player);
+    public void enemyshoot(GameData gameData, World world, Entity enemy, Entity base, Entity player, double k1, double k2, double k3, double k4, double k1e, double k2e, double k3e, double k4e);
     public void playermeleeattack(GameData gameData, World world, Entity player, Entity playerWeapon);    
 }

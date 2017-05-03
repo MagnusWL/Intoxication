@@ -141,6 +141,14 @@ public class EnemySystem implements IEnemyService, IServiceInitializer {
         enemyCharacter.setRunAnimation("enemyboss_run_animation");
         enemyCharacter.setAttackAnimation("enemyboss_attack_animation");
         enemyCharacter.setTag("boss");
+        enemyCharacter.setK1(0.5);
+        enemyCharacter.setK2(1.5);
+        enemyCharacter.setK3(-2);
+        enemyCharacter.setK4(1);
+        enemyCharacter.setK1e(0.05);
+        enemyCharacter.setK2e(0.15);
+        enemyCharacter.setK3e(-0.2);
+        enemyCharacter.setK4e(0.1);
 
         enemyCharacter.setHitable(true);
         int spriteWidth = gameData.getSpriteInfo().get(enemyCharacter.getCurrentAnimation())[0];
@@ -156,7 +164,7 @@ public class EnemySystem implements IEnemyService, IServiceInitializer {
         enemyCharacter.setY(y);
         enemyCharacter.setBoss(true);
 
-        gameData.addEvent(new Event(EventType.PICKUP_WEAPON, enemyCharacter.getID()));
+        gameData.addEvent(new Event(EventType.PICKUP_GUN, enemyCharacter.getID()));
 
         enemies.add(enemyCharacter);
         world.addEntity(enemyCharacter);

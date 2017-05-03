@@ -324,7 +324,9 @@ public class Game implements ApplicationListener {
                 for (Entity enemy : world.getEntities(EnemyEntity.class)) {
                     for (Event e : gameData.getAllEvents()) {
                         if (e.getType() == EventType.ENEMY_SHOOT && e.getEntityID().equals(enemy.getID())) {
-                            ips.enemyshoot(gameData, world, enemy, base, player);
+                            EnemyEntity enemyEntity = (EnemyEntity)enemy;
+                            ips.enemyshoot(gameData, world, enemy, base, player, enemyEntity.getK1(), enemyEntity.getK2(), enemyEntity.getK3(), enemyEntity.getK4(),
+                            enemyEntity.getK1e(), enemyEntity.getK2e(), enemyEntity.getK3e(), enemyEntity.getK4e());
                             gameData.removeEvent(e);
                         }
                     }

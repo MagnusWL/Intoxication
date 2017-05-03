@@ -91,7 +91,7 @@ public class PlayerSystem implements IServiceProcessor, IServiceInitializer {
         playerCharacter.setJumpSpeed(400);
         playerCharacter.setMovementSpeed(150);
         playerCharacter.setHasGravity(true);
-        playerCharacter.setMaxLife(10000);
+        playerCharacter.setMaxLife(50);
         playerCharacter.setLife(playerCharacter.getMaxLife());
         playerCharacter.setAnimateable(true);
         playerCharacter.setCurrentAnimation("player_run_animation");
@@ -109,7 +109,7 @@ public class PlayerSystem implements IServiceProcessor, IServiceInitializer {
         playerCharacter.setX((int) (gameData.getDisplayWidth() * 0.5));
         playerCharacter.setY((int) (gameData.getDisplayHeight() * 0.3));
 
-        gameData.addEvent(new Event(EventType.PICKUP_WEAPON, playerCharacter.getID()));
+        gameData.addEvent(new Event(EventType.PICKUP_GUN, playerCharacter.getID()));
 
         return playerCharacter;
     }

@@ -317,7 +317,7 @@ public class Renderer {
         for (Entity entity : world.getEntities(BoostEntity.class)) {
             if (entity.getDrawable() != null) {
                 drawSprite(gameData, world, entity, assetManager.getSprites(entity.getDrawable() + ".png"), 0, 0, 0);
-            }
+            } 
         }
 
         for (Entity entity : world.getEntities(UpgradeEntity.class)) {
