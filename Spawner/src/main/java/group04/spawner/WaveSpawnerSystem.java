@@ -46,7 +46,6 @@ public class WaveSpawnerSystem implements ISpawnerService, IServiceInitializer {
         waveSpawner.setMobsSpawnedMax(1);
         waveSpawner.setSpawnDuration(100);
         waveSpawner.setCurrentLevel(1);
-
         world.addEntity(waveSpawner);
     }
 
