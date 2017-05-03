@@ -290,7 +290,7 @@ public class Game implements ApplicationListener {
                     gameData.removeEvent(ev);
                     if (weapon != null) {
                         for (ICollisionService serv : Lookup.getDefault().lookupAll(ICollisionService.class)) {
-                            if (serv.isEntitiesColliding(world, gameData, player, weapon)) {
+                            if (serv.isEntitiesColliding(player, weapon)) {
                                 player.setLife((int) (player.getLife() * 0.5f));
                             }
                         }
