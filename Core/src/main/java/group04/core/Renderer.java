@@ -6,43 +6,32 @@
 package group04.core;
 
 import com.badlogic.gdx.Gdx;
-import com.badlogic.gdx.Input;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.Texture;
-import com.badlogic.gdx.graphics.VertexAttribute;
-import com.badlogic.gdx.graphics.g2d.Batch;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
-import com.badlogic.gdx.graphics.glutils.ShaderProgram;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer.ShapeType;
 import group04.basecommon.BaseEntity;
-import group04.boostcommon.BoostEntity;
 import group04.common.Entity;
 import group04.common.GameData;
 import group04.common.WeaponType;
 import group04.common.World;
 import group04.core.managers.Assets;
-import group04.core.shaders.BlurShader;
 import group04.core.shaders.IShaderInterface;
-import group04.core.shaders.InvertionShader;
 import group04.core.shaders.LsdShader;
 import group04.enemycommon.EnemyEntity;
-import group04.inventorycommon.InventoryEntity;
 import group04.platformcommon.PlatformEntity;
 import group04.playercommon.PlayerEntity;
 import group04.projectilecommon.ProjectileEntity;
 import group04.spawnercommon.WaveSpawnerEntity;
 import group04.upgradecommon.UpgradeEntity;
 import group04.weaponcommon.WeaponEntity;
-import java.io.File;
 import java.util.ArrayList;
-import org.openide.util.Exceptions;
 import java.util.Map.Entry;
-import java.util.Random;
-import javafx.application.Platform;
 import group04.core.shaders.VignetteShader;
+import group04.itemdropscommon.ItemEntity;
 
 public class Renderer {
 
@@ -314,7 +303,7 @@ public class Renderer {
             }
         }
 
-        for (Entity entity : world.getEntities(BoostEntity.class)) {
+        for (Entity entity : world.getEntities(ItemEntity.class)) {
             if (entity.getDrawable() != null) {
                 drawSprite(gameData, world, entity, assetManager.getSprites(entity.getDrawable() + ".png"), 0, 0, 0);
             }

@@ -8,16 +8,12 @@ package group04.core;
 import group04.core.managers.InputController;
 import com.badlogic.gdx.ApplicationListener;
 import com.badlogic.gdx.Gdx;
-import com.badlogic.gdx.Input;
 import com.badlogic.gdx.graphics.FPSLogger;
 import com.badlogic.gdx.graphics.OrthographicCamera;
-import com.badlogic.gdx.maps.tiled.renderers.OrthogonalTiledMapRenderer;
 import group04.basecommon.BaseEntity;
-import group04.boostcommon.IBoostService;
 import group04.cameracommon.ICameraService;
 import group04.collisioncommon.ICollisionService;
 import group04.common.Entity;
-import group04.common.EntityType;
 import org.openide.util.Lookup;
 import group04.common.GameData;
 import group04.common.GameKeys;
@@ -29,7 +25,6 @@ import group04.projectilecommon.IProjectileService;
 import group04.common.services.IServiceInitializer;
 import group04.common.services.IServiceProcessor;
 import group04.core.managers.Assets;
-import group04.currencycommon.ICurrencyService;
 import group04.enemycommon.EnemyEntity;
 import group04.enemycommon.IEnemyService;
 import group04.mapcommon.IMapService;
@@ -50,7 +45,6 @@ import java.util.ArrayList;
 import java.util.Map;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-import sun.nio.cs.ext.ISCII91;
 
 /**
  *
