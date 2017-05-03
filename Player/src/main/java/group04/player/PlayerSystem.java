@@ -27,56 +27,59 @@ public class PlayerSystem implements IServiceProcessor, IServiceInitializer {
         }
     }
 
+    public void playerMovement(Entity entity, GameData gameData, World world) {
+
+        PlayerEntity playerEntity = (PlayerEntity) entity;
+        float movementSpeed = playerEntity.getMovementSpeed();
+        float jumpSpeed = playerEntity.getJumpSpeed();
+
+        if (gameData.getKeys().isDown(GameKeys.A)) {
+            //left
+            playerEntity.setVelocity(-movementSpeed);
+            checkAnimation(playerEntity, playerEntity.getRunAnimation());
+            playerEntity.setCurrentAnimation(playerEntity.getRunAnimation());
+        }
+        if (gameData.getKeys().isDown(GameKeys.D)) {
+            //right
+            playerEntity.setVelocity(movementSpeed);
+            checkAnimation(playerEntity, playerEntity.getRunAnimation());
+            playerEntity.setCurrentAnimation(playerEntity.getRunAnimation());
+        }
+
+        if (gameData.getKeys().isDown(GameKeys.SPACE)) {
+            if (playerEntity.isGrounded()) {
+                {
+                    playerEntity.setVerticalVelocity(jumpSpeed);
+                }
+            }
+        }
+
+        if (!gameData.getKeys().isDown(GameKeys.A) && !gameData.getKeys().isDown(GameKeys.D)) {
+            playerEntity.setVelocity(0);
+            checkAnimation(playerEntity, playerEntity.getIdleAnimation());
+            playerEntity.setCurrentAnimation(playerEntity.getIdleAnimation());
+        }
+        if (!playerEntity.isGrounded()) {
+            checkAnimation(playerEntity, playerEntity.getJumpAnimation());
+            playerEntity.setCurrentAnimation(playerEntity.getJumpAnimation());
+        }
+
+        for (Event e : gameData.getAllEvents()) {
+            if (e.getType() == EventType.ENTITY_HIT && e.getEntityID().equals(entity.getID())) {
+                playerEntity.setLife(playerEntity.getLife() - 1);
+                if (playerEntity.getLife() <= 0) {
+                    world.removeEntity(playerEntity.getWeaponOwned());
+                    world.removeEntity(entity);
+                }
+                gameData.removeEvent(e);
+            }
+        }
+    }
+
     @Override
     public void process(GameData gameData, World world) {
         for (Entity entity : world.getEntities(PlayerEntity.class)) {
-            PlayerEntity playerEntity = (PlayerEntity) entity;
-
-            float movementSpeed = playerEntity.getMovementSpeed();
-            float jumpSpeed = playerEntity.getJumpSpeed();
-
-            if (gameData.getKeys().isDown(GameKeys.A)) {
-                //left
-                playerEntity.setVelocity(-movementSpeed);
-                checkAnimation(playerEntity, playerEntity.getRunAnimation());
-                playerEntity.setCurrentAnimation(playerEntity.getRunAnimation());
-            }
-            if (gameData.getKeys().isDown(GameKeys.D)) {
-                //right
-                playerEntity.setVelocity(movementSpeed);
-                checkAnimation(playerEntity, playerEntity.getRunAnimation());
-                playerEntity.setCurrentAnimation(playerEntity.getRunAnimation());
-            }
-
-            if (gameData.getKeys().isDown(GameKeys.SPACE)) {
-                if (playerEntity.isGrounded()) {
-                    {
-                        playerEntity.setVerticalVelocity(jumpSpeed);
-                    }
-                }
-            }
-
-            if (!gameData.getKeys().isDown(GameKeys.A) && !gameData.getKeys().isDown(GameKeys.D)) {
-                playerEntity.setVelocity(0);
-                checkAnimation(playerEntity, playerEntity.getIdleAnimation());
-                playerEntity.setCurrentAnimation(playerEntity.getIdleAnimation());
-            }
-
-            if (!playerEntity.isGrounded()) {
-                checkAnimation(playerEntity, playerEntity.getJumpAnimation());
-                playerEntity.setCurrentAnimation(playerEntity.getJumpAnimation());
-            }
-
-            for (Event e : gameData.getAllEvents()) {
-                if (e.getType() == EventType.ENTITY_HIT && e.getEntityID().equals(entity.getID())) {
-                    playerEntity.setLife(playerEntity.getLife() - 1);
-                    if (playerEntity.getLife() <= 0) {
-                        world.removeEntity(playerEntity.getWeaponOwned());
-                        world.removeEntity(entity);
-                    }
-                    gameData.removeEvent(e);
-                }
-            }
+            playerMovement(entity, gameData, world);
         }
     }
 

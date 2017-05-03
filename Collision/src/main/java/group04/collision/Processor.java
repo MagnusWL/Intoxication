@@ -51,7 +51,7 @@ public class Processor implements ICollisionService, IServiceProcessor {
     }
 
     @Override
-    public boolean isEntitiesColliding(World world, GameData gameData, Entity entity1, Entity entity2) {
+    public boolean isEntitiesColliding(Entity entity1, Entity entity2) {
         Polygon poly1 = new Polygon();
         Polygon poly2 = new Polygon();
 
