@@ -1,5 +1,9 @@
 package group04.core.AI;
 
+import group04.common.Entity;
+import group04.enemycommon.EnemyEntity;
+import group04.playercommon.PlayerEntity;
+import group04.projectilecommon.ProjectileEntity;
 import java.util.Random;
 
 /**
@@ -18,7 +22,20 @@ public class DNA {
     }
 
     public void fitness() {
+        
+        Entity enemy = new EnemyEntity();
+        enemy.setX(0);
+        enemy.setY(0);
+        
+        Entity player = new PlayerEntity();
+        player.setX(rand.nextFloat() * 1000);
+        player.setY(rand.nextFloat() * 100);
+        player.setVelocity(- 1 + rand.nextFloat() * 2);
+        player.setVerticalVelocity(- 1 + rand.nextFloat() * 2);
 
+        Entity projectile = new ProjectileEntity();
+        
+        fitness = 0.5;
     }
 
     public boolean mutate() {
