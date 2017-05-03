@@ -89,6 +89,7 @@
         <module>InventoryCommon</module>
         <module>ItemDrops</module>
         <module>ItemDropsCommon</module>
+        <module>SilentUpdate</module>
     </modules>
 
     <properties>
