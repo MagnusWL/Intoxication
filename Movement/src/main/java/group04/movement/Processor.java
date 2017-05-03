@@ -38,7 +38,7 @@ public class Processor implements IMovementService {
 
                 for (Entity loot : world.getEntities(ItemEntity.class)) {
 
-                    if (e.isEntitiesColliding(world, gameData, player, loot)) {
+                    if (e.isEntitiesColliding(player, loot)) {
                         for (Entity entity : world.getEntities(PlayerEntity.class)) {
                             PlayerEntity playerEntity = (PlayerEntity) entity;
 
@@ -87,7 +87,7 @@ public class Processor implements IMovementService {
                             for (Entity entityHit : world.getEntities(PlayerEntity.class, EnemyEntity.class, BaseEntity.class)) {
                                 if (entityHit.getEntityType() != bullet.getShotFrom()
                                         && !(entityHit.getEntityType() == EntityType.BASE && bullet.getShotFrom() == EntityType.PLAYER)) {
-                                    if (e.isEntitiesColliding(world, gameData, entity, entityHit)) {
+                                    if (e.isEntitiesColliding(entity, entityHit)) {
                                         gameData.addEvent(new Event(EventType.ENTITY_HIT, entityHit.getID()));
                                         world.removeEntity(entity);
                                         break;
@@ -98,7 +98,7 @@ public class Processor implements IMovementService {
                             for (Entity entityHit : world.getEntities(PlayerEntity.class, EnemyEntity.class, BaseEntity.class)) {
                                 if (entityHit.getEntityType() != bullet.getShotFrom()
                                         && !(entityHit.getEntityType() == EntityType.BASE && bullet.getShotFrom() == EntityType.PLAYER)) {
-                                    if (e.isEntitiesColliding(world, gameData, entity, entityHit)) {
+                                    if (e.isEntitiesColliding(entity, entityHit)) {
                                         gameData.addEvent(new Event(EventType.ROCKET_HIT, entityHit.getID()));
                                         world.removeEntity(entity);
                                         break;
@@ -110,7 +110,7 @@ public class Processor implements IMovementService {
 
                     if (entity.getEntityType() == EntityType.EXPLOSION) {
                         for (Entity entityHit : world.getEntities(PlayerEntity.class, EnemyEntity.class, BaseEntity.class)) {
-                            if (e.isEntitiesColliding(world, gameData, entity, entityHit)) {
+                            if (e.isEntitiesColliding(entity, entityHit)) {
                                 gameData.addEvent(new Event(EventType.ENTITY_HIT, entityHit.getID()));
                                 world.removeEntity(entity);
                                 break;
@@ -122,7 +122,7 @@ public class Processor implements IMovementService {
                         WeaponEntity weapon = (WeaponEntity) entity;
                         if (weapon.getWeaponType() == WeaponType.MELEE) {
                             for (Entity entityHit : world.getEntities(EnemyEntity.class, PlayerEntity.class, BaseEntity.class)) {
-                                if (e.isEntitiesColliding(world, gameData, entity, entityHit)) {
+                                if (e.isEntitiesColliding(entity, entityHit)) {
                                     gameData.addEvent(new Event(EventType.ENTITY_HIT, entityHit.getID()));
                                     break;
                                 }
