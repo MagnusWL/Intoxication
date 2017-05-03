@@ -14,7 +14,7 @@ import javax.imageio.ImageIO;
 public class MapGenerator {
 
     public MapGenerator(String fileName) throws FileNotFoundException, IOException {
-        int tileSize = 16;
+         int tileSize = 16;
 
         BufferedImage img = null;
         try {

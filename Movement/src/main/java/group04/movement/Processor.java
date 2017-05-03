@@ -1,8 +1,6 @@
 package group04.movement;
 
 import group04.basecommon.BaseEntity;
-import group04.boostcommon.BoostEntity;
-import group04.boostcommon.IBoostService;
 import group04.collisioncommon.ICollisionService;
 import group04.common.Entity;
 import group04.common.EntityType;
@@ -11,9 +9,6 @@ import group04.common.WeaponType;
 import group04.common.World;
 import group04.common.events.Event;
 import group04.common.events.EventType;
-import group04.common.services.IServiceProcessor;
-import group04.currencycommon.CurrencyEntity;
-import group04.currencycommon.ICurrencyService;
 import group04.enemycommon.EnemyEntity;
 import group04.itemdropscommon.IDropService;
 import group04.itemdropscommon.ItemEntity;
@@ -30,6 +25,7 @@ public class Processor implements IMovementService {
 
     private float steps = 10.0f;
 
+    
     @Override
     public void process(GameData gameData, World world) {
         for (ICollisionService e : Lookup.getDefault().lookupAll(ICollisionService.class)) {
@@ -39,17 +35,16 @@ public class Processor implements IMovementService {
                 for (Entity loot : world.getEntities(ItemEntity.class)) {
 
                     if (e.isEntitiesColliding(player, loot)) {
-                        for (Entity entity : world.getEntities(PlayerEntity.class)) {
-                            PlayerEntity playerEntity = (PlayerEntity) entity;
+                        PlayerEntity playerEntity = (PlayerEntity) player;
 
-                            for (IDropService i : Lookup.getDefault().lookupAll(IDropService.class)) {
-                                i.pickUpItem(world, playerEntity, loot);
-                            }
+                        for (IDropService i : Lookup.getDefault().lookupAll(IDropService.class)) {
+                            i.pickUpItem(world, playerEntity, loot);
                         }
+
                     }
                 }
             }
-            
+
             for (Entity entity : world.getAllEntities()) {
                 if (entity.isHasGravity()) {
 

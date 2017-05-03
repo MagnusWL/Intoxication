@@ -2,11 +2,8 @@ package group04.collision;
 
 import group04.collisioncommon.ICollisionService;
 import group04.common.Entity;
-import group04.common.EntityType;
 import group04.common.GameData;
 import group04.common.World;
-import group04.common.events.Event;
-import group04.common.events.EventType;
 import group04.common.services.IServiceProcessor;
 import group04.mapcommon.MapEntity;
 
@@ -40,7 +37,6 @@ public class Processor implements ICollisionService, IServiceProcessor {
                     if (mapEntity.getMap()[x][y] == 1) {
                         return true;
                     }
-
                 } else {
                     return true;
                 }
