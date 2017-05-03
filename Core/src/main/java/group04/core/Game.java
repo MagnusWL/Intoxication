@@ -199,7 +199,6 @@ public class Game implements ApplicationListener {
             }
 
         }
-        audio.update();
         platformProcess();
         playerProcess();
         enemyProcess();
@@ -240,7 +239,6 @@ public class Game implements ApplicationListener {
                             weapon.setCurrentFrame(0);
                             ips.playershootgun(gameData, world, p, weapon);
                         }
-                        audio.PlayAudio(weapon.getAttackAudio() + ".wav", 0.4f);
                         gameData.removeEvent(e);
                     } else if (e.getType() == EventType.PLAYER_SHOOT_ROCKET) {
                         WeaponEntity weapon = (WeaponEntity) player.getWeaponOwned();
@@ -257,7 +255,7 @@ public class Game implements ApplicationListener {
                             ips.playermeleeattack(gameData, world, p, weapon);
                             weapon.setCurrentFrame(0);
                         }
-                        audio.PlayAudio(weapon.getAttackAudio() + ".mp3",0.4f);
+                       // audio.PlayAudio(weapon.getAttackAudio() + ".mp3",0.4f);
                         gameData.removeEvent(e);
                     }
                 }
