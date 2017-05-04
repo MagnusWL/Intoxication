@@ -5,9 +5,6 @@ import group04.common.Entity;
 import group04.common.GameData;
 import group04.common.World;
 
-import group04.common.EntityType;
-import static group04.common.EntityType.PLAYER;
-import group04.common.services.IServiceInitializer;
 import group04.common.services.IServiceProcessor;
 
 @ServiceProvider(service = IServiceProcessor.class)

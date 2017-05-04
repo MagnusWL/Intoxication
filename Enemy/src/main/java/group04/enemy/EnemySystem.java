@@ -141,14 +141,16 @@ public class EnemySystem implements IEnemyService, IServiceInitializer {
         enemyCharacter.setRunAnimation("enemyboss_run_animation");
         enemyCharacter.setAttackAnimation("enemyboss_attack_animation");
         enemyCharacter.setTag("boss");
-        enemyCharacter.setK1(0.5);
-        enemyCharacter.setK2(1.5);
-        enemyCharacter.setK3(-2);
-        enemyCharacter.setK4(1);
-        enemyCharacter.setK1e(0.05);
-        enemyCharacter.setK2e(0.15);
-        enemyCharacter.setK3e(-0.2);
-        enemyCharacter.setK4e(0.1);
+
+//8.424263944753832:-8.93730307945911:7.205158755492278:2.199975723669219:18.489520027666842:-6.709356305962238:-4.8074789878462525:-5.463906126129487
+        enemyCharacter.setK1(8.424263944753832);
+        enemyCharacter.setK2(-8.93730307945911);
+        enemyCharacter.setK3(7.205158755492278);
+        enemyCharacter.setK4(2.199975723669219);
+        enemyCharacter.setK1e(18.489520027666842);
+        enemyCharacter.setK2e(-6.709356305962238);
+        enemyCharacter.setK3e(-4.8074789878462525);
+        enemyCharacter.setK4e(-5.463906126129487);
 
         enemyCharacter.setHitable(true);
         int spriteWidth = gameData.getSpriteInfo().get(enemyCharacter.getCurrentAnimation())[0];
