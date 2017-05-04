@@ -24,7 +24,7 @@ import group04.projectilecommon.ProjectileEntity;
  * @author burno
  */
 @ServiceProviders(value = {
-     @ServiceProvider(service = IServiceProcessor.class ) , 
+    @ServiceProvider(service = IServiceProcessor.class),
     @ServiceProvider(service = IServiceInitializer.class),
     @ServiceProvider(service = IProjectileService.class)})
 
@@ -46,10 +46,10 @@ public class BulletSystem implements IServiceInitializer, IProjectileService, IS
         bullet.setHasGravity(true);
         int spriteWidth = gameData.getSpriteInfo().get(bullet.getDrawable())[0];
         int spriteHeight = gameData.getSpriteInfo().get(bullet.getDrawable())[1];
-        bullet.setShapeX(new float[]{-(spriteWidth / 2) * gameData.getHitBoxScale(), -(spriteWidth / 2) * gameData.getHitBoxScale(), 
-                                                spriteWidth / 2 * gameData.getHitBoxScale(), spriteWidth / 2 * gameData.getHitBoxScale()});
-        bullet.setShapeY(new float[]{-(spriteHeight / 2) * gameData.getHitBoxScale(), spriteHeight / 2 * gameData.getHitBoxScale(), 
-                                                spriteHeight / 2 * gameData.getHitBoxScale(), -(spriteHeight / 2 * gameData.getHitBoxScale())});
+        bullet.setShapeX(new float[]{-(spriteWidth / 2) * gameData.getHitBoxScale(), -(spriteWidth / 2) * gameData.getHitBoxScale(),
+            spriteWidth / 2 * gameData.getHitBoxScale(), spriteWidth / 2 * gameData.getHitBoxScale()});
+        bullet.setShapeY(new float[]{-(spriteHeight / 2) * gameData.getHitBoxScale(), spriteHeight / 2 * gameData.getHitBoxScale(),
+            spriteHeight / 2 * gameData.getHitBoxScale(), -(spriteHeight / 2 * gameData.getHitBoxScale())});
 
         bullet.setShotFrom(entity.getEntityType());
         bullet.setExplosive(false);
@@ -73,10 +73,10 @@ public class BulletSystem implements IServiceInitializer, IProjectileService, IS
 
         int spriteWidth = gameData.getSpriteInfo().get(rocket.getDrawable())[0];
         int spriteHeight = gameData.getSpriteInfo().get(rocket.getDrawable())[1];
-        rocket.setShapeX(new float[]{-(spriteWidth / 2) * gameData.getHitBoxScale(), -(spriteWidth / 2) * gameData.getHitBoxScale(), 
-                                                spriteWidth / 2 * gameData.getHitBoxScale(), spriteWidth / 2 * gameData.getHitBoxScale()});
-        rocket.setShapeY(new float[]{-(spriteHeight / 2) * gameData.getHitBoxScale(), spriteHeight / 2 * gameData.getHitBoxScale(), 
-                                                spriteHeight / 2 * gameData.getHitBoxScale(), -(spriteHeight / 2 * gameData.getHitBoxScale())});
+        rocket.setShapeX(new float[]{-(spriteWidth / 2) * gameData.getHitBoxScale(), -(spriteWidth / 2) * gameData.getHitBoxScale(),
+            spriteWidth / 2 * gameData.getHitBoxScale(), spriteWidth / 2 * gameData.getHitBoxScale()});
+        rocket.setShapeY(new float[]{-(spriteHeight / 2) * gameData.getHitBoxScale(), spriteHeight / 2 * gameData.getHitBoxScale(),
+            spriteHeight / 2 * gameData.getHitBoxScale(), -(spriteHeight / 2 * gameData.getHitBoxScale())});
 
         rocket.setShotFrom(entity.getEntityType());
         rocket.setExplosive(true);
@@ -88,7 +88,7 @@ public class BulletSystem implements IServiceInitializer, IProjectileService, IS
         bullets.add(rocket);
         return rocket;
     }
-    
+
     private Entity createMeleeHit(Entity entity, GameData gameData, World world, float x, float y) {
         ProjectileEntity melee = new ProjectileEntity();
         melee.setEntityType(EntityType.PROJECTILE);
@@ -102,7 +102,7 @@ public class BulletSystem implements IServiceInitializer, IProjectileService, IS
         bullets.add(melee);
         return melee;
     }
-    
+
     @Override
     public void start(GameData gameData, World world) {
 
@@ -118,15 +118,15 @@ public class BulletSystem implements IServiceInitializer, IProjectileService, IS
     private void shootDecision(Entity enemy, Entity target, World world, GameData gameData, double k1, double k2, double k3, double k4, double k1e, double k2e, double k3e, double k4e) {
 //      GENETIC AI
         double xdif = target.getX() - enemy.getX();
-        double ydif = target.getX() - enemy.getX();
-        
-        float angle = (float) (xdif * k1 + xdif * k1e * k1e + ydif * k2 + ydif * k2e * k2e + target.getVelocity() * k3 + target.getVelocity() * k3e * k3e + target.getVerticalVelocity() * k4 + target.getVerticalVelocity() * k4e * k4e );        
+        double ydif = target.getY() - enemy.getY();
+
+        float angle = (float) (xdif * k1 + xdif * k1e * k1e + ydif * k2 + ydif * k2e * k2e + target.getVelocity() * k3 + target.getVelocity() * k3e * k3e + target.getVerticalVelocity() * k4 + target.getVerticalVelocity() * k4e * k4e);
 
 //      Direct aim
 //      float angle = (float) Math.atan2((target.getY()) - (enemy.getY()), (target.getX()) - (enemy.getX()));        
         world.addEntity(createBullet(enemy, gameData, world, angle));
     }
-    
+
     @Override
     public void playermeleeattack(GameData gameData, World world, Entity player, Entity playerWeapon) {
         float angle = (float) Math.atan2(gameData.getMouseY() - player.getY(), gameData.getMouseX() - (player.getX() - gameData.getCameraX()));
@@ -134,7 +134,7 @@ public class BulletSystem implements IServiceInitializer, IProjectileService, IS
         float y = (float) (player.getY() + 80 * Math.sin(angle));
         world.addEntity(createMeleeHit(player, gameData, world, x, y));
     }
-    
+
     @Override
     public void playershootgun(GameData gameData, World world, Entity player, Entity playerWeapon) {
         float angle = (float) Math.atan2(gameData.getMouseY() - (player.getY() - gameData.getCameraY()), gameData.getMouseX() - (player.getX() - gameData.getCameraX()));
@@ -158,33 +158,31 @@ public class BulletSystem implements IServiceInitializer, IProjectileService, IS
         if (enemy.getX() > gameData.getCameraX() && enemy.getX() < gameData.getCameraX() + gameData.getDisplayWidth()) {
 
             if (distancePlayer > distanceBase) {
-                
-                for(Entity baseEntity : world.getEntities(BaseEntity.class)) {
-                    shootDecision(enemy, baseEntity, world, gameData, k1, k2, k3, k4, k1e, k2e, k3e, k4e);
-                }
-                
+                shootDecision(enemy, base, world, gameData, k1, k2, k3, k4, k1e, k2e, k3e, k4e);
             } else {
-                for(Entity playerEntity : world.getEntities(PlayerEntity.class)) {
-                    shootDecision(enemy, playerEntity, world, gameData, k1, k2, k3, k4, k1e, k2e, k3e, k4e);
-                }
-                
+                shootDecision(enemy, player, world, gameData, k1, k2, k3, k4, k1e, k2e, k3e, k4e);
+
             }
         }
     }
 
     @Override
     public void process(GameData gameData, World world) {
-        for(Entity e: world.getEntities(ProjectileEntity.class))
-        {
+        for (Entity e : world.getEntities(ProjectileEntity.class)) {
             ProjectileEntity projectile = (ProjectileEntity) e;
             projectile.setAngle((float) Math.atan2(projectile.getVerticalVelocity(), projectile.getVelocity()));
-            if(projectile.getDestructionTimer() > 0)
-            {
+            if (projectile.getDestructionTimer() > 0) {
                 projectile.setDestructionTimer(projectile.getDestructionTimer() - 1);
-                if(projectile.getDestructionTimer() == 0)
+                if (projectile.getDestructionTimer() == 0) {
                     world.removeEntity(projectile);
+                }
             }
         }
+    }
+
+    @Override
+    public void aiEnemyshoot(GameData gameData, World world, Entity enemy, Entity player, double k1, double k2, double k3, double k4, double k1e, double k2e, double k3e, double k4e) {
+        shootDecision(enemy, player, world, gameData, k1, k2, k3, k4, k1e, k2e, k3e, k4e);
     }
 
 }

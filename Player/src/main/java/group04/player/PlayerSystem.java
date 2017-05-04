@@ -68,7 +68,8 @@ public class PlayerSystem implements IServiceProcessor, IServiceInitializer {
             if (e.getType() == EventType.ENTITY_HIT && e.getEntityID().equals(entity.getID())) {
                 playerEntity.setLife(playerEntity.getLife() - 1);
                 if (playerEntity.getLife() <= 0) {
-                    world.removeEntity(playerEntity.getWeaponOwned());
+                    if(playerEntity.getWeaponOwned() != null)
+                        world.removeEntity(playerEntity.getWeaponOwned());
                     world.removeEntity(entity);
                 }
                 gameData.removeEvent(e);
