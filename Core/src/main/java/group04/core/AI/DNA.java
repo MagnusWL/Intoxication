@@ -19,7 +19,7 @@ import org.openide.util.Lookup;
  */
 public class DNA {
 
-    private double mutationRate = 0.05;
+    private double mutationRate = 0.1;
     private double fitness;
     private Random rand = new Random();
     private double[] genes = new double[8];
@@ -48,8 +48,8 @@ public class DNA {
 
         for (Entity player : world.getEntities(PlayerEntity.class)) {
             playerEntity = (PlayerEntity) player;
-            player.setX((float) (101));
-            player.setY((int) (gameData.getDisplayHeight() * 0.3));
+            player.setX((float) (150));
+            player.setY((float)136.10168f);
             player.setVelocity(0);
             player.setVerticalVelocity(0);
             player.setLife(1000);
@@ -61,9 +61,9 @@ public class DNA {
 
         totalFitness = 0;
 
-        for (int i = 0; i < 20; i++) {
+        for (int i = 0; i < 10; i++) {
             for (IProjectileService projService : Lookup.getDefault().lookupAll(IProjectileService.class)) {
-                projService.aiEnemyshoot(gameData, world, enemyEntity, playerEntity, genes[0], genes[1], genes[2], genes[3], genes[4], genes[5], genes[6], genes[7]);
+                projService.aiEnemyshoot(gameData, world, enemyEntity, playerEntity, genes[0], genes[1]);
             }
 
             lastX = 0;
@@ -90,13 +90,13 @@ public class DNA {
             } else {
                 xDif = lastX - playerEntity.getX();
                 yDif = lastY - playerEntity.getY();
-                fitness = 1 - (Math.sqrt((xDif * xDif) + (yDif * yDif)) / 1000.0f);
-                fitness = Math.max(0, fitness);
+                fitness = 1 - (Math.sqrt((xDif * xDif) + (yDif * yDif)) / 100.0f);
+                fitness = Math.max(0.01, fitness);
             }
             totalFitness += fitness;
             playerEntity.setX(playerEntity.getX() + 20);
         }
-        fitness = totalFitness / 20.0f;
+        fitness = totalFitness / 10.0f;
     }
 
     public boolean mutate() {
@@ -109,7 +109,7 @@ public class DNA {
 
     public DNA crossover(DNA partner) {
 
-        double[] newGenes = new double[8];
+        double[] newGenes = new double[2];
 
         for (int i = 0; i < newGenes.length; i++) {
             if (rand.nextBoolean()) {

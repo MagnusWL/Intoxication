@@ -40,7 +40,7 @@ public class GeneticAlgorithm {
 
     public void setup() {
 
-        double[] genes = new double[8];
+        double[] genes = new double[2];
 
         for (int i = 0; i < size; i++) {
 
@@ -53,10 +53,10 @@ public class GeneticAlgorithm {
     }
 
     public void calculateFitness(GameData gameData, World world) {
-        System.out.println(matingPool.size());
+        System.out.println("Generation : " + generations + " Mating Pool size: " + matingPool.size() + " Population : " + population.size());
         double avg = 0;
         double maxFitness = 0;
-        double[] bestGenes = new double[8];
+        double[] bestGenes = new double[2];
         for (int i = 0; i < population.size(); i++) {
             population.get(i).calculateFitness(gameData, world);
             if(population.get(i).getFitness() > maxFitness)
@@ -68,32 +68,39 @@ public class GeneticAlgorithm {
         }
         
         System.out.println("Avg Fitness: " + avg/population.size() );
-        System.out.println("Best Fitness: " + maxFitness + ":" + bestGenes[0] + ":" + bestGenes[1] + ":" + bestGenes[2] + ":" + bestGenes[3] + ":" + bestGenes[4] + ":" + bestGenes[5] + ":" + bestGenes[6] + ":" + bestGenes[7]);
+        System.out.println("Best Fitness: " + maxFitness + ":" + bestGenes[0] + ":" + bestGenes[1]);
     }
 
     public void createMatingPool() {
         matingPool.clear();
-        
+        double totalProbability = 0;
         for (int i = 0; i < size; i++) {
+            totalProbability += getProbability(population.get(i).getFitness());            
+        }
 
-            //n is the probability between 0 and 100
-            int n = (int) (population.get(i).getFitness() * population.size());
+        for (int i = 0; i < size; i++) {
+            double actualProbability = getProbability(population.get(i).getFitness())/totalProbability;
+            
+            int n = (int)(actualProbability * size);
 
-            //add to mating pool
-            for (int j = 0; j < n; j++) {
+            for (int j = 0; j < n; j++) {   
                 matingPool.add(population.get(i));
             }
         }
+    }
+    
+    public double getProbability(double fitness)
+    {
+        return Math.pow(fitness, 8) * 100;
     }
 
     public void reproduction() {
         population.clear();
 
         for (int i = 0; i < size; i++) {
-
             int a = rand.nextInt(matingPool.size());
             int b = rand.nextInt(matingPool.size());
-
+            
             DNA parentA = matingPool.get(a);
             DNA parentB = matingPool.get(b);
 
@@ -101,9 +108,9 @@ public class GeneticAlgorithm {
 
             if (child.mutate()) {
 
-                double[] mutatedGenes = new double[8];
+                double[] mutatedGenes = new double[2];
 
-                for (int j = 0; j < 8; j++) {
+                for (int j = 0; j < mutatedGenes.length; j++) {
                     mutatedGenes[j] = -breadth / 2 + breadth * rand.nextDouble();
                 }
 

@@ -11,44 +11,6 @@ public class EnemyEntity extends Entity {
     private Entity focusTarget;
     private double k1;
     private double k2;
-    private double k3;
-    private double k4;
-    private double k1e;
-    private double k2e;
-    private double k3e;
-    private double k4e;
-
-    public double getK1e() {
-        return k1e;
-    }
-
-    public void setK1e(double k1e) {
-        this.k1e = k1e;
-    }
-
-    public double getK2e() {
-        return k2e;
-    }
-
-    public void setK2e(double k2e) {
-        this.k2e = k2e;
-    }
-
-    public double getK3e() {
-        return k3e;
-    }
-
-    public void setK3e(double k3e) {
-        this.k3e = k3e;
-    }
-
-    public double getK4e() {
-        return k4e;
-    }
-
-    public void setK4e(double k4e) {
-        this.k4e = k4e;
-    }
 
     public double getK1() {
         return k1;
@@ -66,23 +28,6 @@ public class EnemyEntity extends Entity {
         this.k2 = k2;
     }
 
-    public double getK3() {
-        return k3;
-    }
-
-    public void setK3(double k3) {
-        this.k3 = k3;
-    }
-
-    public double getK4() {
-        return k4;
-    }
-
-    public void setK4(double k4) {
-        this.k4 = k4;
-    }
-
-    //Boss variables:
     private boolean boss;
     private boolean spawnMinions;
 

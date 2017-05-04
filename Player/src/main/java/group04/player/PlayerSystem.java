@@ -28,7 +28,6 @@ public class PlayerSystem implements IServiceProcessor, IServiceInitializer {
     }
 
     public void playerMovement(Entity entity, GameData gameData, World world) {
-
         PlayerEntity playerEntity = (PlayerEntity) entity;
         float movementSpeed = playerEntity.getMovementSpeed();
         float jumpSpeed = playerEntity.getJumpSpeed();
@@ -93,7 +92,7 @@ public class PlayerSystem implements IServiceProcessor, IServiceInitializer {
     private Entity createPlayer(GameData gameData, World world) {
         PlayerEntity playerCharacter = new PlayerEntity();
         playerCharacter.setJumpSpeed(400);
-        playerCharacter.setMovementSpeed(150);
+        playerCharacter.setMovementSpeed(550);
         playerCharacter.setHasGravity(true);
         playerCharacter.setMaxLife(50);
         playerCharacter.setLife(playerCharacter.getMaxLife());

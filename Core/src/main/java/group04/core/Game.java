@@ -171,7 +171,7 @@ public class Game implements ApplicationListener {
     }
 
     private void updateAI() {
-        gameData.setDelta(1.0f / 60.0f);
+        gameData.setDelta(1.0f / 20.0f);
         Entity enemy = new EnemyEntity();
         enemy.setX((int) (100));
         enemy.setY((int) (gameData.getDisplayHeight() * 0.3));
@@ -337,8 +337,7 @@ public class Game implements ApplicationListener {
                     for (Event e : gameData.getAllEvents()) {
                         if (e.getType() == EventType.ENEMY_SHOOT && e.getEntityID().equals(enemy.getID())) {
                             EnemyEntity enemyEntity = (EnemyEntity) enemy;
-                            ips.enemyshoot(gameData, world, enemy, base, player, enemyEntity.getK1(), enemyEntity.getK2(), enemyEntity.getK3(), enemyEntity.getK4(),
-                                    enemyEntity.getK1e(), enemyEntity.getK2e(), enemyEntity.getK3e(), enemyEntity.getK4e());
+                            ips.enemyshoot(gameData, world, enemy, base, player, enemyEntity.getK1(), enemyEntity.getK2());
                             gameData.removeEvent(e);
                         }
                     }
