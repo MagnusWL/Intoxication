@@ -1,6 +1,7 @@
 package group04.enemycommon;
 
 import group04.common.Entity;
+import java.util.Objects;
 
 public class EnemyEntity extends Entity {
 
@@ -86,4 +87,63 @@ public class EnemyEntity extends Entity {
     public void setWeaponOwned(Entity weaponOwned) {
         this.weaponOwned = weaponOwned;
     }
+
+    @Override
+    public boolean equals(Object obj) {
+        if (this == obj) {
+            return true;
+        }
+        if (obj == null) {
+            return false;
+        }
+        if (getClass() != obj.getClass()) {
+            return false;
+        }
+        final EnemyEntity other = (EnemyEntity) obj;
+        if (Float.floatToIntBits(this.movementSpeed) != Float.floatToIntBits(other.movementSpeed)) {
+            return false;
+        }
+        if (Float.floatToIntBits(this.jumpSpeed) != Float.floatToIntBits(other.jumpSpeed)) {
+            return false;
+        }
+        if (Double.doubleToLongBits(this.k1) != Double.doubleToLongBits(other.k1)) {
+            return false;
+        }
+        if (Double.doubleToLongBits(this.k2) != Double.doubleToLongBits(other.k2)) {
+            return false;
+        }
+        if (Double.doubleToLongBits(this.k3) != Double.doubleToLongBits(other.k3)) {
+            return false;
+        }
+        if (Double.doubleToLongBits(this.k4) != Double.doubleToLongBits(other.k4)) {
+            return false;
+        }
+        if (Double.doubleToLongBits(this.k1e) != Double.doubleToLongBits(other.k1e)) {
+            return false;
+        }
+        if (Double.doubleToLongBits(this.k3e) != Double.doubleToLongBits(other.k3e)) {
+            return false;
+        }
+        if (Double.doubleToLongBits(this.k4e) != Double.doubleToLongBits(other.k4e)) {
+            return false;
+        }
+        if (this.boss != other.boss) {
+            return false;
+        }
+        if (this.spawnMinions != other.spawnMinions) {
+            return false;
+        }
+        if (!Objects.equals(this.weaponOwned, other.weaponOwned)) {
+            return false;
+        }
+        if (this.enemyType != other.enemyType) {
+            return false;
+        }
+        if (!Objects.equals(this.focusTarget, other.focusTarget)) {
+            return false;
+        }
+        return true;
+    }
+    
+    
 }

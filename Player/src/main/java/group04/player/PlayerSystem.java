@@ -27,8 +27,8 @@ public class PlayerSystem implements IServiceProcessor, IServiceInitializer {
         }
     }
 
-    public void playerMovement(Entity entity, GameData gameData, World world) {
-        PlayerEntity playerEntity = (PlayerEntity) entity;
+    public void playerMovement(PlayerEntity playerEntity, GameData gameData, World world) {
+
         float movementSpeed = playerEntity.getMovementSpeed();
         float jumpSpeed = playerEntity.getJumpSpeed();
 
@@ -64,12 +64,13 @@ public class PlayerSystem implements IServiceProcessor, IServiceInitializer {
         }
 
         for (Event e : gameData.getAllEvents()) {
-            if (e.getType() == EventType.ENTITY_HIT && e.getEntityID().equals(entity.getID())) {
+            if (e.getType() == EventType.ENTITY_HIT && e.getEntityID().equals(playerEntity.getID())) {
                 playerEntity.setLife(playerEntity.getLife() - 1);
                 if (playerEntity.getLife() <= 0) {
-                    if(playerEntity.getWeaponOwned() != null)
+                    if (playerEntity.getWeaponOwned() != null) {
                         world.removeEntity(playerEntity.getWeaponOwned());
-                    world.removeEntity(entity);
+                    }
+                    world.removeEntity(playerEntity);
                 }
                 gameData.removeEvent(e);
             }
@@ -79,7 +80,7 @@ public class PlayerSystem implements IServiceProcessor, IServiceInitializer {
     @Override
     public void process(GameData gameData, World world) {
         for (Entity entity : world.getEntities(PlayerEntity.class)) {
-            playerMovement(entity, gameData, world);
+            playerMovement((PlayerEntity) entity, gameData, world);
         }
     }
 
