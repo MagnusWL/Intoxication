@@ -9,6 +9,7 @@ import group04.common.WeaponType;
 import group04.common.World;
 import group04.common.events.Event;
 import group04.common.events.EventType;
+import group04.common.services.IServiceProcessor;
 import group04.enemycommon.EnemyEntity;
 import group04.itemdropscommon.IDropService;
 import group04.itemdropscommon.ItemEntity;
@@ -19,9 +20,9 @@ import group04.weaponcommon.WeaponEntity;
 import org.openide.util.Lookup;
 import org.openide.util.lookup.ServiceProvider;
 
-@ServiceProvider(service = IMovementService.class)
+@ServiceProvider(service = IServiceProcessor.class)
 
-public class Processor implements IMovementService {
+public class Processor implements IServiceProcessor {
 
     private float steps = 10.0f;
 
@@ -43,7 +44,7 @@ public class Processor implements IMovementService {
     public void collision(World world, GameData gameData, ICollisionService e) {
         for (Entity entity : world.getAllEntities()) {
             if (entity.isHasGravity()) {
-
+                //Checks for collision in steps for X & Y
                 steps = (int) (Math.ceil(Math.abs(entity.getVelocity())) + Math.ceil(Math.abs(entity.getVerticalVelocity())));
                 if (steps > 5) {
                     steps = 5;
@@ -70,9 +71,8 @@ public class Processor implements IMovementService {
                         }
                     }
                 }
-
+                // 
                 if (entity.getEntityType() == EntityType.PROJECTILE) {
-//                    ProjectileContainer projectileContainer = ((ProjectileContainer) entity.getContainer(ProjectileContainer.class));
                     ProjectileEntity bullet = (ProjectileEntity) entity;
                     if (!bullet.isExplosive()) {
                         for (Entity entityHit : world.getEntities(PlayerEntity.class, EnemyEntity.class, BaseEntity.class)) {
@@ -131,22 +131,5 @@ public class Processor implements IMovementService {
             collision(world, gameData, e);
 
         }
-    }
-
-    @Override
-    public void movementWhenGrounded(GameData gameData, World world, Entity entity
-    ) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
-    }
-
-    @Override
-    public void movementWhenNotGrounded(GameData gameData, World world, Entity entity
-    ) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
-    }
-
-    @Override
-    public void movementWhenColliding(GameData gameData, World world, Entity entity, Entity target) {
-
     }
 }
