@@ -5,8 +5,13 @@
  */
 package group04.core.AI;
 
+import group04.common.GameData;
+import group04.common.World;
+import group04.common.services.IServiceInitializer;
+import group04.movementcommon.IMovementService;
 import java.util.ArrayList;
 import java.util.Random;
+import org.openide.util.Lookup;
 
 /**
  *
@@ -37,23 +42,38 @@ public class GeneticAlgorithm {
 
         double[] genes = new double[8];
 
-        for (int i = 0; i < population.size(); i++) {
+        for (int i = 0; i < size; i++) {
 
-            for (int j = 0; j < 8; j++) {
-                genes[i] = -breadth / 2 + breadth * rand.nextDouble();
+            for (int j = 0; j < genes.length; j++) {
+                genes[j] = -breadth / 2 + breadth * rand.nextDouble();
             }
 
             population.add(new DNA(genes));
         }
     }
 
-    public void calculateFitness() {
+    public void calculateFitness(GameData gameData, World world) {
+        System.out.println(matingPool.size());
+        double avg = 0;
+        double maxFitness = 0;
+        double[] bestGenes = new double[8];
         for (int i = 0; i < population.size(); i++) {
-            population.get(i).fitness();
+            population.get(i).calculateFitness(gameData, world);
+            if(population.get(i).getFitness() > maxFitness)
+            {
+                maxFitness = population.get(i).getFitness();
+                bestGenes = population.get(i).getGenes();
+            }
+            avg += population.get(i).getFitness();
         }
+        
+        System.out.println("Avg Fitness: " + avg/population.size() );
+        System.out.println("Best Fitness: " + maxFitness + ":" + bestGenes[0] + ":" + bestGenes[1] + ":" + bestGenes[2] + ":" + bestGenes[3] + ":" + bestGenes[4] + ":" + bestGenes[5] + ":" + bestGenes[6] + ":" + bestGenes[7]);
     }
 
     public void createMatingPool() {
+        matingPool.clear();
+        
         for (int i = 0; i < size; i++) {
 
             //n is the probability between 0 and 100
@@ -63,12 +83,10 @@ public class GeneticAlgorithm {
             for (int j = 0; j < n; j++) {
                 matingPool.add(population.get(i));
             }
-
         }
     }
 
     public void reproduction() {
-
         population.clear();
 
         for (int i = 0; i < size; i++) {
@@ -86,7 +104,7 @@ public class GeneticAlgorithm {
                 double[] mutatedGenes = new double[8];
 
                 for (int j = 0; j < 8; j++) {
-                    mutatedGenes[i] = -breadth / 2 + breadth * rand.nextDouble();
+                    mutatedGenes[j] = -breadth / 2 + breadth * rand.nextDouble();
                 }
 
                 DNA mutatedChild = new DNA(mutatedGenes);
@@ -99,14 +117,17 @@ public class GeneticAlgorithm {
         generations++;
     }
 
-    public static void main(String[] args) {
+    public static void start(GameData gameData, World world) {
         GeneticAlgorithm gn = new GeneticAlgorithm();
 
-        while (!finished) {
-            gn.calculateFitness();
+        for (int i = 0; i < 1000; i++) {
+            gn.calculateFitness(gameData, world);
             gn.createMatingPool();
             gn.reproduction();
         }
     }
 
+    public static void main(String[] args) {
+
+    }
 }

@@ -28,6 +28,7 @@ import group04.common.events.EventType;
 import group04.projectilecommon.IProjectileService;
 import group04.common.services.IServiceInitializer;
 import group04.common.services.IServiceProcessor;
+import group04.core.AI.GeneticAlgorithm;
 import group04.core.managers.Assets;
 import group04.currencycommon.ICurrencyService;
 import group04.enemycommon.EnemyEntity;
@@ -65,13 +66,14 @@ public class Game implements ApplicationListener {
     MenuHandler menu;
     private FPSLogger fps = new FPSLogger();
     private AudioController audio;
+    private boolean generatingAI = false;
 
     public Game() {
 
     }
 
     Assets assetManager;
-    
+
     public void loadWorld() {
         FileInputStream fin = null;
         ObjectInputStream ois = null;
@@ -83,11 +85,11 @@ public class Game implements ApplicationListener {
         } catch (IOException ex) {
             Logger.getLogger(World.class.getName()).log(Level.SEVERE, null, ex);
         }
-        
+
         if (ois != null) {
             try {
                 world.setMap((Map<String, Entity>) ois.readObject());
-                
+
             } catch (IOException ex) {
                 Logger.getLogger(World.class.getName()).log(Level.SEVERE, null, ex);
             } catch (ClassNotFoundException ex) {
@@ -131,7 +133,7 @@ public class Game implements ApplicationListener {
         while (!assetManager.getAssetManager().update()) {
 //            System.out.println(assetManager.getAssetManager().getProgress() * 100);
         }
-        
+
         render = new Renderer(gameData, assetManager);
         audio = new AudioController(gameData, assetManager);
         menu = new MenuHandler();
@@ -148,36 +150,46 @@ public class Game implements ApplicationListener {
 
     @Override
     public void render() {
-        gameData.setMouseX(Gdx.input.getX());
-        gameData.setMouseY(gameData.getDisplayHeight() - Gdx.input.getY());
-        if (menu.getGameState() == 1) {
-            update();
-            render.render(gameData, world);
+        if (generatingAI) {
+            updateAI();
+        } else {
+            gameData.setMouseX(Gdx.input.getX());
+            gameData.setMouseY(gameData.getDisplayHeight() - Gdx.input.getY());
+            if (menu.getGameState() == 1) {
+                update();
+                render.render(gameData, world);
 
-        } else if (menu.getGameState() == 0) {
-            menu.renderMenu(gameData);
-        } else if (menu.getGameState() == 2) {
-            menu.renderOptions(gameData);
-        } else if (menu.getGameState() == 3) {
-            menu.renderExit(gameData);
+            } else if (menu.getGameState() == 0) {
+                menu.renderMenu(gameData);
+            } else if (menu.getGameState() == 2) {
+                menu.renderOptions(gameData);
+            } else if (menu.getGameState() == 3) {
+                menu.renderExit(gameData);
+            }
+            gameData.getKeys().update();
         }
-        gameData.getKeys().update();
+    }
 
+    private void updateAI() {
+        gameData.setDelta(1.0f / 60.0f);
+        Entity enemy = new EnemyEntity();
+        enemy.setX((int) (100));
+        enemy.setY((int) (gameData.getDisplayHeight() * 0.3));
+        world.addEntity(enemy);
+        GeneticAlgorithm.start(gameData, world);
     }
 
     private void update() {
         gameData.setDelta(Gdx.graphics.getDeltaTime());
 
-        if(gameData.getKeys().isDown(GameKeys.O)) 
-        {
+        if (gameData.getKeys().isDown(GameKeys.O)) {
             saveWorld();
         }
 
-        if(gameData.getKeys().isDown(GameKeys.L)) 
-        {
+        if (gameData.getKeys().isDown(GameKeys.L)) {
             loadWorld();
         }
-        
+
         for (ICameraService e : Lookup.getDefault().lookupAll(ICameraService.class)) {
             for (Entity player : world.getEntities(PlayerEntity.class)) {
                 e.followEntity(gameData, world, player);
@@ -203,8 +215,8 @@ public class Game implements ApplicationListener {
             for (Entity e : world.getEntities(PlayerEntity.class)) {
                 ips.switchWeapon(gameData, world, (PlayerEntity) e);
             }
-
         }
+
         platformProcess();
         playerProcess();
         enemyProcess();
@@ -261,7 +273,7 @@ public class Game implements ApplicationListener {
                             ips.playermeleeattack(gameData, world, p, weapon);
                             weapon.setCurrentFrame(0);
                         }
-                       // audio.PlayAudio(weapon.getAttackAudio() + ".mp3",0.4f);
+                        // audio.PlayAudio(weapon.getAttackAudio() + ".mp3",0.4f);
                         gameData.removeEvent(e);
                     }
                 }
@@ -324,9 +336,9 @@ public class Game implements ApplicationListener {
                 for (Entity enemy : world.getEntities(EnemyEntity.class)) {
                     for (Event e : gameData.getAllEvents()) {
                         if (e.getType() == EventType.ENEMY_SHOOT && e.getEntityID().equals(enemy.getID())) {
-                            EnemyEntity enemyEntity = (EnemyEntity)enemy;
+                            EnemyEntity enemyEntity = (EnemyEntity) enemy;
                             ips.enemyshoot(gameData, world, enemy, base, player, enemyEntity.getK1(), enemyEntity.getK2(), enemyEntity.getK3(), enemyEntity.getK4(),
-                            enemyEntity.getK1e(), enemyEntity.getK2e(), enemyEntity.getK3e(), enemyEntity.getK4e());
+                                    enemyEntity.getK1e(), enemyEntity.getK2e(), enemyEntity.getK3e(), enemyEntity.getK4e());
                             gameData.removeEvent(e);
                         }
                     }
