@@ -43,6 +43,8 @@ import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.util.ArrayList;
 import java.util.Map;
+import java.util.Timer;
+import java.util.TimerTask;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -65,7 +67,7 @@ public class Game implements ApplicationListener {
     }
 
     Assets assetManager;
-    
+
     public void loadWorld() {
         FileInputStream fin = null;
         ObjectInputStream ois = null;
@@ -77,11 +79,11 @@ public class Game implements ApplicationListener {
         } catch (IOException ex) {
             Logger.getLogger(World.class.getName()).log(Level.SEVERE, null, ex);
         }
-        
+
         if (ois != null) {
             try {
                 world.setMap((Map<String, Entity>) ois.readObject());
-                
+
             } catch (IOException ex) {
                 Logger.getLogger(World.class.getName()).log(Level.SEVERE, null, ex);
             } catch (ClassNotFoundException ex) {
@@ -125,7 +127,7 @@ public class Game implements ApplicationListener {
         while (!assetManager.getAssetManager().update()) {
 //            System.out.println(assetManager.getAssetManager().getProgress() * 100);
         }
-        
+
         render = new Renderer(gameData, assetManager);
         audio = new AudioController(gameData, assetManager);
         menu = new MenuHandler();
@@ -162,16 +164,14 @@ public class Game implements ApplicationListener {
     private void update() {
         gameData.setDelta(Gdx.graphics.getDeltaTime());
 
-        if(gameData.getKeys().isDown(GameKeys.O)) 
-        {
+        if (gameData.getKeys().isDown(GameKeys.O)) {
             saveWorld();
         }
 
-        if(gameData.getKeys().isDown(GameKeys.L)) 
-        {
+        if (gameData.getKeys().isDown(GameKeys.L)) {
             loadWorld();
         }
-        
+
         for (ICameraService e : Lookup.getDefault().lookupAll(ICameraService.class)) {
             for (Entity player : world.getEntities(PlayerEntity.class)) {
                 e.followEntity(gameData, world, player);
@@ -221,8 +221,22 @@ public class Game implements ApplicationListener {
     }
 
     private void playerProcess() {
-        for (Entity p : world.getEntities(PlayerEntity.class)) {
+        for (final Entity p : world.getEntities(PlayerEntity.class)) {
 
+            for (Event e : gameData.getAllEvents()) {
+                if (e.getType() == EventType.PLAYER_DEATH) {
+                    TimerTask task = new TimerTask() {
+                        @Override
+                        public void run() {
+                            p.setX((int) (gameData.getDisplayWidth() * 0.5));
+                            p.setY((int) (gameData.getDisplayHeight() * 0.3));
+                            p.setLife(p.getMaxLife());
+                        }
+                    };
+                    Timer timer = new Timer();
+                    timer.schedule(task, 10000);
+                }
+            }
             PlayerEntity player = (PlayerEntity) p;
 
             for (IWeaponService ips : Lookup.getDefault().lookupAll(IWeaponService.class)) {
@@ -255,7 +269,7 @@ public class Game implements ApplicationListener {
                             ips.playermeleeattack(gameData, world, p, weapon);
                             weapon.setCurrentFrame(0);
                         }
-                       // audio.PlayAudio(weapon.getAttackAudio() + ".mp3",0.4f);
+                        // audio.PlayAudio(weapon.getAttackAudio() + ".mp3",0.4f);
                         gameData.removeEvent(e);
                     }
                 }

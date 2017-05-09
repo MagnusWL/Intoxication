@@ -9,9 +9,7 @@ import group04.common.events.Event;
 import group04.common.events.EventType;
 import group04.common.services.IServiceInitializer;
 import group04.common.services.IServiceProcessor;
-import group04.currencycommon.ICurrencyService;
 import group04.playercommon.PlayerEntity;
-import org.openide.util.Lookup;
 import org.openide.util.lookup.ServiceProvider;
 import org.openide.util.lookup.ServiceProviders;
 
@@ -73,6 +71,7 @@ public class PlayerSystem implements IServiceProcessor, IServiceInitializer {
                     if (playerEntity.getLife() <= 0) {
                         world.removeEntity(playerEntity.getWeaponOwned());
                         world.removeEntity(entity);
+                        
                     }
                     gameData.removeEvent(e);
                 }
@@ -91,7 +90,7 @@ public class PlayerSystem implements IServiceProcessor, IServiceInitializer {
         playerCharacter.setJumpSpeed(600);
         playerCharacter.setMovementSpeed(150);
         playerCharacter.setHasGravity(true);
-        playerCharacter.setMaxLife(10000);
+        playerCharacter.setMaxLife(50);
         playerCharacter.setLife(playerCharacter.getMaxLife());
         playerCharacter.setAnimateable(true);
         playerCharacter.setCurrentAnimation("player_run_animation");
