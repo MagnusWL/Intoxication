@@ -1,8 +1,3 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package group04.core.AI;
 
 import group04.common.GameData;
@@ -13,10 +8,6 @@ import java.util.ArrayList;
 import java.util.Random;
 import org.openide.util.Lookup;
 
-/**
- *
- * @author Mathias
- */
 public class GeneticAlgorithm {
 
     private ArrayList<DNA> population;
@@ -39,11 +30,8 @@ public class GeneticAlgorithm {
     }
 
     public void setup() {
-
-        double[] genes = new double[2];
-
         for (int i = 0; i < size; i++) {
-
+            double[] genes = new double[3];
             for (int j = 0; j < genes.length; j++) {
                 genes[j] = -breadth / 2 + breadth * rand.nextDouble();
             }
@@ -56,7 +44,7 @@ public class GeneticAlgorithm {
         System.out.println("Generation : " + generations + " Mating Pool size: " + matingPool.size() + " Population : " + population.size());
         double avg = 0;
         double maxFitness = 0;
-        double[] bestGenes = new double[2];
+        double[] bestGenes = new double[3];
         for (int i = 0; i < population.size(); i++) {
             population.get(i).calculateFitness(gameData, world);
             if(population.get(i).getFitness() > maxFitness)
@@ -68,7 +56,7 @@ public class GeneticAlgorithm {
         }
         
         System.out.println("Avg Fitness: " + avg/population.size() );
-        System.out.println("Best Fitness: " + maxFitness + ":" + bestGenes[0] + ":" + bestGenes[1]);
+        System.out.println("Best Fitness: " + maxFitness + ":" + bestGenes[0] + ":" + bestGenes[1]+ ":" + bestGenes[2]);
     }
 
     public void createMatingPool() {
@@ -81,7 +69,7 @@ public class GeneticAlgorithm {
         for (int i = 0; i < size; i++) {
             double actualProbability = getProbability(population.get(i).getFitness())/totalProbability;
             
-            int n = (int)(actualProbability * size);
+            int n = (int)(Math.round(actualProbability * (double)size));
 
             for (int j = 0; j < n; j++) {   
                 matingPool.add(population.get(i));
@@ -108,7 +96,7 @@ public class GeneticAlgorithm {
 
             if (child.mutate()) {
 
-                double[] mutatedGenes = new double[2];
+                double[] mutatedGenes = new double[3];
 
                 for (int j = 0; j < mutatedGenes.length; j++) {
                     mutatedGenes[j] = -breadth / 2 + breadth * rand.nextDouble();
@@ -127,7 +115,7 @@ public class GeneticAlgorithm {
     public static void start(GameData gameData, World world) {
         GeneticAlgorithm gn = new GeneticAlgorithm();
 
-        for (int i = 0; i < 1000; i++) {
+        for (int i = 0; i < 2000; i++) {
             gn.calculateFitness(gameData, world);
             gn.createMatingPool();
             gn.reproduction();

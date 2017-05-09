@@ -50,7 +50,7 @@ public class ProcessorTest {
         //Arrange
         Entity entity1 = new Entity();
         Entity entity2 = new Entity();
-        Processor instance = new Processor();
+        CollisionSystem instance = new CollisionSystem();
         boolean expResult = true;
 
         //Act
