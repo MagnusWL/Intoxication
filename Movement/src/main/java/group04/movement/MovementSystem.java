@@ -22,7 +22,7 @@ import org.openide.util.lookup.ServiceProvider;
 
 @ServiceProvider(service = IServiceProcessor.class)
 
-public class Processor implements IServiceProcessor {
+public class MovementSystem implements IServiceProcessor {
 
     private float steps = 10.0f;
 
@@ -41,7 +41,7 @@ public class Processor implements IServiceProcessor {
         }
     }
 
-    public void collision(World world, GameData gameData, ICollisionService e) {
+    public void movement(World world, GameData gameData, ICollisionService e) {
         for (Entity entity : world.getAllEntities()) {
             if (entity.isHasGravity()) {
                 //Checks for collision in steps for X & Y
@@ -71,7 +71,13 @@ public class Processor implements IServiceProcessor {
                         }
                     }
                 }
-                // 
+            }
+        }
+    }
+
+    public void collision(World world, GameData gameData, ICollisionService e) {
+        for (Entity entity : world.getAllEntities()) {
+            if (entity.isHasGravity()) {
                 if (entity.getEntityType() == EntityType.PROJECTILE) {
                     ProjectileEntity bullet = (ProjectileEntity) entity;
                     if (!bullet.isExplosive()) {
@@ -128,8 +134,8 @@ public class Processor implements IServiceProcessor {
     public void process(GameData gameData, World world) {
         for (ICollisionService e : Lookup.getDefault().lookupAll(ICollisionService.class)) {
             pickUpItemEvent(world, e);
+            movement(world, gameData, e);
             collision(world, gameData, e);
-
         }
     }
 }

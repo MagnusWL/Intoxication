@@ -115,11 +115,11 @@ public class BulletSystem implements IServiceInitializer, IProjectileService, IS
         }
     }
 
-    private void shootDecision(Entity enemy, Entity target, World world, GameData gameData, double k1, double k2) {
+    private void shootDecision(Entity enemy, Entity target, World world, GameData gameData, double k1, double k2, double k3) {
 //      GENETIC AI
         double xdif = Math.abs(target.getX() - enemy.getX());
 
-        double overHead = k1 * xdif + k2 * xdif * xdif;
+        double overHead = k1 + k2 * xdif + k3 * xdif * xdif;
 
         double ydif = (target.getY() + overHead) - enemy.getY();
         float angle = (float) Math.atan2(ydif, target.getX() - enemy.getX());
@@ -150,7 +150,7 @@ public class BulletSystem implements IServiceInitializer, IProjectileService, IS
     }
 
     @Override
-    public void enemyshoot(GameData gameData, World world, Entity enemy, Entity base, Entity player, double k1, double k2) {
+    public void enemyshoot(GameData gameData, World world, Entity enemy, Entity base, Entity player, double k1, double k2, double k3) {
         float distancePlayer = Float.MAX_VALUE;
         float distanceBase = Float.MAX_VALUE;
 
@@ -160,9 +160,9 @@ public class BulletSystem implements IServiceInitializer, IProjectileService, IS
         if (enemy.getX() > gameData.getCameraX() && enemy.getX() < gameData.getCameraX() + gameData.getDisplayWidth()) {
 
             if (distancePlayer > distanceBase) {
-                shootDecision(enemy, base, world, gameData, k1, k2);
+                shootDecision(enemy, base, world, gameData, k1, k2, k3);
             } else {
-                shootDecision(enemy, player, world, gameData, k1, k2);
+                shootDecision(enemy, player, world, gameData, k1, k2, k3);
 
             }
         }
@@ -183,8 +183,8 @@ public class BulletSystem implements IServiceInitializer, IProjectileService, IS
     }
 
     @Override
-    public void aiEnemyshoot(GameData gameData, World world, Entity enemy, Entity player, double k1, double k2) {
-        shootDecision(enemy, player, world, gameData, k1, k2);
+    public void aiEnemyshoot(GameData gameData, World world, Entity enemy, Entity player, double k1, double k2, double k3) {
+        shootDecision(enemy, player, world, gameData, k1, k2, k3);
     }
 
 }

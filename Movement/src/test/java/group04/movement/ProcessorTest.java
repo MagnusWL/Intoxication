@@ -48,7 +48,7 @@ public class ProcessorTest {
         System.out.println("pickUpItemEvent");
         World world = null;
         ICollisionService e = null;
-        Processor instance = new Processor();
+        MovementSystem instance = new MovementSystem();
         instance.pickUpItemEvent(world, e);
         // TODO review the generated test code and remove the default call to fail.
         fail("The test case is a prototype.");
@@ -63,7 +63,7 @@ public class ProcessorTest {
         World world = null;
         GameData gameData = null;
         ICollisionService e = null;
-        Processor instance = new Processor();
+        MovementSystem instance = new MovementSystem();
         instance.collision(world, gameData, e);
         // TODO review the generated test code and remove the default call to fail.
         fail("The test case is a prototype.");

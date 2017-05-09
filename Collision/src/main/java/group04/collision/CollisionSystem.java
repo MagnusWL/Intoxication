@@ -17,7 +17,7 @@ import org.openide.util.lookup.ServiceProviders;
     @ServiceProvider(service = IServiceProcessor.class)
 })
 
-public class Processor implements ICollisionService, IServiceProcessor {
+public class CollisionSystem implements ICollisionService, IServiceProcessor {
 
     @Override
     public boolean isColliding(World world, GameData gameData, Entity entity, float moveX, float moveY) {

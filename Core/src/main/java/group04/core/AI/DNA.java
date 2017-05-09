@@ -13,10 +13,6 @@ import group04.projectilecommon.ProjectileEntity;
 import java.util.Random;
 import org.openide.util.Lookup;
 
-/**
- *
- * @author Mathias
- */
 public class DNA {
 
     private double mutationRate = 0.1;
@@ -35,6 +31,7 @@ public class DNA {
     public DNA(double[] genes) {
         this.genes = genes;
     }
+    
     PlayerEntity playerEntity;
     EnemyEntity enemyEntity;
     double totalFitness = 0;
@@ -63,13 +60,12 @@ public class DNA {
 
         for (int i = 0; i < 10; i++) {
             for (IProjectileService projService : Lookup.getDefault().lookupAll(IProjectileService.class)) {
-                projService.aiEnemyshoot(gameData, world, enemyEntity, playerEntity, genes[0], genes[1]);
+                projService.aiEnemyshoot(gameData, world, enemyEntity, playerEntity, genes[0], genes[1], genes[2]);
             }
 
             lastX = 0;
             lastY = 0;
             playerLife = playerEntity.getLife();
-
             while (world.getEntities(ProjectileEntity.class).size() == 1) {
                 for (Entity projectile : world.getEntities(ProjectileEntity.class)) {
                     lastX = projectile.getX();
@@ -97,6 +93,7 @@ public class DNA {
             playerEntity.setX(playerEntity.getX() + 20);
         }
         fitness = totalFitness / 10.0f;
+        fitness = 0.4;
     }
 
     public boolean mutate() {
@@ -107,26 +104,22 @@ public class DNA {
         return false;
     }
 
+    double[] newGenes = new double[3];
     public DNA crossover(DNA partner) {
-
-        double[] newGenes = new double[2];
-
         for (int i = 0; i < newGenes.length; i++) {
             if (rand.nextBoolean()) {
                 newGenes[i] = partner.genes[i];
             } else {
                 newGenes[i] = genes[i];
             }
-
         }
 
-        DNA child = new DNA(newGenes);
+        DNA child = new DNA(new double[]{newGenes[0], newGenes[1], newGenes[2]});
 
         return child;
     }
 
     public double getFitness() {
-        return fitness;
+        return Math.max(0.01, fitness);
     }
-
 }

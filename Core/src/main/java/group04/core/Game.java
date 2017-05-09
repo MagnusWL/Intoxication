@@ -66,7 +66,7 @@ public class Game implements ApplicationListener {
     MenuHandler menu;
     private FPSLogger fps = new FPSLogger();
     private AudioController audio;
-    private boolean generatingAI = false;
+    private boolean generatingAI = true;
 
     public Game() {
 
@@ -337,7 +337,7 @@ public class Game implements ApplicationListener {
                     for (Event e : gameData.getAllEvents()) {
                         if (e.getType() == EventType.ENEMY_SHOOT && e.getEntityID().equals(enemy.getID())) {
                             EnemyEntity enemyEntity = (EnemyEntity) enemy;
-                            ips.enemyshoot(gameData, world, enemy, base, player, enemyEntity.getK1(), enemyEntity.getK2());
+                            ips.enemyshoot(gameData, world, enemy, base, player, enemyEntity.getK1(), enemyEntity.getK2(), enemyEntity.getK3());
                             gameData.removeEvent(e);
                         }
                     }
