@@ -112,21 +112,6 @@ public class EnemyEntity extends Entity {
         if (Double.doubleToLongBits(this.k2) != Double.doubleToLongBits(other.k2)) {
             return false;
         }
-        if (Double.doubleToLongBits(this.k3) != Double.doubleToLongBits(other.k3)) {
-            return false;
-        }
-        if (Double.doubleToLongBits(this.k4) != Double.doubleToLongBits(other.k4)) {
-            return false;
-        }
-        if (Double.doubleToLongBits(this.k1e) != Double.doubleToLongBits(other.k1e)) {
-            return false;
-        }
-        if (Double.doubleToLongBits(this.k3e) != Double.doubleToLongBits(other.k3e)) {
-            return false;
-        }
-        if (Double.doubleToLongBits(this.k4e) != Double.doubleToLongBits(other.k4e)) {
-            return false;
-        }
         if (this.boss != other.boss) {
             return false;
         }
