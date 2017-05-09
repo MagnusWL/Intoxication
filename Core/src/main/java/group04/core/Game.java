@@ -66,7 +66,7 @@ public class Game implements ApplicationListener {
     MenuHandler menu;
     private FPSLogger fps = new FPSLogger();
     private AudioController audio;
-    private boolean generatingAI = false;
+    private boolean generatingAI = true;
 
     public Game() {
 
