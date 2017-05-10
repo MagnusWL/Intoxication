@@ -3,10 +3,18 @@ package org.netbeans.modules.autoupdate.silentupdate;
 /**
  *
  */
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.net.URL;
+import java.util.Properties;
 import java.util.concurrent.Executors;
 import java.util.concurrent.ScheduledExecutorService;
 import java.util.concurrent.TimeUnit;
 import org.openide.modules.ModuleInstall;
+import org.openide.util.Exceptions;
 
 /**
  * Manages a module's lifecycle. Remember that an installer is optional and
@@ -18,7 +26,36 @@ public class UpdateActivator extends ModuleInstall {
 
     @Override
     public void restored() {
-        exector.scheduleAtFixedRate(doCheck, 5000, 5000, TimeUnit.MILLISECONDS);
+        FileInputStream in = null;
+        try {
+            //C:\Users\Michael-PC\Dropbox\UNI\4. semester\Project\IntoxicationSilentUpdate\src\main\resources\org\netbeans\modules\autoupdate\silentupdate\resources
+            //C:\Users\Michael-PC\Dropbox\UNI\4. semester\Project\Intoxication\SilentUpdate\src\main\resources\org\netbeans\modules\autoupdate\silentupdate\resources
+            //C:\Users\Michael-PC\Dropbox\UNI\4. semester\Project\Intoxication\application\target\intoxication
+            File bundleFile = new File(System.getProperty("user.dir")).getParentFile().getParentFile().getParentFile();
+            String propsPath = bundleFile.getAbsolutePath() + "/SilentUpdate/src/main/resources/org/netbeans/modules/autoupdate/silentupdate/resources/";
+            in = new FileInputStream(propsPath + "Bundle.properties");
+            Properties props = new Properties();
+            props.load(in);
+            in.close();
+            FileOutputStream out = new FileOutputStream(propsPath + "Bundle.properties");
+            File file = new File(System.getProperty("user.dir")).getParentFile().getParentFile();
+            String s = "file:///" + file.getPath().replaceAll(" ", "%20") + "/updatecenter/netbeans_site/updates.xml";
+            System.out.println(s);
+            props.setProperty("org_netbeans_modules_autoupdate_silentupdate_update_center", s);
+            props.store(out, null);
+            out.close();
+            exector.scheduleAtFixedRate(doCheck, 5000, 5000, TimeUnit.MILLISECONDS);
+        } catch (FileNotFoundException ex) {
+            Exceptions.printStackTrace(ex);
+        } catch (IOException ex) {
+            Exceptions.printStackTrace(ex);
+        } finally {
+            try {
+                in.close();
+            } catch (IOException ex) {
+                Exceptions.printStackTrace(ex);
+            }
+        }
     }
 
     private static final Runnable doCheck = new Runnable() {
