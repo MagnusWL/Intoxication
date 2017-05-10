@@ -30,8 +30,6 @@ import group04.projectilecommon.ProjectileEntity;
 
 public class BulletSystem implements IServiceInitializer, IProjectileService, IServiceProcessor {
 
-    private ArrayList<Entity> bullets = new ArrayList<>();
-
     private Entity createBullet(Entity entity, GameData gameData, World world, float angle) {
         ProjectileEntity bullet = new ProjectileEntity();
         bullet.setEntityType(EntityType.PROJECTILE);
@@ -57,7 +55,6 @@ public class BulletSystem implements IServiceInitializer, IProjectileService, IS
         bullet.setX(entity.getX());
         bullet.setY(entity.getY());
 
-        bullets.add(bullet);
         return bullet;
     }
 
@@ -85,7 +82,6 @@ public class BulletSystem implements IServiceInitializer, IProjectileService, IS
         rocket.setX(entity.getX());
         rocket.setY(entity.getY());
 
-        bullets.add(rocket);
         return rocket;
     }
 
@@ -99,7 +95,6 @@ public class BulletSystem implements IServiceInitializer, IProjectileService, IS
         melee.setDestructionTimer(30);
         melee.setX(x);
         melee.setY(y);
-        bullets.add(melee);
         return melee;
     }
 
@@ -110,22 +105,18 @@ public class BulletSystem implements IServiceInitializer, IProjectileService, IS
 
     @Override
     public void stop(GameData gameData, World world) {
-        for (Entity e : bullets) {
-            world.removeEntity(e);
-        }
+
     }
 
     private void shootDecision(Entity enemy, Entity target, World world, GameData gameData, double k1, double k2, double k3) {
 //      GENETIC AI
         double xdif = Math.abs(target.getX() - enemy.getX());
 
-        double overHead = k1 + k2 * xdif + k3 * xdif * xdif;
+        double overHead = k1 + k2 * xdif;
 
         double ydif = (target.getY() + overHead) - enemy.getY();
         float angle = (float) Math.atan2(ydif, target.getX() - enemy.getX());
 
-//      Direct aim
-//      float angle = (float) Math.atan2((target.getY()) - (enemy.getY()), (target.getX()) - (enemy.getX()));        
         world.addEntity(createBullet(enemy, gameData, world, angle));
     }
 
@@ -162,6 +153,7 @@ public class BulletSystem implements IServiceInitializer, IProjectileService, IS
             if (distancePlayer > distanceBase) {
                 shootDecision(enemy, base, world, gameData, k1, k2, k3);
             } else {
+                System.out.println("shootplayer");
                 shootDecision(enemy, player, world, gameData, k1, k2, k3);
 
             }

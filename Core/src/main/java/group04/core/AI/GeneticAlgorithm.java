@@ -46,7 +46,7 @@ public class GeneticAlgorithm {
         double maxFitness = 0;
         double[] bestGenes = new double[3];
         for (int i = 0; i < population.size(); i++) {
-            population.get(i).calculateFitness(gameData, world);
+                population.get(i).calculateFitness(gameData, world);
             if(population.get(i).getFitness() > maxFitness)
             {
                 maxFitness = population.get(i).getFitness();

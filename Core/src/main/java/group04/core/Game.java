@@ -53,10 +53,6 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 import sun.nio.cs.ext.ISCII91;
 
-/**
- *
- * @author Magnus
- */
 public class Game implements ApplicationListener {
 
     private World world;
@@ -66,7 +62,7 @@ public class Game implements ApplicationListener {
     MenuHandler menu;
     private FPSLogger fps = new FPSLogger();
     private AudioController audio;
-    private boolean generatingAI = true;
+    private boolean generatingAI = false;
 
     public Game() {
 
@@ -173,8 +169,8 @@ public class Game implements ApplicationListener {
     private void updateAI() {
         gameData.setDelta(1.0f / 20.0f);
         Entity enemy = new EnemyEntity();
-        enemy.setX((int) (100));
-        enemy.setY((int) (gameData.getDisplayHeight() * 0.3));
+        enemy.setX((float) (100));
+        enemy.setY((float)136.10168f);
         world.addEntity(enemy);
         GeneticAlgorithm.start(gameData, world);
     }
