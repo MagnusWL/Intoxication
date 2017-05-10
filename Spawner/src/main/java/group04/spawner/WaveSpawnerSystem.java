@@ -6,7 +6,6 @@
 package group04.spawner;
 
 import group04.common.Entity;
-import group04.common.EntityType;
 import group04.common.GameData;
 import group04.common.World;
 import group04.common.services.IServiceInitializer;
@@ -39,10 +38,7 @@ public class WaveSpawnerSystem implements ISpawnerService, IServiceInitializer {
     
     private void createWaveSpawner(GameData gameData, World world) {
         WaveSpawnerEntity waveSpawner = new WaveSpawnerEntity();
-        waveSpawner.setEntityType(EntityType.WAVE_SPAWNER);
-
         waveSpawner.setSpawnTimerMax(600);
-        //Sets mob spawned for level 1:
         waveSpawner.setMobsSpawnedMax(1);
         waveSpawner.setSpawnDuration(100);
         waveSpawner.setCurrentLevel(1);

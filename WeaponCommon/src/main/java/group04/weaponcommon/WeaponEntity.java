@@ -1,7 +1,6 @@
 package group04.weaponcommon;
 
 import group04.common.Entity;
-import group04.common.WeaponType;
 
 public class WeaponEntity extends Entity{
 

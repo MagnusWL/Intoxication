@@ -5,13 +5,12 @@
  */
 package group04.weapon;
 
+import group04.weaponcommon.WeaponType;
 import org.openide.util.lookup.ServiceProvider;
 import org.openide.util.lookup.ServiceProviders;
 import group04.common.Entity;
-import group04.common.EntityType;
 import group04.common.GameData;
 import group04.common.GameKeys;
-import group04.common.WeaponType;
 import group04.common.World;
 import group04.common.events.Event;
 import group04.common.events.EventType;
@@ -73,13 +72,6 @@ public class WeaponSystem implements IWeaponService, IServiceInitializer {
 
     public void createGun(GameData gameData, World world, Entity e, WeaponType type) {
         WeaponEntity weapon = new WeaponEntity();
-        weapon.setEntityType(EntityType.WEAPON);
-
-        /*        loadPNGAnimation("player_weapon_melee_champaign_attack_animation.png", 110, 166, 5);
-        loadPNGAnimation("player_weapon_melee_champaign_run_animation.png", 108, 100, 5);
-        loadPNGAnimation("player_weapon_ranged_champaign_attack_animation.png", 105, 132, 5);
-        loadPNGAnimation("player_weapon_ranged_throwBottle_attack_animation.png", 111, 66, 5);
-         */
         weapon.setAnimateable(true);
         weapon.setCurrentAnimation("player_weapon_ranged_throwBottle_attack_animation");
         weapon.setIdleAnimation("player_weapon_ranged_throwbottle_run_animation");
@@ -106,7 +98,6 @@ public class WeaponSystem implements IWeaponService, IServiceInitializer {
 
     private void createMelee(GameData gameData, World world, Entity e, WeaponType type) {
         WeaponEntity weapon = new WeaponEntity();
-        weapon.setEntityType(EntityType.WEAPON);
         weapon.setAnimateable(true);
         weapon.setCurrentAnimation("player_weapon_melee_champaign_attack_animation");
         weapon.setIdleAnimation("player_weapon_melee_champaign_run_animation");
@@ -143,7 +134,6 @@ public class WeaponSystem implements IWeaponService, IServiceInitializer {
         weapon.setDamage(2);
         weapon.setWeaponCarrier(e.getID());
         weapon.setWeaponType(type);
-        weapon.setEntityType(EntityType.WEAPON);
         world.addEntity(weapon);
         if (e.getClass() == PlayerEntity.class) {
             PlayerEntity player = (PlayerEntity) e;
@@ -199,13 +189,13 @@ public class WeaponSystem implements IWeaponService, IServiceInitializer {
 
         weapon.setTimeSinceAttack(weapon.getTimeSinceAttack() + 10 * gameData.getDelta());
 
-        if (weapon.getWeaponType() == WeaponType.GUN && carrier.getEntityType() == player.getEntityType() && gameData.getKeys().isDown(GameKeys.MOUSE0) && weapon.getTimeSinceAttack() > weapon.getAttackCooldown()) {
+        if (weapon.getWeaponType() == WeaponType.GUN && carrier.getClass() == player.getClass() && gameData.getKeys().isDown(GameKeys.MOUSE0) && weapon.getTimeSinceAttack() > weapon.getAttackCooldown()) {
             gameData.addEvent(new Event(EventType.PLAYER_SHOOT_GUN, player.getID()));
             weapon.setTimeSinceAttack(0);
-        } else if (weapon.getWeaponType() == WeaponType.MELEE && carrier.getEntityType() == player.getEntityType() && gameData.getKeys().isDown(GameKeys.MOUSE0) && weapon.getTimeSinceAttack() > weapon.getAttackCooldown()) {
+        } else if (weapon.getWeaponType() == WeaponType.MELEE && carrier.getClass() == player.getClass() && gameData.getKeys().isDown(GameKeys.MOUSE0) && weapon.getTimeSinceAttack() > weapon.getAttackCooldown()) {
             gameData.addEvent(new Event(EventType.PLAYER_SWING, player.getID()));
             weapon.setTimeSinceAttack(0);
-        } else if (weapon.getWeaponType() == WeaponType.ROCKET && carrier.getEntityType() == player.getEntityType() && gameData.getKeys().isDown(GameKeys.MOUSE0) && weapon.getTimeSinceAttack() > weapon.getAttackCooldown()) {
+        } else if (weapon.getWeaponType() == WeaponType.ROCKET && carrier.getClass() == player.getClass() && gameData.getKeys().isDown(GameKeys.MOUSE0) && weapon.getTimeSinceAttack() > weapon.getAttackCooldown()) {
             gameData.addEvent(new Event(EventType.PLAYER_SHOOT_ROCKET, player.getID()));
             weapon.setTimeSinceAttack(0);
         }
@@ -226,13 +216,13 @@ public class WeaponSystem implements IWeaponService, IServiceInitializer {
 
         weapon.setTimeSinceAttack(weapon.getTimeSinceAttack() + 10 * gameData.getDelta());
 
-        if (weapon.getWeaponType().toString().equals("GUN") && enemyEntity.getEntityType() == enemy.getEntityType() && weapon.getTimeSinceAttack() > weapon.getAttackCooldown()) {
+        if (weapon.getWeaponType().toString().equals("GUN") && enemyEntity.getClass() == enemy.getClass() && weapon.getTimeSinceAttack() > weapon.getAttackCooldown()) {
             gameData.addEvent(new Event(EventType.ENEMY_SHOOT, weapon.getWeaponCarrier()));
             weapon.setTimeSinceAttack(0);
         }
 
         if (!enemyEntity.getCurrentAnimation().equals(enemyEntity.getAttackAnimation()) && weapon.getWeaponType() == WeaponType.MELEE
-                && enemyEntity.getEntityType() == enemy.getEntityType() && weapon.getTimeSinceAttack() > weapon.getAttackCooldown()
+                && enemyEntity.getClass() == enemy.getClass() && weapon.getTimeSinceAttack() > weapon.getAttackCooldown()
                 && Math.abs(enemyEntity.getX() - playerEntity.getX()) < 100) {
             enemyEntity.setCurrentAnimation(enemyEntity.getAttackAnimation());
 //            enemyEntity.setCurrentFrame(10);

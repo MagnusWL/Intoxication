@@ -13,7 +13,6 @@ import group04.common.GameData;
 import group04.common.World;
 import group04.common.services.IServiceInitializer;
 import group04.common.Entity;
-import group04.common.EntityType;
 import group04.common.services.IServiceProcessor;
 import group04.playercommon.PlayerEntity;
 import group04.projectilecommon.IProjectileService;
@@ -32,8 +31,6 @@ public class BulletSystem implements IServiceInitializer, IProjectileService, IS
 
     private Entity createBullet(Entity entity, GameData gameData, World world, float angle) {
         ProjectileEntity bullet = new ProjectileEntity();
-        bullet.setEntityType(EntityType.PROJECTILE);
-
         bullet.setDrawable("beerbottle");
         bullet.setDestroyProjectileAudio("bottle_destroy");
         bullet.setAngle(angle);
@@ -49,7 +46,7 @@ public class BulletSystem implements IServiceInitializer, IProjectileService, IS
         bullet.setShapeY(new float[]{-(spriteHeight / 2) * gameData.getHitBoxScale(), spriteHeight / 2 * gameData.getHitBoxScale(),
             spriteHeight / 2 * gameData.getHitBoxScale(), -(spriteHeight / 2 * gameData.getHitBoxScale())});
 
-        bullet.setShotFrom(entity.getEntityType());
+        bullet.setShotFrom(entity);
         bullet.setExplosive(false);
 
         bullet.setX(entity.getX());
@@ -60,8 +57,6 @@ public class BulletSystem implements IServiceInitializer, IProjectileService, IS
 
     private Entity createRocket(Entity entity, GameData gameData, World world, float angle) {
         ProjectileEntity rocket = new ProjectileEntity();
-        rocket.setEntityType(EntityType.PROJECTILE);
-
         rocket.setDrawable("rocket");
         rocket.setAngle(angle);
 
@@ -75,7 +70,7 @@ public class BulletSystem implements IServiceInitializer, IProjectileService, IS
         rocket.setShapeY(new float[]{-(spriteHeight / 2) * gameData.getHitBoxScale(), spriteHeight / 2 * gameData.getHitBoxScale(),
             spriteHeight / 2 * gameData.getHitBoxScale(), -(spriteHeight / 2 * gameData.getHitBoxScale())});
 
-        rocket.setShotFrom(entity.getEntityType());
+        rocket.setShotFrom(entity);
         rocket.setExplosive(true);
         rocket.setExplosionRadius(40);
 
@@ -87,11 +82,10 @@ public class BulletSystem implements IServiceInitializer, IProjectileService, IS
 
     private Entity createMeleeHit(Entity entity, GameData gameData, World world, float x, float y) {
         ProjectileEntity melee = new ProjectileEntity();
-        melee.setEntityType(EntityType.PROJECTILE);
         melee.setHasGravity(true);
         melee.setShapeX(new float[]{-45, -45, 45, 45});
         melee.setShapeY(new float[]{45, -45, -45, 45});
-        melee.setShotFrom(entity.getEntityType());
+        melee.setShotFrom(entity);
         melee.setDestructionTimer(30);
         melee.setX(x);
         melee.setY(y);

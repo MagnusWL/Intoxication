@@ -2,7 +2,6 @@ package group04.mapgenerator;
 
 import java.io.File;
 import group04.common.Entity;
-import group04.common.EntityType;
 import java.awt.Image;
 import java.awt.image.BufferedImage;
 import java.io.FileNotFoundException;
