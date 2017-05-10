@@ -153,7 +153,6 @@ public class BulletSystem implements IServiceInitializer, IProjectileService, IS
             if (distancePlayer > distanceBase) {
                 shootDecision(enemy, base, world, gameData, k1, k2, k3);
             } else {
-                System.out.println("shootplayer");
                 shootDecision(enemy, player, world, gameData, k1, k2, k3);
 
             }

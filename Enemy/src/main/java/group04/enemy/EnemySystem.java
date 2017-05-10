@@ -144,7 +144,6 @@ public class EnemySystem implements IEnemyService, IServiceInitializer {
 
         enemyCharacter.setK1(-4.676392131631996f);
         enemyCharacter.setK2(0.44302883625206846f);
-        enemyCharacter.setK3(-0.07017971361376141f);
 
         enemyCharacter.setHitable(true);
         int spriteWidth = gameData.getSpriteInfo().get(enemyCharacter.getCurrentAnimation())[0];
