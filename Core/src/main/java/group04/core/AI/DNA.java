@@ -18,7 +18,7 @@ public class DNA {
     private double mutationRate = 0.05;
     private double fitness;
     private Random rand = new Random();
-    private double[] genes = new double[8];
+    private double[] genes = new double[2];
 
     public double[] getGenes() {
         return genes;
@@ -61,9 +61,8 @@ public class DNA {
         totalFitness = 0;
         
         for (int i = 0; i < 20; i++) {
-            proj.aiEnemyshoot(gameData, world, enemyEntity, playerEntity, genes[0], genes[1], genes[2]);
-
-
+            proj.aiEnemyshoot(gameData, world, enemyEntity, playerEntity, genes[0], genes[1]);
+            
             lastX = 0;
             lastY = 0;
             playerLife = playerEntity.getLife();
@@ -103,13 +102,13 @@ public class DNA {
         return false;
     }
 
-    double[] newGenes = new double[3];
+    double[] newGenes = new double[2];
     public DNA crossover(DNA partner) {
         for (int i = 0; i < newGenes.length; i++) {
                 newGenes[i] = genes[i] + (partner.genes[i] - genes[i]) * Math.random();
         }
-
-        DNA child = new DNA(new double[]{newGenes[0], newGenes[1], newGenes[2]});
+        
+        DNA child = new DNA(new double[]{newGenes[0], newGenes[1]});
 
         return child;
     }

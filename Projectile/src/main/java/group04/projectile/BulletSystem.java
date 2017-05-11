@@ -102,13 +102,13 @@ public class BulletSystem implements IServiceInitializer, IProjectileService, IS
 
     }
 
-    private void shootDecision(Entity enemy, Entity target, World world, GameData gameData, double k1, double k2, double k3) {
+    private void shootDecision(Entity enemy, Entity target, World world, GameData gameData, double k1, double k2) {
 //      GENETIC AI
+
         double xdif = Math.abs(target.getX() - enemy.getX());
+        double pixelsOverHead = k1 + k2 * xdif;
 
-        double overHead = k1 + k2 * xdif;
-
-        double ydif = (target.getY() + overHead) - enemy.getY();
+        double ydif = (target.getY() + pixelsOverHead) - enemy.getY();
         float angle = (float) Math.atan2(ydif, target.getX() - enemy.getX());
 
         world.addEntity(createBullet(enemy, gameData, world, angle));
@@ -135,7 +135,7 @@ public class BulletSystem implements IServiceInitializer, IProjectileService, IS
     }
 
     @Override
-    public void enemyshoot(GameData gameData, World world, Entity enemy, Entity base, Entity player, double k1, double k2, double k3) {
+    public void enemyshoot(GameData gameData, World world, Entity enemy, Entity base, Entity player, double k1, double k2) {
         float distancePlayer = Float.MAX_VALUE;
         float distanceBase = Float.MAX_VALUE;
 
@@ -145,9 +145,9 @@ public class BulletSystem implements IServiceInitializer, IProjectileService, IS
         if (enemy.getX() > gameData.getCameraX() && enemy.getX() < gameData.getCameraX() + gameData.getDisplayWidth()) {
 
             if (distancePlayer > distanceBase) {
-                shootDecision(enemy, base, world, gameData, k1, k2, k3);
+                shootDecision(enemy, base, world, gameData, k1, k2);
             } else {
-                shootDecision(enemy, player, world, gameData, k1, k2, k3);
+                shootDecision(enemy, player, world, gameData, k1, k2);
 
             }
         }
@@ -168,8 +168,8 @@ public class BulletSystem implements IServiceInitializer, IProjectileService, IS
     }
 
     @Override
-    public void aiEnemyshoot(GameData gameData, World world, Entity enemy, Entity player, double k1, double k2, double k3) {
-        shootDecision(enemy, player, world, gameData, k1, k2, k3);
+    public void aiEnemyshoot(GameData gameData, World world, Entity enemy, Entity player, double k1, double k2) {
+        shootDecision(enemy, player, world, gameData, k1, k2);
     }
 
 }
