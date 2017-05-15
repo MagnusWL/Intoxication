@@ -4,7 +4,6 @@ import group04.basecommon.BaseEntity;
 import org.openide.util.lookup.ServiceProvider;
 import org.openide.util.lookup.ServiceProviders;
 import group04.common.Entity;
-import group04.common.EntityType;
 import group04.common.GameData;
 import group04.common.GameKeys;
 import group04.common.World;
@@ -94,14 +93,11 @@ public class BaseSystem implements IServiceProcessor, IServiceInitializer {
                 //Platform Upgrade
                 if (true) {
                     System.out.println("Adding platform");
-                    //if (player.getMoney() > 50 && base.getPlatformLevel() < 5) {
                     base.setPlatformLevel(base.getPlatformLevel() + 1);
                     player.setMoney(player.getMoney() - 50);
                     //Create platforms
                     PlatformEntity platform = new PlatformEntity();
                     platform.setDrawable("base_platform");
-//                    platform.setX(690);
-//                    platform.setY(370);
                     platform.setX(900);
                     platform.setY(150);
                     world.addEntity(platform);
@@ -131,7 +127,6 @@ public class BaseSystem implements IServiceProcessor, IServiceInitializer {
 
         base.setMaxLife(50);
         base.setLife(base.getMaxLife());
-        base.setEntityType(EntityType.BASE);
         base.setX((int) (gameData.getDisplayWidth() * 0.4));
         base.setY((int) (gameData.getDisplayHeight() * 0.5));
         return base;

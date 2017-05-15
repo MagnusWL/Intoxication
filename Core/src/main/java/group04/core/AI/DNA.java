@@ -15,10 +15,10 @@ import org.openide.util.Lookup;
 
 public class DNA {
 
-    private double mutationRate = 0.1;
+    private double mutationRate = 0.05;
     private double fitness;
     private Random rand = new Random();
-    private double[] genes = new double[8];
+    private double[] genes = new double[2];
 
     public double[] getGenes() {
         return genes;
@@ -30,6 +30,7 @@ public class DNA {
 
     public DNA(double[] genes) {
         this.genes = genes;
+        proj = Lookup.getDefault().lookup(IProjectileService.class);
     }
     
     PlayerEntity playerEntity;
@@ -38,6 +39,7 @@ public class DNA {
     float lastX, lastY;
     int playerLife;
     float xDif, yDif;
+    IProjectileService proj;
     
     public void calculateFitness(GameData gameData, World world) {
         playerEntity = null;
@@ -45,7 +47,7 @@ public class DNA {
 
         for (Entity player : world.getEntities(PlayerEntity.class)) {
             playerEntity = (PlayerEntity) player;
-            player.setX((float) (150));
+            player.setX((float) (100));
             player.setY((float)136.10168f);
             player.setVelocity(0);
             player.setVerticalVelocity(0);
@@ -57,12 +59,10 @@ public class DNA {
         }
 
         totalFitness = 0;
-
-        for (int i = 0; i < 10; i++) {
-            for (IProjectileService projService : Lookup.getDefault().lookupAll(IProjectileService.class)) {
-                projService.aiEnemyshoot(gameData, world, enemyEntity, playerEntity, genes[0], genes[1], genes[2]);
-            }
-
+        
+        for (int i = 0; i < 20; i++) {
+            proj.aiEnemyshoot(gameData, world, enemyEntity, playerEntity, genes[0], genes[1]);
+            
             lastX = 0;
             lastY = 0;
             playerLife = playerEntity.getLife();
@@ -84,16 +84,14 @@ public class DNA {
             if (playerLife != playerEntity.getLife()) {
                 fitness = 1;
             } else {
-                xDif = lastX - playerEntity.getX();
-                yDif = lastY - playerEntity.getY();
-                fitness = 1 - (Math.sqrt((xDif * xDif) + (yDif * yDif)) / 100.0f);
+                xDif = Math.abs(lastX - playerEntity.getX());
+                fitness = 1 - (xDif / 300.0f);
                 fitness = Math.max(0.01, fitness);
             }
             totalFitness += fitness;
-            playerEntity.setX(playerEntity.getX() + 20);
+            playerEntity.setX(playerEntity.getX() + 40);
         }
-        fitness = totalFitness / 10.0f;
-        fitness = 0.4;
+        fitness = totalFitness / 20.0f;
     }
 
     public boolean mutate() {
@@ -104,17 +102,13 @@ public class DNA {
         return false;
     }
 
-    double[] newGenes = new double[3];
+    double[] newGenes = new double[2];
     public DNA crossover(DNA partner) {
         for (int i = 0; i < newGenes.length; i++) {
-            if (rand.nextBoolean()) {
-                newGenes[i] = partner.genes[i];
-            } else {
-                newGenes[i] = genes[i];
-            }
+                newGenes[i] = genes[i] + (partner.genes[i] - genes[i]) * Math.random();
         }
-
-        DNA child = new DNA(new double[]{newGenes[0], newGenes[1], newGenes[2]});
+        
+        DNA child = new DNA(new double[]{newGenes[0], newGenes[1]});
 
         return child;
     }

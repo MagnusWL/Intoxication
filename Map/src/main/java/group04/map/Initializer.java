@@ -2,7 +2,6 @@ package group04.map;
 
 import org.openide.util.lookup.ServiceProvider;
 import group04.common.Entity;
-import group04.common.EntityType;
 import group04.common.GameData;
 import group04.common.World;
 import group04.common.services.IServiceInitializer;
@@ -31,7 +30,6 @@ public class Initializer implements IServiceInitializer, IMapService {
 
     @Override
     public void start(GameData gameData, World world) {
-//        map = generateMap(gameData);
         Entity map = loadMap(gameData, "../../../Common/src/main/resources/map.object");
         world.addEntity(map);
     }
@@ -66,7 +64,6 @@ public class Initializer implements IServiceInitializer, IMapService {
                 gameData.setMapHeight(newMapInt[0].length);
                 gameData.setMapWidth(newMapInt.length);
                 newMap = new MapEntity();
-                newMap.setEntityType(EntityType.MAP);
                 newMap.setMap(newMapInt);
             } catch (IOException ex) {
                 Logger.getLogger(Initializer.class.getName()).log(Level.SEVERE, null, ex);

@@ -1,8 +1,3 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package group04.core;
 
 import com.badlogic.gdx.Gdx;
@@ -21,7 +16,7 @@ import group04.basecommon.BaseEntity;
 import group04.boostcommon.BoostEntity;
 import group04.common.Entity;
 import group04.common.GameData;
-import group04.common.WeaponType;
+import group04.weaponcommon.WeaponType;
 import group04.common.World;
 import group04.core.managers.Assets;
 import group04.core.shaders.BlurShader;

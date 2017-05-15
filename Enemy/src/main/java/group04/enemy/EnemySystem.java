@@ -7,7 +7,6 @@ import java.util.Random;
 import org.openide.util.lookup.ServiceProvider;
 import org.openide.util.lookup.ServiceProviders;
 import group04.common.Entity;
-import group04.common.EntityType;
 import group04.common.GameData;
 import group04.common.World;
 import group04.common.events.Event;
@@ -82,7 +81,6 @@ public class EnemySystem implements IEnemyService, IServiceInitializer {
             spriteHeight / 2 * gameData.getHitBoxScale(), -(spriteHeight / 2 * gameData.getHitBoxScale())});
 
         enemyCharacter.setAnimateable(true);
-        enemyCharacter.setEntityType(EntityType.ENEMY);
         enemyCharacter.setX(x);
         enemyCharacter.setY(y);
         
@@ -118,7 +116,6 @@ public class EnemySystem implements IEnemyService, IServiceInitializer {
             spriteHeight / 2 * gameData.getHitBoxScale(), -(spriteHeight / 2 * gameData.getHitBoxScale())});
 
         enemyCharacter.setAnimateable(true);
-        enemyCharacter.setEntityType(EntityType.ENEMY);
         enemyCharacter.setX(x);
         enemyCharacter.setY(y);
 
@@ -142,8 +139,8 @@ public class EnemySystem implements IEnemyService, IServiceInitializer {
         enemyCharacter.setAttackAnimation("enemyboss_attack_animation");
         enemyCharacter.setTag("boss");
 
-        enemyCharacter.setK1(23.508361688837418f);
-        enemyCharacter.setK2(-0.0699157602895184f);
+        enemyCharacter.setK1(-4.676392131631996f);
+        enemyCharacter.setK2(0.44302883625206846f);
 
         enemyCharacter.setHitable(true);
         int spriteWidth = gameData.getSpriteInfo().get(enemyCharacter.getCurrentAnimation())[0];
@@ -154,7 +151,6 @@ public class EnemySystem implements IEnemyService, IServiceInitializer {
             spriteHeight / 2 * gameData.getHitBoxScale(), -(spriteHeight / 2 * gameData.getHitBoxScale())});
 
         enemyCharacter.setAnimateable(true);
-        enemyCharacter.setEntityType(EntityType.ENEMY);
         enemyCharacter.setX(x);
         enemyCharacter.setY(y);
         enemyCharacter.setBoss(true);
@@ -211,7 +207,6 @@ public class EnemySystem implements IEnemyService, IServiceInitializer {
             spriteHeight / 2 * gameData.getHitBoxScale(), -(spriteHeight / 2 * gameData.getHitBoxScale())});
 
         enemyCharacter.setAnimateable(true);
-        enemyCharacter.setEntityType(EntityType.ENEMY);
         enemyCharacter.setX(x);
         enemyCharacter.setY(y);
 
@@ -243,7 +238,6 @@ public class EnemySystem implements IEnemyService, IServiceInitializer {
             spriteHeight / 2 * gameData.getHitBoxScale(), -(spriteHeight / 2 * gameData.getHitBoxScale())});
 
         enemyCharacter.setAnimateable(true);
-        enemyCharacter.setEntityType(EntityType.ENEMY);
         enemyCharacter.setX(x);
         enemyCharacter.setY(y);
 
@@ -272,7 +266,6 @@ public class EnemySystem implements IEnemyService, IServiceInitializer {
             spriteHeight / 2 * gameData.getHitBoxScale(), -(spriteHeight / 2 * gameData.getHitBoxScale())});
         enemyCharacter.setHitable(true);
         enemyCharacter.setAnimateable(true);
-        enemyCharacter.setEntityType(EntityType.ENEMY);
         enemyCharacter.setX(x);
         enemyCharacter.setY(y);
 

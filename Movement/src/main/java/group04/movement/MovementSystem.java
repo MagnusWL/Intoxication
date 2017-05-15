@@ -3,9 +3,7 @@ package group04.movement;
 import group04.basecommon.BaseEntity;
 import group04.collisioncommon.ICollisionService;
 import group04.common.Entity;
-import group04.common.EntityType;
 import group04.common.GameData;
-import group04.common.WeaponType;
 import group04.common.World;
 import group04.common.events.Event;
 import group04.common.events.EventType;
@@ -17,6 +15,7 @@ import group04.movementcommon.IMovementService;
 import group04.playercommon.PlayerEntity;
 import group04.projectilecommon.ProjectileEntity;
 import group04.weaponcommon.WeaponEntity;
+import group04.weaponcommon.WeaponType;
 import org.openide.util.Lookup;
 import org.openide.util.lookup.ServiceProvider;
 
@@ -55,7 +54,7 @@ public class MovementSystem implements IServiceProcessor {
                         entity.setX(entity.getX() + entity.getVelocity() * gameData.getDelta() * (1.0f / steps));
                     } else {
                         entity.setVelocity(0);
-                        if (entity.getEntityType() == EntityType.PROJECTILE) {
+                        if (entity.getClass() == ProjectileEntity.class) {
                             world.removeEntity(entity);
                         }
                     }
@@ -66,7 +65,7 @@ public class MovementSystem implements IServiceProcessor {
                     } else {
                         entity.setVerticalVelocity(0);
 
-                        if (entity.getEntityType() == EntityType.PROJECTILE) {
+                        if (entity.getClass() == ProjectileEntity.class) {
                             world.removeEntity(entity);
                         }
                     }
@@ -78,12 +77,12 @@ public class MovementSystem implements IServiceProcessor {
     public void collision(World world, GameData gameData, ICollisionService e) {
         for (Entity entity : world.getAllEntities()) {
             if (entity.isHasGravity()) {
-                if (entity.getEntityType() == EntityType.PROJECTILE) {
+                if (entity.getClass() == ProjectileEntity.class) {
                     ProjectileEntity bullet = (ProjectileEntity) entity;
                     if (!bullet.isExplosive()) {
                         for (Entity entityHit : world.getEntities(PlayerEntity.class, EnemyEntity.class, BaseEntity.class)) {
-                            if (entityHit.getEntityType() != bullet.getShotFrom()
-                                    && !(entityHit.getEntityType() == EntityType.BASE && bullet.getShotFrom() == EntityType.PLAYER)) {
+                            if (entityHit.getClass() != bullet.getShotFrom().getClass()
+                                    && !(entityHit.getClass() == BaseEntity.class && bullet.getShotFrom().getClass() == PlayerEntity.class)) {
                                 if (e.isEntitiesColliding(entity, entityHit)) {
                                     gameData.addEvent(new Event(EventType.ENTITY_HIT, entityHit.getID()));
                                     world.removeEntity(entity);
@@ -93,8 +92,8 @@ public class MovementSystem implements IServiceProcessor {
                         }
                     } else {
                         for (Entity entityHit : world.getEntities(PlayerEntity.class, EnemyEntity.class, BaseEntity.class)) {
-                            if (entityHit.getEntityType() != bullet.getShotFrom()
-                                    && !(entityHit.getEntityType() == EntityType.BASE && bullet.getShotFrom() == EntityType.PLAYER)) {
+                            if (entityHit.getClass() != bullet.getShotFrom().getClass()
+                                    && !(entityHit.getClass() == BaseEntity.class && bullet.getShotFrom().getClass() == PlayerEntity.class)) {
                                 if (e.isEntitiesColliding(entity, entityHit)) {
                                     gameData.addEvent(new Event(EventType.ROCKET_HIT, entityHit.getID()));
                                     world.removeEntity(entity);
@@ -105,17 +104,7 @@ public class MovementSystem implements IServiceProcessor {
                     }
                 }
 
-                if (entity.getEntityType() == EntityType.EXPLOSION) {
-                    for (Entity entityHit : world.getEntities(PlayerEntity.class, EnemyEntity.class, BaseEntity.class)) {
-                        if (e.isEntitiesColliding(entity, entityHit)) {
-                            gameData.addEvent(new Event(EventType.ENTITY_HIT, entityHit.getID()));
-                            world.removeEntity(entity);
-                            break;
-                        }
-                    }
-                }
-
-                if (entity.getEntityType() == EntityType.WEAPON) {
+                if (entity.getClass() == WeaponEntity.class) {
                     WeaponEntity weapon = (WeaponEntity) entity;
                     if (weapon.getWeaponType() == WeaponType.MELEE) {
                         for (Entity entityHit : world.getEntities(EnemyEntity.class, PlayerEntity.class, BaseEntity.class)) {

@@ -6,8 +6,6 @@ import java.util.UUID;
 
 public class Entity implements Serializable {
 
-    private EntityType entityType;
-    //Tag er tilføjet, hvis man gerne vil finde en entity by tag
     private String tag;
     private float x;
     private float y;
@@ -220,14 +218,6 @@ public class Entity implements Serializable {
 
     public void setShapeY(float[] shapeY) {
         this.shapeY = shapeY;
-    }
-
-    public EntityType getEntityType() {
-        return entityType;
-    }
-
-    public void setEntityType(EntityType entityType) {
-        this.entityType = entityType;
     }
 
     public float getX() {

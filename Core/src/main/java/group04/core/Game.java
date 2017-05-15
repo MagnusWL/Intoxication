@@ -1,8 +1,3 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package group04.core;
 
 import group04.core.managers.InputController;
@@ -17,11 +12,10 @@ import group04.boostcommon.IBoostService;
 import group04.cameracommon.ICameraService;
 import group04.collisioncommon.ICollisionService;
 import group04.common.Entity;
-import group04.common.EntityType;
 import org.openide.util.Lookup;
 import group04.common.GameData;
 import group04.common.GameKeys;
-import group04.common.WeaponType;
+import group04.weaponcommon.WeaponType;
 import group04.common.World;
 import group04.common.events.Event;
 import group04.common.events.EventType;
@@ -53,10 +47,6 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 import sun.nio.cs.ext.ISCII91;
 
-/**
- *
- * @author Magnus
- */
 public class Game implements ApplicationListener {
 
     private World world;
@@ -66,7 +56,7 @@ public class Game implements ApplicationListener {
     MenuHandler menu;
     private FPSLogger fps = new FPSLogger();
     private AudioController audio;
-    private boolean generatingAI = true;
+    private boolean generatingAI = false;
 
     public Game() {
 
@@ -121,8 +111,6 @@ public class Game implements ApplicationListener {
         gameData.setDisplayWidth(Gdx.graphics.getWidth());
         gameData.setDisplayHeight(Gdx.graphics.getHeight());
         gameData.setTileSize(16);
-        /*        gameData.setMapWidth(gameData.getDisplayWidth() / gameData.getTileSize() * 2);
-        gameData.setMapHeight(gameData.getDisplayHeight() / gameData.getTileSize());*/
         cam = new OrthographicCamera(gameData.getDisplayWidth(), gameData.getDisplayHeight());
         cam.translate(gameData.getDisplayWidth() / 2, gameData.getDisplayHeight() / 2);
         cam.update();
@@ -130,8 +118,8 @@ public class Game implements ApplicationListener {
         assetManager = new Assets(gameData);
 
         assetManager.load();
+
         while (!assetManager.getAssetManager().update()) {
-//            System.out.println(assetManager.getAssetManager().getProgress() * 100);
         }
 
         render = new Renderer(gameData, assetManager);
@@ -173,8 +161,8 @@ public class Game implements ApplicationListener {
     private void updateAI() {
         gameData.setDelta(1.0f / 20.0f);
         Entity enemy = new EnemyEntity();
-        enemy.setX((int) (100));
-        enemy.setY((int) (gameData.getDisplayHeight() * 0.3));
+        enemy.setX((float) (100));
+        enemy.setY((float)136.10168f);
         world.addEntity(enemy);
         GeneticAlgorithm.start(gameData, world);
     }
@@ -337,7 +325,7 @@ public class Game implements ApplicationListener {
                     for (Event e : gameData.getAllEvents()) {
                         if (e.getType() == EventType.ENEMY_SHOOT && e.getEntityID().equals(enemy.getID())) {
                             EnemyEntity enemyEntity = (EnemyEntity) enemy;
-                            ips.enemyshoot(gameData, world, enemy, base, player, enemyEntity.getK1(), enemyEntity.getK2(), enemyEntity.getK3());
+                            ips.enemyshoot(gameData, world, enemy, base, player, enemyEntity.getK1(), enemyEntity.getK2());
                             gameData.removeEvent(e);
                         }
                     }

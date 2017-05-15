@@ -1,16 +1,14 @@
 package group04.projectilecommon;
 
 import group04.common.Entity;
-import group04.common.EntityType;
 
 public class ProjectileEntity extends Entity {
 
     private boolean explosive;
     private int explosionRadius;
-    private EntityType shotFrom;
+    private Entity shotFrom;
     private float angle;
     private float destructionTimer;
-    // Audio
     private String destroyProjectileAudio;
 
     public float getDestructionTimer() {
@@ -29,11 +27,11 @@ public class ProjectileEntity extends Entity {
         this.angle = angle;
     }
 
-    public EntityType getShotFrom() {
+    public Entity getShotFrom() {
         return shotFrom;
     }
 
-    public void setShotFrom(EntityType shotFrom) {
+    public void setShotFrom(Entity shotFrom) {
         this.shotFrom = shotFrom;
     }
 
