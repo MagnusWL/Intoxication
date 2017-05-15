@@ -93,14 +93,11 @@ public class BaseSystem implements IServiceProcessor, IServiceInitializer {
                 //Platform Upgrade
                 if (true) {
                     System.out.println("Adding platform");
-                    //if (player.getMoney() > 50 && base.getPlatformLevel() < 5) {
                     base.setPlatformLevel(base.getPlatformLevel() + 1);
                     player.setMoney(player.getMoney() - 50);
                     //Create platforms
                     PlatformEntity platform = new PlatformEntity();
                     platform.setDrawable("base_platform");
-//                    platform.setX(690);
-//                    platform.setY(370);
                     platform.setX(900);
                     platform.setY(150);
                     world.addEntity(platform);

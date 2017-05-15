@@ -12,10 +12,6 @@ import java.util.Random;
 import org.openide.util.lookup.ServiceProvider;
 import org.openide.util.lookup.ServiceProviders;
 
-/**
- *
- * @author Mathias
- */
 @ServiceProviders(value = {
     @ServiceProvider(service = IServiceInitializer.class),
     @ServiceProvider(service = IDropService.class)})

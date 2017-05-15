@@ -1,8 +1,3 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package group04.core;
 
 import com.badlogic.gdx.Audio;
@@ -12,10 +7,6 @@ import com.badlogic.gdx.audio.Sound;
 import group04.common.GameData;
 import group04.core.managers.Assets;
 
-/**
- *
- * @author Josan gamle stodder
- */
 public class AudioController {
 
     private Assets assets;

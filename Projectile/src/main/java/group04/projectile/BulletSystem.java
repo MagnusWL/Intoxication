@@ -1,8 +1,3 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package group04.projectile;
 
 import group04.basecommon.BaseEntity;
@@ -18,10 +13,6 @@ import group04.playercommon.PlayerEntity;
 import group04.projectilecommon.IProjectileService;
 import group04.projectilecommon.ProjectileEntity;
 
-/**
- *
- * @author burno
- */
 @ServiceProviders(value = {
     @ServiceProvider(service = IServiceProcessor.class),
     @ServiceProvider(service = IServiceInitializer.class),

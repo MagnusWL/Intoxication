@@ -30,7 +30,6 @@ public class Initializer implements IServiceInitializer, IMapService {
 
     @Override
     public void start(GameData gameData, World world) {
-//        map = generateMap(gameData);
         Entity map = loadMap(gameData, "../../../Common/src/main/resources/map.object");
         world.addEntity(map);
     }

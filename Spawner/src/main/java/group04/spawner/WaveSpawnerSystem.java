@@ -1,8 +1,3 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package group04.spawner;
 
 import group04.common.Entity;
@@ -18,10 +13,6 @@ import org.openide.util.Lookup;
 import org.openide.util.lookup.ServiceProvider;
 import org.openide.util.lookup.ServiceProviders;
 
-/**
- *
- * @author Michael-PC
- */
 @ServiceProviders(value = {
     @ServiceProvider(service = ISpawnerService.class),
     @ServiceProvider(service = IServiceInitializer.class)
