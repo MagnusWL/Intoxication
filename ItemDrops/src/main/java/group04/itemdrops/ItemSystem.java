@@ -50,11 +50,11 @@ public class ItemSystem implements IServiceInitializer, IDropService {
             world.addEntity(createItem(world, gameData, x, y, "currency_gold_animation", ItemType.CURRENCY));
         } 
         
-        if (dropChance < 0.95 && dropChance > 0.75) {
+        if (dropChance > 0.90) {
             world.addEntity(createItem(world, gameData, x, y, "pill", ItemType.PILL));
         }
         
-        if (dropChance > 0.01) {
+        if (dropChance > 0.50) {
             world.addEntity(createItem(world, gameData, x, y, "beerbottle", ItemType.BEERBOTTLE_WEAPON));
         }
     }
