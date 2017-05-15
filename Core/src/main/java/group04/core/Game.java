@@ -111,8 +111,6 @@ public class Game implements ApplicationListener {
         gameData.setDisplayWidth(Gdx.graphics.getWidth());
         gameData.setDisplayHeight(Gdx.graphics.getHeight());
         gameData.setTileSize(16);
-        /*        gameData.setMapWidth(gameData.getDisplayWidth() / gameData.getTileSize() * 2);
-        gameData.setMapHeight(gameData.getDisplayHeight() / gameData.getTileSize());*/
         cam = new OrthographicCamera(gameData.getDisplayWidth(), gameData.getDisplayHeight());
         cam.translate(gameData.getDisplayWidth() / 2, gameData.getDisplayHeight() / 2);
         cam.update();
@@ -120,8 +118,8 @@ public class Game implements ApplicationListener {
         assetManager = new Assets(gameData);
 
         assetManager.load();
+
         while (!assetManager.getAssetManager().update()) {
-//            System.out.println(assetManager.getAssetManager().getProgress() * 100);
         }
 
         render = new Renderer(gameData, assetManager);
