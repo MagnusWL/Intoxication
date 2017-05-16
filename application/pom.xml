@@ -18,19 +18,19 @@
         <all.clusters>${project.build.directory}/${brandingToken}</all.clusters>
     </properties>
     <dependencies>
-        <dependency>
+        <!--dependency>
             <groupId>org.netbeans.api</groupId>
             <artifactId>org-netbeans-modules-autoupdate-ui</artifactId>
             <version>RELEASE82</version>
-        </dependency>
+        </dependency-->
         <!-- NbModuleSuite functional in RELEASE70 or later: -->
         
         
-        <dependency>
+        <!--dependency>
             <groupId>org.netbeans.modules</groupId>
             <artifactId>org-netbeans-core-windows</artifactId>
             <version>${netbeans.version}</version>
-        </dependency>
+        </dependency-->
         
         <dependency>
             <groupId>org.netbeans.api</groupId>
