@@ -133,7 +133,6 @@ public class Game implements ApplicationListener {
         Gdx.input.setInputProcessor(
                 new InputController(gameData)
         );
-
     }
 
     @Override
