@@ -165,6 +165,7 @@ public class Game implements ApplicationListener {
         enemy.setY((float)136.10168f);
         world.addEntity(enemy);
         GeneticAlgorithm.start(gameData, world);
+        System.exit(0);
     }
 
     private void update() {
