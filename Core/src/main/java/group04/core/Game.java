@@ -90,7 +90,6 @@ public class Game implements ApplicationListener {
     }
 
     public void saveWorld() {
-
         FileOutputStream fout;
         try {
             fout = new FileOutputStream(new File("../../../Common/src/main/resources/save.object").getAbsolutePath());
