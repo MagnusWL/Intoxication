@@ -160,7 +160,7 @@ public class Game implements ApplicationListener {
         gameData.setDelta(1.0f / 20.0f);
         Entity enemy = new EnemyEntity();
         enemy.setX((float) (100));
-        enemy.setY((float)136.10168f);
+        enemy.setY((float) 136.10168f);
         world.addEntity(enemy);
         GeneticAlgorithm.start(gameData, world);
     }
