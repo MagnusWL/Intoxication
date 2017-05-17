@@ -1,0 +1,4 @@
+Manifest-Version: 1.0
+OpenIDE-Module-Localizing-Bundle: group04/silentupdate/Bundle.properties
+OpenIDE-Module-Install: group04/silentupdate/UpdateActivator.class
+OpenIDE-Module-Layer: group04/silentupdate/layer.xml
