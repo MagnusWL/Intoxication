@@ -1,8 +1,5 @@
 package group04.core;
 
-import com.badlogic.gdx.Audio;
-import com.badlogic.gdx.Gdx;
-import com.badlogic.gdx.audio.Music;
 import com.badlogic.gdx.audio.Sound;
 import group04.common.GameData;
 import group04.core.managers.Assets;

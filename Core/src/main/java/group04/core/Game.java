@@ -45,7 +45,6 @@ import java.util.ArrayList;
 import java.util.Map;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-import sun.nio.cs.ext.ISCII91;
 
 public class Game implements ApplicationListener {
 

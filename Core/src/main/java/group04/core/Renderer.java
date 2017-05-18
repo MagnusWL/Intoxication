@@ -1,15 +1,11 @@
 package group04.core;
 
 import com.badlogic.gdx.Gdx;
-import com.badlogic.gdx.Input;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.Texture;
-import com.badlogic.gdx.graphics.VertexAttribute;
-import com.badlogic.gdx.graphics.g2d.Batch;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
-import com.badlogic.gdx.graphics.glutils.ShaderProgram;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer.ShapeType;
 import group04.basecommon.BaseEntity;
@@ -19,24 +15,17 @@ import group04.common.GameData;
 import group04.weaponcommon.WeaponType;
 import group04.common.World;
 import group04.core.managers.Assets;
-import group04.core.shaders.BlurShader;
 import group04.core.shaders.IShaderInterface;
-import group04.core.shaders.InvertionShader;
 import group04.core.shaders.LsdShader;
 import group04.enemycommon.EnemyEntity;
-import group04.inventorycommon.InventoryEntity;
 import group04.platformcommon.PlatformEntity;
 import group04.playercommon.PlayerEntity;
 import group04.projectilecommon.ProjectileEntity;
 import group04.spawnercommon.WaveSpawnerEntity;
 import group04.upgradecommon.UpgradeEntity;
 import group04.weaponcommon.WeaponEntity;
-import java.io.File;
 import java.util.ArrayList;
-import org.openide.util.Exceptions;
 import java.util.Map.Entry;
-import java.util.Random;
-import javafx.application.Platform;
 import group04.core.shaders.VignetteShader;
 
 public class Renderer {
@@ -50,12 +39,6 @@ public class Renderer {
     private SpriteBatch batch;
     private ShapeRenderer sr;
     private IShaderInterface shader;
-
-//    private Map<String, ArrayList<Sprite>> animations = new HashMap<>();
-//    private Map<String, Sprite> images = new HashMap<>();
-//
-//    private Map<String, ArrayList<Sprite>> animationsFlip = new HashMap<>();
-//    private Map<String, Sprite> imagesFlip = new HashMap<>();
     private boolean loaded = false;
 
     private Assets assetManager;
@@ -65,9 +48,7 @@ public class Renderer {
         batch = new SpriteBatch();
         sr = new ShapeRenderer();
         this.assetManager = assets;
-        
-//        loadPNGAnimation("player_run_animation2.png", 75, 80, 5);
-        //Animation speed += 1/animationspeed
+
         loadPNGAnimation("player_idle_animation.png", 105, 132, 5);
         loadPNGAnimation("player_jump_animation.png", 110, 120, 5);
         loadPNGAnimation("enemybeer_run_animation.png", 142, 122, 5);
@@ -76,8 +57,8 @@ public class Renderer {
         loadPNGAnimation("enemynarko_attack_animation.png", 103, 109, 5);
         loadPNGAnimation("currency_gold_animation.png", 44, 45, 5);
         loadPNGAnimation("player_run_animation.png", 105, 132, 5);
-        loadPNGAnimation("enemyboss_run_animation.png", 238, 290,5);
-        loadPNGAnimation("enemyboss_attack_animation.png", 238, 290,5);
+        loadPNGAnimation("enemyboss_run_animation.png", 238, 290, 5);
+        loadPNGAnimation("enemyboss_attack_animation.png", 238, 290, 5);
         loadPNGAnimation("player_weapon_melee_champaign_attack_animation.png", 110, 166, 3);
         loadPNGAnimation("player_weapon_melee_champaign_run_animation.png", 110, 166, 3);
         loadPNGAnimation("player_weapon_ranged_champaign_attack_animation.png", 105, 132, 5);
@@ -85,11 +66,7 @@ public class Renderer {
         loadPNGAnimation("pill.png", 25, 12, 1000);
         loadPNGAnimation("player_weapon_ranged_throwbottle_run_animation.png", 111, 66, 2);
         loadPNGAnimation("beerbottle.png", 34, 16, 1000);
-        
-//        loadPNGAnimation("player_idle_animation.png", 44, 45, 5);
 
-//        loadPNGAnimation("player_idle_animation.png", 44, 45, 5);
-        // loadPNGImages();
         String fileName;
         Sprite sprite;
         for (Entry e : assetManager.getAllSprites().entrySet()) {
@@ -105,8 +82,6 @@ public class Renderer {
             gameData.getSpriteInfo().put(fileName.substring(0, fileName.length() - 4), new int[]{(int) animation.getWidth(), (int) animation.getHeight()});
         }
 
-//        assetManager.getAssetManager().get
-//        gameData.getSpriteInfo().put(fileName.substring(0, fileName.length() - 4), new int[]{textureAsset.getWidth(), textureAsset.getHeight()});
     }
 
     public void loadPNGAnimation(String animationName, int spriteSizeX, int spriteSizeY, float animationSpeed) {
@@ -114,16 +89,6 @@ public class Renderer {
                 Texture.class), spriteSizeX, spriteSizeY, animationSpeed);
     }
 
-//    public void loadPNGImages() {
-//        Array<Texture> imageTextures = new Array<Texture>();
-//        for (Texture imageName : assetManager.getAssetManager().getAll(Texture.class, imageTextures)) {
-//            Sprite thisSprite = new Sprite(imageName);
-//            assetManager.getAssetManager().load(thisSprite, Sprite.class);
-//            Sprite flip = new Sprite(imageName);
-//            flip.flip(true, false);
-//            assetManager.getAssetManager().load(thisSprite.toString() + "_flipped", Sprite.class);
-//        }
-//    }
     public void render(GameData gameData, World world) {
         sr.begin(ShapeType.Filled);
         sr.setAutoShapeType(true);
@@ -151,36 +116,10 @@ public class Renderer {
         drawFPS(gameData);
         drawInventory(gameData, world);
         shader = new VignetteShader();
-        //ShaderProgram.pedantic = false;    
-        //ShaderProgram vignetteShader = shader.drawShader();
-        // System.out.println(fishEyeShader.isCompiled() ? "shader compiled" : fishEyeShader.getLog());
-        //vignetteShader.begin();
-
-        //batch.setShader(vignetteShader);
-        //vignetteShader.setUniformf("u_resolution", gameData.getDisplayWidth(), gameData.getDisplayHeight());
         batch.end();
 
-        //Layer beetween foreground and middleground: The frontside of the enemyspawner:
-        //Foreground layer: The first one
-        //Foreground layer: The last one
     }
 
-//    public void makeAnimation(String animationName, Texture spriteSheet, int spriteSizeX, int spriteSizeY) {
-//        ArrayList<Sprite> keyFrames = new ArrayList<>();
-//        ArrayList<Sprite> flipKeyFrames = new ArrayList<>();
-//        int numberOfSprites = (int) (spriteSheet.getWidth() / spriteSizeX);
-//        for (int i = 0; i < numberOfSprites; i++) {
-//            TextureRegion sprite = new TextureRegion(spriteSheet);
-//            sprite.setRegion(i * spriteSizeX, 0, spriteSizeX, spriteSizeY);
-//            keyFrames.add(new Sprite(sprite));
-//
-//            Sprite flip = new Sprite(sprite);
-//            flip.flip(true, false);
-//            flipKeyFrames.add(flip);
-//        }
-//        animations.put(animationName, keyFrames);
-//        animationsFlip.put(animationName, flipKeyFrames);
-//    }
     private void drawAnimations(GameData gameData, World world) {
 
         Entity player = null;
@@ -202,7 +141,7 @@ public class Renderer {
                         if (world.getEntity(((WeaponEntity) entity).getWeaponCarrier()).getClass() == PlayerEntity.class) {
                             angle = (float) Math.atan2(gameData.getMouseY() - player.getY(), gameData.getMouseX() - (player.getX() - gameData.getCameraX()));
                             xCenter = entity.getxCenter();
-                            yCenter = entity.getyCenter();// assetManager.getAnimation(entity.getCurrentAnimation() + ".png").getHeight()/2.0f;
+                            yCenter = entity.getyCenter();
                             if (gameData.getMouseX() < player.getX() - gameData.getCameraX()) {
                                 xCenter = assetManager.getAnimation(entity.getCurrentAnimation() + ".png").getWidth() - entity.getxCenter();
                                 flipped = true;
@@ -223,7 +162,6 @@ public class Renderer {
                     reversed = true;
                 }
 
-                //FLYTTES UDEN FOR RENDERE?
                 if (entity.isHit()) {
                     entity.setHitCounter();
                     if (entity.getHitCounter() == 0) {
@@ -312,7 +250,7 @@ public class Renderer {
         for (Entity entity : world.getEntities(BoostEntity.class)) {
             if (entity.getDrawable() != null) {
                 drawSprite(gameData, world, entity, assetManager.getSprites(entity.getDrawable() + ".png"), 0, 0, 0);
-            } 
+            }
         }
 
         for (Entity entity : world.getEntities(UpgradeEntity.class)) {
@@ -342,10 +280,9 @@ public class Renderer {
             text.draw(batch, "Next wave: " + Integer.toString(Math.max(0, (wave.getSpawnTimerMax() - wave.getSpawnTimer()) / 60)) + " seconds", 40, gameData.getDisplayHeight() - 50);
         }
     }
-    
-    private void drawHealthBar(GameData gameData, World world)
-    {
-        
+
+    private void drawHealthBar(GameData gameData, World world) {
+
     }
 
     private void drawHealthBars(GameData gameData, World world) {
@@ -419,37 +356,25 @@ public class Renderer {
     }
 
     double actualD = 0;
+
     public void drawPupil(GameData gameData, World world, Sprite pupil, float mov) {
-        /*float eyeX = 1818;
-        float playerX = 0;
-        float playerY = 80;
-        for (Entity player : world.getEntities(PlayerEntity.class)) {
-            playerX = player.getX();
-            playerY = player.getY();
-        }
-
-        float d = (float) ((playerX - eyeX) / (eyeX));
-
-        if (d < 0) {
-            d = -d * d * 2;
-        } else {
-            d = d * d * 2;
-        }*/
         double playerX = 0;
         double playerY = 80;
         for (Entity player : world.getEntities(PlayerEntity.class)) {
             playerX = player.getX();
             playerY = player.getY();
         }
-        
+
         double ratio01 = (playerX - 646) / (2936 - 646);
-        if(ratio01 < 0)
+        if (ratio01 < 0) {
             ratio01 = 0;
-        if(ratio01 > 1)
+        }
+        if (ratio01 > 1) {
             ratio01 = 1;
+        }
         double eyeX = 1818;
-        double d = (ratio01 - 0.5f)*1.2;
-        
+        double d = (ratio01 - 0.5f) * 1.2;
+
         actualD += (d - actualD) * 0.05;
 
         double xTranslate = (200 * actualD);
@@ -528,10 +453,8 @@ public class Renderer {
         assetManager.getSprites("inventoryspace1.png").setY((y - assetManager.getSprites("inventoryspace1.png").getHeight() / 2.0f));
         assetManager.getSprites("inventoryspace1.png").draw(batch);
 
-//        tjek player for weapon
         for (Entity e : world.getEntities(PlayerEntity.class)) {
 
-            //BUGGER HVIS DER IKKE ER DRAWABLE MEN BARE ANIMATION, SORRY LARS - MAGNUS
             PlayerEntity playerEntity = (PlayerEntity) e;
 
             if (((WeaponEntity) playerEntity.getWeaponOwned()).getWeaponType() == WeaponType.GUN) {

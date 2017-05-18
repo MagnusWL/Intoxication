@@ -1,9 +1,7 @@
 package group04.core.managers;
 
-import com.badlogic.gdx.Files;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.assets.AssetManager;
-import com.badlogic.gdx.assets.AssetDescriptor;
 import com.badlogic.gdx.audio.Sound;
 import com.badlogic.gdx.files.FileHandle;
 import com.badlogic.gdx.graphics.Color;
@@ -18,7 +16,6 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.Map.Entry;
 import org.apache.commons.io.FilenameUtils;
 
 public final class Assets {
@@ -51,7 +48,6 @@ public final class Assets {
     }
 
     public static void load() {
-//        AssetDescriptor<Sound> soundFile : soundAssets.values()) {
         for (Map.Entry<String, Sound> entry : sounds.entrySet()) {
             String path = entry.getKey();
             Sound sound = entry.getValue();
