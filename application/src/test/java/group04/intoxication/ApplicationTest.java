@@ -82,9 +82,7 @@ public class ApplicationTest extends NbTestCase {
         try {
             copy(get(copyOfRealUpdates), get(actualPath), REPLACE_EXISTING);
             Thread.sleep(10000);
-        } catch (IOException ex) {
-            Exceptions.printStackTrace(ex);
-        } catch (InterruptedException ex) {
+        } catch (IOException | InterruptedException ex) {
             Exceptions.printStackTrace(ex);
         }
 
