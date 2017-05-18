@@ -39,6 +39,8 @@ import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.util.ArrayList;
 import java.util.Map;
+import java.util.Timer;
+import java.util.TimerTask;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -224,6 +226,7 @@ public class Game implements ApplicationListener {
     private void playerProcess() {
         for (Entity p : world.getEntities(PlayerEntity.class)) {
 
+            
             PlayerEntity player = (PlayerEntity) p;
 
             for (IWeaponService ips : Lookup.getDefault().lookupAll(IWeaponService.class)) {
@@ -286,7 +289,7 @@ public class Game implements ApplicationListener {
                     if (weapon != null) {
                         for (ICollisionService serv : Lookup.getDefault().lookupAll(ICollisionService.class)) {
                             if (serv.isEntitiesColliding(player, weapon)) {
-                                player.setLife((int) (player.getLife() * 0.5f));
+                                new Event(EventType.ENTITY_HIT, player.getID());
                             }
                         }
                     }

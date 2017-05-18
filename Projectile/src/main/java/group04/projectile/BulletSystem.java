@@ -126,6 +126,7 @@ public class BulletSystem implements IServiceInitializer, IProjectileService, IS
 
     @Override
     public void enemyshoot(GameData gameData, World world, Entity enemy, Entity base, Entity player, double k1, double k2) {
+        
         float distancePlayer = Float.MAX_VALUE;
         float distanceBase = Float.MAX_VALUE;
 

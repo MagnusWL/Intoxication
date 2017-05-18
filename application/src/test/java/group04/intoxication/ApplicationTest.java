@@ -49,7 +49,7 @@ public class ApplicationTest extends NbTestCase {
         List<IServiceInitializer> plugins = new CopyOnWriteArrayList<>();
 
         try {
-            Thread.sleep(20000);
+            Thread.sleep(30000);
             waitForUpdate(processors, plugins);
         } catch (InterruptedException ex) {
             Exceptions.printStackTrace(ex);
@@ -67,7 +67,7 @@ public class ApplicationTest extends NbTestCase {
             Exceptions.printStackTrace(ex);
         }
         try {
-            Thread.sleep(10000);
+            Thread.sleep(20000);
             waitForUpdate(processors, plugins);
         } catch (InterruptedException ex) {
             Exceptions.printStackTrace(ex);
@@ -81,7 +81,7 @@ public class ApplicationTest extends NbTestCase {
         //CLEAN UP
         try {
             copy(get(copyOfRealUpdates), get(actualPath), REPLACE_EXISTING);
-            Thread.sleep(10000);
+            Thread.sleep(20000);
         } catch (IOException | InterruptedException ex) {
             Exceptions.printStackTrace(ex);
         }
