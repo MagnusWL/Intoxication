@@ -11,10 +11,10 @@ import group04.common.events.Event;
 import group04.common.events.EventType;
 import group04.common.services.IServiceInitializer;
 import group04.common.services.IServiceProcessor;
-import group04.platformcommon.PlatformEntity;
-import group04.playercommon.PlayerEntity;
-import group04.upgradecommon.UpgradeEntity;
-import group04.weaponcommon.WeaponEntity;
+
+
+
+
 
 @ServiceProviders(value = {
     @ServiceProvider(service = IServiceProcessor.class),
@@ -26,10 +26,11 @@ public class BaseSystem implements IServiceProcessor, IServiceInitializer {
 
     @Override
     public void process(GameData gameData, World world) {
-        PlayerEntity player = null;
+      /*
+        Entity player = null;
         for (Entity entity : world.getEntities(PlayerEntity.class)) {
-            player = (PlayerEntity) entity;
-        }
+            player = entity;
+        } */
         for (Entity entity : world.getEntities(BaseEntity.class)) {
             BaseEntity base = (BaseEntity) entity;
             for (Event e : gameData.getAllEvents()) {
@@ -42,7 +43,7 @@ public class BaseSystem implements IServiceProcessor, IServiceInitializer {
                     gameData.removeEvent(e);
                 }
             }
-
+/*
             UpgradeEntity menu = null;
 
             for (Entity e : world.getEntities(UpgradeEntity.class)) {
@@ -54,7 +55,7 @@ public class BaseSystem implements IServiceProcessor, IServiceInitializer {
                 System.out.println("Opening menu");
                 menu.setOpen(!menu.isOpen());
             }
-
+            
             if (gameData.getKeys().isPressed(GameKeys.I) && menu.isOpen()) {
                 //HP Upgrade
                 if (player.getMoney() > 100) {
@@ -103,7 +104,7 @@ public class BaseSystem implements IServiceProcessor, IServiceInitializer {
                     world.addEntity(platform);
                 }
             }
-
+*/
         }
     }
 
@@ -111,7 +112,7 @@ public class BaseSystem implements IServiceProcessor, IServiceInitializer {
     public void start(GameData gameData, World world) {
         base = createBase(gameData, world);
         world.addEntity(base);
-        world.addEntity(new UpgradeEntity());
+        //world.addEntity(new UpgradeEntity());
     }
 
     private Entity createBase(GameData gameData, World world) {

@@ -1,6 +1,6 @@
 package group04.projectile;
 
-import group04.basecommon.BaseEntity;
+
 import java.util.ArrayList;
 import org.openide.util.lookup.ServiceProvider;
 import org.openide.util.lookup.ServiceProviders;
@@ -9,7 +9,6 @@ import group04.common.World;
 import group04.common.services.IServiceInitializer;
 import group04.common.Entity;
 import group04.common.services.IServiceProcessor;
-import group04.playercommon.PlayerEntity;
 import group04.projectilecommon.IProjectileService;
 import group04.projectilecommon.ProjectileEntity;
 
