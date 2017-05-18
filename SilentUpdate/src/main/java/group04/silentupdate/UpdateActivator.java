@@ -26,29 +26,20 @@ public class UpdateActivator extends ModuleInstall {
 
     @Override
     public void restored() {
-        System.out.println("HEJ HEJ");
         FileInputStream in = null;
         try {
-            //C:\Users\Michael-PC\Dropbox\UNI\4. semester\Project\IntoxicationSilentUpdate\src\main\resources\org\netbeans\modules\autoupdate\silentupdate\resources
-            //C:\Users\Michael-PC\Dropbox\UNI\4. semester\Project\Intoxication\SilentUpdate\src\main\resources\org\netbeans\modules\autoupdate\silentupdate\resources
-            //C:\Users\Michael-PC\Dropbox\UNI\4. semester\Project\Intoxication\application\target\intoxication
             try {
-                System.out.println("Changed user directory!");
                 String userdir = System.getProperty("user.dir");
-                System.out.println(userdir.substring(userdir.length() - "intoxication".length(), userdir.length()));
                 if ("intoxication".equals(userdir.substring(userdir.length() - "intoxication".length(), userdir.length()))) {
 
                 } else {
                     System.setProperty("user.dir", System.getProperty("user.dir") + "/target/intoxication");
                 }
             } catch (Exception e) {
-                System.out.println("PØLLE");
                 e.printStackTrace();
             }
-            System.out.println(System.getProperty("user.dir"));
             File bundleFile = new File(System.getProperty("user.dir")).getParentFile().getParentFile().getParentFile();
             String propsPath = bundleFile.getAbsolutePath() + "/SilentUpdate/src/main/resources/group04/silentupdate/";
-            System.out.println("Property Path: " + propsPath);
             in = new FileInputStream(propsPath + "Bundle.properties");
             Properties props = new Properties();
             props.load(in);
