@@ -3,12 +3,9 @@ package group04.core;
 import group04.core.managers.InputController;
 import com.badlogic.gdx.ApplicationListener;
 import com.badlogic.gdx.Gdx;
-import com.badlogic.gdx.Input;
 import com.badlogic.gdx.graphics.FPSLogger;
 import com.badlogic.gdx.graphics.OrthographicCamera;
-import com.badlogic.gdx.maps.tiled.renderers.OrthogonalTiledMapRenderer;
 import group04.basecommon.BaseEntity;
-import group04.boostcommon.IBoostService;
 import group04.cameracommon.ICameraService;
 import group04.collisioncommon.ICollisionService;
 import group04.common.Entity;
@@ -24,7 +21,6 @@ import group04.common.services.IServiceInitializer;
 import group04.common.services.IServiceProcessor;
 import group04.core.AI.GeneticAlgorithm;
 import group04.core.managers.Assets;
-import group04.currencycommon.ICurrencyService;
 import group04.enemycommon.EnemyEntity;
 import group04.enemycommon.IEnemyService;
 import group04.mapcommon.IMapService;
@@ -43,9 +39,10 @@ import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.util.ArrayList;
 import java.util.Map;
+import java.util.Timer;
+import java.util.TimerTask;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-import sun.nio.cs.ext.ISCII91;
 
 public class Game implements ApplicationListener {
 
@@ -163,6 +160,7 @@ public class Game implements ApplicationListener {
         enemy.setY((float) 136.10168f);
         world.addEntity(enemy);
         GeneticAlgorithm.start(gameData, world);
+        System.exit(0);
     }
 
     private void update() {
@@ -227,6 +225,7 @@ public class Game implements ApplicationListener {
     private void playerProcess() {
         for (Entity p : world.getEntities(PlayerEntity.class)) {
 
+            
             PlayerEntity player = (PlayerEntity) p;
 
             for (IWeaponService ips : Lookup.getDefault().lookupAll(IWeaponService.class)) {
@@ -289,7 +288,7 @@ public class Game implements ApplicationListener {
                     if (weapon != null) {
                         for (ICollisionService serv : Lookup.getDefault().lookupAll(ICollisionService.class)) {
                             if (serv.isEntitiesColliding(player, weapon)) {
-                                player.setLife((int) (player.getLife() * 0.5f));
+                                new Event(EventType.ENTITY_HIT, player.getID());
                             }
                         }
                     }

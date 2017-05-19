@@ -1,17 +1,17 @@
-﻿<?xml version="1.0" encoding="UTF-8" ?>
+<?xml version="1.0" encoding="UTF-8" ?>
 
 <!DOCTYPE module_updates PUBLIC "-//NetBeans//DTD Autoupdate Catalog 2.5//EN" "http://www.netbeans.org/dtds/autoupdate-catalog-2_5.dtd">
-<module_updates timestamp="01/48/09/17/05/2017">
+<module_updates timestamp="12/08/09/18/05/2017">
 
 
 
-<module codenamebase="group04.Base" distribution="Base-1.0-SNAPSHOT.nbm" downloadsize="193747" license="AF77BD25" needsrestart="false" releasedate="2017/05/17" targetcluster="intoxication">
-    <manifest OpenIDE-Module="group04.Base" OpenIDE-Module-Display-Category="group04" OpenIDE-Module-Implementation-Version="1.0-20170517" OpenIDE-Module-Long-Description="&lt;undefined&gt;" OpenIDE-Module-Module-Dependencies="org.netbeans.api.annotations.common/1 &gt; 1.26.1, group04.Common &gt; 1.0, org.openide.util.lookup &gt; 8.32.1, group04.BaseCommon &gt; 1.0, group04.PlayerCommon &gt; 1.0, group04.UpgradeCommon &gt; 1.0, group04.WeaponCommon &gt; 1.0, group04.PlatformCommon &gt; 1.0" OpenIDE-Module-Name="Base" OpenIDE-Module-Requires="org.openide.modules.ModuleFormat1" OpenIDE-Module-Short-Description="&lt;undefined&gt;" OpenIDE-Module-Specification-Version="1.0"/>
+<module codenamebase="group04.Base" distribution="Base-1.0-SNAPSHOT.nbm" downloadsize="192576" license="AF77BD25" needsrestart="false" releasedate="2017/05/18" targetcluster="intoxication">
+    <manifest OpenIDE-Module="group04.Base" OpenIDE-Module-Display-Category="group04" OpenIDE-Module-Implementation-Version="1.0-20170518" OpenIDE-Module-Long-Description="&lt;undefined&gt;" OpenIDE-Module-Module-Dependencies="org.netbeans.api.annotations.common/1 &gt; 1.26.1, group04.Common &gt; 1.0, org.openide.util.lookup &gt; 8.32.1, group04.BaseCommon &gt; 1.0" OpenIDE-Module-Name="Base" OpenIDE-Module-Requires="org.openide.modules.ModuleFormat1" OpenIDE-Module-Short-Description="&lt;undefined&gt;" OpenIDE-Module-Specification-Version="1.0"/>
     
 </module>
 
-<module codenamebase="group04.BaseCommon" distribution="BaseCommon-1.0-SNAPSHOT.nbm" downloadsize="4187" license="AF77BD25" needsrestart="false" releasedate="2017/05/17" targetcluster="intoxication">
-    <manifest OpenIDE-Module="group04.BaseCommon" OpenIDE-Module-Display-Category="group04" OpenIDE-Module-Implementation-Version="1.0-20170517" OpenIDE-Module-Long-Description="&lt;undefined&gt;" OpenIDE-Module-Module-Dependencies="org.netbeans.api.annotations.common/1 &gt; 1.26.1, group04.Common &gt; 1.0" OpenIDE-Module-Name="BaseCommon" OpenIDE-Module-Requires="org.openide.modules.ModuleFormat1" OpenIDE-Module-Short-Description="&lt;undefined&gt;" OpenIDE-Module-Specification-Version="1.0"/>
+<module codenamebase="group04.BaseCommon" distribution="BaseCommon-1.0-SNAPSHOT.nbm" downloadsize="4184" license="AF77BD25" needsrestart="false" releasedate="2017/05/18" targetcluster="intoxication">
+    <manifest OpenIDE-Module="group04.BaseCommon" OpenIDE-Module-Display-Category="group04" OpenIDE-Module-Implementation-Version="1.0-20170518" OpenIDE-Module-Long-Description="&lt;undefined&gt;" OpenIDE-Module-Module-Dependencies="org.netbeans.api.annotations.common/1 &gt; 1.26.1, group04.Common &gt; 1.0" OpenIDE-Module-Name="BaseCommon" OpenIDE-Module-Requires="org.openide.modules.ModuleFormat1" OpenIDE-Module-Short-Description="&lt;undefined&gt;" OpenIDE-Module-Specification-Version="1.0"/>
     
 </module>
 
@@ -20,12 +20,12 @@
     
 </module>
 
-<module codenamebase="group04.Boost" distribution="Boost-1.0-SNAPSHOT.nbm" downloadsize="8896" license="AF77BD25" needsrestart="false" releasedate="2017/04/07" targetcluster="intoxication">
+<module codenamebase="group04.Boost" distribution="Boost-1.0-SNAPSHOT.nbm" downloadsize="8904" license="AF77BD25" needsrestart="false" releasedate="2017/04/07" targetcluster="intoxication">
     <manifest OpenIDE-Module="group04.Boost" OpenIDE-Module-Display-Category="group04" OpenIDE-Module-Implementation-Version="1.0-20170407" OpenIDE-Module-Long-Description="&lt;undefined&gt;" OpenIDE-Module-Module-Dependencies="org.netbeans.api.annotations.common/1 &gt; 1.26.1, org.openide.util.lookup &gt; 8.32.1, group04.Common &gt; 1.0, group04.BoostCommon &gt; 1.0, group04.PlayerCommon &gt; 1.0" OpenIDE-Module-Name="Boost" OpenIDE-Module-Requires="org.openide.modules.ModuleFormat1" OpenIDE-Module-Short-Description="&lt;undefined&gt;" OpenIDE-Module-Specification-Version="1.0"/>
     
 </module>
 
-<module codenamebase="group04.BoostCommon" distribution="BoostCommon-1.0-SNAPSHOT.nbm" downloadsize="4156" license="AF77BD25" needsrestart="false" releasedate="2017/04/07" targetcluster="intoxication">
+<module codenamebase="group04.BoostCommon" distribution="BoostCommon-1.0-SNAPSHOT.nbm" downloadsize="4145" license="AF77BD25" needsrestart="false" releasedate="2017/04/07" targetcluster="intoxication">
     <manifest OpenIDE-Module="group04.BoostCommon" OpenIDE-Module-Display-Category="group04" OpenIDE-Module-Implementation-Version="1.0-20170407" OpenIDE-Module-Long-Description="&lt;undefined&gt;" OpenIDE-Module-Module-Dependencies="org.netbeans.api.annotations.common/1 &gt; 1.26.1, group04.Common &gt; 1.0" OpenIDE-Module-Name="BoostCommon" OpenIDE-Module-Requires="org.openide.modules.ModuleFormat1" OpenIDE-Module-Short-Description="&lt;undefined&gt;" OpenIDE-Module-Specification-Version="1.0"/>
     
 </module>
@@ -35,28 +35,28 @@
     
 </module>
 
-<module codenamebase="group04.Camera" distribution="Camera-1.0-SNAPSHOT.nbm" downloadsize="236322" license="AF77BD25" needsrestart="false" releasedate="2017/05/17" targetcluster="intoxication">
-    <manifest OpenIDE-Module="group04.Camera" OpenIDE-Module-Display-Category="group04" OpenIDE-Module-Implementation-Version="1.0-20170517" OpenIDE-Module-Long-Description="&lt;undefined&gt;" OpenIDE-Module-Module-Dependencies="org.netbeans.api.annotations.common/1 &gt; 1.26.1, org.openide.util.lookup &gt; 8.32.1, group04.Common &gt; 1.0, group04.CameraCommon &gt; 1.0" OpenIDE-Module-Name="Camera" OpenIDE-Module-Requires="org.openide.modules.ModuleFormat1" OpenIDE-Module-Short-Description="&lt;undefined&gt;" OpenIDE-Module-Specification-Version="1.0"/>
+<module codenamebase="group04.Camera" distribution="Camera-1.0-SNAPSHOT.nbm" downloadsize="236319" license="AF77BD25" needsrestart="false" releasedate="2017/05/18" targetcluster="intoxication">
+    <manifest OpenIDE-Module="group04.Camera" OpenIDE-Module-Display-Category="group04" OpenIDE-Module-Implementation-Version="1.0-20170518" OpenIDE-Module-Long-Description="&lt;undefined&gt;" OpenIDE-Module-Module-Dependencies="org.netbeans.api.annotations.common/1 &gt; 1.26.1, org.openide.util.lookup &gt; 8.32.1, group04.Common &gt; 1.0, group04.CameraCommon &gt; 1.0" OpenIDE-Module-Name="Camera" OpenIDE-Module-Requires="org.openide.modules.ModuleFormat1" OpenIDE-Module-Short-Description="&lt;undefined&gt;" OpenIDE-Module-Specification-Version="1.0"/>
     
 </module>
 
-<module codenamebase="group04.CameraCommon" distribution="CameraCommon-1.0-SNAPSHOT.nbm" downloadsize="3882" license="AF77BD25" needsrestart="false" releasedate="2017/05/17" targetcluster="intoxication">
-    <manifest OpenIDE-Module="group04.CameraCommon" OpenIDE-Module-Display-Category="group04" OpenIDE-Module-Implementation-Version="1.0-20170517" OpenIDE-Module-Long-Description="&lt;undefined&gt;" OpenIDE-Module-Module-Dependencies="org.netbeans.api.annotations.common/1 &gt; 1.26.1, group04.Common &gt; 1.0" OpenIDE-Module-Name="CameraCommon" OpenIDE-Module-Requires="org.openide.modules.ModuleFormat1" OpenIDE-Module-Short-Description="&lt;undefined&gt;" OpenIDE-Module-Specification-Version="1.0"/>
+<module codenamebase="group04.CameraCommon" distribution="CameraCommon-1.0-SNAPSHOT.nbm" downloadsize="3885" license="AF77BD25" needsrestart="false" releasedate="2017/05/18" targetcluster="intoxication">
+    <manifest OpenIDE-Module="group04.CameraCommon" OpenIDE-Module-Display-Category="group04" OpenIDE-Module-Implementation-Version="1.0-20170518" OpenIDE-Module-Long-Description="&lt;undefined&gt;" OpenIDE-Module-Module-Dependencies="org.netbeans.api.annotations.common/1 &gt; 1.26.1, group04.Common &gt; 1.0" OpenIDE-Module-Name="CameraCommon" OpenIDE-Module-Requires="org.openide.modules.ModuleFormat1" OpenIDE-Module-Short-Description="&lt;undefined&gt;" OpenIDE-Module-Specification-Version="1.0"/>
     
 </module>
 
-<module codenamebase="group04.Collision" distribution="Collision-1.0-SNAPSHOT.nbm" downloadsize="5583" license="AF77BD25" needsrestart="false" releasedate="2017/05/17" targetcluster="intoxication">
-    <manifest OpenIDE-Module="group04.Collision" OpenIDE-Module-Display-Category="group04" OpenIDE-Module-Implementation-Version="1.0-20170517" OpenIDE-Module-Long-Description="&lt;undefined&gt;" OpenIDE-Module-Module-Dependencies="org.netbeans.api.annotations.common/1 &gt; 1.26.1, org.openide.util.lookup &gt; 8.32.1, group04.Common &gt; 1.0, group04.MapCommon &gt; 1.0, group04.CollisionCommon &gt; 1.0" OpenIDE-Module-Name="Collision" OpenIDE-Module-Requires="org.openide.modules.ModuleFormat1" OpenIDE-Module-Short-Description="&lt;undefined&gt;" OpenIDE-Module-Specification-Version="1.0"/>
+<module codenamebase="group04.Collision" distribution="Collision-1.0-SNAPSHOT.nbm" downloadsize="5577" license="AF77BD25" needsrestart="false" releasedate="2017/05/18" targetcluster="intoxication">
+    <manifest OpenIDE-Module="group04.Collision" OpenIDE-Module-Display-Category="group04" OpenIDE-Module-Implementation-Version="1.0-20170518" OpenIDE-Module-Long-Description="&lt;undefined&gt;" OpenIDE-Module-Module-Dependencies="org.netbeans.api.annotations.common/1 &gt; 1.26.1, org.openide.util.lookup &gt; 8.32.1, group04.Common &gt; 1.0, group04.MapCommon &gt; 1.0, group04.CollisionCommon &gt; 1.0" OpenIDE-Module-Name="Collision" OpenIDE-Module-Requires="org.openide.modules.ModuleFormat1" OpenIDE-Module-Short-Description="&lt;undefined&gt;" OpenIDE-Module-Specification-Version="1.0"/>
     
 </module>
 
-<module codenamebase="group04.CollisionCommon" distribution="CollisionCommon-1.0-SNAPSHOT.nbm" downloadsize="3937" license="AF77BD25" needsrestart="false" releasedate="2017/05/17" targetcluster="intoxication">
-    <manifest OpenIDE-Module="group04.CollisionCommon" OpenIDE-Module-Display-Category="group04" OpenIDE-Module-Implementation-Version="1.0-20170517" OpenIDE-Module-Long-Description="&lt;undefined&gt;" OpenIDE-Module-Module-Dependencies="org.netbeans.api.annotations.common/1 &gt; 1.26.1, group04.Common &gt; 1.0" OpenIDE-Module-Name="CollisionCommon" OpenIDE-Module-Requires="org.openide.modules.ModuleFormat1" OpenIDE-Module-Short-Description="&lt;undefined&gt;" OpenIDE-Module-Specification-Version="1.0"/>
+<module codenamebase="group04.CollisionCommon" distribution="CollisionCommon-1.0-SNAPSHOT.nbm" downloadsize="3939" license="AF77BD25" needsrestart="false" releasedate="2017/05/18" targetcluster="intoxication">
+    <manifest OpenIDE-Module="group04.CollisionCommon" OpenIDE-Module-Display-Category="group04" OpenIDE-Module-Implementation-Version="1.0-20170518" OpenIDE-Module-Long-Description="&lt;undefined&gt;" OpenIDE-Module-Module-Dependencies="org.netbeans.api.annotations.common/1 &gt; 1.26.1, group04.Common &gt; 1.0" OpenIDE-Module-Name="CollisionCommon" OpenIDE-Module-Requires="org.openide.modules.ModuleFormat1" OpenIDE-Module-Short-Description="&lt;undefined&gt;" OpenIDE-Module-Specification-Version="1.0"/>
     
 </module>
 
-<module codenamebase="group04.Common" distribution="Common-1.0-SNAPSHOT.nbm" downloadsize="15134" license="AF77BD25" needsrestart="false" releasedate="2017/05/17" targetcluster="intoxication">
-    <manifest OpenIDE-Module="group04.Common" OpenIDE-Module-Display-Category="group04" OpenIDE-Module-Implementation-Version="1.0-20170517" OpenIDE-Module-Long-Description="&lt;undefined&gt;" OpenIDE-Module-Module-Dependencies="org.netbeans.api.annotations.common/1 &gt; 1.26.1" OpenIDE-Module-Name="Common" OpenIDE-Module-Requires="org.openide.modules.ModuleFormat1" OpenIDE-Module-Short-Description="&lt;undefined&gt;" OpenIDE-Module-Specification-Version="1.0"/>
+<module codenamebase="group04.Common" distribution="Common-1.0-SNAPSHOT.nbm" downloadsize="17014" license="AF77BD25" needsrestart="false" releasedate="2017/05/18" targetcluster="intoxication">
+    <manifest OpenIDE-Module="group04.Common" OpenIDE-Module-Display-Category="group04" OpenIDE-Module-Implementation-Version="1.0-20170518" OpenIDE-Module-Long-Description="&lt;undefined&gt;" OpenIDE-Module-Module-Dependencies="org.netbeans.api.annotations.common/1 &gt; 1.26.1" OpenIDE-Module-Name="Common" OpenIDE-Module-Requires="org.openide.modules.ModuleFormat1" OpenIDE-Module-Short-Description="&lt;undefined&gt;" OpenIDE-Module-Specification-Version="1.0"/>
     
 </module>
 
@@ -65,27 +65,28 @@
     
 </module>
 
-<module codenamebase="group04.Core" distribution="Core-1.0-SNAPSHOT.nbm" downloadsize="0" license="AF77BD25" needsrestart="false" releasedate="2017/05/17" targetcluster="intoxication">
-    <manifest OpenIDE-Module="group04.Core" OpenIDE-Module-Display-Category="group04" OpenIDE-Module-Implementation-Version="1.0-20170517" OpenIDE-Module-Long-Description="&lt;undefined&gt;" OpenIDE-Module-Module-Dependencies="org.netbeans.api.annotations.common/1 &gt; 1.26.1, group04.GDXLoader &gt; 1.0, group04.Common &gt; 1.0, org.openide.util.lookup &gt; 8.32.1, org.openide.modules &gt; 7.47.1, org.openide.util &gt; 9.5.1, org.openide.util.ui &gt; 9.4.1, group04.Camera &gt; 1.0, group04.Collision &gt; 1.0, group04.Gravity &gt; 1.0, group04.Player &gt; 1.0, group04.Enemy &gt; 1.0, group04.Movement &gt; 1.0, group04.Base &gt; 1.0, group04.Weapon &gt; 1.0, group04.Currency &gt; 1.0, group04.Projectile &gt; 1.0, group04.Map &gt; 1.0, group04.Boost &gt; 1.0, group04.WeaponCommon &gt; 1.0, group04.PlayerCommon &gt; 1.0, group04.BoostCommon &gt; 1.0, group04.SpawnerCommon &gt; 1.0, group04.BaseCommon &gt; 1.0, group04.EnemyCommon &gt; 1.0, group04.Spawner &gt; 1.0, group04.CurrencyCommon &gt; 1.0, group04.ProjectileCommon &gt; 1.0, group04.CollisionCommon &gt; 1.0, group04.CameraCommon &gt; 1.0, group04.MapCommon &gt; 1.0, group04.MovementCommon &gt; 1.0, group04.UpgradeCommon &gt; 1.0, group04.InventoryCommon &gt; 1.0, group04.Platform &gt; 1.0, group04.PlatformCommon &gt; 1.0, group04.ItemDropsCommon &gt; 1.0, group04.ItemDrops &gt; 1.0" OpenIDE-Module-Name="Core" OpenIDE-Module-Requires="org.openide.modules.ModuleFormat1" OpenIDE-Module-Short-Description="&lt;undefined&gt;" OpenIDE-Module-Specification-Version="1.0"/>    
+<module codenamebase="group04.Core" distribution="Core-1.0-SNAPSHOT.nbm" downloadsize="34575316" license="AF77BD25" needsrestart="false" releasedate="2017/05/18" targetcluster="intoxication">
+    <manifest OpenIDE-Module="group04.Core" OpenIDE-Module-Display-Category="group04" OpenIDE-Module-Implementation-Version="1.0-20170518" OpenIDE-Module-Long-Description="&lt;undefined&gt;" OpenIDE-Module-Module-Dependencies="org.netbeans.api.annotations.common/1 &gt; 1.26.1, group04.Common &gt; 1.0, org.openide.util.lookup &gt; 8.32.1, org.openide.modules &gt; 7.47.1, org.openide.util &gt; 9.5.1, org.openide.util.ui &gt; 9.4.1, group04.Currency &gt; 1.0, group04.Boost &gt; 1.0, group04.WeaponCommon &gt; 1.0, group04.PlayerCommon &gt; 1.0, group04.BoostCommon &gt; 1.0, group04.SpawnerCommon &gt; 1.0, group04.BaseCommon &gt; 1.0, group04.EnemyCommon &gt; 1.0, group04.CurrencyCommon &gt; 1.0, group04.ProjectileCommon &gt; 1.0, group04.CollisionCommon &gt; 1.0, group04.CameraCommon &gt; 1.0, group04.MapCommon &gt; 1.0, group04.MovementCommon &gt; 1.0, group04.UpgradeCommon &gt; 1.0, group04.InventoryCommon &gt; 1.0, group04.PlatformCommon &gt; 1.0, group04.ItemDropsCommon &gt; 1.0" OpenIDE-Module-Name="Core" OpenIDE-Module-Requires="org.openide.modules.ModuleFormat1" OpenIDE-Module-Short-Description="&lt;undefined&gt;" OpenIDE-Module-Specification-Version="1.0"/>
+    
 </module>
 
-<module codenamebase="group04.Currency" distribution="Currency-1.0-SNAPSHOT.nbm" downloadsize="42307" license="AF77BD25" needsrestart="false" releasedate="2017/04/07" targetcluster="intoxication">
+<module codenamebase="group04.Currency" distribution="Currency-1.0-SNAPSHOT.nbm" downloadsize="42311" license="AF77BD25" needsrestart="false" releasedate="2017/04/07" targetcluster="intoxication">
     <manifest OpenIDE-Module="group04.Currency" OpenIDE-Module-Display-Category="group04" OpenIDE-Module-Implementation-Version="1.0-20170407" OpenIDE-Module-Long-Description="&lt;undefined&gt;" OpenIDE-Module-Module-Dependencies="org.netbeans.api.annotations.common/1 &gt; 1.26.1, group04.Common &gt; 1.0, org.openide.util.lookup &gt; 8.32.1, group04.CurrencyCommon &gt; 1.0, group04.PlayerCommon &gt; 1.0" OpenIDE-Module-Name="Currency" OpenIDE-Module-Requires="org.openide.modules.ModuleFormat1" OpenIDE-Module-Short-Description="&lt;undefined&gt;" OpenIDE-Module-Specification-Version="1.0"/>
     
 </module>
 
-<module codenamebase="group04.CurrencyCommon" distribution="CurrencyCommon-1.0-SNAPSHOT.nbm" downloadsize="4276" license="AF77BD25" needsrestart="false" releasedate="2017/04/07" targetcluster="intoxication">
+<module codenamebase="group04.CurrencyCommon" distribution="CurrencyCommon-1.0-SNAPSHOT.nbm" downloadsize="4280" license="AF77BD25" needsrestart="false" releasedate="2017/04/07" targetcluster="intoxication">
     <manifest OpenIDE-Module="group04.CurrencyCommon" OpenIDE-Module-Display-Category="group04" OpenIDE-Module-Implementation-Version="1.0-20170407" OpenIDE-Module-Long-Description="&lt;undefined&gt;" OpenIDE-Module-Module-Dependencies="org.netbeans.api.annotations.common/1 &gt; 1.26.1, group04.Common &gt; 1.0" OpenIDE-Module-Name="CurrencyCommon" OpenIDE-Module-Requires="org.openide.modules.ModuleFormat1" OpenIDE-Module-Short-Description="&lt;undefined&gt;" OpenIDE-Module-Specification-Version="1.0"/>
     
 </module>
 
-<module codenamebase="group04.Enemy" distribution="Enemy-1.0-SNAPSHOT.nbm" downloadsize="618853" license="AF77BD25" needsrestart="false" releasedate="2017/05/17" targetcluster="intoxication">
-    <manifest OpenIDE-Module="group04.Enemy" OpenIDE-Module-Display-Category="group04" OpenIDE-Module-Implementation-Version="1.0-20170517" OpenIDE-Module-Long-Description="&lt;undefined&gt;" OpenIDE-Module-Module-Dependencies="org.netbeans.api.annotations.common/1 &gt; 1.26.1, group04.Common &gt; 1.0, org.openide.util.lookup &gt; 8.32.1, group04.EnemyCommon &gt; 1.0, group04.CurrencyCommon &gt; 1.0, group04.BoostCommon &gt; 1.0, group04.ItemDrops &gt; 1.0, group04.ItemDropsCommon &gt; 1.0" OpenIDE-Module-Name="Enemy" OpenIDE-Module-Requires="org.openide.modules.ModuleFormat1" OpenIDE-Module-Short-Description="&lt;undefined&gt;" OpenIDE-Module-Specification-Version="1.0"/>
+<module codenamebase="group04.Enemy" distribution="Enemy-1.0-SNAPSHOT.nbm" downloadsize="618844" license="AF77BD25" needsrestart="false" releasedate="2017/05/18" targetcluster="intoxication">
+    <manifest OpenIDE-Module="group04.Enemy" OpenIDE-Module-Display-Category="group04" OpenIDE-Module-Implementation-Version="1.0-20170518" OpenIDE-Module-Long-Description="&lt;undefined&gt;" OpenIDE-Module-Module-Dependencies="org.netbeans.api.annotations.common/1 &gt; 1.26.1, group04.Common &gt; 1.0, org.openide.util.lookup &gt; 8.32.1, group04.EnemyCommon &gt; 1.0, group04.CurrencyCommon &gt; 1.0, group04.BoostCommon &gt; 1.0, group04.ItemDrops &gt; 1.0, group04.ItemDropsCommon &gt; 1.0" OpenIDE-Module-Name="Enemy" OpenIDE-Module-Requires="org.openide.modules.ModuleFormat1" OpenIDE-Module-Short-Description="&lt;undefined&gt;" OpenIDE-Module-Specification-Version="1.0"/>
     
 </module>
 
-<module codenamebase="group04.EnemyCommon" distribution="EnemyCommon-1.0-SNAPSHOT.nbm" downloadsize="5941" license="AF77BD25" needsrestart="false" releasedate="2017/05/17" targetcluster="intoxication">
-    <manifest OpenIDE-Module="group04.EnemyCommon" OpenIDE-Module-Display-Category="group04" OpenIDE-Module-Implementation-Version="1.0-20170517" OpenIDE-Module-Long-Description="&lt;undefined&gt;" OpenIDE-Module-Module-Dependencies="org.netbeans.api.annotations.common/1 &gt; 1.26.1, group04.Common &gt; 1.0, group04.WeaponCommon &gt; 1.0" OpenIDE-Module-Name="EnemyCommon" OpenIDE-Module-Requires="org.openide.modules.ModuleFormat1" OpenIDE-Module-Short-Description="&lt;undefined&gt;" OpenIDE-Module-Specification-Version="1.0"/>
+<module codenamebase="group04.EnemyCommon" distribution="EnemyCommon-1.0-SNAPSHOT.nbm" downloadsize="5939" license="AF77BD25" needsrestart="false" releasedate="2017/05/18" targetcluster="intoxication">
+    <manifest OpenIDE-Module="group04.EnemyCommon" OpenIDE-Module-Display-Category="group04" OpenIDE-Module-Implementation-Version="1.0-20170518" OpenIDE-Module-Long-Description="&lt;undefined&gt;" OpenIDE-Module-Module-Dependencies="org.netbeans.api.annotations.common/1 &gt; 1.26.1, group04.Common &gt; 1.0, group04.WeaponCommon &gt; 1.0" OpenIDE-Module-Name="EnemyCommon" OpenIDE-Module-Requires="org.openide.modules.ModuleFormat1" OpenIDE-Module-Short-Description="&lt;undefined&gt;" OpenIDE-Module-Specification-Version="1.0"/>
     
 </module>
 
@@ -94,38 +95,33 @@
     
 </module>
 
-<module codenamebase="group04.GDXLoader" distribution="GDXLoader-1.0-SNAPSHOT.nbm" downloadsize="9183374" license="AF77BD25" needsrestart="false" releasedate="2017/05/17" targetcluster="intoxication">
-    <manifest OpenIDE-Module="group04.GDXLoader" OpenIDE-Module-Display-Category="group04" OpenIDE-Module-Implementation-Version="1.0-20170517" OpenIDE-Module-Long-Description="&lt;undefined&gt;" OpenIDE-Module-Module-Dependencies="org.netbeans.api.annotations.common/1 &gt; 1.26.1" OpenIDE-Module-Name="GDXLoader" OpenIDE-Module-Requires="org.openide.modules.ModuleFormat1" OpenIDE-Module-Short-Description="&lt;undefined&gt;" OpenIDE-Module-Specification-Version="1.0"/>
+<module codenamebase="group04.GDXLoader" distribution="GDXLoader-1.0-SNAPSHOT.nbm" downloadsize="9183373" license="AF77BD25" needsrestart="false" releasedate="2017/05/18" targetcluster="intoxication">
+    <manifest OpenIDE-Module="group04.GDXLoader" OpenIDE-Module-Display-Category="group04" OpenIDE-Module-Implementation-Version="1.0-20170518" OpenIDE-Module-Long-Description="&lt;undefined&gt;" OpenIDE-Module-Module-Dependencies="org.netbeans.api.annotations.common/1 &gt; 1.26.1" OpenIDE-Module-Name="GDXLoader" OpenIDE-Module-Requires="org.openide.modules.ModuleFormat1" OpenIDE-Module-Short-Description="&lt;undefined&gt;" OpenIDE-Module-Specification-Version="1.0"/>
     
 </module>
 
-<module codenamebase="group04.Gravity" distribution="Gravity-1.0-SNAPSHOT.nbm" downloadsize="4546" license="AF77BD25" needsrestart="false" releasedate="2017/05/17" targetcluster="intoxication">
-    <manifest OpenIDE-Module="group04.Gravity" OpenIDE-Module-Display-Category="group04" OpenIDE-Module-Implementation-Version="1.0-20170517" OpenIDE-Module-Long-Description="&lt;undefined&gt;" OpenIDE-Module-Module-Dependencies="org.netbeans.api.annotations.common/1 &gt; 1.26.1, group04.Common &gt; 1.0, org.openide.util.lookup &gt; 8.32.1" OpenIDE-Module-Name="Gravity" OpenIDE-Module-Requires="org.openide.modules.ModuleFormat1" OpenIDE-Module-Short-Description="&lt;undefined&gt;" OpenIDE-Module-Specification-Version="1.0"/>
+<module codenamebase="group04.Gravity" distribution="Gravity-1.0-SNAPSHOT.nbm" downloadsize="4552" license="AF77BD25" needsrestart="false" releasedate="2017/05/18" targetcluster="intoxication">
+    <manifest OpenIDE-Module="group04.Gravity" OpenIDE-Module-Display-Category="group04" OpenIDE-Module-Implementation-Version="1.0-20170518" OpenIDE-Module-Long-Description="&lt;undefined&gt;" OpenIDE-Module-Module-Dependencies="org.netbeans.api.annotations.common/1 &gt; 1.26.1, group04.Common &gt; 1.0, org.openide.util.lookup &gt; 8.32.1" OpenIDE-Module-Name="Gravity" OpenIDE-Module-Requires="org.openide.modules.ModuleFormat1" OpenIDE-Module-Short-Description="&lt;undefined&gt;" OpenIDE-Module-Specification-Version="1.0"/>
     
 </module>
 
-<module codenamebase="group04.Intoxication.branding" distribution="Intoxication-branding-1.0-SNAPSHOT.nbm" downloadsize="5877" license="AF77BD25" needsrestart="false" releasedate="2017/05/17" targetcluster="intoxication">
-    <manifest AutoUpdate-Essential-Module="true" OpenIDE-Module="group04.Intoxication.branding" OpenIDE-Module-Display-Category="group04" OpenIDE-Module-Implementation-Version="1.0-20170517" OpenIDE-Module-Long-Description="&lt;undefined&gt;" OpenIDE-Module-Module-Dependencies="org.netbeans.api.annotations.common/1 &gt; 1.26.1" OpenIDE-Module-Name="Intoxication-branding" OpenIDE-Module-Requires="org.openide.modules.ModuleFormat1" OpenIDE-Module-Short-Description="&lt;undefined&gt;" OpenIDE-Module-Specification-Version="1.0"/>
+<module codenamebase="group04.Inventory" distribution="Inventory-1.0-SNAPSHOT.nbm" downloadsize="51227" license="AF77BD25" needsrestart="false" releasedate="2017/05/18" targetcluster="intoxication">
+    <manifest OpenIDE-Module="group04.Inventory" OpenIDE-Module-Display-Category="group04" OpenIDE-Module-Implementation-Version="1.0-20170518" OpenIDE-Module-Long-Description="&lt;undefined&gt;" OpenIDE-Module-Module-Dependencies="org.netbeans.api.annotations.common/1 &gt; 1.26.1, group04.InventoryCommon &gt; 1.0, group04.Common &gt; 1.0, group04.PlayerCommon &gt; 1.0, group04.WeaponCommon &gt; 1.0" OpenIDE-Module-Name="Inventory" OpenIDE-Module-Requires="org.openide.modules.ModuleFormat1" OpenIDE-Module-Short-Description="&lt;undefined&gt;" OpenIDE-Module-Specification-Version="1.0"/>
     
 </module>
 
-<module codenamebase="group04.Inventory" distribution="Inventory-1.0-SNAPSHOT.nbm" downloadsize="51228" license="AF77BD25" needsrestart="false" releasedate="2017/05/17" targetcluster="intoxication">
-    <manifest OpenIDE-Module="group04.Inventory" OpenIDE-Module-Display-Category="group04" OpenIDE-Module-Implementation-Version="1.0-20170517" OpenIDE-Module-Long-Description="&lt;undefined&gt;" OpenIDE-Module-Module-Dependencies="org.netbeans.api.annotations.common/1 &gt; 1.26.1, group04.InventoryCommon &gt; 1.0, group04.Common &gt; 1.0, group04.PlayerCommon &gt; 1.0, group04.WeaponCommon &gt; 1.0" OpenIDE-Module-Name="Inventory" OpenIDE-Module-Requires="org.openide.modules.ModuleFormat1" OpenIDE-Module-Short-Description="&lt;undefined&gt;" OpenIDE-Module-Specification-Version="1.0"/>
+<module codenamebase="group04.InventoryCommon" distribution="InventoryCommon-1.0-SNAPSHOT.nbm" downloadsize="4143" license="AF77BD25" needsrestart="false" releasedate="2017/05/18" targetcluster="intoxication">
+    <manifest OpenIDE-Module="group04.InventoryCommon" OpenIDE-Module-Display-Category="group04" OpenIDE-Module-Implementation-Version="1.0-20170518" OpenIDE-Module-Long-Description="&lt;undefined&gt;" OpenIDE-Module-Module-Dependencies="org.netbeans.api.annotations.common/1 &gt; 1.26.1, group04.Common &gt; 1.0" OpenIDE-Module-Name="InventoryCommon" OpenIDE-Module-Requires="org.openide.modules.ModuleFormat1" OpenIDE-Module-Short-Description="&lt;undefined&gt;" OpenIDE-Module-Specification-Version="1.0"/>
     
 </module>
 
-<module codenamebase="group04.InventoryCommon" distribution="InventoryCommon-1.0-SNAPSHOT.nbm" downloadsize="4141" license="AF77BD25" needsrestart="false" releasedate="2017/05/17" targetcluster="intoxication">
-    <manifest OpenIDE-Module="group04.InventoryCommon" OpenIDE-Module-Display-Category="group04" OpenIDE-Module-Implementation-Version="1.0-20170517" OpenIDE-Module-Long-Description="&lt;undefined&gt;" OpenIDE-Module-Module-Dependencies="org.netbeans.api.annotations.common/1 &gt; 1.26.1, group04.Common &gt; 1.0" OpenIDE-Module-Name="InventoryCommon" OpenIDE-Module-Requires="org.openide.modules.ModuleFormat1" OpenIDE-Module-Short-Description="&lt;undefined&gt;" OpenIDE-Module-Specification-Version="1.0"/>
+<module codenamebase="group04.ItemDrops" distribution="ItemDrops-1.0-SNAPSHOT.nbm" downloadsize="45825" license="AF77BD25" needsrestart="false" releasedate="2017/05/18" targetcluster="intoxication">
+    <manifest OpenIDE-Module="group04.ItemDrops" OpenIDE-Module-Display-Category="group04" OpenIDE-Module-Implementation-Version="1.0-20170518" OpenIDE-Module-Long-Description="&lt;undefined&gt;" OpenIDE-Module-Module-Dependencies="org.netbeans.api.annotations.common/1 &gt; 1.26.1, group04.Common &gt; 1.0, org.openide.util.lookup &gt; 8.32.1, group04.PlayerCommon &gt; 1.0, group04.ItemDropsCommon &gt; 1.0" OpenIDE-Module-Name="ItemDrops" OpenIDE-Module-Requires="org.openide.modules.ModuleFormat1" OpenIDE-Module-Short-Description="&lt;undefined&gt;" OpenIDE-Module-Specification-Version="1.0"/>
     
 </module>
 
-<module codenamebase="group04.ItemDrops" distribution="ItemDrops-1.0-SNAPSHOT.nbm" downloadsize="45829" license="AF77BD25" needsrestart="false" releasedate="2017/05/17" targetcluster="intoxication">
-    <manifest OpenIDE-Module="group04.ItemDrops" OpenIDE-Module-Display-Category="group04" OpenIDE-Module-Implementation-Version="1.0-20170517" OpenIDE-Module-Long-Description="&lt;undefined&gt;" OpenIDE-Module-Module-Dependencies="org.netbeans.api.annotations.common/1 &gt; 1.26.1, group04.Common &gt; 1.0, org.openide.util.lookup &gt; 8.32.1, group04.PlayerCommon &gt; 1.0, group04.ItemDropsCommon &gt; 1.0" OpenIDE-Module-Name="ItemDrops" OpenIDE-Module-Requires="org.openide.modules.ModuleFormat1" OpenIDE-Module-Short-Description="&lt;undefined&gt;" OpenIDE-Module-Specification-Version="1.0"/>
-    
-</module>
-
-<module codenamebase="group04.ItemDropsCommon" distribution="ItemDropsCommon-1.0-SNAPSHOT.nbm" downloadsize="5101" license="AF77BD25" needsrestart="false" releasedate="2017/05/17" targetcluster="intoxication">
-    <manifest OpenIDE-Module="group04.ItemDropsCommon" OpenIDE-Module-Display-Category="group04" OpenIDE-Module-Implementation-Version="1.0-20170517" OpenIDE-Module-Long-Description="&lt;undefined&gt;" OpenIDE-Module-Module-Dependencies="org.netbeans.api.annotations.common/1 &gt; 1.26.1, group04.Common &gt; 1.0, group04.PlayerCommon &gt; 1.0, org.openide.util.lookup &gt; 8.32.1" OpenIDE-Module-Name="ItemDropsCommon" OpenIDE-Module-Requires="org.openide.modules.ModuleFormat1" OpenIDE-Module-Short-Description="&lt;undefined&gt;" OpenIDE-Module-Specification-Version="1.0"/>
+<module codenamebase="group04.ItemDropsCommon" distribution="ItemDropsCommon-1.0-SNAPSHOT.nbm" downloadsize="5111" license="AF77BD25" needsrestart="false" releasedate="2017/05/18" targetcluster="intoxication">
+    <manifest OpenIDE-Module="group04.ItemDropsCommon" OpenIDE-Module-Display-Category="group04" OpenIDE-Module-Implementation-Version="1.0-20170518" OpenIDE-Module-Long-Description="&lt;undefined&gt;" OpenIDE-Module-Module-Dependencies="org.netbeans.api.annotations.common/1 &gt; 1.26.1, group04.Common &gt; 1.0, group04.PlayerCommon &gt; 1.0, org.openide.util.lookup &gt; 8.32.1" OpenIDE-Module-Name="ItemDropsCommon" OpenIDE-Module-Requires="org.openide.modules.ModuleFormat1" OpenIDE-Module-Short-Description="&lt;undefined&gt;" OpenIDE-Module-Specification-Version="1.0"/>
     
 </module>
 
@@ -134,13 +130,13 @@
     
 </module>
 
-<module codenamebase="group04.Map" distribution="Map-1.0-SNAPSHOT.nbm" downloadsize="5383874" license="AF77BD25" needsrestart="false" releasedate="2017/05/17" targetcluster="intoxication">
-    <manifest OpenIDE-Module="group04.Map" OpenIDE-Module-Display-Category="group04" OpenIDE-Module-Implementation-Version="1.0-20170517" OpenIDE-Module-Long-Description="&lt;undefined&gt;" OpenIDE-Module-Module-Dependencies="org.netbeans.api.annotations.common/1 &gt; 1.26.1, group04.Common &gt; 1.0, org.openide.util.lookup &gt; 8.32.1, group04.MapCommon &gt; 1.0" OpenIDE-Module-Name="Map" OpenIDE-Module-Requires="org.openide.modules.ModuleFormat1" OpenIDE-Module-Short-Description="&lt;undefined&gt;" OpenIDE-Module-Specification-Version="1.0"/>
+<module codenamebase="group04.Map" distribution="Map-1.0-SNAPSHOT.nbm" downloadsize="5383875" license="AF77BD25" needsrestart="false" releasedate="2017/05/18" targetcluster="intoxication">
+    <manifest OpenIDE-Module="group04.Map" OpenIDE-Module-Display-Category="group04" OpenIDE-Module-Implementation-Version="1.0-20170518" OpenIDE-Module-Long-Description="&lt;undefined&gt;" OpenIDE-Module-Module-Dependencies="org.netbeans.api.annotations.common/1 &gt; 1.26.1, group04.Common &gt; 1.0, org.openide.util.lookup &gt; 8.32.1, group04.MapCommon &gt; 1.0" OpenIDE-Module-Name="Map" OpenIDE-Module-Requires="org.openide.modules.ModuleFormat1" OpenIDE-Module-Short-Description="&lt;undefined&gt;" OpenIDE-Module-Specification-Version="1.0"/>
     
 </module>
 
-<module codenamebase="group04.MapCommon" distribution="MapCommon-1.0-SNAPSHOT.nbm" downloadsize="4186" license="AF77BD25" needsrestart="false" releasedate="2017/05/17" targetcluster="intoxication">
-    <manifest OpenIDE-Module="group04.MapCommon" OpenIDE-Module-Display-Category="group04" OpenIDE-Module-Implementation-Version="1.0-20170517" OpenIDE-Module-Long-Description="&lt;undefined&gt;" OpenIDE-Module-Module-Dependencies="org.netbeans.api.annotations.common/1 &gt; 1.26.1, group04.Common &gt; 1.0" OpenIDE-Module-Name="MapCommon" OpenIDE-Module-Requires="org.openide.modules.ModuleFormat1" OpenIDE-Module-Short-Description="&lt;undefined&gt;" OpenIDE-Module-Specification-Version="1.0"/>
+<module codenamebase="group04.MapCommon" distribution="MapCommon-1.0-SNAPSHOT.nbm" downloadsize="4190" license="AF77BD25" needsrestart="false" releasedate="2017/05/18" targetcluster="intoxication">
+    <manifest OpenIDE-Module="group04.MapCommon" OpenIDE-Module-Display-Category="group04" OpenIDE-Module-Implementation-Version="1.0-20170518" OpenIDE-Module-Long-Description="&lt;undefined&gt;" OpenIDE-Module-Module-Dependencies="org.netbeans.api.annotations.common/1 &gt; 1.26.1, group04.Common &gt; 1.0" OpenIDE-Module-Name="MapCommon" OpenIDE-Module-Requires="org.openide.modules.ModuleFormat1" OpenIDE-Module-Short-Description="&lt;undefined&gt;" OpenIDE-Module-Specification-Version="1.0"/>
     
 </module>
 
@@ -149,13 +145,13 @@
     
 </module>
 
-<module codenamebase="group04.Movement" distribution="Movement-1.0-SNAPSHOT.nbm" downloadsize="6527" license="AF77BD25" needsrestart="false" releasedate="2017/05/17" targetcluster="intoxication">
-    <manifest OpenIDE-Module="group04.Movement" OpenIDE-Module-Display-Category="group04" OpenIDE-Module-Implementation-Version="1.0-20170517" OpenIDE-Module-Long-Description="&lt;undefined&gt;" OpenIDE-Module-Module-Dependencies="org.netbeans.api.annotations.common/1 &gt; 1.26.1, group04.Common &gt; 1.0, org.openide.util.lookup &gt; 8.32.1, group04.ProjectileCommon &gt; 1.0, group04.WeaponCommon &gt; 1.0, group04.PlayerCommon &gt; 1.0, group04.CurrencyCommon &gt; 1.0, group04.BoostCommon &gt; 1.0, group04.EnemyCommon &gt; 1.0, group04.BaseCommon &gt; 1.0, group04.MovementCommon &gt; 1.0, group04.CollisionCommon &gt; 1.0, group04.ItemDrops &gt; 1.0, group04.ItemDropsCommon &gt; 1.0" OpenIDE-Module-Name="Movement" OpenIDE-Module-Requires="org.openide.modules.ModuleFormat1" OpenIDE-Module-Short-Description="&lt;undefined&gt;" OpenIDE-Module-Specification-Version="1.0"/>
+<module codenamebase="group04.Movement" distribution="Movement-1.0-SNAPSHOT.nbm" downloadsize="6514" license="AF77BD25" needsrestart="false" releasedate="2017/05/18" targetcluster="intoxication">
+    <manifest OpenIDE-Module="group04.Movement" OpenIDE-Module-Display-Category="group04" OpenIDE-Module-Implementation-Version="1.0-20170518" OpenIDE-Module-Long-Description="&lt;undefined&gt;" OpenIDE-Module-Module-Dependencies="org.netbeans.api.annotations.common/1 &gt; 1.26.1, group04.Common &gt; 1.0, org.openide.util.lookup &gt; 8.32.1, group04.ProjectileCommon &gt; 1.0, group04.WeaponCommon &gt; 1.0, group04.PlayerCommon &gt; 1.0, group04.CurrencyCommon &gt; 1.0, group04.BoostCommon &gt; 1.0, group04.EnemyCommon &gt; 1.0, group04.BaseCommon &gt; 1.0, group04.MovementCommon &gt; 1.0, group04.CollisionCommon &gt; 1.0, group04.ItemDrops &gt; 1.0, group04.ItemDropsCommon &gt; 1.0" OpenIDE-Module-Name="Movement" OpenIDE-Module-Requires="org.openide.modules.ModuleFormat1" OpenIDE-Module-Short-Description="&lt;undefined&gt;" OpenIDE-Module-Specification-Version="1.0"/>
     
 </module>
 
-<module codenamebase="group04.MovementCommon" distribution="MovementCommon-1.0-SNAPSHOT.nbm" downloadsize="3961" license="AF77BD25" needsrestart="false" releasedate="2017/05/16" targetcluster="intoxication">
-    <manifest OpenIDE-Module="group04.MovementCommon" OpenIDE-Module-Display-Category="group04" OpenIDE-Module-Implementation-Version="1.0-20170516" OpenIDE-Module-Long-Description="&lt;undefined&gt;" OpenIDE-Module-Module-Dependencies="org.netbeans.api.annotations.common/1 &gt; 1.26.1, group04.Common &gt; 1.0" OpenIDE-Module-Name="MovementCommon" OpenIDE-Module-Requires="org.openide.modules.ModuleFormat1" OpenIDE-Module-Short-Description="&lt;undefined&gt;" OpenIDE-Module-Specification-Version="1.0"/>
+<module codenamebase="group04.MovementCommon" distribution="MovementCommon-1.0-SNAPSHOT.nbm" downloadsize="3959" license="AF77BD25" needsrestart="false" releasedate="2017/05/04" targetcluster="intoxication">
+    <manifest OpenIDE-Module="group04.MovementCommon" OpenIDE-Module-Display-Category="group04" OpenIDE-Module-Implementation-Version="1.0-20170504" OpenIDE-Module-Long-Description="&lt;undefined&gt;" OpenIDE-Module-Module-Dependencies="org.netbeans.api.annotations.common/1 &gt; 1.26.1, group04.Common &gt; 1.0" OpenIDE-Module-Name="MovementCommon" OpenIDE-Module-Requires="org.openide.modules.ModuleFormat1" OpenIDE-Module-Short-Description="&lt;undefined&gt;" OpenIDE-Module-Specification-Version="1.0"/>
     
 </module>
 
@@ -164,38 +160,39 @@
     
 </module>
 
-<module codenamebase="group04.Platform" distribution="Platform-1.0-SNAPSHOT.nbm" downloadsize="4426" license="AF77BD25" needsrestart="false" releasedate="2017/05/17" targetcluster="intoxication">
-    <manifest OpenIDE-Module="group04.Platform" OpenIDE-Module-Display-Category="group04" OpenIDE-Module-Implementation-Version="1.0-20170517" OpenIDE-Module-Long-Description="&lt;undefined&gt;" OpenIDE-Module-Module-Dependencies="org.netbeans.api.annotations.common/1 &gt; 1.26.1, group04.Common &gt; 1.0, group04.PlatformCommon &gt; 1.0, org.openide.util.lookup &gt; 8.32.1" OpenIDE-Module-Name="Platform" OpenIDE-Module-Requires="org.openide.modules.ModuleFormat1" OpenIDE-Module-Short-Description="&lt;undefined&gt;" OpenIDE-Module-Specification-Version="1.0"/>
+<module codenamebase="group04.Platform" distribution="Platform-1.0-SNAPSHOT.nbm" downloadsize="4415" license="AF77BD25" needsrestart="false" releasedate="2017/05/18" targetcluster="intoxication">
+    <manifest OpenIDE-Module="group04.Platform" OpenIDE-Module-Display-Category="group04" OpenIDE-Module-Implementation-Version="1.0-20170518" OpenIDE-Module-Long-Description="&lt;undefined&gt;" OpenIDE-Module-Module-Dependencies="org.netbeans.api.annotations.common/1 &gt; 1.26.1, group04.Common &gt; 1.0, group04.PlatformCommon &gt; 1.0, org.openide.util.lookup &gt; 8.32.1" OpenIDE-Module-Name="Platform" OpenIDE-Module-Requires="org.openide.modules.ModuleFormat1" OpenIDE-Module-Short-Description="&lt;undefined&gt;" OpenIDE-Module-Specification-Version="1.0"/>
     
 </module>
 
-<module codenamebase="group04.PlatformCommon" distribution="PlatformCommon-1.0-SNAPSHOT.nbm" downloadsize="3953" license="AF77BD25" needsrestart="false" releasedate="2017/05/17" targetcluster="intoxication">
-    <manifest OpenIDE-Module="group04.PlatformCommon" OpenIDE-Module-Display-Category="group04" OpenIDE-Module-Implementation-Version="1.0-20170517" OpenIDE-Module-Long-Description="&lt;undefined&gt;" OpenIDE-Module-Module-Dependencies="org.netbeans.api.annotations.common/1 &gt; 1.26.1, group04.Common &gt; 1.0" OpenIDE-Module-Name="PlatformCommon" OpenIDE-Module-Requires="org.openide.modules.ModuleFormat1" OpenIDE-Module-Short-Description="&lt;undefined&gt;" OpenIDE-Module-Specification-Version="1.0"/>
+<module codenamebase="group04.PlatformCommon" distribution="PlatformCommon-1.0-SNAPSHOT.nbm" downloadsize="3962" license="AF77BD25" needsrestart="false" releasedate="2017/05/18" targetcluster="intoxication">
+    <manifest OpenIDE-Module="group04.PlatformCommon" OpenIDE-Module-Display-Category="group04" OpenIDE-Module-Implementation-Version="1.0-20170518" OpenIDE-Module-Long-Description="&lt;undefined&gt;" OpenIDE-Module-Module-Dependencies="org.netbeans.api.annotations.common/1 &gt; 1.26.1, group04.Common &gt; 1.0" OpenIDE-Module-Name="PlatformCommon" OpenIDE-Module-Requires="org.openide.modules.ModuleFormat1" OpenIDE-Module-Short-Description="&lt;undefined&gt;" OpenIDE-Module-Specification-Version="1.0"/>
     
 </module>
 
-<module codenamebase="group04.PlayerCommon" distribution="PlayerCommon-1.0-SNAPSHOT.nbm" downloadsize="4437" license="AF77BD25" needsrestart="false" releasedate="2017/05/17" targetcluster="intoxication">
-    <manifest OpenIDE-Module="group04.PlayerCommon" OpenIDE-Module-Display-Category="group04" OpenIDE-Module-Implementation-Version="1.0-20170517" OpenIDE-Module-Long-Description="&lt;undefined&gt;" OpenIDE-Module-Module-Dependencies="org.netbeans.api.annotations.common/1 &gt; 1.26.1, group04.Common &gt; 1.0, group04.WeaponCommon &gt; 1.0" OpenIDE-Module-Name="PlayerCommon" OpenIDE-Module-Requires="org.openide.modules.ModuleFormat1" OpenIDE-Module-Short-Description="&lt;undefined&gt;" OpenIDE-Module-Specification-Version="1.0"/>
+
+<module codenamebase="group04.PlayerCommon" distribution="PlayerCommon-1.0-SNAPSHOT.nbm" downloadsize="4444" license="AF77BD25" needsrestart="false" releasedate="2017/05/18" targetcluster="intoxication">
+    <manifest OpenIDE-Module="group04.PlayerCommon" OpenIDE-Module-Display-Category="group04" OpenIDE-Module-Implementation-Version="1.0-20170518" OpenIDE-Module-Long-Description="&lt;undefined&gt;" OpenIDE-Module-Module-Dependencies="org.netbeans.api.annotations.common/1 &gt; 1.26.1, group04.Common &gt; 1.0, group04.WeaponCommon &gt; 1.0" OpenIDE-Module-Name="PlayerCommon" OpenIDE-Module-Requires="org.openide.modules.ModuleFormat1" OpenIDE-Module-Short-Description="&lt;undefined&gt;" OpenIDE-Module-Specification-Version="1.0"/>
     
 </module>
 
-<module codenamebase="group04.Projectile" distribution="Projectile-1.0-SNAPSHOT.nbm" downloadsize="305208" license="AF77BD25" needsrestart="false" releasedate="2017/05/17" targetcluster="intoxication">
-    <manifest OpenIDE-Module="group04.Projectile" OpenIDE-Module-Display-Category="group04" OpenIDE-Module-Implementation-Version="1.0-20170517" OpenIDE-Module-Long-Description="&lt;undefined&gt;" OpenIDE-Module-Module-Dependencies="org.netbeans.api.annotations.common/1 &gt; 1.26.1, group04.Common &gt; 1.0, org.openide.util.lookup &gt; 8.32.1, group04.ProjectileCommon &gt; 1.0, group04.PlayerCommon &gt; 1.0, group04.BaseCommon &gt; 1.0" OpenIDE-Module-Name="Projectile" OpenIDE-Module-Requires="org.openide.modules.ModuleFormat1" OpenIDE-Module-Short-Description="&lt;undefined&gt;" OpenIDE-Module-Specification-Version="1.0"/>
+<module codenamebase="group04.Projectile" distribution="Projectile-1.0-SNAPSHOT.nbm" downloadsize="305160" license="AF77BD25" needsrestart="false" releasedate="2017/05/18" targetcluster="intoxication">
+    <manifest OpenIDE-Module="group04.Projectile" OpenIDE-Module-Display-Category="group04" OpenIDE-Module-Implementation-Version="1.0-20170518" OpenIDE-Module-Long-Description="&lt;undefined&gt;" OpenIDE-Module-Module-Dependencies="org.netbeans.api.annotations.common/1 &gt; 1.26.1, group04.Common &gt; 1.0, org.openide.util.lookup &gt; 8.32.1, group04.ProjectileCommon &gt; 1.0" OpenIDE-Module-Name="Projectile" OpenIDE-Module-Requires="org.openide.modules.ModuleFormat1" OpenIDE-Module-Short-Description="&lt;undefined&gt;" OpenIDE-Module-Specification-Version="1.0"/>
     
 </module>
 
-<module codenamebase="group04.ProjectileCommon" distribution="ProjectileCommon-1.0-SNAPSHOT.nbm" downloadsize="4705" license="AF77BD25" needsrestart="false" releasedate="2017/05/17" targetcluster="intoxication">
-    <manifest OpenIDE-Module="group04.ProjectileCommon" OpenIDE-Module-Display-Category="group04" OpenIDE-Module-Implementation-Version="1.0-20170517" OpenIDE-Module-Long-Description="&lt;undefined&gt;" OpenIDE-Module-Module-Dependencies="org.netbeans.api.annotations.common/1 &gt; 1.26.1, group04.Common &gt; 1.0" OpenIDE-Module-Name="ProjectileCommon" OpenIDE-Module-Requires="org.openide.modules.ModuleFormat1" OpenIDE-Module-Short-Description="&lt;undefined&gt;" OpenIDE-Module-Specification-Version="1.0"/>
+<module codenamebase="group04.ProjectileCommon" distribution="ProjectileCommon-1.0-SNAPSHOT.nbm" downloadsize="4715" license="AF77BD25" needsrestart="false" releasedate="2017/05/18" targetcluster="intoxication">
+    <manifest OpenIDE-Module="group04.ProjectileCommon" OpenIDE-Module-Display-Category="group04" OpenIDE-Module-Implementation-Version="1.0-20170518" OpenIDE-Module-Long-Description="&lt;undefined&gt;" OpenIDE-Module-Module-Dependencies="org.netbeans.api.annotations.common/1 &gt; 1.26.1, group04.Common &gt; 1.0" OpenIDE-Module-Name="ProjectileCommon" OpenIDE-Module-Requires="org.openide.modules.ModuleFormat1" OpenIDE-Module-Short-Description="&lt;undefined&gt;" OpenIDE-Module-Specification-Version="1.0"/>
     
 </module>
 
-<module codenamebase="group04.Spawner" distribution="Spawner-1.0-SNAPSHOT.nbm" downloadsize="5747" license="AF77BD25" needsrestart="false" releasedate="2017/05/17" targetcluster="intoxication">
-    <manifest OpenIDE-Module="group04.Spawner" OpenIDE-Module-Display-Category="group04" OpenIDE-Module-Implementation-Version="1.0-20170517" OpenIDE-Module-Long-Description="&lt;undefined&gt;" OpenIDE-Module-Module-Dependencies="org.netbeans.api.annotations.common/1 &gt; 1.26.1, group04.SpawnerCommon &gt; 1.0, group04.Common &gt; 1.0, org.openide.util.lookup &gt; 8.32.1, group04.EnemyCommon &gt; 1.0" OpenIDE-Module-Name="Spawner" OpenIDE-Module-Requires="org.openide.modules.ModuleFormat1" OpenIDE-Module-Short-Description="&lt;undefined&gt;" OpenIDE-Module-Specification-Version="1.0"/>
+<module codenamebase="group04.Spawner" distribution="Spawner-1.0-SNAPSHOT.nbm" downloadsize="5737" license="AF77BD25" needsrestart="false" releasedate="2017/05/18" targetcluster="intoxication">
+    <manifest OpenIDE-Module="group04.Spawner" OpenIDE-Module-Display-Category="group04" OpenIDE-Module-Implementation-Version="1.0-20170518" OpenIDE-Module-Long-Description="&lt;undefined&gt;" OpenIDE-Module-Module-Dependencies="org.netbeans.api.annotations.common/1 &gt; 1.26.1, group04.SpawnerCommon &gt; 1.0, group04.Common &gt; 1.0, org.openide.util.lookup &gt; 8.32.1, group04.EnemyCommon &gt; 1.0" OpenIDE-Module-Name="Spawner" OpenIDE-Module-Requires="org.openide.modules.ModuleFormat1" OpenIDE-Module-Short-Description="&lt;undefined&gt;" OpenIDE-Module-Specification-Version="1.0"/>
     
 </module>
 
-<module codenamebase="group04.SpawnerCommon" distribution="SpawnerCommon-1.0-SNAPSHOT.nbm" downloadsize="4561" license="AF77BD25" needsrestart="false" releasedate="2017/05/17" targetcluster="intoxication">
-    <manifest OpenIDE-Module="group04.SpawnerCommon" OpenIDE-Module-Display-Category="group04" OpenIDE-Module-Implementation-Version="1.0-20170517" OpenIDE-Module-Long-Description="&lt;undefined&gt;" OpenIDE-Module-Module-Dependencies="org.netbeans.api.annotations.common/1 &gt; 1.26.1, group04.Common &gt; 1.0" OpenIDE-Module-Name="SpawnerCommon" OpenIDE-Module-Requires="org.openide.modules.ModuleFormat1" OpenIDE-Module-Short-Description="&lt;undefined&gt;" OpenIDE-Module-Specification-Version="1.0"/>
+<module codenamebase="group04.SpawnerCommon" distribution="SpawnerCommon-1.0-SNAPSHOT.nbm" downloadsize="4563" license="AF77BD25" needsrestart="false" releasedate="2017/05/18" targetcluster="intoxication">
+    <manifest OpenIDE-Module="group04.SpawnerCommon" OpenIDE-Module-Display-Category="group04" OpenIDE-Module-Implementation-Version="1.0-20170518" OpenIDE-Module-Long-Description="&lt;undefined&gt;" OpenIDE-Module-Module-Dependencies="org.netbeans.api.annotations.common/1 &gt; 1.26.1, group04.Common &gt; 1.0" OpenIDE-Module-Name="SpawnerCommon" OpenIDE-Module-Requires="org.openide.modules.ModuleFormat1" OpenIDE-Module-Short-Description="&lt;undefined&gt;" OpenIDE-Module-Specification-Version="1.0"/>
     
 </module>
 
@@ -209,8 +206,8 @@
     
 </module>
 
-<module codenamebase="group04.UpgradeCommon" distribution="UpgradeCommon-1.0-SNAPSHOT.nbm" downloadsize="4044" license="AF77BD25" needsrestart="false" releasedate="2017/05/17" targetcluster="intoxication">
-    <manifest OpenIDE-Module="group04.UpgradeCommon" OpenIDE-Module-Display-Category="group04" OpenIDE-Module-Implementation-Version="1.0-20170517" OpenIDE-Module-Long-Description="&lt;undefined&gt;" OpenIDE-Module-Module-Dependencies="org.netbeans.api.annotations.common/1 &gt; 1.26.1, group04.Common &gt; 1.0" OpenIDE-Module-Name="UpgradeCommon" OpenIDE-Module-Requires="org.openide.modules.ModuleFormat1" OpenIDE-Module-Short-Description="&lt;undefined&gt;" OpenIDE-Module-Specification-Version="1.0"/>
+<module codenamebase="group04.UpgradeCommon" distribution="UpgradeCommon-1.0-SNAPSHOT.nbm" downloadsize="4040" license="AF77BD25" needsrestart="false" releasedate="2017/05/18" targetcluster="intoxication">
+    <manifest OpenIDE-Module="group04.UpgradeCommon" OpenIDE-Module-Display-Category="group04" OpenIDE-Module-Implementation-Version="1.0-20170518" OpenIDE-Module-Long-Description="&lt;undefined&gt;" OpenIDE-Module-Module-Dependencies="org.netbeans.api.annotations.common/1 &gt; 1.26.1, group04.Common &gt; 1.0" OpenIDE-Module-Name="UpgradeCommon" OpenIDE-Module-Requires="org.openide.modules.ModuleFormat1" OpenIDE-Module-Short-Description="&lt;undefined&gt;" OpenIDE-Module-Specification-Version="1.0"/>
     
 </module>
 
@@ -219,13 +216,13 @@
     
 </module>
 
-<module codenamebase="group04.Weapon" distribution="Weapon-1.0-SNAPSHOT.nbm" downloadsize="236243" license="AF77BD25" needsrestart="false" releasedate="2017/05/17" targetcluster="intoxication">
-    <manifest OpenIDE-Module="group04.Weapon" OpenIDE-Module-Display-Category="group04" OpenIDE-Module-Implementation-Version="1.0-20170517" OpenIDE-Module-Long-Description="&lt;undefined&gt;" OpenIDE-Module-Module-Dependencies="org.netbeans.api.annotations.common/1 &gt; 1.26.1, org.openide.util.lookup &gt; 8.32.1, group04.Common &gt; 1.0, group04.WeaponCommon &gt; 1.0, group04.PlayerCommon &gt; 1.0, group04.EnemyCommon &gt; 1.0" OpenIDE-Module-Name="Weapon" OpenIDE-Module-Requires="org.openide.modules.ModuleFormat1" OpenIDE-Module-Short-Description="&lt;undefined&gt;" OpenIDE-Module-Specification-Version="1.0"/>
+<module codenamebase="group04.Weapon" distribution="Weapon-1.0-SNAPSHOT.nbm" downloadsize="236218" license="AF77BD25" needsrestart="false" releasedate="2017/05/18" targetcluster="intoxication">
+    <manifest OpenIDE-Module="group04.Weapon" OpenIDE-Module-Display-Category="group04" OpenIDE-Module-Implementation-Version="1.0-20170518" OpenIDE-Module-Long-Description="&lt;undefined&gt;" OpenIDE-Module-Module-Dependencies="org.netbeans.api.annotations.common/1 &gt; 1.26.1, org.openide.util.lookup &gt; 8.32.1, group04.Common &gt; 1.0, group04.WeaponCommon &gt; 1.0, group04.PlayerCommon &gt; 1.0, group04.EnemyCommon &gt; 1.0" OpenIDE-Module-Name="Weapon" OpenIDE-Module-Requires="org.openide.modules.ModuleFormat1" OpenIDE-Module-Short-Description="&lt;undefined&gt;" OpenIDE-Module-Specification-Version="1.0"/>
     
 </module>
 
-<module codenamebase="group04.WeaponCommon" distribution="WeaponCommon-1.0-SNAPSHOT.nbm" downloadsize="5411" license="AF77BD25" needsrestart="false" releasedate="2017/05/17" targetcluster="intoxication">
-    <manifest OpenIDE-Module="group04.WeaponCommon" OpenIDE-Module-Display-Category="group04" OpenIDE-Module-Implementation-Version="1.0-20170517" OpenIDE-Module-Long-Description="&lt;undefined&gt;" OpenIDE-Module-Module-Dependencies="org.netbeans.api.annotations.common/1 &gt; 1.26.1, group04.Common &gt; 1.0" OpenIDE-Module-Name="WeaponCommon" OpenIDE-Module-Requires="org.openide.modules.ModuleFormat1" OpenIDE-Module-Short-Description="&lt;undefined&gt;" OpenIDE-Module-Specification-Version="1.0"/>
+<module codenamebase="group04.WeaponCommon" distribution="WeaponCommon-1.0-SNAPSHOT.nbm" downloadsize="5415" license="AF77BD25" needsrestart="false" releasedate="2017/05/18" targetcluster="intoxication">
+    <manifest OpenIDE-Module="group04.WeaponCommon" OpenIDE-Module-Display-Category="group04" OpenIDE-Module-Implementation-Version="1.0-20170518" OpenIDE-Module-Long-Description="&lt;undefined&gt;" OpenIDE-Module-Module-Dependencies="org.netbeans.api.annotations.common/1 &gt; 1.26.1, group04.Common &gt; 1.0" OpenIDE-Module-Name="WeaponCommon" OpenIDE-Module-Requires="org.openide.modules.ModuleFormat1" OpenIDE-Module-Short-Description="&lt;undefined&gt;" OpenIDE-Module-Specification-Version="1.0"/>
     
 </module>
 

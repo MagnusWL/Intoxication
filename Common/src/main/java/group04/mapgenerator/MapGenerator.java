@@ -1,8 +1,6 @@
 package group04.mapgenerator;
 
 import java.io.File;
-import group04.common.Entity;
-import java.awt.Image;
 import java.awt.image.BufferedImage;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
@@ -44,8 +42,7 @@ public class MapGenerator {
                 }
             }
 
-            FileOutputStream fout = new FileOutputStream("src\\main\\resources\\mapplat4.object");
-//            FileOutputStream fout = new FileOutputStream(this.getClass().getregetResource() "main\\resources\\map.object");
+            FileOutputStream fout = new FileOutputStream("src\\main\\resources\\mapplat.object");
             ObjectOutputStream oos = new ObjectOutputStream(fout);
             oos.writeObject(newMapInt);
             

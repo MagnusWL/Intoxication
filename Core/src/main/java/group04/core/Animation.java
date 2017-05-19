@@ -1,6 +1,5 @@
 package group04.core;
 
-import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.g2d.Sprite;
 import java.util.ArrayList;
 

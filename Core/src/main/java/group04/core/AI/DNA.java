@@ -3,7 +3,6 @@ package group04.core.AI;
 import group04.common.Entity;
 import group04.common.GameData;
 import group04.common.World;
-import group04.common.services.IServiceInitializer;
 import group04.common.services.IServiceProcessor;
 import group04.enemycommon.EnemyEntity;
 import group04.movementcommon.IMovementService;

@@ -1,6 +1,5 @@
 package group04.core.managers;
 
-import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
 import com.badlogic.gdx.InputAdapter;
 import group04.common.GameData;

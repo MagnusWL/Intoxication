@@ -42,15 +42,15 @@ public class ItemSystem implements IServiceInitializer, IDropService {
         
         float dropChance = (float) Math.random();
         
-        if (dropChance < 0.25) {
+        if (dropChance > 0.00 && dropChance < 0.50) {
             world.addEntity(createItem(world, gameData, x, y, "currency_gold_animation", ItemType.CURRENCY));
         } 
         
-        if (dropChance < 0.95 && dropChance > 0.75) {
+        if (dropChance > 0.90) {
             world.addEntity(createItem(world, gameData, x, y, "pill", ItemType.PILL));
         }
         
-        if (dropChance > 0.01) {
+        if (dropChance > 0.50 && dropChance < 0.90) {
             world.addEntity(createItem(world, gameData, x, y, "beerbottle", ItemType.BEERBOTTLE_WEAPON));
         }
     }

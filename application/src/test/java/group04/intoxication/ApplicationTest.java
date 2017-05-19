@@ -42,24 +42,22 @@ public class ApplicationTest extends NbTestCase {
         File file = new File(System.getProperty("user.dir")).getParentFile().getParentFile();
         String actualPath = file.getPath() + "/updatecenter/netbeans_site/updates.xml";
         String withJustCore = file.getPath() + "/test/removedupdates.xml";
-        String withCoreAndPlayer = file.getPath() + "/test/updates.xml";
         String copyOfRealUpdates = file.getPath() + "/test/actual.xml";
-        System.out.println("HEJ MED DIG: " + withCoreAndPlayer);
 
         //SETUP 2: ArrayLists
         List<IServiceProcessor> processors = new CopyOnWriteArrayList<>();
         List<IServiceInitializer> plugins = new CopyOnWriteArrayList<>();
 
         try {
-            Thread.sleep(20000);
+            Thread.sleep(30000);
             waitForUpdate(processors, plugins);
         } catch (InterruptedException ex) {
             Exceptions.printStackTrace(ex);
         }
 
         //PRE ASSERTS
-        assertEquals("No processors", 6, processors.size());
-        assertEquals("No plugins", 11, plugins.size());
+        assertEquals("6 processors expected, and was: ", 6, processors.size());
+        assertEquals("11 plugins expected, and was: ", 11, plugins.size());
         
 
         //TEST: Unload Player
@@ -69,23 +67,22 @@ public class ApplicationTest extends NbTestCase {
             Exceptions.printStackTrace(ex);
         }
         try {
-            Thread.sleep(10000);
+            Thread.sleep(20000);
             waitForUpdate(processors, plugins);
         } catch (InterruptedException ex) {
             Exceptions.printStackTrace(ex);
         }
 
         //ASSERTS: Player Unloaded
-        assertEquals("All plugins", 10, plugins.size());
-        assertEquals("All processors", 5, processors.size());
+        assertEquals("5 processors expected, and was: ", 5, processors.size());
+        assertEquals("10 plugins expected, and was: ", 10, plugins.size());
+        
 
         //CLEAN UP
         try {
             copy(get(copyOfRealUpdates), get(actualPath), REPLACE_EXISTING);
-            Thread.sleep(10000);
-        } catch (IOException ex) {
-            Exceptions.printStackTrace(ex);
-        } catch (InterruptedException ex) {
+            Thread.sleep(20000);
+        } catch (IOException | InterruptedException ex) {
             Exceptions.printStackTrace(ex);
         }
 

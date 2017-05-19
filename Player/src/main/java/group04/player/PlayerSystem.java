@@ -65,13 +65,6 @@ public class PlayerSystem implements IServiceProcessor, IServiceInitializer {
         for (Event e : gameData.getAllEvents()) {
             if (e.getType() == EventType.ENTITY_HIT && e.getEntityID().equals(playerEntity.getID())) {
                 playerEntity.setLife(playerEntity.getLife() - 1);
-                if (playerEntity.getLife() <= 0) {
-                    if (playerEntity.getWeaponOwned() != null) {
-                        world.removeEntity(playerEntity.getWeaponOwned());
-                    }
-                    world.removeEntity(playerEntity);
-                }
-                gameData.removeEvent(e);
             }
         }
     }
@@ -92,7 +85,7 @@ public class PlayerSystem implements IServiceProcessor, IServiceInitializer {
     private Entity createPlayer(GameData gameData, World world) {
         PlayerEntity playerCharacter = new PlayerEntity();
         playerCharacter.setJumpSpeed(400);
-        playerCharacter.setMovementSpeed(150);
+        playerCharacter.setMovementSpeed(200);
         playerCharacter.setHasGravity(true);
         playerCharacter.setMaxLife(50);
         playerCharacter.setLife(playerCharacter.getMaxLife());

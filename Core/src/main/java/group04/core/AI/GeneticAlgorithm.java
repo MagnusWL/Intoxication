@@ -2,11 +2,8 @@ package group04.core.AI;
 
 import group04.common.GameData;
 import group04.common.World;
-import group04.common.services.IServiceInitializer;
-import group04.movementcommon.IMovementService;
 import java.util.ArrayList;
 import java.util.Random;
-import org.openide.util.Lookup;
 
 public class GeneticAlgorithm {
 
@@ -32,7 +29,7 @@ public class GeneticAlgorithm {
     
     public void startAlgorithm(GameData gameData, World world)
     {
-        while(maxFitness < 0.95) {
+        while(maxFitness < 1) {
             calculateFitness(gameData, world);
             createMatingPool();
             reproduction();
@@ -50,7 +47,6 @@ public class GeneticAlgorithm {
     }
     double maxFitness;
     public void calculateFitness(GameData gameData, World world) {
-        System.out.println("Generation : " + generations + " Mating Pool size: " + matingPool.size() + " Population : " + population.size());
         double avg = 0;
         maxFitness = 0;
         double[] bestGenes = new double[2];
@@ -64,8 +60,8 @@ public class GeneticAlgorithm {
             avg += population.get(i).getFitness();
         }
         
-        System.out.println("Avg Fitness: " + avg/population.size() );
-        System.out.println("Best Fitness: " + maxFitness + ":" + bestGenes[0] + ":" + bestGenes[1]);
+        System.out.println("Avg Fitness: \n" + avg/population.size() );
+        System.out.println("Best Fitness: \n" + maxFitness);
     }
 
     public void createMatingPool() {

@@ -22,6 +22,7 @@ public class CollisionSystem implements ICollisionService, IServiceProcessor {
     @Override
     public boolean isColliding(World world, GameData gameData, Entity entity, float moveX, float moveY) {
 
+        long time = System.currentTimeMillis();
         float[] shapex = entity.getShapeX();
         float[] shapey = entity.getShapeY();
         MapEntity mapEntity = null;
@@ -42,7 +43,6 @@ public class CollisionSystem implements ICollisionService, IServiceProcessor {
                 }
             }
         }
-
         return false;
     }
 
